@@ -1,0 +1,20 @@
+gerrit:
+  name: Gerrit Schwerthelm
+  title: Maintainer @ x-cellent technologies GmbH
+  url: https://github.com/Gerrit91
+  image_url: https://github.com/gerrit91.png
+  page: true
+  socials:
+    # x: sebastienlorber
+    # linkedin: sebastienlorber
+    github: Gerrit91
+    # newsletter: https://thisweekinreact.com
+
+valentin:
+  name: Valentin Knabel
+  title: Maintainer @ x-cellent technologies GmbH
+  url: https://github.com/vknabel
+  image_url: https://github.com/vknabel.png
+  page: true
+  socials:
+    github: vknabel
