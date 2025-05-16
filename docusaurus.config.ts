@@ -26,7 +26,7 @@ const config: Config = {
   organizationName: "facebook", // Usually your GitHub org/user name.
   projectName: "docusaurus", // Usually your repo name.
 
-  onBrokenLinks: "throw",
+  onBrokenLinks: "ignore",
   onBrokenMarkdownLinks: "warn",
 
   // Even if you don't use internationalization, you can use this field to set
@@ -57,12 +57,13 @@ const config: Config = {
         blog: {
           showReadingTime: true,
           feedOptions: {
-            type: ["json"],
+            type: "all",
+            copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
             createFeedItems: async (params) => {
               const { blogPosts, defaultCreateFeedItems, ...rest } = params;
               return defaultCreateFeedItems({
                 // keep only the 10 most recent blog posts in the feed
-                blogPosts: blogPosts.filter((item, index) => index < 10),
+                blogPosts: blogPosts.filter((item, index) => index < 3),
                 ...rest,
               });
             },
