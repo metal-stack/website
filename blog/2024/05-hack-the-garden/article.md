@@ -20,9 +20,7 @@ At the beginning of December we came together and started the 6th Hack the Garde
 
 For the third time in a row, we visited the [Schlosshof](https://schlosshof-info.de) in Schelklingen, Germany, because the location and the space fit so well.
 
-<p>
-  <img title="Schlosshof" alt="Schlosshof" src="./schlosshof.jpg" class="w-100">
-</p>
+![](schlosshof.jpg)
 
 ## Topics
 
@@ -32,9 +30,7 @@ That way, we were able to form teams before the event started. As always, the te
 
 As the hackathon progressed, the list of topics grew considerably. This time a whopping 23 topics were covered! A complete list with an overview of each topic can be found at [gardener-community/hackathon](https://github.com/gardener-community/hackathon/tree/main/2024-12_Schelklingen).
 
-<p>
-  <img title="Some working setups" alt="Some working setups" src="./hands-on.jpg" class="w-100">
-</p>
+![](hands-on.jpg)
 
 ### IPv6 Support
 
@@ -58,9 +54,7 @@ The goal is to improve productivity and overall quality. Here, a new Prometheus 
 
 ## Conclusion
 
-<p>
-  <img title="Hackathon attendees" alt="Hackathon attendees" src="./attendees.jpg" class="w-100">
-</p>
+![](attendees.jpg)
 
 This hackathon was incredibly productive, we were able to tackle many challenges and connect with each other!
 If you want to dig deeper into all these topics, have a look on the [Gardener Community Hackathon](https://github.com/gardener-community/hackathon/tree/main/2024-12_Schelklingen) repository.

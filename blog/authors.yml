@@ -5,10 +5,7 @@ gerrit:
   image_url: https://github.com/gerrit91.png
   page: true
   socials:
-    # x: sebastienlorber
-    # linkedin: sebastienlorber
     github: Gerrit91
-    # newsletter: https://thisweekinreact.com
 
 valentin:
   name: Valentin Knabel
@@ -18,3 +15,30 @@ valentin:
   page: true
   socials:
     github: vknabel
+
+stefan:
+  name: Stefan Majer
+  title: Maintainer @ x-cellent technologies GmbH
+  url: https://github.com/majst01
+  image_url: https://github.com/majst01.png
+  page: true
+  socials:
+    github: majst01
+
+markus:
+  name: Markus Fensterer
+  title: Maintainer @ x-cellent technologies GmbH
+  url: https://github.com/mwindower
+  image_url: https://github.com/mwindower.png
+  page: true
+  socials:
+    github: mwindower
+
+grigoriy:
+  name: Grigoriy Mikhalkin
+  title: Maintainer @ x-cellent technologies GmbH
+  url: https://github.com/GrigoriyMikhalkin
+  image_url: https://github.com/GrigoriyMikhalkin.png
+  page: true
+  socials:
+    github: GrigoriyMikhalkin
