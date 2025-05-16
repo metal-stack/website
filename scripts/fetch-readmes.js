@@ -2,22 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const axios = require("axios");
 
-const components = [
-  {
-    name: "metal-ctl",
-    repo: "metal-stack/metalctl",
-    tag: "v0.18.1",
-    position: 1,
-    withDocs: true,
-  },
-  {
-    name: "mini-lab",
-    repo: "metal-stack/mini-lab",
-    tag: "v0.4.4",
-    position: 2,
-    withDocs: false,
-  },
-];
+const components = require("./docs");
 
 const outputBase = path.resolve(__dirname, "../docs/components");
 
@@ -37,7 +22,9 @@ async function downloadDoc(url, baseurl, outputDir, component, name) {
     let content = res.data;
 
     const assetRegex = /!\[[^\]]*]\(([^)]+)\)/g;
-    const assetPaths = [...content.matchAll(assetRegex)].map((m) => m[1]);
+    const assetPaths = [...content.matchAll(assetRegex)]
+      .map((m) => m[1])
+      .filter((p) => !/^https?:\/\//.test(p) && !p.startsWith("/"));
 
     for (const relPath of assetPaths) {
       const filename = path.basename(relPath);
@@ -53,9 +40,38 @@ async function downloadDoc(url, baseurl, outputDir, component, name) {
         content = content.replace(relPath, `./assets/${filename}`);
         console.log(`🖼️  Fetched asset: ${relPath}`);
       } catch (error) {
-        console.log(error);
         console.warn(`⚠️  Failed to fetch asset: ${relPath}`);
       }
+    }
+
+    const mdLinkRegex = /\[([^\]]+)\]\(([^)]+\.md)\)/g;
+    const mdLinks = [...content.matchAll(mdLinkRegex)].map((m) => ({
+      text: m[1],
+      href: m[2],
+    }));
+
+    for (const link of mdLinks) {
+      const mdFileName = path.basename(link.href);
+      const linkedFilePath = path.join(outputDir, mdFileName);
+
+      if (!fs.existsSync(linkedFilePath)) {
+        const linkedFileUrl = `${baseurl}/${link.href}`;
+        try {
+          await downloadDoc(
+            linkedFileUrl,
+            baseurl,
+            outputDir,
+            component,
+            mdFileName
+          );
+          console.log(`📄 Fetched linked markdown: ${link.href}`);
+        } catch (e) {
+          console.warn(`⚠️  Failed to fetch linked markdown: ${link.href}`);
+        }
+      }
+
+      // Update link in current content
+      content = content.replace(link.href, `./${mdFileName}`);
     }
 
     const frontmatter = `---
@@ -73,14 +89,13 @@ sidebar_position: ${component.position}
 
     console.log(`✅ Fetched and processed name`);
   } catch (err) {
-    console.error(`❌ Failed to fetch name:`, err.message);
+    console.error(`❌ Failed to fetch name: ${component.name}`, err.message);
   }
 }
 
 async function resolveDocs(baseurl, outputDir, component) {
   const apiUrl = `https://api.github.com/repos/${component.repo}/contents/docs?ref=${component.tag}`;
-  console.log(apiUrl);
-  const docsOutputDir = path.join(outputDir, "docs");
+  const docsOutputDir = path.join(outputDir, "Docs");
 
   try {
     const response = await axios.get(apiUrl, {
@@ -98,7 +113,6 @@ async function resolveDocs(baseurl, outputDir, component) {
         file.name.endsWith(".md") &&
         file.download_url
       ) {
-        // const localFilePath = path.join(docsOutputDir, file.name);
         downloadDoc(
           file.download_url,
           baseurl,
@@ -122,8 +136,27 @@ async function fetchComponentDocs() {
   if (!fs.existsSync(outputBase)) {
     fs.mkdirSync(outputBase, { recursive: true });
   }
-  for (const component of components) {
-    const outputDir = path.join(outputBase, component.name);
+
+  // storage-components
+  for (const component of components.components.storageComponents) {
+    const outputDir = path.join(outputBase, "Storage", component.name);
+    if (!fs.existsSync(outputDir)) {
+      fs.mkdirSync(outputDir, { recursive: true });
+    }
+
+    const baseurl = `https://raw.githubusercontent.com/${component.repo}/${component.tag}`;
+    const url = `${baseurl}/README.md`;
+    const fileName = `${component.name}.md`;
+
+    downloadDoc(url, baseurl, outputDir, component, fileName);
+
+    if (component.withDocs) {
+      resolveDocs(baseurl, outputDir, component);
+    }
+  }
+
+  for (const component of components.components.apiComponents) {
+    const outputDir = path.join(outputBase, "API", component.name);
     if (!fs.existsSync(outputDir)) {
       fs.mkdirSync(outputDir, { recursive: true });
     }
