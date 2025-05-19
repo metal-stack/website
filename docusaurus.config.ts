@@ -106,6 +106,7 @@ const config: Config = {
         src: "img/metal-stack.png",
       },
       items: [
+        { type: "docsVersionDropdown" },
         {
           type: "dropdown",
           label: "Docs",
