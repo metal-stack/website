@@ -21,6 +21,14 @@
   --ifm-navbar-height: 80px;
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-headings: "Space Grotesk", system-ui, sans-serif;
+
+  --font-size-base: 1rem;
+
+  --shadow-input: 0 0 0 0.25rem rgba(248, 187, 85, 0.25); /* primary.200 */
+  --shadow-input-invalid: 0 0 0 0.25rem rgba(254, 202, 202, 0.5);
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
@@ -33,6 +41,105 @@
   --ifm-color-primary-lighter: #face85;
   --ifm-color-primary-lightest: #fce1b5;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+
+  --ifm-background-color: var(--color-neutral-950);
+  --ifm-background-surface-color: var(--color-red-950);
+}
+
+html[data-theme="dark"] {
+  --ifm-background-color: var(--color-neutral-950);
+  --ifm-background-surface-color: var(--color-neutral-950);
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-base);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-headings);
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: var(--color-primary-500);
+}
+a:hover {
+  color: var(--color-primary-600);
+  text-decoration: none;
+}
+
+input {
+  box-shadow: var(--shadow-input);
+}
+input:invalid {
+  box-shadow: var(--shadow-input-invalid);
+}
+
+h1 {
+  @apply text-5xl font-bold text-black dark:text-white;
+}
+
+h2 {
+  @apply text-3xl font-bold dark:text-white text-black;
+}
+
+h3 {
+  @apply text-2xl font-bold text-black dark:text-white;
+}
+
+h4 {
+  @apply text-xl font-bold text-black dark:text-white;
+}
+
+h5 {
+  @apply text-lg font-bold text-black dark:text-white;
+}
+
+h6 {
+  @apply text-base font-bold text-black dark:text-white;
+}
+
+p {
+  @apply text-base text-neutral-500 dark:text-neutral-400 leading-relaxed;
+}
+
+a {
+  @apply text-amber-500;
+}
+
+a:hover {
+  @apply text-amber-600;
+}
+
+.rounded-box {
+  @apply rounded-md;
+}
+
+footer {
+  @apply border-t-1 dark:border-neutral-600 border-neutral-200;
+}
+
+.footer {
+  --ifm-footer-background-color: white;
+  --ifm-footer-color: black;
+  --ifm-footer-link-color: black;
+  --ifm-footer-title-color: black;
+}
+
+[data-theme="dark"] .footer--dark {
+  --ifm-footer-background-color: var(--color-neutral-950);
+  --ifm-footer-color: white;
+  --ifm-footer-link-color: white;
+  --ifm-footer-title-color: white;
 }
 
 .navbar__logo img {

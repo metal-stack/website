@@ -10,6 +10,14 @@ const commonDocsOptions = {
   showLastUpdateTime: true,
 };
 
+const image_url = {
+  "Gerrit Schwerthelm": "https://github.com/gerrit91.png",
+  valentin: "https://github.com/vknabel.png",
+  stefan: "https://github.com/majst01.png",
+  markus: "https://github.com/mwindower.png",
+  grigoriy: "https://github.com/GrigoriyMikhalkin.png",
+};
+
 const config: Config = {
   title: "metal-stack docs",
   tagline: "Docs for metal-stack.",
@@ -61,11 +69,12 @@ const config: Config = {
             copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
             createFeedItems: async (params) => {
               const { blogPosts, defaultCreateFeedItems, ...rest } = params;
-              return defaultCreateFeedItems({
+              const res = await defaultCreateFeedItems({
                 // keep only the 10 most recent blog posts in the feed
                 blogPosts: blogPosts.filter((item, index) => index < 3),
                 ...rest,
               });
+              return res;
             },
           },
           // Please change this to your repo.
