@@ -114,6 +114,14 @@ To update the dependencies for the Reference pages:
 ```
 bun run fetch-readmes
 ```
+## Versioning
+Ensure first, that all files in the docs folder are updated and ready to freeze. Also execute `bun run fetch-readmes` to update files from components and apis.
+
+You create a new version with:
+```
+bun run docusaurus docs:version v0.21.6
+```
+Now, the new version will be create and the latest files will be copied to the "`versioned`" folders.
 
 ## Comparison
 
