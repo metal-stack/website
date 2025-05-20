@@ -4,7 +4,7 @@ const axios = require("axios");
 
 const components = require("./docs");
 
-const outputBase = path.resolve(__dirname, "../docs/components");
+const outputBase = path.resolve(__dirname, "../docs/references");
 
 async function downloadFile(url, destPath) {
   const writer = fs.createWriteStream(destPath);
