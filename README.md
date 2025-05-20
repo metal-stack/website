@@ -15,11 +15,9 @@ The used framework to generate docs is [docusaurus](https://docusaurus.io).
 │   ├── 2024
 │   └── 2025
 ├── docs                    # docs folder split by different scopes
-│   ├── components
-│   ├── concepts
-│   ├── contributing
-│   ├── operators
-│   └── users
+│   ├── contributing        # guidlines for contributors
+│   ├── docs                # documentation pages
+│   ├── references          # auto-genereted references of componets and apis
 ├── scripts                 # custom scripts (e.g: resolving component documentation)
 ├── src                     # custom routes and react
 │   ├── components
@@ -98,6 +96,23 @@ tags:
 <!-- truncate -->
 
 <YOUR ARTICLE>
+```
+## Setup & Build
+Reqires Bun as .js runtime.
+
+Run the following command to install dependencies:
+```
+bun install
+```
+
+To generate a local preview use:
+```
+bun run start
+```
+
+To update the dependencies for the Reference pages:
+```
+bun run fetch-readmes
 ```
 
 ## Comparison
