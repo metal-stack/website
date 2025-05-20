@@ -36,6 +36,7 @@ The used framework to generate docs is [docusaurus](https://docusaurus.io).
 ```
 
 ## Backwards-Compatibility
+
 In order to not break links of posts, blog articles and shared documents we want to provide full backwards-compatibility.
 This means we need to ensure existing links still work with the new documentation.
 
