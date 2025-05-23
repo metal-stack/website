@@ -4,132 +4,61 @@ title: metalctl
 sidebar_position: 1
 ---
 
-# metalctl
+## metalctl
 
-*metalctl* is the command line client to access the [metal-api](https://github.com/metal-stack/metal-api).
+a cli to manage entities in the metal-stack api
 
-## Installation
+### Options
 
-Download locations:
-
-- [metalctl-linux-amd64](https://github.com/metal-stack/metalctl/releases/latest/download/metalctl-linux-amd64)
-- [metalctl-darwin-amd64](https://github.com/metal-stack/metalctl/releases/latest/download/metalctl-darwin-amd64)
-- [metalctl-darwin-arm64](https://github.com/metal-stack/metalctl/releases/latest/download/metalctl-darwin-arm64)
-- [metalctl-windows-amd64](https://github.com/metal-stack/metalctl/releases/latest/download/metalctl-windows-amd64)
-
-### Installation on Linux
-
-```bash
-curl -LO https://github.com/metal-stack/metalctl/releases/latest/download/metalctl-linux-amd64
-chmod +x metalctl-linux-amd64
-sudo mv metalctl-linux-amd64 /usr/local/bin/metalctl
+```
+      --api-token string       api token to authenticate. Can be specified with METALCTL_API_TOKEN environment variable.
+      --api-url string         api server address. Can be specified with METALCTL_API_URL environment variable.
+  -c, --config string          alternative config file path, (default is ~/.metalctl/config.yaml).
+                               Example config.yaml:
+                               
+                               ---
+                               apitoken: "alongtoken"
+                               ...
+                               
+                               
+      --debug                  debug output
+      --force-color            force colored output even without tty
+  -h, --help                   help for metalctl
+      --kubeconfig string      Path to the kube-config to use for authentication and authorization. Is updated by login. Uses default path if not specified.
+      --no-headers             do not print headers of table output format (default print headers)
+  -o, --output-format string   output format (table|wide|markdown|json|yaml|template), wide is a table with more columns. (default "table")
+      --template string        output template for template output-format, go template format.
+                               For property names inspect the output of -o json or -o yaml for reference.
+                               Example for machines:
+                               
+                               metalctl machine list -o template --template "{{ .id }}:{{ .size.id  }}"
+                               
+                               
+      --yes-i-really-mean-it   skips security prompts (which can be dangerous to set blindly because actions can lead to data loss or additional costs)
 ```
 
-### Installation on MacOS
+### SEE ALSO
 
-For x86 based Macs:
+* [metalctl audit](./metalctl_audit.md)	 - manage audit trace entities
+* [metalctl completion](./metalctl_completion.md)	 - Generate the autocompletion script for the specified shell
+* [metalctl context](./metalctl_context.md)	 - manage metalctl context
+* [metalctl filesystemlayout](./metalctl_filesystemlayout.md)	 - manage filesystemlayout entities
+* [metalctl firewall](./metalctl_firewall.md)	 - manage firewall entities
+* [metalctl firmware](./metalctl_firmware.md)	 - manage firmwares
+* [metalctl health](./metalctl_health.md)	 - shows the server health
+* [metalctl image](./metalctl_image.md)	 - manage image entities
+* [metalctl login](./metalctl_login.md)	 - login user and receive token
+* [metalctl logout](./metalctl_logout.md)	 - logout user from OIDC SSO session
+* [metalctl machine](./metalctl_machine.md)	 - manage machine entities
+* [metalctl markdown](./metalctl_markdown.md)	 - create markdown documentation
+* [metalctl network](./metalctl_network.md)	 - manage network entities
+* [metalctl partition](./metalctl_partition.md)	 - manage partition entities
+* [metalctl project](./metalctl_project.md)	 - manage project entities
+* [metalctl size](./metalctl_size.md)	 - manage size entities
+* [metalctl switch](./metalctl_switch.md)	 - manage switch entities
+* [metalctl tenant](./metalctl_tenant.md)	 - manage tenant entities
+* [metalctl update](./metalctl_update.md)	 - update the program
+* [metalctl version](./metalctl_version.md)	 - print the client and server version information
+* [metalctl vpn](./metalctl_vpn.md)	 - access VPN
+* [metalctl whoami](./metalctl_whoami.md)	 - shows current user
 
-```bash
-curl -LO https://github.com/metal-stack/metalctl/releases/latest/download/metalctl-darwin-amd64
-chmod +x metalctl-darwin-amd64
-sudo mv metalctl-darwin-amd64 /usr/local/bin/metalctl
-```
-
-For Apple Silicon (M1) based Macs:
-
-```bash
-curl -LO https://github.com/metal-stack/metalctl/releases/latest/download/metalctl-darwin-arm64
-chmod +x metalctl-darwin-arm64
-sudo mv metalctl-darwin-arm64 /usr/local/bin/metalctl
-```
-
-### Installation on Windows
-
-```bash
-curl -LO https://github.com/metal-stack/metalctl/releases/latest/download/metalctl-windows-amd64
-copy metalctl-windows-amd64 metalctl.exe
-```
-
-### metalctl update
-
-In order to keep your local `metalctl` installation up to date, you can update the binary like this:
-
-```bash
-metalctl update check
-latest version:v0.8.3 from:2020-08-13T11:55:14Z
-local  version:v0.8.2 from:2020-08-12T09:27:39Z
-metalctl is not up to date
-
-metalctl update do
-# a download with progress bar starts and replaces the binary. If the binary has root permissions please execute
-sudo metalctl update do
-# instead
-```
-
-### Built from project
-
-```bash
-make
-sudo ln -sf $(pwd)/bin/metalctl /usr/local/bin/metalctl
-```
-
-## Configuration
-
-Set up auto-completion for `metalctl`, e.g. add to your `~/.bashrc`:
-
-```bash
-source <(metalctl completion bash)
-```
-
-Set up `metalctl` config, by first creating the config folder (`mkdir -p ~/.metalctl`), then set the values according to your installation in `~/.metalctl/config.yaml`:
-
-```yaml
----
-current: prod
-contexts:
-  prod:
-    url: https://api.metal-stack.io/metal
-    issuer_url: https://dex.metal-stack.io/dex
-    client_id: metal_client
-    client_secret: 456
-    hmac: YOUR_HMAC
-    hmac_auth_type: THE_AUTH_TYPE_OF_YOUR_HMAC # Metal-Admin, Metal-Edit or Metal-View
-```
-
-Optional you can specify `issuer_type: generic` if you use other issuers as Dex, e.g. Keycloak (this will request scopes `openid,profile,email`):
-
-```bash
-contexts:
-  prod:
-    url: https://api.metal-stack.io/metal
-    issuer_url: https://keycloak.somedomain.io
-    issuer_type: generic
-    client_id: my-client-id
-    client_secret: my-secret
-```
-
-If you must specify special scopes for your issuer, you can use `custom_scopes`:
-
-```bash
-contexts:
-  prod:
-    url: https://api.metal-stack.io/metal
-    issuer_url: https://keycloak.somedomain.io
-    custom_scopes: roles,openid,profile,email
-    client_id: my-client-id
-    client_secret: my-secret
-```
-
-## Available commands
-
-Full documentation is generated out of the cobra command implementation with:
-
-`metalctl markdown`
-
-generated markdown is [here](./metalctl.md) and [here](https://docs.metal-stack.io/stable/external/metalctl/README/)
-
-## Development
-
-For MacOS users, running the tests might throw an error because tests are utilizing [go-mpatch](https://github.com/undefinedlabs/go-mpatch) in order to manipulate the `time.Now` function. The patch allows testing with fixed timestamps.
-
-Instead, MacOS users can utilize the `make test-in-docker` target to execute the tests.

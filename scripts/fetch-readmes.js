@@ -4,7 +4,7 @@ const axios = require("axios");
 
 const components = require("./docs");
 
-const outputBase = path.resolve(__dirname, "../docs/references");
+const outputBase = path.resolve(__dirname, "../docs/docs/07-References");
 
 async function downloadFile(url, destPath) {
   const writer = fs.createWriteStream(destPath);
@@ -95,7 +95,7 @@ sidebar_position: ${component.position}
 
 async function resolveDocs(baseurl, outputDir, component) {
   const apiUrl = `https://api.github.com/repos/${component.repo}/contents/docs?ref=${component.tag}`;
-  const docsOutputDir = path.join(outputDir, "Docs");
+  const docsOutputDir = outputDir
 
   try {
     const response = await axios.get(apiUrl, {
