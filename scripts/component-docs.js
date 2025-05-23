@@ -39,27 +39,15 @@ const apiComponents = [
   },
 ];
 
-const components = {
-  storageComponents,
-  apiComponents,
-};
+const sections = [
+  {
+    name: "API",
+    components: apiComponents
+  },
+  {
+    name: "Storage",
+    components: storageComponents
+  },
+]
 
-// const components = [
-//   {
-//     name: "metalctl",
-//     repo: "metal-stack/metalctl",
-//     tag: "v0.18.1",
-//     position: 2,
-//     withDocs: true,
-//   },
-//   {
-//     name: "mini-lab",
-//     repo: "metal-stack/mini-lab",
-//     tag: "v0.4.4",
-//     position: 3,
-//     withDocs: false,
-//   },
-//   storageComponents: storageComponents,
-// ];
-
-module.exports = { components };
+module.exports = { sections };

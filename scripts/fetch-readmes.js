@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const axios = require("axios");
 
-const components = require("./docs");
+const componentDocs = require("./component-docs");
 
 const outputBase = path.resolve(__dirname, "../docs/docs/07-References");
 
@@ -137,38 +137,22 @@ async function fetchComponentDocs() {
     fs.mkdirSync(outputBase, { recursive: true });
   }
 
-  // storage-components
-  for (const component of components.components.storageComponents) {
-    const outputDir = path.join(outputBase, "Storage", component.name);
-    if (!fs.existsSync(outputDir)) {
-      fs.mkdirSync(outputDir, { recursive: true });
-    }
+  for (const section of componentDocs.sections) {
+    for (const component of section.components) {
+      const outputDir = path.join(outputBase, section.name, component.name);
+      if (!fs.existsSync(outputDir)) {
+        fs.mkdirSync(outputDir, { recursive: true });
+      }
 
-    const baseurl = `https://raw.githubusercontent.com/${component.repo}/${component.tag}`;
-    const url = `${baseurl}/README.md`;
-    const fileName = `${component.name}.md`;
+      const baseurl = `https://raw.githubusercontent.com/${component.repo}/${component.tag}`;
+      const url = `${baseurl}/README.md`;
+      const fileName = `${component.name}.md`;
 
-    downloadDoc(url, baseurl, outputDir, component, fileName);
+      downloadDoc(url, baseurl, outputDir, component, fileName);
 
-    if (component.withDocs) {
-      resolveDocs(baseurl, outputDir, component);
-    }
-  }
-
-  for (const component of components.components.apiComponents) {
-    const outputDir = path.join(outputBase, "API", component.name);
-    if (!fs.existsSync(outputDir)) {
-      fs.mkdirSync(outputDir, { recursive: true });
-    }
-
-    const baseurl = `https://raw.githubusercontent.com/${component.repo}/${component.tag}`;
-    const url = `${baseurl}/README.md`;
-    const fileName = `${component.name}.md`;
-
-    downloadDoc(url, baseurl, outputDir, component, fileName);
-
-    if (component.withDocs) {
-      resolveDocs(baseurl, outputDir, component);
+      if (component.withDocs) {
+        resolveDocs(baseurl, outputDir, component);
+      }
     }
   }
 }
