@@ -111,7 +111,7 @@ const config: Config = {
           type: "doc",
           label: "Docs",
           position: "left",
-          docId: "operators/introduction",
+          docId: "docs/introduction",
         },
         {
           label: "Contributing",
