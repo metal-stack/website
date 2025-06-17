@@ -18,7 +18,7 @@ In the meantime, we have started to integrate third-party solutions into our met
 - Built-in multi-tenant capabilities
 - Configurable compression and replication factors
 
-We are maintaining an open source integration for running LightOS in our [Gardener](kubernetes.md) cluster provisioning. You can enable it through the controller registration of the [gardener-extension-provider-metal](https://github.com/metal-stack/gardener-extension-provider-metal).
+We are maintaining an open source integration for running LightOS in our [Gardener](/docs/kubernetes) cluster provisioning. You can enable it through the controller registration of the [gardener-extension-provider-metal](https://github.com/metal-stack/gardener-extension-provider-metal).
 
 With the integration in place, the extension-provider deploys a [duros-controller](https://github.com/metal-stack/duros-controller) along with a Duros Storage CRD into the seed's shoot namespace. The duros-controller takes care of creating projects and managing credentials at the Lightbits Duros API. It also provides storage classes as configured in the extension-provider's controller registration to the customer's shoot cluster such that users can start consuming the Lightbits storage immediately.
 
