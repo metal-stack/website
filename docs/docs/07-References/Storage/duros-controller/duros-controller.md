@@ -1,7 +1,7 @@
 ---
 slug: duros-controller
 title: duros-controller
-sidebar_position: 3
+sidebar_position: 2
 ---
 
 # duros-controller

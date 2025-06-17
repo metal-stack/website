@@ -1,7 +1,7 @@
 ---
 slug: go-ipam
 title: go-ipam
-sidebar_position: 4
+sidebar_position: 3
 ---
 
 # go-ipam

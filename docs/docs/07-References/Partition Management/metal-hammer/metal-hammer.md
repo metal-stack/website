@@ -1,7 +1,7 @@
 ---
 slug: metal-hammer
 title: metal-hammer
-sidebar_position: 1
+sidebar_position: 2
 ---
 
 # Metal Stack Hammer

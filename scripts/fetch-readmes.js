@@ -2,9 +2,11 @@ const fs = require("fs");
 const path = require("path");
 const axios = require("axios");
 
-const componentDocs = require("./component-docs");
+import YAML from 'yaml'
 
 const outputBase = path.resolve(__dirname, "../docs/docs/07-References");
+
+const releaseVectorPath = "https://raw.githubusercontent.com/metal-stack/releases/refs/heads/master/release.yaml"
 
 async function downloadFile(url, destPath) {
   const writer = fs.createWriteStream(destPath);
@@ -87,9 +89,9 @@ sidebar_position: ${component.position}
     const filePath = path.join(outputDir, name);
     fs.writeFileSync(filePath, finalContent, "utf8");
 
-    console.log(`✅ Fetched and processed name`);
+    console.log(`✅ Fetched and processed from ${component.name}: ${name}`);
   } catch (err) {
-    console.error(`❌ Failed to fetch name: ${component.name}`, err.message);
+    console.error(`❌ Failed to fetch from ${component.name}: ${name}`, err.message);
   }
 }
 
@@ -132,12 +134,50 @@ async function resolveDocs(baseurl, outputDir, component) {
   }
 }
 
+const findPath = (object, path) => {
+    const keys = path.split('.');
+    let temp = object;
+    for (let i = 0; i < keys.length; i++) {
+        try {
+            if(!temp.hasOwnProperty(keys[i])) { return undefined; } 
+            temp = temp[keys[i]];
+        } catch {
+            return undefined;
+        }
+    }
+    return temp;
+};
+
 async function fetchComponentDocs() {
   if (!fs.existsSync(outputBase)) {
     fs.mkdirSync(outputBase, { recursive: true });
   }
+  
+  const releaseVectorFile = await axios.get(releaseVectorPath);
+  let releaseVector = YAML.parse(releaseVectorFile.data);
 
-  for (const section of componentDocs.sections) {
+  let componentDocs = require("./components.json");
+
+  for (const section of componentDocs) {
+    for (const component of section.components) {
+      let docsVersion = component.tag
+      let releaseVersion = findPath(releaseVector,component.releasePath)
+
+      if(releaseVersion === undefined) {
+        console.error("Path for release version for component " + component.name + " not found or incorrect")
+        continue
+      }
+
+      if(docsVersion !== releaseVersion) {
+        component.tag = releaseVersion
+        console.log("Update Component " + component.name + " from " + docsVersion + " to " + releaseVersion)
+      }
+    }
+  }
+
+  fs.writeFileSync('./scripts/components.json', JSON.stringify(componentDocs,null,2));
+
+  for (const section of componentDocs) {
     for (const component of section.components) {
       const outputDir = path.join(outputBase, section.name, component.name);
       if (!fs.existsSync(outputDir)) {

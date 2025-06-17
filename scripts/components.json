@@ -1,0 +1,102 @@
+[
+  {
+    "name": "API",
+    "components": [
+      {
+        "name": "metalctl",
+        "releasePath": "binaries.metal-stack.metalctl.version",
+        "repo": "metal-stack/metalctl",
+        "tag": "v0.18.1",
+        "position": 1,
+        "withDocs": true
+      },
+      {
+        "name": "metal-api",
+        "releasePath": "docker-images.metal-stack.control-plane.metal-api.tag",
+        "repo": "metal-stack/metal-api",
+        "tag": "v0.41.2",
+        "position": 2,
+        "withDocs": false
+      },
+      {
+        "name": "masterdata-api",
+        "releasePath": "docker-images.metal-stack.control-plane.masterdata-api.tag",
+        "repo": "metal-stack/masterdata-api",
+        "tag": "v0.11.11",
+        "position": 3,
+        "withDocs": false
+      }
+    ]
+  },
+  {
+    "name": "Partition Management",
+    "components": [
+      {
+        "name": "metal-console",
+        "releasePath": "docker-images.metal-stack.control-plane.metal-console.tag",
+        "repo": "metal-stack/metal-console",
+        "tag": "v0.7.4",
+        "position": 1,
+        "withDocs": false
+      },
+      {
+        "name": "metal-hammer",
+        "releasePath": "binaries.metal-stack.metal-hammer.version",
+        "repo": "metal-stack/metal-hammer",
+        "tag": "v0.13.11",
+        "position": 2,
+        "withDocs": false
+      }
+    ]
+  },
+  {
+    "name": "Network",
+    "components": [
+      {
+        "name": "metal-core",
+        "releasePath": "docker-images.metal-stack.partition.metal-core.tag",
+        "repo": "metal-stack/metal-core",
+        "tag": "v0.12.5",
+        "position": 1,
+        "withDocs": false
+      },
+      {
+        "name": "metal-bmc",
+        "releasePath": "docker-images.metal-stack.partition.metal-bmc.tag",
+        "repo": "metal-stack/metal-bmc",
+        "tag": "v0.5.8",
+        "position": 2,
+        "withDocs": false
+      },
+      {
+        "name": "go-ipam",
+        "releasePath": "docker-images.metal-stack.control-plane.ipam.tag",
+        "repo": "metal-stack/go-ipam",
+        "tag": "v1.14.11",
+        "position": 3,
+        "withDocs": false
+      }
+    ]
+  },
+  {
+    "name": "Storage",
+    "components": [
+      {
+        "name": "csi-lvm",
+        "releasePath": "docker-images.metal-stack.kubernetes.csi-lvm-controller.tag",
+        "repo": "metal-stack/csi-lvm",
+        "tag": "v0.9.0",
+        "position": 1,
+        "withDocs": false
+      },
+      {
+        "name": "duros-controller",
+        "releasePath": "docker-images.metal-stack.kubernetes.duros-controller.tag",
+        "repo": "metal-stack/duros-controller",
+        "tag": "v0.11.5",
+        "position": 2,
+        "withDocs": false
+      }
+    ]
+  }
+]
