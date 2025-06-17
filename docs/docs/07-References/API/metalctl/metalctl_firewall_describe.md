@@ -1,5 +1,5 @@
 ---
-slug: metalctl_firewall_describe
+slug: /references/metalctl_firewall_describe
 title: metalctl_firewall_describe
 sidebar_position: 1
 ---

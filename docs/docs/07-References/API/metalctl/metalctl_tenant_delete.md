@@ -1,5 +1,5 @@
 ---
-slug: metalctl_tenant_delete
+slug: /references/metalctl_tenant_delete
 title: metalctl_tenant_delete
 sidebar_position: 1
 ---

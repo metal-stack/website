@@ -1,5 +1,5 @@
 ---
-slug: metalctl_machine_ipmi
+slug: /references/metalctl_machine_ipmi
 title: metalctl_machine_ipmi
 sidebar_position: 1
 ---

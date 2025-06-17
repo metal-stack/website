@@ -1,5 +1,5 @@
 ---
-slug: metalctl_switch_ssh
+slug: /references/metalctl_switch_ssh
 title: metalctl_switch_ssh
 sidebar_position: 1
 ---

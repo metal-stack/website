@@ -1,5 +1,5 @@
 ---
-slug: metalctl_logout
+slug: /references/metalctl_logout
 title: metalctl_logout
 sidebar_position: 1
 ---

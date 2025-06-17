@@ -1,5 +1,5 @@
 ---
-slug: metalctl_login
+slug: /references/metalctl_login
 title: metalctl_login
 sidebar_position: 1
 ---

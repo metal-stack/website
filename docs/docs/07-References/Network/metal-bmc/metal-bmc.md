@@ -1,5 +1,5 @@
 ---
-slug: metal-bmc
+slug: /references/metal-bmc
 title: metal-bmc
 sidebar_position: 2
 ---

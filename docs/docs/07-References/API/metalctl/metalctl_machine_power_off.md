@@ -1,5 +1,5 @@
 ---
-slug: metalctl_machine_power_off
+slug: /references/metalctl_machine_power_off
 title: metalctl_machine_power_off
 sidebar_position: 1
 ---

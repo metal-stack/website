@@ -1,5 +1,5 @@
 ---
-slug: metalctl_machine_power_bios
+slug: /references/metalctl_machine_power_bios
 title: metalctl_machine_power_bios
 sidebar_position: 1
 ---

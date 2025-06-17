@@ -1,5 +1,5 @@
 ---
-slug: metalctl_partition_delete
+slug: /references/metalctl_partition_delete
 title: metalctl_partition_delete
 sidebar_position: 1
 ---

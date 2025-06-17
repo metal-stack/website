@@ -1,5 +1,5 @@
 ---
-slug: metalctl_image_create
+slug: /references/metalctl_image_create
 title: metalctl_image_create
 sidebar_position: 1
 ---

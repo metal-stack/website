@@ -1,5 +1,5 @@
 ---
-slug: metalctl_completion_bash
+slug: /references/metalctl_completion_bash
 title: metalctl_completion_bash
 sidebar_position: 1
 ---

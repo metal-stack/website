@@ -1,5 +1,5 @@
 ---
-slug: metalctl_machine_issues
+slug: /references/metalctl_machine_issues
 title: metalctl_machine_issues
 sidebar_position: 1
 ---

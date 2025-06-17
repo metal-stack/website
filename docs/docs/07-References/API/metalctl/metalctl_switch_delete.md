@@ -1,5 +1,5 @@
 ---
-slug: metalctl_switch_delete
+slug: /references/metalctl_switch_delete
 title: metalctl_switch_delete
 sidebar_position: 1
 ---

@@ -1,5 +1,5 @@
 ---
-slug: metalctl_completion_zsh
+slug: /references/metalctl_completion_zsh
 title: metalctl_completion_zsh
 sidebar_position: 1
 ---

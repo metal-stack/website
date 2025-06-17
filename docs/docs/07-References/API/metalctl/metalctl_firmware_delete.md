@@ -1,5 +1,5 @@
 ---
-slug: metalctl_firmware_delete
+slug: /references/metalctl_firmware_delete
 title: metalctl_firmware_delete
 sidebar_position: 1
 ---

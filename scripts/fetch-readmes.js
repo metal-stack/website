@@ -77,7 +77,7 @@ async function downloadDoc(url, baseurl, outputDir, component, name) {
     }
 
     const frontmatter = `---
-slug: ${name.replace(".md", "")}
+slug: /references/${name.replace(".md", "")}
 title: ${name.replace(".md", "")}
 sidebar_position: ${component.position}
 ---

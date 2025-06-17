@@ -1,5 +1,5 @@
 ---
-slug: metalctl_project_create
+slug: /references/metalctl_project_create
 title: metalctl_project_create
 sidebar_position: 1
 ---

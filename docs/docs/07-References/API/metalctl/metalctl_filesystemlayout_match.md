@@ -1,5 +1,5 @@
 ---
-slug: metalctl_filesystemlayout_match
+slug: /references/metalctl_filesystemlayout_match
 title: metalctl_filesystemlayout_match
 sidebar_position: 1
 ---

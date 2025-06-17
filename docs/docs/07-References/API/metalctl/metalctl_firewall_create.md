@@ -1,5 +1,5 @@
 ---
-slug: metalctl_firewall_create
+slug: /references/metalctl_firewall_create
 title: metalctl_firewall_create
 sidebar_position: 1
 ---

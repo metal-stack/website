@@ -1,5 +1,5 @@
 ---
-slug: metalctl_completion_powershell
+slug: /references/metalctl_completion_powershell
 title: metalctl_completion_powershell
 sidebar_position: 1
 ---

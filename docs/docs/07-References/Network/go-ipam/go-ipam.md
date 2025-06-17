@@ -1,5 +1,5 @@
 ---
-slug: go-ipam
+slug: /references/go-ipam
 title: go-ipam
 sidebar_position: 3
 ---

@@ -1,5 +1,5 @@
 ---
-slug: metalctl_firmware_upload
+slug: /references/metalctl_firmware_upload
 title: metalctl_firmware_upload
 sidebar_position: 1
 ---

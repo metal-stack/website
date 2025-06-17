@@ -1,5 +1,5 @@
 ---
-slug: metalctl_machine_power_disk
+slug: /references/metalctl_machine_power_disk
 title: metalctl_machine_power_disk
 sidebar_position: 1
 ---

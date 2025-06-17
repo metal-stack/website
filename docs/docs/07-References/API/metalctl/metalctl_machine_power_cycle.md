@@ -1,5 +1,5 @@
 ---
-slug: metalctl_machine_power_cycle
+slug: /references/metalctl_machine_power_cycle
 title: metalctl_machine_power_cycle
 sidebar_position: 1
 ---

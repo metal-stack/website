@@ -1,5 +1,5 @@
 ---
-slug: metalctl_filesystemlayout_update
+slug: /references/metalctl_filesystemlayout_update
 title: metalctl_filesystemlayout_update
 sidebar_position: 1
 ---

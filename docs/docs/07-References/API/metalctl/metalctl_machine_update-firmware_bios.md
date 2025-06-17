@@ -1,5 +1,5 @@
 ---
-slug: metalctl_machine_update-firmware_bios
+slug: /references/metalctl_machine_update-firmware_bios
 title: metalctl_machine_update-firmware_bios
 sidebar_position: 1
 ---

@@ -146,19 +146,19 @@ const config: Config = {
           items: [
             {
               label: "Concepts",
-              to: "/docs/concepts/introduction",
+              to: "/docs/architecture",
             },
             {
               label: "For Operators",
-              to: "/docs/operators/introduction",
+              to: "/docs/hardware",
             },
             {
               label: "For Users",
-              to: "/docs/users/introduction",
+              to: "/docs/client-libraries",
             },
             {
               label: "Components",
-              to: "/docs/components/introduction",
+              to: "/docs/references/metalctl",
             },
           ],
         },

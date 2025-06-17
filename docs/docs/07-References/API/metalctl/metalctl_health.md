@@ -1,5 +1,5 @@
 ---
-slug: metalctl_health
+slug: /references/metalctl_health
 title: metalctl_health
 sidebar_position: 1
 ---

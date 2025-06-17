@@ -1,5 +1,5 @@
 ---
-slug: metalctl_machine_power_pxe
+slug: /references/metalctl_machine_power_pxe
 title: metalctl_machine_power_pxe
 sidebar_position: 1
 ---

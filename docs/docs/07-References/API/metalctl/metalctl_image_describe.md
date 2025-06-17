@@ -1,5 +1,5 @@
 ---
-slug: metalctl_image_describe
+slug: /references/metalctl_image_describe
 title: metalctl_image_describe
 sidebar_position: 1
 ---

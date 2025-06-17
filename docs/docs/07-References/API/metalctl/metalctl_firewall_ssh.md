@@ -1,5 +1,5 @@
 ---
-slug: metalctl_firewall_ssh
+slug: /references/metalctl_firewall_ssh
 title: metalctl_firewall_ssh
 sidebar_position: 1
 ---

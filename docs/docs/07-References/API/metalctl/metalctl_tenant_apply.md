@@ -1,5 +1,5 @@
 ---
-slug: metalctl_tenant_apply
+slug: /references/metalctl_tenant_apply
 title: metalctl_tenant_apply
 sidebar_position: 1
 ---

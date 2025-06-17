@@ -1,5 +1,5 @@
 ---
-slug: metalctl_machine_reinstall
+slug: /references/metalctl_machine_reinstall
 title: metalctl_machine_reinstall
 sidebar_position: 1
 ---

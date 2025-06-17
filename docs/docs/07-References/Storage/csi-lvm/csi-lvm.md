@@ -1,5 +1,5 @@
 ---
-slug: csi-lvm
+slug: /references/csi-lvm
 title: csi-lvm
 sidebar_position: 1
 ---

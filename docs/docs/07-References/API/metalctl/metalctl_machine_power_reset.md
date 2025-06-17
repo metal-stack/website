@@ -1,5 +1,5 @@
 ---
-slug: metalctl_machine_power_reset
+slug: /references/metalctl_machine_power_reset
 title: metalctl_machine_power_reset
 sidebar_position: 1
 ---

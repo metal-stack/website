@@ -1,5 +1,5 @@
 ---
-slug: metalctl_switch_connected-machines
+slug: /references/metalctl_switch_connected-machines
 title: metalctl_switch_connected-machines
 sidebar_position: 1
 ---

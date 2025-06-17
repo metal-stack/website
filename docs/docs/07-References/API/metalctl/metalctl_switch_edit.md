@@ -1,5 +1,5 @@
 ---
-slug: metalctl_switch_edit
+slug: /references/metalctl_switch_edit
 title: metalctl_switch_edit
 sidebar_position: 1
 ---

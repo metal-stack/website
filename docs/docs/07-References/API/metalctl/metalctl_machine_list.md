@@ -1,5 +1,5 @@
 ---
-slug: metalctl_machine_list
+slug: /references/metalctl_machine_list
 title: metalctl_machine_list
 sidebar_position: 1
 ---

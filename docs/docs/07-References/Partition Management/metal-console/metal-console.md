@@ -1,5 +1,5 @@
 ---
-slug: metal-console
+slug: /references/metal-console
 title: metal-console
 sidebar_position: 1
 ---

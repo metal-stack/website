@@ -1,5 +1,5 @@
 ---
-slug: metalctl_machine_ipmi_events
+slug: /references/metalctl_machine_ipmi_events
 title: metalctl_machine_ipmi_events
 sidebar_position: 1
 ---

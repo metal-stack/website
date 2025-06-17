@@ -1,5 +1,5 @@
 ---
-slug: metalctl_network_allocate
+slug: /references/metalctl_network_allocate
 title: metalctl_network_allocate
 sidebar_position: 1
 ---

@@ -1,5 +1,5 @@
 ---
-slug: metalctl_partition_create
+slug: /references/metalctl_partition_create
 title: metalctl_partition_create
 sidebar_position: 1
 ---

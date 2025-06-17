@@ -1,5 +1,5 @@
 ---
-slug: metalctl_whoami
+slug: /references/metalctl_whoami
 title: metalctl_whoami
 sidebar_position: 1
 ---

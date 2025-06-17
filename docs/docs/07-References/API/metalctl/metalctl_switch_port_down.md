@@ -1,5 +1,5 @@
 ---
-slug: metalctl_switch_port_down
+slug: /references/metalctl_switch_port_down
 title: metalctl_switch_port_down
 sidebar_position: 1
 ---

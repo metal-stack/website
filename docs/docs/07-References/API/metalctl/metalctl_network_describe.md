@@ -1,5 +1,5 @@
 ---
-slug: metalctl_network_describe
+slug: /references/metalctl_network_describe
 title: metalctl_network_describe
 sidebar_position: 1
 ---

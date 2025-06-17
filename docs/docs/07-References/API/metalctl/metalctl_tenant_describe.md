@@ -1,5 +1,5 @@
 ---
-slug: metalctl_tenant_describe
+slug: /references/metalctl_tenant_describe
 title: metalctl_tenant_describe
 sidebar_position: 1
 ---

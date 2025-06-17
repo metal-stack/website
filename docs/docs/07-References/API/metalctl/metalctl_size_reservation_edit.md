@@ -1,5 +1,5 @@
 ---
-slug: metalctl_size_reservation_edit
+slug: /references/metalctl_size_reservation_edit
 title: metalctl_size_reservation_edit
 sidebar_position: 1
 ---

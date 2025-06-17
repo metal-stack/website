@@ -1,5 +1,5 @@
 ---
-slug: metalctl_size_delete
+slug: /references/metalctl_size_delete
 title: metalctl_size_delete
 sidebar_position: 1
 ---

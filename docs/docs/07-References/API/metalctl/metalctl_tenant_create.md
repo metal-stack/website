@@ -1,5 +1,5 @@
 ---
-slug: metalctl_tenant_create
+slug: /references/metalctl_tenant_create
 title: metalctl_tenant_create
 sidebar_position: 1
 ---

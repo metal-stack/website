@@ -1,5 +1,5 @@
 ---
-slug: metalctl_completion_fish
+slug: /references/metalctl_completion_fish
 title: metalctl_completion_fish
 sidebar_position: 1
 ---

@@ -1,5 +1,5 @@
 ---
-slug: metalctl_switch_migrate
+slug: /references/metalctl_switch_migrate
 title: metalctl_switch_migrate
 sidebar_position: 1
 ---

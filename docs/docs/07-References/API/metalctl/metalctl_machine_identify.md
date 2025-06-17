@@ -1,5 +1,5 @@
 ---
-slug: metalctl_machine_identify
+slug: /references/metalctl_machine_identify
 title: metalctl_machine_identify
 sidebar_position: 1
 ---

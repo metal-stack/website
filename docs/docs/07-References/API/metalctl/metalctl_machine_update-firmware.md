@@ -1,5 +1,5 @@
 ---
-slug: metalctl_machine_update-firmware
+slug: /references/metalctl_machine_update-firmware
 title: metalctl_machine_update-firmware
 sidebar_position: 1
 ---

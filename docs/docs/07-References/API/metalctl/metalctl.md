@@ -1,5 +1,5 @@
 ---
-slug: metalctl
+slug: /references/metalctl
 title: metalctl
 sidebar_position: 1
 ---

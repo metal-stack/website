@@ -1,5 +1,5 @@
 ---
-slug: metalctl_partition_capacity
+slug: /references/metalctl_partition_capacity
 title: metalctl_partition_capacity
 sidebar_position: 1
 ---

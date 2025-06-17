@@ -1,5 +1,5 @@
 ---
-slug: metalctl_machine_logs
+slug: /references/metalctl_machine_logs
 title: metalctl_machine_logs
 sidebar_position: 1
 ---

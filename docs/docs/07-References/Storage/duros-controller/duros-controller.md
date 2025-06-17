@@ -1,5 +1,5 @@
 ---
-slug: duros-controller
+slug: /references/duros-controller
 title: duros-controller
 sidebar_position: 2
 ---

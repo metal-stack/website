@@ -1,5 +1,5 @@
 ---
-slug: metalctl_markdown
+slug: /references/metalctl_markdown
 title: metalctl_markdown
 sidebar_position: 1
 ---

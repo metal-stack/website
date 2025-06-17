@@ -1,5 +1,5 @@
 ---
-slug: metalctl_partition_update
+slug: /references/metalctl_partition_update
 title: metalctl_partition_update
 sidebar_position: 1
 ---

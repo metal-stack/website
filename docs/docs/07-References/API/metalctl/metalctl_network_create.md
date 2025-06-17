@@ -1,5 +1,5 @@
 ---
-slug: metalctl_network_create
+slug: /references/metalctl_network_create
 title: metalctl_network_create
 sidebar_position: 1
 ---

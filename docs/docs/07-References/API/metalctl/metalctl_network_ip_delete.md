@@ -1,5 +1,5 @@
 ---
-slug: metalctl_network_ip_delete
+slug: /references/metalctl_network_ip_delete
 title: metalctl_network_ip_delete
 sidebar_position: 1
 ---

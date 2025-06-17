@@ -1,5 +1,5 @@
 ---
-slug: metalctl_size_imageconstraint_edit
+slug: /references/metalctl_size_imageconstraint_edit
 title: metalctl_size_imageconstraint_edit
 sidebar_position: 1
 ---

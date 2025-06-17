@@ -1,5 +1,5 @@
 ---
-slug: metalctl_machine_consolepassword
+slug: /references/metalctl_machine_consolepassword
 title: metalctl_machine_consolepassword
 sidebar_position: 1
 ---

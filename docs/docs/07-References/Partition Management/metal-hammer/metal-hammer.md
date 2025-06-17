@@ -1,5 +1,5 @@
 ---
-slug: metal-hammer
+slug: /references/metal-hammer
 title: metal-hammer
 sidebar_position: 2
 ---

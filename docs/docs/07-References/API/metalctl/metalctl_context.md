@@ -1,5 +1,5 @@
 ---
-slug: metalctl_context
+slug: /references/metalctl_context
 title: metalctl_context
 sidebar_position: 1
 ---

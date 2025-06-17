@@ -1,5 +1,5 @@
 ---
-slug: metalctl_version
+slug: /references/metalctl_version
 title: metalctl_version
 sidebar_position: 1
 ---

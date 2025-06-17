@@ -1,5 +1,5 @@
 ---
-slug: metalctl_vpn
+slug: /references/metalctl_vpn
 title: metalctl_vpn
 sidebar_position: 1
 ---

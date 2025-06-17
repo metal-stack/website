@@ -1,5 +1,5 @@
 ---
-slug: metalctl_machine_update-firmware_bmc
+slug: /references/metalctl_machine_update-firmware_bmc
 title: metalctl_machine_update-firmware_bmc
 sidebar_position: 1
 ---

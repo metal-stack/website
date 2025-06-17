@@ -1,5 +1,5 @@
 ---
-slug: metal-core
+slug: /references/metal-core
 title: metal-core
 sidebar_position: 1
 ---

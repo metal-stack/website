@@ -1,5 +1,5 @@
 ---
-slug: metalctl_switch_console
+slug: /references/metalctl_switch_console
 title: metalctl_switch_console
 sidebar_position: 1
 ---

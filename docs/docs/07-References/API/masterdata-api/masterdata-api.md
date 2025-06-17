@@ -1,5 +1,5 @@
 ---
-slug: masterdata-api
+slug: /references/masterdata-api
 title: masterdata-api
 sidebar_position: 3
 ---

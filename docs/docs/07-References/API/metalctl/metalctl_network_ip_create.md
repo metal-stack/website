@@ -1,5 +1,5 @@
 ---
-slug: metalctl_network_ip_create
+slug: /references/metalctl_network_ip_create
 title: metalctl_network_ip_create
 sidebar_position: 1
 ---

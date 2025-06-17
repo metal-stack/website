@@ -1,5 +1,5 @@
 ---
-slug: metalctl_firmware_upload_bios
+slug: /references/metalctl_firmware_upload_bios
 title: metalctl_firmware_upload_bios
 sidebar_position: 1
 ---

@@ -1,5 +1,5 @@
 ---
-slug: metalctl_audit
+slug: /references/metalctl_audit
 title: metalctl_audit
 sidebar_position: 1
 ---
