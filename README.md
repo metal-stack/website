@@ -114,9 +114,20 @@ To update the dependencies for the Reference pages:
 ```
 bun run fetch-readmes
 ```
-## Versioning
-Ensure first, that all files in the docs folder are updated and ready to freeze. Also execute `bun run fetch-readmes` to update files from components and apis.
-
+## Component references
+Ensure first, that all files in the docs folder are updated and ready to freeze. Also execute `bun run fetch-readmes` to update files from components and apis. 
+All components are referenced in the `/scripts/components.json` file. Use this minimal template to add a new component:
+```json
+{
+        "name": "metalctl", // name of the component, will appear in the navigation
+        "releasePath": "binaries.metal-stack.metalctl.version", // json-path of the version or tag in the release-vector
+        "repo": "metal-stack/metalctl", // component repository, 
+        "position": 1, // use this property to sort the navigation subdirectories
+        "withDocs": true // set to true to retrieve further .md files from a /docs folder. With false, only the README.md will be retrieved.
+},
+```
+The `tag` property will be updated automatically from the release-vector file.
+## Document Versioning
 You create a new version with:
 ```
 bun run docusaurus docs:version v0.21.6
