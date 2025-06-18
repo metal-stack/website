@@ -1,0 +1,27 @@
+name: build
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-docs: 
+    name: build-docs
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout 
+        uses: actions/checkout@v4
+
+      - name: setup-bun 
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: v1.2
+
+      - name: Install Dependencies
+        run: bun install --frozen-lockfile --production
+
+      - name: Build Website
+        run: bun run build
