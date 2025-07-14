@@ -38,9 +38,7 @@ The used framework to generate docs is [docusaurus](https://docusaurus.io).
 In order to not break links of posts, blog articles and shared documents we want to provide full backwards-compatibility.
 This means we need to ensure existing links still work with the new documentation.
 
-Docusuarus provides a plugin for [redirects](https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-client-redirects).
-
-Since our new documentation will change drastically in structure and content we can provide a redirect-config which redirects old existing links to the new documentation.
+The file /static/_redirects contains a list of all paths of the old docs-sites. The file is formatted to create server-side-redirects on netlify, following the documentation here: https://docs.netlify.com/routing/redirects/
 
 ## Docs
 
