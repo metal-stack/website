@@ -1,7 +1,7 @@
 ---
-slug: /quickstart
-title: Quickstart
-sidebar_position: 2
+slug: /getting-started
+title: Getting Started
+sidebar_position: 1
 ---
 
 # Getting Started

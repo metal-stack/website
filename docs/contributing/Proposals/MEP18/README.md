@@ -23,11 +23,6 @@ Regular Kubernetes updates to apply security fixes and feature updates must be p
 
 In this chapter, we propose a solution for setting up a metal-stack environment with an autonomous control plane that is independent of another cloud provider.
 
-```@contents
-Pages = ["autonomous-control-plane.md"]
-Depth = 5
-```
-
 ## Use Your Own Dogfood
 
 The most obvious solution is to just deploy a Kubernetes cluster manually in your own data center by utilizing existing tooling for the deployment:

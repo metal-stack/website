@@ -5,10 +5,9 @@ sidebar_position: 4
 ---
 
 # Multi-Tenancy for the metal-api
-
-!!! info
-
-    This document is work in progress.
+:::info
+This document is work in progress.
+:::
 
 In the past we decided to treat the metal-api as a "low-level API", i.e. the API does not specifically deal with projects and tenants. A user with editor access can for example assign machines to every project he desires, he can see all the machines available and can control them. We tried to keep the metal-api code base as small as possible and we added resource scoping to a "higher-level APIs". From there, a user would be able to only see his own clusters and IP addresses.
 
@@ -21,13 +20,6 @@ Introducing multi-tenancy to the metal-api is a serious chance of making our pro
 - Discouraging people to implement their own scoping layers in front of the metal-stack
 - Gaining performance through resource scopes
 - Letting untrusted / third-parties work with the API
-
-## Table of Contents
-
-```@contents
-Pages = ["README.md"]
-Depth = 5
-```
 
 ## Requirements
 
@@ -184,17 +176,16 @@ Requirements: Project was created, permissions are present
   00000000-0000-0000-0000-ac1f6b7befb2   Phoned Home     20s     50d 4h   test       793bb6cd-8b46-479d-9209-0fedca428fe1    c1-xlarge-x86   Ubuntu 20.04 20210415   fra-equ01
   ```
 
-!!! warning
-
-    A user **cannot** list all allocated machines for all projects. The user **must** always switch project context first and can only view the machines inside this project. Only admins can see all machines at once.
-
+:::warning
+A user **cannot** list all allocated machines for all projects. The user **must** always switch project context first and can only view the machines inside this project. Only admins can see all machines at once.
+:::
 ### Scopes for Resources
 
 The admins / operators of the metal-stack should be able to provide _global_ resources that users are able to use along with their own resources. In particular, users can view and use _global_ resources, but they are not allowed to create, modify or delete them.
 
-!!! info
-
-    When a project ID field is empty on a resource, the resource is considered _global_.
+:::info
+When a project ID field is empty on a resource, the resource is considered _global_.
+:::
 
 Where possible, users should be capable of creating their own resource entities.
 
@@ -215,6 +206,6 @@ Where possible, users should be capable of creating their own resource entities.
 | Switch             |      |        |
 | Tenant             |      | yes    |
 
-!!! info
-
-    Example: A user can make use of the file system layouts provided by the admins, but can also create own layouts. Same applies for images. As soon as a user creates own resources, the user takes over the responsibility for the machine provisioning to succeed.
+:::info
+Example: A user can make use of the file system layouts provided by the admins, but can also create own layouts. Same applies for images. As soon as a user creates own resources, the user takes over the responsibility for the machine provisioning to succeed.
+:::
