@@ -1,7 +1,7 @@
 ---
 slug: /hardware
-title: Hardware
-sidebar_position: 3
+title: Hardware Support
+sidebar_position: 1
 ---
 
 # Hardware Support
@@ -15,7 +15,7 @@ We came up with a repository called [go-hal](https://github.com/metal-stack/go-h
 The following server types are officially supported and verified by the metal-stack project:
 
 | Vendor     | Series      | Model            | Board Type     | Status |
-| ---------- | ----------- | ---------------- | :------------- | :----- |
+|------------|-------------|------------------|:---------------|:-------|
 | Supermicro | Big-Twin    | SYS-2029BT-HNR   | X11DPT-B       | stable |
 | Supermicro | Big-Twin    | SYS-220BT-HNTR   | X12DPT-B6      | stable |
 | Supermicro | SuperServer | SSG-5019D8-TR12P | X11SDV-8C-TP8F | stable |
@@ -33,29 +33,29 @@ Other server series and models might work but were not reported to us.
 The following GPU types are officially supported and verified by the metal-stack project:
 
 | Vendor | Model    | Status |
-| ------ | -------- | :----- |
+|--------|----------|:-------|
 | NVIDIA | RTX 6000 | stable |
 | NVIDIA | H100     | stable |
 
-Other GPU models might work but were not reported to us. For a detailed description howto use GPU support in a kubernetes cluster please check this [documentation](gpu-support.md)
+Other GPU models might work but were not reported to us. For a detailed description howto use GPU support in a kubernetes cluster please check this [documentation](../concepts/kubernetes/gpu-workers.md)
 
 ## Network Cards
 
 The following network cards are officially supported and verified by the metal-stack project for usage in servers:
 
-| Vendor   | Series     | Model                       | Status |
-| -------- | ---------- | --------------------------- | :----- |
-| Intel    | XXV710     | DA2 DualPort 2x25G SFP28    | stable |
-| Intel    | E810       | DA2 DualPort 2x25G SFP28    | stable |
-| Intel    | E810       | CQDA2 DualPort 2x100G SFP28 | stable |
-| Mellanox | ConnectX-5 | MCX512A-ACAT 2x25G SFP28    | stable |
+| Vendor   | Series     | Model                        | Status |
+|----------|------------|------------------------------|:-------|
+| Intel    | XXV710     | DA2 DualPort 2x25G SFP28     | stable |
+| Intel    | E810       | DA2 DualPort 2x25G SFP28     | stable |
+| Intel    | E810       | CQDA2 DualPort 2x100G QSFP28 | stable |
+| Mellanox | ConnectX-5 | MCX512A-ACAT 2x25G SFP28     | stable |
 
 ## Switches
 
 The following switch types are officially supported and verified by the metal-stack project:
 
 | Vendor    | Series        | Model       | OS             | Status |
-| :-------- | :------------ | :---------- | :------------- | :----- |
+|:----------|:--------------|:------------|:---------------|:-------|
 | Edge-Core | AS4600 Series | AS4625-54T  | Edgecore SONiC | stable |
 | Edge-Core | AS4600 Series | AS4630-54TE | Edgecore SONiC | stable |
 | Edge-Core | AS7700 Series | AS7712-32X  | Cumulus 3.7.13 | stable |
@@ -65,28 +65,29 @@ The following switch types are officially supported and verified by the metal-st
 
 Other switch series and models might work but were not reported to us.
 
-!!! warning
+:::warning
 
-    On our switches we run [SONiC](https://sonicfoundation.dev). The metal-core writes network configuration specifically implemented for this operating system. Please also consider running SONiC on your switches if you do not want to run into any issues with networking.
+On our switches we run [SONiC](https://sonicfoundation.dev). The metal-core writes network configuration specifically implemented for this operating system. Please also consider running SONiC on your switches if you do not want to run into any issues with networking.
 
-    Our previous support for [Cumulus Linux](hhttps://www.nvidia.com/en-us/networking/ethernet-switching/cumulus-linux/) will come to an end.
+Our previous support for [Cumulus Linux](hhttps://www.nvidia.com/en-us/networking/ethernet-switching/cumulus-linux/) will come to an end.
 
-    Of course, contributions for supporting other switch vendors and operating systems are highly appreciated.
-
-## Portable metal-stack Setup DIY
+Of course, contributions for supporting other switch vendors and operating systems are highly appreciated.
+:::
+## Portable metal-stack Setup
 
 A minimal physical hardware setup may contain at least the following components:
 
-!!! warning
+:::warning
+This setup dedicated to testing environments, getting to know the metal-stack software and discussing BOMs for production setups.
+:::
 
-    This setup should work as the components are very similar to the currently supported ones but it's currently untested.
+| #  | Vendor     | Series        | Model               | Function                                                                 |
+|:---|:-----------|:--------------|:--------------------|:-------------------------------------------------------------------------|
+| 1x | EdgeCore   | AS5500 Series | AS4630-54x (1G)     | Management Switch and Management Server                                  |
+| 2x | EdgeCore   | AS5500 Series | AS4625-54x (1G)     | Leaf switches                                                            |
+| 1x | Supermicro | Microcloud    | 3015MR-H8TNR        | Usable machines                                                          |
+| 1x | Teltonika  | Router        | RUTXR1              | Front router for internet and out-of-band access to servers and switches |
 
-| #   | Vendor     | Series        | Model               | Function                                                                 |
-| :-- | :--------- | :------------ | :------------------ | :----------------------------------------------------------------------- |
-| 2x  | Edge-Core  | AS5500 Series | AS5512-54x (10G)    | Leaf / Exit switches                                                     |
-| 1x  | Supermicro | Microcloud    | SYS-5039MA16-H12RFT | Usable machines                                                          |
-| 1x  | Teltonika  | Router        | RUTXR1              | Front router for internet and out-of-band access to servers and switches |
+This setup will yield in 8 usable machines, one of them can be configured to provide persistent CSI storage.
 
-Besides that, a 6HE rack with 1000mm depth and a portable LTE modem is needed.
-
-This MVP will yield in 12 usable machines, one of them will be reserved as management server.
+![Portable metal-stack Setup](starter.jpg)

@@ -1,7 +1,6 @@
 ---
-slug: /networking
 title: Networking
-sidebar_position: 2
+sidebar_position: 1
 ---
 
 # Networking
@@ -47,7 +46,7 @@ Evaluation of those parameters led to more specific requirements:
   - Internet Access is implemented with route leak on the firewall servers and during the PXE-Process with route leak on the exit switches.
   - MTU 9216 is used for VXLAN-facing interfaces, otherwise MTU 9000 is used.
 
-Furthermore, requirements such as _operational simplicity_ and _network stability_ that _a small group of people can effectively support_ have been identified being a primary focus for building metal-stack.
+Furthermore, requirements such as *operational simplicity* and *network stability* that *a small group of people can effectively support* have been identified being a primary focus for building metal-stack.
 
 ## Concept
 
@@ -59,13 +58,13 @@ External BGP together with network overlay concepts as EVPN can address the esse
 
 A CLOS topology is named after the pioneer Charles Clos (short: **CLOS**) who first formalized this approach. CLOS defines a multistage network topology that is used today to improve performance and resilience while enabling a cost effective scalability. A CLOS topology comprises network switches aggregated into spine and leaf layers. Each leaf switch (short: **leaf**) is connected to all spine switches (short: **spine**) but there is no direct leaf-to-leaf or spine-to-spine connection (See: picture 1).
 
-![2 Layer CLOS Topology](./assets/2-layer-leaf-spine.svg)
+![2 Layer CLOS Topology](2-layer-leaf-spine.svg)
 
 > Picture 1: Fragment of CLOS to show leaf-spine layer.
 
 This data center network architecture, based on a leaf-spine architecture, is also know as "two-tier" CLOS topology.
 
-![3 Layer CLOS Topology](./assets/3-layer-leaf-spine.svg)
+![3 Layer CLOS Topology](3-layer-leaf-spine.svg)
 
 > Picture 2: Fragment to show a 3-stage, 2-layer CLOS topology.
 
@@ -89,7 +88,7 @@ To sum it up:
 - There is no IPv6 deployment in the network required.
 - IPv6 just has to be enabled on the BGP peers to provide LLA and RA.
 
-_In External BGP, ASN is how BGP peers know each other._
+*In External BGP, ASN is how BGP peers know each other.*
 
 #### ASN Numbering
 
@@ -150,7 +149,7 @@ Required resources to establish the EVPN control plane:
 - VLAN-aware bridge: because router MAC addresses of remote VTEPs are installed over this interface.
 - VXLAN Interface / VXLAN Tunnel Endpoint: because the VRF to layer-3 VNI mapping has to be consistent across all VTEPs)
 
-![EVPN VTEP](./assets/evpn-vtep.svg)
+![EVPN VTEP](evpn-vtep.svg)
 
 > Picture 3: Required interfaces on the switch to wire up the vrf to swp 1 connectivity with a given vxlan
 
@@ -166,13 +165,13 @@ It is common practice to set the MTU for VXLAN facing interfaces (e.g. inter-swi
 
 Routing is needed for communication between VXLAN tunnels or between a VXLAN tunnel and an external networks. VXLAN routing supports layer-3 multi-tenancy. All routing occurs in the context of a VRF. There is a 1:1 relation of a VRF to a tenant. Picture 3 illustrates this. Servers A and B belong to the same vrf VRF1. Server C is enslaved into VRF2. There is no communication possible between members of VRF1 and those of VRF2.
 
-![Two routing tables](./assets/vrf-simple.svg)
+![Two routing tables](vrf-simple.svg)
 
 > Picture 4: Illustration of two distinct routing tables of VRF1 (enslaved: servers A and B) and VRF2 (enslaved: server C)
 
 To leaverage the potential and power of BGP, VRF, EVPN/VXLAN without a vendor lock-in the implementation relies on hardware that is supported by open network operating system: SONiC.
 
-## Network Implementation
+## Implementation
 
 Implementation of the network operation requires the data center infrastructure to be in place. To implement a functional meaning for the parts of the CLOS network, all members must be wired accordingly.
 
@@ -190,7 +189,7 @@ Reference: See the [CLOS overview picture](#CLOS)
 | Management Server           | Jump-host to access all network switches within the CLOS topology for administrative purpose. |
 | Management Switch           | Connected to the management port of each of the network switches.                             |
 
-![Physical Wiring](./assets/network-physical-wiring.drawio.svg)
+![Physical Wiring](network-physical-wiring.drawio.svg)
 
 > Picture 5: This illustration shows an example of a suitable physical wiring inside a metal-stack partition.
 
@@ -198,7 +197,7 @@ Tenant servers are organized into a layer called projects. In case those tenant 
 
 To operate the CLOS topology, software defined configuration to enable BGP, VRF, EVPN and VXLAN must be set up.
 
-![Network VRFs across the different switch layers](./assets/network-vrfs.drawio.svg)
+![Network VRFs across the different switch layers](network-vrfs.drawio.svg)
 
 > Picture 6: This illustration shows the VRF tenant separation and VRF termination happening on the firewall for the tenant VRF and external network VRFs.
 
@@ -292,7 +291,7 @@ route-map only-self-out deny 99
 
 > Listing 2: FRR configuration of a tenant server.
 
-The frr configuration in Listing 2 starts with `frr defaults datacenter`. This is a marker that enables compile-time provided settings that e.g. set specific values for BGP session timers. This is followed by a directive to state that instead of several configuration files for different purposes a single _frr.conf_ file is used: `service integrated-vtysh-config`. The two interface specific blocks starting with `interface ...` enable the RA mechanism that is required for BGP unnumbered peer discovery. There is a global BGP instance configuration `router bgp 4200000001` that sets the private ASN. The BGP router configuration contains a setup that identifies the BGP speaker `bgp router-id 10.0.0.1`. This router id should be unique. It is a good practice to assign the local loopback IPv4 as router-id. To apply the same configuration to several interfaces a peer group named `TOR` is defined via `neighbor TOR peer-group`. `remote-as external` activates external BGP for this peer group. To have a fast convergence, limits of default timers are reduced by `timer 1 3` section. The two BGP-peer-facing interfaces are enslaved into the peer-group to inherit the peer-group's setup. Activation of IPv4 unicast protocol is completed with `address-family ipv4 unicast`. To prevent a tenant server from announcing other paths than `lo` interface a route-map `only-self-out` is defined. This route map is activated within the ipv4 address family: `neighbor TOR route-map only-self-out out`.
+The frr configuration in Listing 2 starts with `frr defaults datacenter`. This is a marker that enables compile-time provided settings that e.g. set specific values for BGP session timers. This is followed by a directive to state that instead of several configuration files for different purposes a single *frr.conf* file is used: `service integrated-vtysh-config`. The two interface specific blocks starting with `interface ...` enable the RA mechanism that is required for BGP unnumbered peer discovery. There is a global BGP instance configuration `router bgp 4200000001` that sets the private ASN. The BGP router configuration contains a setup that identifies the BGP speaker `bgp router-id 10.0.0.1`. This router id should be unique. It is a good practice to assign the local loopback IPv4 as router-id. To apply the same configuration to several interfaces a peer group named `TOR` is defined via `neighbor TOR peer-group`. `remote-as external` activates external BGP for this peer group. To have a fast convergence, limits of default timers are reduced by `timer 1 3` section. The two BGP-peer-facing interfaces are enslaved into the peer-group to inherit the peer-group's setup. Activation of IPv4 unicast protocol is completed with `address-family ipv4 unicast`. To prevent a tenant server from announcing other paths than `lo` interface a route-map `only-self-out` is defined. This route map is activated within the ipv4 address family: `neighbor TOR route-map only-self-out out`.
 
 Application of the route map `only-self-out` enables to announce only local ip(s). This is to avoid that a tenant server announces paths to other servers (prevents unwanted traffic). To achieve this:
 
@@ -399,7 +398,7 @@ A bridge is used to attach VXLAN interface `bridge-ports vni3981` and map its lo
 
 The Routed VLAN Interface or Switched Virtual Interface (SVI) `iface vlan1001` is configured corresponding to the per-tenant VXLAN interface. It is attached to the tenant VRF. Remote host routes are installed over this SVI. The `vlan-raw-device bridge` is used to associate the SVI with the VLAN aware bridge. For a packet received from a locally attached host the SVI interface corresponding to the VLAN determines the VRF `vrf vrf3981`.
 
-The VXLAN interface `iface vni3981` defines a tunnel address that is used for the VXLAN tunnel header `vlxan-local-tunnelip 10.0.0.11`. This VTEP IP address is typically the loopback device address of the switch. When EVPN is provisioned, data plane MAC learning for VXLAN interfaces must be disabled because the purpose of EVPN is to exchange MACs between VTEPs in the control plane: `bridge-learning off`. EVPN is responsible for installing remote MACs. `bridge-arp-nd-suppress` suppresses ARP flooding over VXLAN tunnels. Instead, a local proxy handles ARP requests received from locally attached hosts for remote hosts. ARP suppression is the implementation for IPv4; ND suppression is the implementation for IPv6. It is recommended to enable ARP suppression on all VXLAN interfaces. Bridge Protocol Data Unit (BPDU) are not transmitted over VXLAN interfaces. So as a good practice bpduguard and pbdufilter are enabled with `mstpctl-bpduguard yes` and `mstpctl-portbpdufilter yes`. These settings filter BPDU and guard the spanning tree topology from unauthorized switches affecting the forwarding path. `vxlan-id 3981` specifies the VXLAN Network Identifier (VNI). The type of VNI can either be layer-2 (L2) or layer-3 (L3). This is an implicit thing. A VNI is a L3 VNI (L3VNI) when a mapping exists that maps the VNI to a VRF (configured in `/etc/frr/frr.conf`) otherwise it is a L2 VNI (L2VNI).
+The VXLAN interface `iface vni3981` defines a tunnel address that is used for the VXLAN tunnel header `vlxan-local-tunnelip 10.0.0.11`. This VTEP IP address is typically the loopback device address of the switch. When EVPN is provisioned, data plane MAC learning for VXLAN interfaces must be disabled because the purpose of EVPN is to exchange MACs between VTEPs in the control plane: `bridge-learning off`. EVPN is responsible for installing remote MACs. `bridge-arp-nd-suppress` suppresses ARP flooding over VXLAN tunnels.  Instead, a local proxy handles ARP requests received from locally attached hosts for remote hosts. ARP suppression is the implementation for IPv4; ND suppression is the implementation for IPv6. It is recommended to enable ARP suppression on all VXLAN interfaces. Bridge Protocol Data Unit (BPDU) are not transmitted over VXLAN interfaces. So as a good practice bpduguard and pbdufilter are enabled with `mstpctl-bpduguard yes` and `mstpctl-portbpdufilter yes`. These settings filter BPDU and guard the spanning tree topology from unauthorized switches affecting the forwarding path. `vxlan-id 3981` specifies the VXLAN Network Identifier (VNI). The type of VNI can either be layer-2 (L2) or layer-3 (L3). This is an implicit thing. A VNI is a L3 VNI (L3VNI) when a mapping exists that maps the VNI to a VRF (configured in `/etc/frr/frr.conf`) otherwise it is a L2 VNI (L2VNI).
 
 ```bash
 # /etc/frr/frr.conf
@@ -437,7 +436,7 @@ route-map LOOPBACKS permit 10
 
 > Listing 5: Leaf FRR configuration.
 
-Listing 5 shows the required FRR configuration of the BGP control plane. Only content not discussed so far is explained. The section `vrf vrf3981` contains the mapping from layer-3 VNI to VRF. This is required to be able to install EVPN IP prefix routes (type-5 routes) into the routing table. Further the file contains a global BGP instance `router bgp 4200000011` definition. A new setting `redistribute connected route-map LOOPBACKS` is in place to filter the redistribution of routes that are not matching the local loopback interface. The route-map is defined with `route-map LOOPBACKS permit 10`. With the configuration line `address-family l2vpn evpn`, the EVPN address family is enabled between BGP neighbours. `advertise-all-vni` makes the switch a VTEP configures it in such a way, that all locally configured VNIs should be advertised by the BGP control plane.
+Listing 5 shows the required FRR configuration of the BGP control plane. Only content not discussed so far is explained. The section `vrf vrf3981` contains the mapping from layer-3 VNI to VRF. This is required to be able to install EVPN IP prefix routes (type-5 routes) into the routing table. Further the file contains a global BGP instance `router bgp 4200000011` definition. A new setting `redistribute connected route-map LOOPBACKS` is in place to filter the redistribution of routes that are not matching the local loopback interface. The route-map is defined with `route-map LOOPBACKS permit 10`. With the configuration line  `address-family l2vpn evpn`, the EVPN address family is enabled between BGP neighbours. `advertise-all-vni` makes the switch a VTEP configures it in such a way, that all locally configured VNIs should be advertised by the BGP control plane.
 
 The second BGP instance configuration is specific to the tenant VRF `router bgp 4200000011 vrf vrf3981`. This VRF BGP instance configures the l2vpn evpn address family with `advertise ipv4 unicast` to announce IP prefixes in BGP's routing information base (RIB). This is required to apply learned routes to the routing tables of connected hosts. The Maximum-Prefix feature is useful to avoid that a router receives more routes than the router memory can take. The maximum number of prefixes a tenant server is allowed to announce is limited to `100` with: `neighbor MACHINE maximum-prefix 100`.
 
