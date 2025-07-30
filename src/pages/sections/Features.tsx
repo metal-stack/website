@@ -36,25 +36,23 @@ export default function Features() {
             <TabPanels className="mt-4">
               <TabPanel title="Maximum performance and reliability without a virtualization layer">
                 <div className="lg:columns-2 gap-10">
-                  <div className="space-y-4">
-                    <p>
-                      In combination with Kubernetes, the bare-metal approach
-                      fully eliminates the need for a hypervisor. As servers can
-                      be provisioned within minutes, hardware can be replaced
-                      quickly while Kubernetes automatically cares for your
-                      applications to run reliably all the time.
-                    </p>
-                    <p>
-                      Our bare-metal design offers physical tenant separation as
-                      well as resistency against malicious attacks like Spectre
-                      and Meltdown.
-                    </p>
-                    <p>
-                      The rack cabling is part of our solution, too. It is
-                      failure redundant and allows to easily scale up and extend
-                      your infrastructure with more racks as you grow.
-                    </p>
-                  </div>
+                  <p>
+                    In combination with Kubernetes, the bare-metal approach
+                    fully eliminates the need for a hypervisor. As servers can
+                    be provisioned within minutes, hardware can be replaced
+                    quickly while Kubernetes automatically cares for your
+                    applications to run reliably all the time.
+                  </p>
+                  <p>
+                    Our bare-metal design offers physical tenant separation as
+                    well as resistency against malicious attacks like Spectre
+                    and Meltdown.
+                  </p>
+                  <p>
+                    The rack cabling is part of our solution, too. It is failure
+                    redundant and allows to easily scale up and extend your
+                    infrastructure with more racks as you grow.
+                  </p>
                 </div>
                 <div className="mt-8 bg-black/5 dark:bg-neutral-800 p-4 rounded-lg">
                   <h5>Built for Kubernetes at heart</h5>
