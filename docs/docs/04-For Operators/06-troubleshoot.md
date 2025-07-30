@@ -1,21 +1,15 @@
 ---
-slug: /troubleshoot
-title: Troubleshoot
-sidebar_position: 4
+slug: /troubleshooting
+title: Troubleshooting
+sidebar_position: 6
 ---
-
-# Troubleshoot
+# Troubleshooting
 
 This document summarizes help when something goes wrong and provides advice on debugging the metal-stack in certain situations.
 
 Of course, it is also advisable to check out the issues on the Github projects for help.
 
 If you still can't find a solution to your problem, please reach out to us and our community. We have a public Slack Channel to discuss problems, but you can also reach us via mail. Check out [metal-stack.io](https://metal-stack.io) for contact information.
-
-```@contents
-Pages = ["troubleshoot.md"]
-Depth = 5
-```
 
 ## Deployment
 
@@ -50,9 +44,9 @@ metal-control-plane   nsqd-6cd87f69c4-vtn9k                        2/2     Runni
 
 If there are any failing pods, investigate those and look into container logs. This information should point you to the place where the deployment goes wrong.
 
-!!! info
-
-    Sometimes, you see a helm errors like "no deployed releases" or something like this. When a helm chart fails after the first deployment it could be that you have a chart installation still pending. Also, the control plane helm chart uses pre- and post-hooks, which creates [jobs](https://kubernetes.io/docs/concepts/workloads/controllers/job/) that helm expects to be completed before attempting another deployment. Delete the helm chart (use Helm 3) with `helm delete -n metal-control-plane metal-control-plane` and delete the jobs in the `metal-control-plane` namespace before retrying the deployment.
+:::info
+Sometimes, you see a helm errors like "no deployed releases" or something like this. When a helm chart fails after the first deployment it could be that you have a chart installation still pending. Also, the control plane helm chart uses pre- and post-hooks, which creates [jobs](https://kubernetes.io/docs/concepts/workloads/controllers/job/) that helm expects to be completed before attempting another deployment. Delete the helm chart (use Helm 3) with `helm delete -n metal-control-plane metal-control-plane` and delete the jobs in the `metal-control-plane` namespace before retrying the deployment.
+:::
 
 ### In the mini-lab the control-plane deployment fails because my system can't resolve api.172.17.0.1.nip.io
 
@@ -88,9 +82,9 @@ You need to add an exception for `nip.io` in your router configuration or add `1
 
 The `metalctl machine issues` command gives you an overview over machines in your metal-stack environment that are in an unusual state.
 
-!!! tip
-
-    Machines that are known not to function properly, should be locked through `metalctl machine lock` and annotated with a description of the problem. This way, you can mark machine for replacement without being in danger of having a user allocating the faulty machine.
+:::tip
+Machines that are known not to function properly, should be locked through `metalctl machine lock` and annotated with a description of the problem. This way, you can mark machine for replacement without being in danger of having a user allocating the faulty machine.
+:::
 
 In the following sections, you can look up the machine issues that are returned by `metalctl` and find out how to deal with them properly.
 
@@ -106,7 +100,7 @@ This issue is special in a way that it prevents other issues from being evaluate
 
 When a machine has no partition, the [metal-hammer](https://github.com/metal-stack/metal-hammer) has not yet registered the machine at the [metal-api](https://github.com/metal-stack/metal-api). Instead, the machine was created through metal-stack's event machinery, which does not have a lot of information about a machine (e.g. a PXE boot event was reported from the pixiecore), or just by the [metal-bmc](https://github.com/metal-stack/metal-bmc) which discovered the machine through DHCP.
 
-This can usually happen on the very first boot of a machine and the machine's [hardware is not supported](/docs/hardware) by metal-stack, leading to the [metal-bmc](https://github.com/metal-stack/metal-bmc) being unable to report BMC details to the metal-api (a metal-bmc report sets the partition id of a machine) and the metal-hammer not finishing the machine registration phase.
+This can usually happen on the very first boot of a machine and the machine's [hardware is not supported](hardware.md) by metal-stack, leading to the [metal-bmc](https://github.com/metal-stack/metal-bmc) being unable to report BMC details to the metal-api (a metal-bmc report sets the partition id of a machine) and the metal-hammer not finishing the machine registration phase.
 
 To resolve this issue, you need to identify the machine in your metal-stack partition that emits PXE boot events and find the reason why it is not properly booting into the metal-hammer. The console logs of this machine should enable you to find out the root cause.
 
@@ -126,11 +120,11 @@ Reasons for this can be:
   - The machine takes longer than 5 minutes for the reboot
   - The machine is performing a firmware upgrade, which usually takes longer than 5 minutes to succeed
 
-!!! info
+:::info
+In order to minimize maintenance overhead, a machine which is dead for longer than an hour will be rebooted through the metal-api.
 
-    In order to minimize maintenance overhead, a machine which is dead for longer than an hour will be rebooted through the metal-api.
-
-    In case you want to prevent this action from happening for a machine, you can lock the machine through `metalctl machine lock`.
+In case you want to prevent this action from happening for a machine, you can lock the machine through `metalctl machine lock`.
+:::
 
 If the machine is dead for a long time and you are sure that it will never come back, you can clean up the machine through `metalctl machine rm --remove-from-database`.
 
@@ -162,7 +156,7 @@ Under bad circumstances, a machine diverges from its typical machine lifecycle. 
 
 Reasons for this can be:
 
-- The machine's [hardware is not supported](/docs/hardware) and the metal-hammer crashes during the machine discovery
+- The machine's [hardware is not supported](hardware.md) and the metal-hammer crashes during the machine discovery
 - The machine registration fails through the metal-hammer because an orphaned / dead machine is still present in the metal-api's data base. The machine is connected to the same switch ports that were used by the orphaned machine. In this case, you should clean up the orphaned machine through `metalctl machine rm --remove-from-database`.
 
 Please also consider console logs of the machine for investigating the issue.
@@ -185,13 +179,13 @@ To resolve the issue, you need to recreate the firewalls that use the same ASN.
 
 The [metal-bmc](https://github.com/metal-stack/metal-bmc) is responsible to report connection data for the machine's [BMC](https://en.wikipedia.org/wiki/Intelligent_Platform_Management_Interface#Baseboard_management_controller).
 
-If it's uncapable of discovering this information, your [hardware might not be supported](/docs/hardware). Please investigate the logs of the metal-bmc to find out what's going wrong with this machine.
+If it's uncapable of discovering this information, your [hardware might not be supported](hardware.md). Please investigate the logs of the metal-bmc to find out what's going wrong with this machine.
 
 #### bmc-without-ip
 
 The [metal-bmc](https://github.com/metal-stack/metal-bmc) is responsible to report connection data for the machine's [BMC](https://en.wikipedia.org/wiki/Intelligent_Platform_Management_Interface#Baseboard_management_controller).
 
-If it's uncapable of discovering this information, your [hardware might not be supported](/docs/hardware). Please investigate the logs of the metal-bmc to find out what's going wrong with this machine.
+If it's uncapable of discovering this information, your [hardware might not be supported](hardware.md). Please investigate the logs of the metal-bmc to find out what's going wrong with this machine.
 
 #### bmc-no-distinct-ip
 

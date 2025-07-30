@@ -58,25 +58,25 @@ Some notes on this picture:
 
 A _partition_ is our term for describing hardware in the data center controlled by the metal-stack with all the hardware participating in the same network topology. Being in the same network topology causes the hardware inside a partition to build a failure domain. Even though the network topology for running the metal-stack is required to be redundant by design, you should consider setting up multiple partitions. With multiple partitions it is possible for users to maintain availability of their applications by spreading them across the partitions. Installing partitions in multiple data centers would be even better in regards of fail-safe application performance, which would even tolerate the meltdown of a data center.
 
-!!! tip
+:::tip
+In our setups, we encode the name of a region and a zone name into our partition names. However, we do not have dedicated entities for regions and zones in our APIs.
 
-    In our setups, we encode the name of a region and a zone name into our partition names. However, we do not have dedicated entities for regions and zones in our APIs.
+A **region** is a geographic area in which data centers are located.
 
-    A **region** is a geographic area in which data centers are located.
+**Zones** are geographic locations in a region usually in different fire compartments. Regions can consist of several zones.
 
-    **Zones** are geographic locations in a region usually in different fire compartments. Regions can consist of several zones.
-
-    A zone can consist of several **partitions**. Usually, a partition spans a rack or a group of racks.
+A zone can consist of several **partitions**. Usually, a partition spans a rack or a group of racks.
+:::
 
 We strongly advise to group your hardware into racks that are specifically assembled for running metal-stack. When using modular rack design, the amount of compute resources of a partition can easily be extended by adding more racks to your partition.
 
-!!! info
+:::info
+The hardware that we currently support to be placed inside a partition is described in the [hardware](hardware.md) document.
+:::
 
-    The hardware that we currently support to be placed inside a partition is described in the [hardware](hardware.md) document.
-
-!!! info
-
-    How large you can grow your partitions and how the network topology inside a partition looks like is described in the [networking](networking.md) document.
+:::info
+How large you can grow your partitions and how the network topology inside a partition looks like is described in the [networking](networking.md) document.
+:::
 
 The metal-stack has microservices running on the leaf switches in a partition. For this reason, your leaf switches are required to run a Linux distribution that you have full access to. Additionally, there are a servers not added to the pool of user-allocatable machines, which are instead required for running metal-stack and we call them _management servers_. We also call the entirety of switches inside a partition the _switch plane_.
 

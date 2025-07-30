@@ -4,7 +4,7 @@ const axios = require("axios");
 
 import YAML from 'yaml'
 
-const outputBase = path.resolve(__dirname, "../docs/docs/07-References");
+const outputBase = path.resolve(__dirname, "../docs/docs/08-References");
 
 const releaseVectorPath = "https://raw.githubusercontent.com/metal-stack/releases/refs/heads/master/release.yaml"
 

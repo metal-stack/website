@@ -1,7 +1,7 @@
 ---
 slug: /operating-systems
 title: Operating Systems
-sidebar_position: 4
+sidebar_position: 2
 ---
 
 # Operating Systems
@@ -31,7 +31,7 @@ The supported images for firewalls are:
 
 It is fully possible to build your own operating system images and provide them through the metal-stack.
 
-There are some conventions though that you need to follow in order to make your image installable through the metal-hammer. You should understand the [machine provisioning sequence](architecture.md#Machine-Provisioning-Sequence-1) before starting to write your own images.
+There are some conventions though that you need to follow in order to make your image installable through the metal-hammer. You should understand the [machine provisioning sequence](../concepts/architecture.md#Machine-Provisioning-Sequence-1) before starting to write your own images.
 
 1. Images need to be compressed to a tarball using the [lz4](https://de.wikipedia.org/wiki/LZ4) compression algorithm
 1. An `md5` checksum file with the same name as the image archive needs to be provided in the download path along with the actual os image
@@ -47,6 +47,6 @@ There are some conventions though that you need to follow in order to make your 
 1. For the time being, your image must be able to support [kexec](https://en.wikipedia.org/wiki/Kexec) into the new operating system kernel, the `kexec` command is issued by the metal-hammer after running the `install.sh`. We do this because `kexec` is _much_ faster than rebooting a machine.
 1. We recommend building images from Dockerfiles as it is done in [metal-images](https://github.com/metal-stack/metal-images) repository.
 
-!!! info
-
-    Building own operating system images is an advanced topic. When you have just started with metal-stack, we recommend using the public operating system images first.
+:::info
+Building own operating system images is an advanced topic. When you have just started with metal-stack, we recommend using the public operating system images first.
+:::

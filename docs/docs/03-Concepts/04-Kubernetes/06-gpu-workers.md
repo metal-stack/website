@@ -1,10 +1,9 @@
 ---
-slug: /gpu-support
-title: GPU Support
-sidebar_position: 7
+title: GPU Workers
+sidebar_position: 6
 ---
 
-# GPU Support
+# GPU Workers
 
 For workloads which require the assistance of GPUs, support for GPUs in bare metal servers was added to metal-stack.io v0.18.0.
 
@@ -50,9 +49,10 @@ Capacity:
 
 With this basic installation, the worker node is ready to process GPU workloads.
 
-!!! warning
+:::warning
 However, there is a caveat - only one 'Pod' can access the GPU. If this is all you need, no additional configuration is required.
 On the other hand, if you are planning to deploy multiple applications that require GPU support, and there are not that many GPUs available, you will need to configure the `gpu-operator` to allow the GPU to be shared between multiple `Pods`.
+:::
 
 There are several approaches to sharing GPUs, please consult the official Nvidia documentation for further reference.
 

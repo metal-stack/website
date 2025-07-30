@@ -1,7 +1,6 @@
 ---
-slug: /isolated-kubernetes
-title: Isolated Kubernetes
-sidebar_position: 6
+title: Isolated Clusters
+sidebar_position: 5
 ---
 
 # Isolated Kubernetes Clusters
@@ -26,7 +25,7 @@ In order to be able to restrict ingress and egress internet traffic, but still m
 - DNS and NTP configuration is also adopted to use the DNS and NTP servers on this private environment.
 - A list of networks which are allowed to reach is managed, this list reflects the networks of the cloud provider and is not modifiable by the cluster user. This list usually contains the internet prefixes of the provider and one or more RFC address ranges.
 
-![Network Design](./assets/isolated-kubernetes.drawio.svg)
+![Network Design](isolated-kubernetes.drawio.svg)
 
 Users are advised to attach an additional network to the Kubernetes cluster in order to be able to pull container images for the application workloads from private registries.
 
@@ -61,7 +60,7 @@ The set of deployed CWNPs differs between `baseline` and `forbidden`/`restricted
 `baseline` CWNPs:
 
 | Rule Name          | Destination                                          | Purpose                                                                                      |
-| :----------------- | :--------------------------------------------------- | :------------------------------------------------------------------------------------------- |
+|:-------------------|:-----------------------------------------------------|:---------------------------------------------------------------------------------------------|
 | allow-to-http      | 0.0.0.0/0                                            | egress via http                                                                              |
 | allow-to-https     | 0.0.0.0/0                                            | egress via https                                                                             |
 | allow-to-apiserver | IP of the Kubernetes API Server on the control plane | API Server communication of kubelet and other controllers                                    |
@@ -73,7 +72,7 @@ The set of deployed CWNPs differs between `baseline` and `forbidden`/`restricted
 `forbidden` and `restricted` CWNPs:
 
 | Rule Name          | Destination                                          | Purpose                                                                                      |
-| :----------------- | :--------------------------------------------------- | :------------------------------------------------------------------------------------------- |
+|:-------------------|:-----------------------------------------------------|:---------------------------------------------------------------------------------------------|
 | allow-to-apiserver | IP of the Kubernetes API Server on the control plane | API Server communication of kubelet and other controllers                                    |
 | allow-to-dns       | IP of the private DNS Server                         | DNS resolution from the Kubernetes worker nodes and containers                               |
 | allow-to-ntp       | IP of the private NTP Server                         | Time synchronization                                                                         |
@@ -261,33 +260,33 @@ type RegistryMirror struct {
 A sample configuration in the CloudProfile would look like:
 
 ```yaml
-network-isolation:
-  allowedNetworks:
-    egress:
+  network-isolation:
+    allowedNetworks:
+      egress:
       - 1.2.3.0/24 # Internet CIDR of the Provider
       - 100.64.0.0/10
       - 10.0.0.0/8
-    ingress:
+      ingress:
       - 100.64.0.0/10
-  dnsServers:
-    - "1.2.3.1"
-    - "1.2.3.2"
-    - "1.2.3.3"
-  ntpServers:
-    - "1.2.3.1"
-    - "1.2.3.2"
-    - "1.2.3.3"
-  registryMirrors:
-    - name: test registry
-      endpoint: https://some.private.registry
-      ip: "1.2.3.4"
-      port: 443
-      mirrorOf:
-        - "docker.io"
-        - "quay.io"
-        - "eu.gcr.io"
-        - "ghcr.io"
-        - "registry.k8s.io"
+    dnsServers:
+      - "1.2.3.1"
+      - "1.2.3.2"
+      - "1.2.3.3"
+    ntpServers:
+      - "1.2.3.1"
+      - "1.2.3.2"
+      - "1.2.3.3"
+    registryMirrors:
+      - name: test registry
+        endpoint: https://some.private.registry
+        ip: "1.2.3.4"
+        port: 443
+        mirrorOf:
+            - "docker.io"
+            - "quay.io"
+            - "eu.gcr.io"
+            - "ghcr.io"
+            - "registry.k8s.io"
 ```
 
 The GEPM generates machine classes for the MCM that contain the NTP and DNS configuration for the machine. The machine-controller-manager-provider-metal implements machine creation containing these properties through the metal-api.

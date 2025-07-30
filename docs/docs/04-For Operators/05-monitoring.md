@@ -1,14 +1,14 @@
 ---
 slug: /monitoring
 title: Monitoring
-sidebar_position: 3
+sidebar_position: 5
 ---
 
 # Monitoring the metal-stack
 
 ## Overview
 
-![Monitoring Stack](./assets/monitoring-stack.svg)
+![Monitoring Stack](monitoring-stack.svg)
 
 ## Logging
 

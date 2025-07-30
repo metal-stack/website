@@ -1,12 +1,12 @@
 ---
-slug: /deployment
-title: Deployment
-sidebar_position: 1
+slug: /deployment-guide
+title: Deployment Guide
+sidebar_position: 3
 ---
 
-# Deploying metal-stack
+# Deployment Guide
 
-We are bootstrapping the [metal control plane](../overview/architecture.md#Metal-Control-Plane-1) as well as our [partitions](../overview/architecture.md#Partitions-1) with [Ansible](https://www.ansible.com/) through CI.
+We are bootstrapping the [metal control plane](../concepts/architecture.md#Metal-Control-Plane-1) as well as our [partitions](../concepts/architecture.md#Partitions-1) with [Ansible](https://www.ansible.com/) through CI.
 
 In order to build up your deployment, we recommend to make use of the same Ansible roles that we are using by ourselves in order to deploy the metal-stack. You can find them in the repository called [metal-roles](https://github.com/metal-stack/metal-roles).
 
@@ -14,25 +14,25 @@ In order to wrap up deployment dependencies there is a special [deployment base 
 
 This document will from now on assume that you want to use our Ansible deployment roles for setting up metal-stack. We will also use the deployment base image, so you should also have [Docker](https://docs.docker.com/get-started/get-docker/) installed. It is in the nature of software deployments to differ from site to site, company to company, user to user. Therefore, we can only describe you the way of how the deployment works for us. It is up to you to tweak the deployment described in this document to your requirements.
 
-!!! warning
+:::warning
+Probably you need to learn writing Ansible playbooks if you want to be able to deploy the metal-stack as presented in this documentation. However, even when starting without any knowledge about Ansible it should be possible to follow these docs. In case you need further explanations regarding Ansible please refer to [docs.ansible.com](https://docs.ansible.com/).
+:::
 
-    Probably you need to learn writing Ansible playbooks if you want to be able to deploy the metal-stack as presented in this documentation. However, even when starting without any knowledge about Ansible it should be possible to follow these docs. In case you need further explanations regarding Ansible please refer to [docs.ansible.com](https://docs.ansible.com/).
+:::info
+If you do not want to use Ansible for deployment, you need to come up with a deployment mechanism by yourself. However, you will probably be able to re-use some of our contents from our [metal-roles](https://github.com/metal-stack/metal-roles) repository, e.g. the Helm chart for deploying the metal control plane.
+:::
 
-!!! info
-
-    If you do not want to use Ansible for deployment, you need to come up with a deployment mechanism by yourself. However, you will probably be able to re-use some of our contents from our [metal-roles](https://github.com/metal-stack/metal-roles) repository, e.g. the Helm chart for deploying the metal control plane.
-
-!!! tip
-
-    You can use the [mini-lab](https://github.com/metal-stack/mini-lab) as a template project for your own deployment. It uses the same approach as described in this document.
+:::tip
+You can use the [mini-lab](https://github.com/metal-stack/mini-lab) as a template project for your own deployment. It uses the same approach as described in this document.
+:::
 
 ## Metal Control Plane Deployment
 
 The metal control plane is typically deployed in a Kubernetes cluster. Therefore, this document will assume that you have a Kubernetes cluster ready for getting deployed. Even though it is theoretically possible to deploy metal-stack without Kubernetes, we strongly advise you to use the described method because we believe that Kubernetes gives you a lot of benefits regarding the stability and maintainability of the application deployment.
 
-!!! tip
-
-    For metal-stack it does not matter where your control plane Kubernetes cluster is located. You can of course use a cluster managed by a hyperscaler. This has the advantage of not having to setup Kubernetes by yourself and could even become beneficial in terms of fail-safe operation. However, we also describe a solution of how to setup metal-stack with a self-hosted, [Autonomous Control Plane](./autonomous-control-plane.md) cluster. The only requirement from metal-stack is that your partitions can establish network connections to the metal control plane. If you are interested, you can find a reasoning behind this deployment decision [here](../overview/architecture.md#Target-Deployment-Platforms).
+:::tip
+For metal-stack it does not matter where your control plane Kubernetes cluster is located. You can of course use a cluster managed by a hyperscaler. This has the advantage of not having to setup Kubernetes by yourself and could even become beneficial in terms of fail-safe operation. However, we also describe a solution of how to setup metal-stack with a self-hosted, [Autonomous Control Plane](../developers/proposals/MEP18/README.md) cluster. The only requirement from metal-stack is that your partitions can establish network connections to the metal control plane. If you are interested, you can find a reasoning behind this deployment decision [here](../concepts/architecture.md#Target-Deployment-Platforms).
+:::
 
 Let's start off with a fresh folder for your deployment:
 
@@ -218,9 +218,9 @@ This is how your `roles/ingress-controller/tasks/main.yaml` could look like:
     helm_target_namespace: ingress-nginx
 ```
 
-!!! tip
-
-    The [ansible-common](https://github.com/metal-stack/ansible-common) repository contains very general roles and modules that you can also use when extending your deployment further.
+:::tip
+The [ansible-common](https://github.com/metal-stack/ansible-common) repository contains very general roles and modules that you can also use when extending your deployment further.
+:::
 
 ### Deployment Parametrization
 
@@ -235,7 +235,7 @@ metal_control_plane_ingress_dns: <your-dns-domain> # if you do not have a DNS en
 
 We have several components in our stack that communicate over encrypted gRPC just like Kubernetes components do.
 
-For the very basic setup you will need to create self-signed certificates for the communication between the following components (see [architecture](../overview/architecture.md) document):
+For the very basic setup you will need to create self-signed certificates for the communication between the following components (see [architecture](../concepts/architecture.md) document):
 
 - [metal-api](https://github.com/metal-stack/metal-api) and [masterdata-api](https://github.com/metal-stack/masterdata-api) (in-cluster traffic communication)
 - [metal-api](https://github.com/metal-stack/metal-api) and [metal-hammer](https://github.com/metal-stack/metal-hammer) (partition to control plane communication)
@@ -442,9 +442,9 @@ metal_api_grpc_certs_client_cert: "{{  lookup('file', 'certs/metal-api-grpc/clie
 metal_api_grpc_certs_ca_cert: "{{ lookup('file', 'certs/ca.pem') }}"
 ```
 
-!!! tip
-
-    For the actual communication between the metal-api and the user clients (REST API, runs over the ingress-controller you deployed before), you can simply deploy a tool like [cert-manager](https://github.com/cert-manager/cert-manager) into your Kubernetes cluster, which will automatically provide your ingress domains with Let's Encrypt certificates.
+:::tip
+For the actual communication between the metal-api and the user clients (REST API, runs over the ingress-controller you deployed before), you can simply deploy a tool like [cert-manager](https://github.com/cert-manager/cert-manager) into your Kubernetes cluster, which will automatically provide your ingress domains with Let's Encrypt certificates.
+:::
 
 ### Running the Deployment
 
@@ -464,7 +464,7 @@ docker run --rm -it \
   -e KUBECONFIG="${KUBECONFIG}" \
   -e K8S_AUTH_KUBECONFIG="${KUBECONFIG}" \
   -e ANSIBLE_INVENTORY=inventories/control-plane.yaml \
-  metalstack/metal-deployment-base:%s \
+  ghcr.io/metal-stack/metal-deployment-base:%s \
   /bin/bash -ce \
     "ansible-playbook obtain_role_requirements.yaml
      ansible-galaxy install -r requirements.yaml
@@ -475,9 +475,9 @@ docker run --rm -it \
 markdownTemplate(t, base_image)
 ````
 
-!!! tip
-
-    If you are having issues regarding the deployment take a look at the [troubleshoot document](troubleshoot.md). Please give feedback such that we can make the deployment of the metal-stack easier for you and for others!
+:::tip
+If you are having issues regarding the deployment take a look at the [troubleshoot document](troubleshoot.md). Please give feedback such that we can make the deployment of the metal-stack easier for you and for others!
+:::
 
 ### Providing Images
 
@@ -501,9 +501,9 @@ metal_api_images:
 
 Then, re-run the deployment to apply your changes. Our playbooks are idempotent.
 
-!!! info
-
-    Image versions should be regularly checked for updates.
+:::info
+Image versions should be regularly checked for updates.
+:::
 
 ### Setting up metalctl
 
@@ -551,34 +551,26 @@ metal-stack currently supports two authentication methods:
 - user authentication through [OpenID Connect](https://openid.net/developers/how-connect-works/) (OIDC)
 - [HMAC](https://en.wikipedia.org/wiki/HMAC) auth, typically used for access by technical users (because we do not have service account tokens at the time being)
 
-In the metal-api, we have three different user roles for authorization:
-
-- Admin
-- Edit
-- View
-
-How the user permissions are used is documented in the [technical API docs](../apidocs/apidocs.md).
-
 If you decided to use OIDC, you can parametrize the [metal role](https://github.com/metal-stack/metal-roles/tree/master/control-plane/roles/metal) for this by defining the variable `metal_masterdata_api_tenants` with the following configuration:
 
 ```yaml
 ---
 metal_masterdata_api_tenants:
-  - meta:
-      id: <id>
-      kind: Tenant
-      apiversion: v1
-      version: 0
-    name: <name>
-    iam_config:
-      issuer_config:
+- meta:
+    id: <id>
+    kind: Tenant
+    apiversion: v1
+    version: 0
+  name: <name>
+  iam_config:
+    issuer_config:
         client_id: <client_id>
         url: <oidc_url>
-      idm_config:
-        idm_type: <type> # "AD" | "UX"
-      group_config:
-        namespace_max_length: 20
-    description: <description>
+    idm_config:
+      idm_type: <type> # "AD" | "UX"
+    group_config:
+      namespace_max_length: 20
+  description: <description>
 ```
 
 ## Bootstrapping a Partition
@@ -605,7 +597,7 @@ In order to accomplish this task remotely and in a nearly automatic manner, you 
 
 This document assumes that all cabling is done. Here is a quick overview of the architecture:
 
-![Out-of-Band-Network](./assets/mgmt_net_layer3.png)
+![Out-of-Band-Network](mgmt_net_layer3.png)
 
 ### Management Firewalls
 
@@ -636,9 +628,9 @@ After the CI runner has been installed, you can trigger your Playbooks from the 
 
 ### Management Spines
 
-!!! tip
-
-    If you are using SONiC switches, you should make use of Zero Touch Provisioning and Onie Boot
+:::tip
+If you are using SONiC switches, you should make use of Zero Touch Provisioning and Onie Boot
+:::
 
 The purpose of these switches is to connect the management interfaces of all switches to the management servers. The management spine's own management interface is connected to the management firewall for the bootstrapping of the management spine itself. The management firewall will provide a DHCP address and DHCP options to start SONiC's [Zero Touch Provisioning](https://github.com/sonic-net/SONiC/blob/master/doc/ztp/ztp.md); the images for all switches are downloaded from the management server (nginx container).
 Each management leaf is connected to both management spines to provide redundant connectivity to both management servers. BGP is used as a routing protocol such that, when a link goes down, an alternate path is used.
@@ -658,9 +650,9 @@ If you want to deploy metal-stack as a cloud provider for [Gardener](https://gar
 
 You can find installation instructions for Gardener on the Gardener website beneath [docs](https://gardener.cloud/docs/). metal-stack is an out-of-tree provider and therefore you will not find example files for metal-stack resources in the Gardener repositories. The following list describes the resources and components that you need to deploy into the Gardener cluster in order to make Gardener work with metal-stack:
 
-!!! warning
-
-    The following list assumes you have Gardener installed in a Kubernetes cluster and that you have a basic understanding of how Gardener works. If you need further help with the following steps, you can also come and ask in our Slack channel.
+:::warning
+The following list assumes you have Gardener installed in a Kubernetes cluster and that you have a basic understanding of how Gardener works. If you need further help with the following steps, you can also come and ask in our Slack channel.
+:::
 
 1. Deploy the [validator](https://github.com/metal-stack/gardener-extension-provider-metal/tree/v0.9.1/charts/validator-metal) from the [gardener-extension-provider-metal](https://github.com/metal-stack/gardener-extension-provider-metal) repository to your cluster via Helm
 1. Add a [cloud profile](https://github.com/gardener/gardener/blob/v1.3.3/example/30-cloudprofile.yaml) called `metal` containing all your machine images, machine types and regions (region names can be chosen freely, the zone names need to match your partition names) together with our metal-stack-specific provider config as defined [here](https://github.com/metal-stack/gardener-extension-provider-metal/blob/v0.9.1/pkg/apis/metal/v1alpha1/types_cloudprofile.go)
@@ -691,6 +683,6 @@ You can find installation instructions for Gardener on the Gardener website bene
 1. For your seed cluster you will need to provide the provider secret for metal-stack containing the key `metalAPIHMac`, which is the API HMAC to grant editor access to the metal-api
 1. Checkout our current provider configuration for [infrastructure](https://github.com/metal-stack/gardener-extension-provider-metal/blob/master/pkg/apis/metal/v1alpha1/types_infrastructure.go) and [control-plane](https://github.com/metal-stack/gardener-extension-provider-metal/blob/master/pkg/apis/metal/v1alpha1/types_controlplane.go) before deploying your shoot
 
-!!! tip
-
-    We are officially supported by [Gardener dashboard](https://github.com/gardener/dashboard). The dashboard can also help you setting up some of the resources mentioned above.
+:::tip
+We are officially supported by [Gardener dashboard](https://github.com/gardener/dashboard). The dashboard can also help you setting up some of the resources mentioned above.
+:::
