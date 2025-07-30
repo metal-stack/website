@@ -1,0 +1,26 @@
+/* space-grotesk-regular - latin */
+@font-face {
+    font-display: swap;
+    font-family: 'Space Grotesk';
+    font-style: normal;
+    font-weight: 400;
+    src: url('./space-grotesk-v13-latin-regular.eot'); /* IE9 Compat Modes */
+    src: local(''), url('./space-grotesk-v13-latin-regular.eot?#iefix') format('embedded-opentype'),
+        /* IE6-IE8 */ url('./space-grotesk-v13-latin-regular.woff2') format('woff2'),
+        /* Super Modern Browsers */ url('./space-grotesk-v13-latin-regular.woff') format('woff'),
+        /* Modern Browsers */ url('./space-grotesk-v13-latin-regular.ttf') format('truetype'),
+        /* Safari, Android, iOS */ url('./space-grotesk-v13-latin-regular.svg#SpaceGrotesk') format('svg'); /* Legacy iOS */
+}
+/* space-grotesk-700 - latin */
+@font-face {
+    font-display: swap;
+    font-family: 'Space Grotesk';
+    font-style: normal;
+    font-weight: 700;
+    src: url('./space-grotesk-v13-latin-700.eot'); /* IE9 Compat Modes */
+    src: local(''), url('./space-grotesk-v13-latin-700.eot?#iefix') format('embedded-opentype'),
+        /* IE6-IE8 */ url('./space-grotesk-v13-latin-700.woff2') format('woff2'),
+        /* Super Modern Browsers */ url('./space-grotesk-v13-latin-700.woff') format('woff'),
+        /* Modern Browsers */ url('./space-grotesk-v13-latin-700.ttf') format('truetype'),
+        /* Safari, Android, iOS */ url('./space-grotesk-v13-latin-700.svg#SpaceGrotesk') format('svg'); /* Legacy iOS */
+}
