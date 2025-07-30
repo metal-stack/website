@@ -1,8 +1,8 @@
 import { Catalog, LogoSlack } from "@carbon/icons-react";
-import { Button } from "../components/Button";
-import Container from "../components/Container";
-import Row from "../components/Row";
-import Section from "../components/Section";
+import { Button } from "../../components/Button";
+import Container from "../../components/Container";
+import Row from "../../components/Row";
+import Section from "../../components/Section";
 
 export default function GetStarted() {
   return (

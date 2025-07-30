@@ -7,11 +7,11 @@ import {
   NetworkPublic,
   Network_4,
 } from "@carbon/icons-react";
-import Section from "../components/Section";
-import SectionIntro from "../components/SectionIntro";
-import Usp from "../components/Usp";
-import Container from "../components/Container";
-import Row from "../components/Row";
+import Section from "../../components/Section";
+import SectionIntro from "../../components/SectionIntro";
+import Usp from "../../components/Usp";
+import Container from "../../components/Container";
+import Row from "../../components/Row";
 
 export default function Benefits() {
   return (

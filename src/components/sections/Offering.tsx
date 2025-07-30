@@ -1,9 +1,9 @@
 import { ArrowRight, Link } from "@carbon/icons-react";
-import Container from "../components/Container";
-import Row from "../components/Row";
-import Section from "../components/Section";
-import SectionIntro from "../components/SectionIntro";
-import { Button } from "../components/Button";
+import Container from "../../components/Container";
+import Row from "../../components/Row";
+import Section from "../../components/Section";
+import SectionIntro from "../../components/SectionIntro";
+import { Button } from "../../components/Button";
 import { useColorMode } from "@docusaurus/theme-common";
 
 let cloudFeatures = [

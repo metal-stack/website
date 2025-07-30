@@ -1,7 +1,7 @@
-import Container from "../components/Container";
-import Row from "../components/Row";
-import Section from "../components/Section";
-import SectionIntro from "../components/SectionIntro";
+import Container from "../../components/Container";
+import Row from "../../components/Row";
+import Section from "../../components/Section";
+import SectionIntro from "../../components/SectionIntro";
 
 const partners = [
   {

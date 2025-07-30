@@ -1,11 +1,11 @@
 import { TabGroup, TabList, TabPanels } from "@headlessui/react";
-import Container from "../components/Container";
-import Row from "../components/Row";
-import Section from "../components/Section";
-import SectionIntro from "../components/SectionIntro";
-import Tab from "../components/Tab";
+import Container from "../../components/Container";
+import Row from "../../components/Row";
+import Section from "../../components/Section";
+import SectionIntro from "../../components/SectionIntro";
+import Tab from "../../components/Tab";
 import { useState } from "react";
-import TabPanel from "../components/TabPanel";
+import TabPanel from "../../components/TabPanel";
 
 export default function Features() {
   const [selectedIndex, setSelectedIndex] = useState(0);
