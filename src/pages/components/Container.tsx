@@ -13,8 +13,8 @@ export default function Container(props: Props) {
     <div
       className={twMerge(
         props.wide
-          ? "max-w-screen-2xl min-[1552px]:px-0 px-8 sm:px-12"
-          : "max-w-screen-lg  min-[1040px]:px-0 px-8 sm:px-6",
+          ? "max-w-screen-2xl min-[1552px]:px-0 px-8"
+          : "max-w-screen-lg  min-[1040px]:px-0 px-8",
         "w-full mx-auto",
         props.noPadding ? "!px-0 sm:!px-0" : ""
       )}
