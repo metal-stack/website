@@ -1,6 +1,6 @@
-import Container from "../components/Container";
-import Row from "../components/Row";
-import Terminal from "../components/Terminal";
+import Container from "../../components/Container";
+import Row from "../../components/Row";
+import Terminal from "../../components/Terminal";
 
 export default function Header() {
   return (

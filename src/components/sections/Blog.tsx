@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import Container from "../components/Container";
-import Row from "../components/Row";
-import Section from "../components/Section";
-import SectionIntro from "../components/SectionIntro";
-import ArticleTeaser from "../components/ArticleTeaser";
+import Container from "../../components/Container";
+import Row from "../../components/Row";
+import Section from "../../components/Section";
+import SectionIntro from "../../components/SectionIntro";
+import ArticleTeaser from "../../components/ArticleTeaser";
 
 export default function Blog() {
   const [feed, setFeed] = useState<Record<string, any>[] | null>([]);
