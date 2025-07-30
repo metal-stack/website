@@ -65,10 +65,6 @@ h6 {
   font-family: var(--font-headings);
 }
 
-p {
-  margin: 0;
-}
-
 a {
   color: var(--color-primary-500);
 }
@@ -146,6 +142,11 @@ footer {
   height: 30px;
 }
 
+.navbar {
+  position: fixed;
+  width: 100%;
+}
+
 .header-github-link::after {
   content: "";
   width: 24px;
@@ -182,4 +183,13 @@ footer {
 
 @theme {
   --text-base: 1rem;
+}
+
+*,
+:before,
+:after {
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+  border-color: #e5e7eb;
 }
