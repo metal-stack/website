@@ -1,5 +1,4 @@
 ---
-slug: /enhancement-proposals
 title: Enhancement Proposals
 sidebar_position: 1
 ---
