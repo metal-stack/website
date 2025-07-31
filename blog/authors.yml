@@ -1,4 +1,4 @@
-gerrit:
+gerrit91:
   name: Gerrit Schwerthelm
   title: Maintainer @ x-cellent technologies GmbH
   url: https://github.com/Gerrit91
@@ -7,7 +7,7 @@ gerrit:
   socials:
     github: Gerrit91
 
-valentin:
+vknabel:
   name: Valentin Knabel
   title: Maintainer @ x-cellent technologies GmbH
   url: https://github.com/vknabel
@@ -16,7 +16,7 @@ valentin:
   socials:
     github: vknabel
 
-stefan:
+majst01:
   name: Stefan Majer
   title: Maintainer @ x-cellent technologies GmbH
   url: https://github.com/majst01
@@ -25,7 +25,7 @@ stefan:
   socials:
     github: majst01
 
-markus:
+mwindower:
   name: Markus Fensterer
   title: Maintainer @ x-cellent technologies GmbH
   url: https://github.com/mwindower
@@ -33,12 +33,3 @@ markus:
   page: true
   socials:
     github: mwindower
-
-grigoriy:
-  name: Grigoriy Mikhalkin
-  title: Maintainer @ x-cellent technologies GmbH
-  url: https://github.com/GrigoriyMikhalkin
-  image_url: https://github.com/GrigoriyMikhalkin.png
-  page: true
-  socials:
-    github: GrigoriyMikhalkin

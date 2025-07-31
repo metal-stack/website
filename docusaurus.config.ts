@@ -83,7 +83,7 @@ const config: Config = {
             "https://github.com/metal-stack/docs-new/tree/main/",
           // Useful options to enforce blogging best practices
           onInlineTags: "warn",
-          onInlineAuthors: "warn",
+          onInlineAuthors: "ignore",
           onUntruncatedBlogPosts: "warn",
         },
         theme: {

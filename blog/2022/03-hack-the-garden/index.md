@@ -4,7 +4,7 @@ shortDescription: Five companies hack together to make Gardener better
 watermark: "Blog"
 date: 2022-10-01T08:00:00+02:00
 description: "Five companies using the Gardener project a lot came together for a week in the Kleinwalsertal, for fun and better software"
-authors: [stefan]
+authors: [majst01]
 type: "blog"
 categories:
   - "Hackathon"

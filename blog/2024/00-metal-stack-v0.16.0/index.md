@@ -4,7 +4,7 @@ shortDescription:
 watermark: "Blog"
 date: 2024-01-11T10:00:00+02:00
 description: "The New Year's release contains a ton of updates. Read about it in this blog article."
-authors: [gerrit]
+authors: [gerrit91]
 type: "blog"
 categories:
   - "Release"

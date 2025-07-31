@@ -8,7 +8,8 @@ description: |
   regarding the control and access of data and compute. Hence, going to the public cloud isn't feasible
   for every workload. So, we got the task to find an enterprise ready stack for our own datacenter, while
   also introducing the cloud native digital competency standards.
-author: "Christian Brunner"
+authors:
+  name: Christian Brunner
 type: "blog"
 categories:
   - "Architecture"

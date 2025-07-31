@@ -4,7 +4,7 @@ shortDescription: Enhanced user experience for the mini-lab by leveraging Contai
 watermark: "Blog"
 date: 2021-12-06T08:00:00+02:00
 description: "metal-stack v0.9.0 was released. Read the summary of changes in this blog article."
-authors: [gerrit]
+authors: [gerrit91]
 type: "blog"
 categories:
   - "Release"

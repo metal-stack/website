@@ -4,7 +4,7 @@ shortDescription:
 watermark: "Blog"
 date: 2024-05-08T10:30:00+01:00
 description: "In metal-stack v0.18.0 we introduced support for servers with GPUs. Read on to learn more."
-authors: [gerrit]
+authors: [gerrit91]
 type: "blog"
 categories:
   - "Release"

@@ -4,7 +4,7 @@ shortDescription: Lightbits Cloud Storage Release
 watermark: "Blog"
 date: 2021-01-22T08:00:00+02:00
 description: "Release v0.5.0 is there and we have a couple of great news to share! 🎉"
-authors: [gerrit]
+authors: [gerrit91]
 type: "blog"
 categories:
   - "Release"

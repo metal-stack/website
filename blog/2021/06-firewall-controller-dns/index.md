@@ -4,7 +4,13 @@ shortDescription: see [firewall-controller](https://github.com/metal-stack/firew
 watermark: "Blog"
 date: 2021-06-15T09:00:00+02:00
 description: "We just released a new firewall-controller that now comes with DNS-based L3 policies support! Read this post to find out when it can be useful and how you can try this out."
-authors: [grigoriy]
+authors:
+  name: Grigoriy Mikhalkin
+  title: Maintainer @ x-cellent technologies GmbH
+  url: https://github.com/GrigoriyMikhalkin
+  image_url: https://github.com/GrigoriyMikhalkin.png
+  socials:
+    github: GrigoriyMikhalkin
 type: "blog"
 categories:
   - "Release"

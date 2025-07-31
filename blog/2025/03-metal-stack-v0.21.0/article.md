@@ -3,7 +3,7 @@ title: metal-stack v0.21.0 🙄
 shortDescription:
 watermark: "Blog"
 date: 2025-03-21T10:00:00+01:00
-authors: [gerrit]
+authors: [gerrit91]
 description: "Sorry, but there are no new features in this release! Just a breaking change that operators need to be aware of."
 type: "blog"
 categories:

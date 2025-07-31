@@ -4,7 +4,7 @@ shortDescription: go-ipam gains IPv6 support
 watermark: "Blog"
 date: 2021-02-02T08:00:00+02:00
 description: "A journey to full IPv6 support"
-authors: [stefan]
+authors: [majst01]
 type: "blog"
 categories:
   - "Features"
