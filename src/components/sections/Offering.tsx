@@ -4,19 +4,19 @@ import Row from "../../components/Row";
 import Section from "../../components/Section";
 import SectionIntro from "../../components/SectionIntro";
 import { Button } from "../../components/Button";
-import { useColorMode } from "@docusaurus/theme-common";
+// import { useColorMode } from "@docusaurus/theme-common";
 
 let cloudFeatures = [
-  { src: "/img/icons8-gdpr.svg", title: "Fully DSGVO and GDPR compliant" },
-  { src: "/img/icons8-cloud.svg", title: "Hosted in Germany" },
-  { src: "/img/icons8-cpu.svg", title: "Up to 24 cores per compute node" },
-  { src: "/img/icons8-link.svg", title: "10Gb/s uplink capabilities" },
-  { src: "/img/icons8-m2-ssd.svg", title: "Lightning fast NVMe storage" },
-  { src: "/img/icons8-update.svg", title: "Fully managed & always patched" },
+  { src: "/img/icons8-gdpr.svg", title: "Fully DSGVO and GDPR compliant", key: "compilence" },
+  { src: "/img/icons8-cloud.svg", title: "Hosted in Germany", key: "hosting" },
+  { src: "/img/icons8-cpu.svg", title: "Up to 24 cores per compute node", key: "cpu" },
+  { src: "/img/icons8-link.svg", title: "10Gb/s uplink capabilities", key: "network" },
+  { src: "/img/icons8-m2-ssd.svg", title: "Lightning fast NVMe storage", key: "storage" },
+  { src: "/img/icons8-update.svg", title: "Fully managed & always patched", key: "management" },
 ];
 
 export default function Offering() {
-  const colorMode = useColorMode();
+  // const colorMode = useColorMode();
   return (
     <Section id="cloud-offering" className="pb-0 sm:pb-20 dark:bg-neutral-900 ">
       <Row className=" overflow-clip">
@@ -30,8 +30,8 @@ export default function Offering() {
             />
             <div className="grid grid-cols-2 gap-4">
               {cloudFeatures.map((feature) => (
-                <div className="flex items-center gap-4 py-3 px-4 bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-lg justify-start sm:justify-center">
-                  <img src={feature.src} className="w-8 h-8" alt="" />
+                <div className="flex items-center gap-4 py-3 px-4 bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-lg justify-start sm:justify-center" key={feature.key}>
+                  <img src={feature.src} className="w-8 h-8" alt={feature.key + "-symbol"} />
                   <p className="dark:!text-white text-xs">{feature.title}</p>
                 </div>
               ))}
@@ -66,11 +66,7 @@ export default function Offering() {
             <div className="aspect-w-16 aspect-h-9 relative sm:ml-10 rounded-lg overflow-clip sm:-mr-96">
               <img
                 className="w-full object-cover h-full"
-                src={
-                  colorMode.isDarkTheme
-                    ? "/img/browser-mockup-dark.png"
-                    : "/img/browser-mockup-light.png"
-                }
+                src="/img/browser-mockup-light.png"
                 alt="Screenshot of the user interface of the metalstack.cloud management console."
               />
             </div>

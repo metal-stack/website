@@ -3,7 +3,7 @@ import {
   ChevronRight,
   DataCenter,
   Security,
-  Kubernetes,
+  LogoKubernetes,
   NetworkPublic,
   Network_4,
 } from "@carbon/icons-react";
@@ -54,7 +54,7 @@ export default function Benefits() {
             description="With only one cluster per machine, metal-stack offers physical tenant-isolation, reducing the number of attack vectors and eliminating noisy neighbors."
           />
           <Usp
-            icon={Kubernetes}
+            icon={LogoKubernetes}
             title="Kubernetes as a service"
             description="Together with SAP Gardener create your own managed Kubernetes at scale."
           />
