@@ -19,15 +19,15 @@
   --ifm-color-primary-lighter: #face85;
   --ifm-color-primary-lightest: #fce1b5;
   --ifm-navbar-height: 80px;
-  --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+
+  --ifm-background-color: var(--color-neutral-50);
 
   --font-sans: "Inter", system-ui, sans-serif;
   --font-headings: "Space Grotesk", system-ui, sans-serif;
 
   --font-size-base: 1rem;
 
-  --shadow-input: 0 0 0 0.25rem rgba(248, 187, 85, 0.25); /* primary.200 */
+  --shadow-input: 0 0 0 0.25rem rgba(248, 187, 85, 0.25);
   --shadow-input-invalid: 0 0 0 0.25rem rgba(254, 202, 202, 0.5);
 }
 
@@ -40,10 +40,17 @@
   --ifm-color-primary-light: #f9c875;
   --ifm-color-primary-lighter: #face85;
   --ifm-color-primary-lightest: #fce1b5;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  --ifm-navbar-shadow: rgba(255, 255, 255, 0.1);
 
   --ifm-background-color: var(--color-neutral-950);
-  --ifm-background-surface-color: var(--color-red-950);
+
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-headings: "Space Grotesk", system-ui, sans-serif;
+
+  --font-size-base: 1rem;
+
+  --shadow-input: 0 0 0 0.25rem rgba(248, 187, 85, 0.25);
+  --shadow-input-invalid: 0 0 0 0.25rem rgba(254, 202, 202, 0.5);
 }
 
 html[data-theme="dark"] {
@@ -63,10 +70,6 @@ h4,
 h5,
 h6 {
   font-family: var(--font-headings);
-}
-
-p {
-  margin: 0;
 }
 
 a {
@@ -146,6 +149,11 @@ footer {
   height: 30px;
 }
 
+.navbar {
+  position: sticky;
+  width: 100%;
+}
+
 .header-github-link::after {
   content: "";
   width: 24px;
@@ -182,4 +190,13 @@ footer {
 
 @theme {
   --text-base: 1rem;
+}
+
+*,
+:before,
+:after {
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+  border-color: #e5e7eb;
 }
