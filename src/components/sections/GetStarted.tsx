@@ -38,7 +38,7 @@ export default function GetStarted() {
               Join our Slack
             </Button>
             <Button
-              variant="neutral"
+              variant="black"
               className="flex items-center gap-2"
               href="https://docs.metal-stack.io/stable/external/mini-lab/README/"
             >

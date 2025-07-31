@@ -44,6 +44,7 @@ export default function Partners() {
                 href={partner.href}
                 target="_blank"
                 className="group hover:dark:bg-white transition-all p-4 rounded-md w-2/3 sm:w-auto flex items-center justify-center flex-shrink-0"
+                key={partner.alt}
               >
                 <img
                   src={partner.src}
