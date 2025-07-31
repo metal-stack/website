@@ -1,6 +1,7 @@
 ---
 slug: /client-libraries
 title: Client Libraries
+pagination_next: null
 sidebar_position: 1
 ---
 

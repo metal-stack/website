@@ -4,7 +4,8 @@
 # Production
 /build
 
-# Generated files
+# Generated files and folders
+/pdf
 .docusaurus
 .cache-loader
 
