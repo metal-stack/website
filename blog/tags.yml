@@ -1,19 +1,29 @@
-facebook:
-  label: Facebook
-  permalink: /facebook
-  description: Facebook tag description
+kubernetes:
+  label: Kubernetes
+  permalink: /kubernetes
+  description: Kubernetes tag
 
-hello:
-  label: Hello
-  permalink: /hello
-  description: Hello tag description
+release:
+  label: Release
+  permalink: /release
+  description: Release tag
 
-docusaurus:
-  label: Docusaurus
-  permalink: /docusaurus
-  description: Docusaurus tag description
+network:
+  label: Network
+  permalink: /network
+  description: Network tag
 
-hola:
-  label: Hola
-  permalink: /hola
-  description: Hola tag description
+gardener:
+  label: Gardener
+  permalink: /gardener
+  description: Gardener tag
+
+infrastructure:
+  label: Infrastructure
+  permalink: /infrastructure
+  description: Infrastructure tag
+
+architecture:
+  label: Architecture
+  permalink: /architecture
+  description: Architecture tag
