@@ -4,7 +4,7 @@ shortDescription:
 watermark: "Blog"
 date: 2023-02-17T12:00:00+02:00
 description: "The new version comes with API auditing functionality. Read the short summary of changes in this blog article."
-authors: [gerrit]
+authors: [gerrit91]
 type: "blog"
 tags:
   - release

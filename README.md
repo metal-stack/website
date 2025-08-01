@@ -1,5 +1,7 @@
 # Docs-New
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/f42ce2b4-45f8-4a11-9555-5a25f7a5e2aa/deploy-status)](https://app.netlify.com/projects/docs-new/deploys)
+
 This repository contains a PoC of how the documentation of [metal-stack.io](https://metal-stack.io) can be refactored to meet new requirements.
 
 The used framework to generate docs is [docusaurus](https://docusaurus.io).
@@ -80,7 +82,7 @@ title: Your Title
 watermark: "Blog"
 date: 2025-02-03T10:00:00+02:00
 description: short description of the post
-authors: [gerrit]
+authors: [gerrit91]
 type: "blog"
 categories:
   - "Conferences"

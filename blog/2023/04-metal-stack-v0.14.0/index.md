@@ -4,7 +4,7 @@ shortDescription:
 watermark: "Blog"
 date: 2023-07-04T11:30:00+02:00
 description: "metal-stack is now officially supporting SONiC switch os."
-authors: [gerrit]
+authors: [gerrit91]
 type: "blog"
 tags:
   - release

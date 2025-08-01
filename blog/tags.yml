@@ -11,13 +11,13 @@ network:
 kubernetes:
   label: Kubernetes
   permalink: /kubernetes
-  description: Metal-stack is evolving to support the latest Kubernetes versions and features 
+  description: Metal-stack is evolving to support the latest Kubernetes versions and features
 
 gardener:
   label: Gardener
   permalink: /gardener
   description: Gardener is the favored solution for orchestrated Kubernetes cluster provisioning on metal-stack
-  
+
 cluster-api:
   label: Cluster API
   permalink: /cluster-api

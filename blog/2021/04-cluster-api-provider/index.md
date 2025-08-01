@@ -4,7 +4,13 @@ shortDescription: see [cluster-api-provider-metalstack](https://github.com/metal
 watermark: "Blog"
 date: 2021-03-25T08:00:00+02:00
 description: "As of today, we support two ways to orchestrate Kubernetes Clusters: Gardener and Cluster API! You may try it out on your local machine and simulate your own cloud provider"
-authors: [grigoriy]
+authors:
+  name: Grigoriy Mikhalkin
+  title: Maintainer @ x-cellent technologies GmbH
+  url: https://github.com/GrigoriyMikhalkin
+  image_url: https://github.com/GrigoriyMikhalkin.png
+  socials:
+    github: GrigoriyMikhalkin
 type: "blog"
 tags:
   - release

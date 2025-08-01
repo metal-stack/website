@@ -4,7 +4,7 @@ shortDescription:
 watermark: "Blog"
 date: 2023-08-28T09:30:00+02:00
 description: "Our lead engineer [@majst01](https://github.com/majst01) lately had the opportunity to get interviewed by Gregor Schumacher, a German blogger and author of [cloudahead.de](https://www.cloudahead.de/)."
-authors: [gerrit]
+authors: [gerrit91]
 type: "blog"
 tags:
   - architecture

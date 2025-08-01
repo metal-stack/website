@@ -4,7 +4,7 @@ shortDescription: Custom Filesystem Layouts, Firmware Management and more...
 watermark: "Blog"
 date: 2021-06-15T08:00:00+02:00
 description: "With metal-stack v0.7.0 we launched many new features worth to know about. Read the details in this blog article."
-authors: [gerrit]
+authors: [gerrit91]
 type: "blog"
 tags:
   - release

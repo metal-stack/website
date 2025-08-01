@@ -4,7 +4,7 @@ shortDescription: Biggest crowd ever to hack together.
 watermark: "Blog"
 date: 2024-05-17T17:00:00+02:00
 description: "For the fifth time the people from different companies held the Gardener Hackathon to hack together"
-authors: [stefan]
+authors: [majst01]
 type: "blog"
 categories:
   - "Hackathon"

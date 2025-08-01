@@ -4,7 +4,7 @@ shortDescription:
 watermark: "Blog"
 date: 2024-11-12T10:30:00+01:00
 description: "We published metal-stack v0.19.0 with more features for isolated environments. Read on to learn more."
-authors: [gerrit]
+authors: [gerrit91]
 type: "blog"
 tags:
   - release
