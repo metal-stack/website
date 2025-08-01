@@ -6,11 +6,9 @@ date: 2022-06-21T08:00:00+02:00
 description: "We just dropped metal-stack v0.10.0. Read the quick summary of changes in this blog article!"
 authors: [gerrit]
 type: "blog"
-categories:
-  - "Release"
 tags:
-  - "Release"
-  - "Kubernetes"
+  - release
+  - kubernetes
 ---
 
 Despite hot summer temperatures we have just released metal-stack v0.10.0! 😎

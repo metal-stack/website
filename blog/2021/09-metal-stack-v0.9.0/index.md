@@ -6,11 +6,9 @@ date: 2021-12-06T08:00:00+02:00
 description: "metal-stack v0.9.0 was released. Read the summary of changes in this blog article."
 authors: [gerrit]
 type: "blog"
-categories:
-  - "Release"
 tags:
-  - "Release"
-  - "Kubernetes"
+  - release
+  - kubernetes
 ---
 
 metal-stack v0.9.0 was released. Predominantly, this is a mini-lab release, greatly reducing the required dependencies to run metal-stack on your local developer machine. 🤓

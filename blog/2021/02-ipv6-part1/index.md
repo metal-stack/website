@@ -6,12 +6,10 @@ date: 2021-02-02T08:00:00+02:00
 description: "A journey to full IPv6 support"
 authors: [stefan]
 type: "blog"
-categories:
-  - "Features"
 tags:
-  - "Networking"
-  - "Kubernetes"
-  - "Gardener"
+  - network
+  - kubernetes
+  - gardener
 ---
 
 Two years ago, when we started to implement metal-stack, we first decided to rely on an external tool to do all the hard IP address management.

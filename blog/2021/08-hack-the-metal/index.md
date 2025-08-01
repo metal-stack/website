@@ -8,11 +8,10 @@ author: "Stefan Majer"
 authorImage: https://avatars.githubusercontent.com/majst01
 authorProfile: https://github.com/majst01
 type: "blog"
-categories:
-  - "Hackathon"
 tags:
-  - "Kubernetes"
-  - "Gardener"
+  - kubernetes
+  - gardener
+  - hackathon
 ---
 
 We, the gardener and metal-stack team, were thinking of organizing a hackathon together since autumn 2019, but then the pandemic made this impossible.
