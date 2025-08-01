@@ -1,29 +1,49 @@
-kubernetes:
-  label: Kubernetes
-  permalink: /kubernetes
-  description: Kubernetes tag
-
-release:
-  label: Release
-  permalink: /release
-  description: Release tag
+news:
+  label: News
+  permalink: /news
+  description: Latest news around metal-stack
 
 network:
   label: Network
   permalink: /network
-  description: Network tag
+  description: Articles around datacenter networks related to metal-stack
+
+kubernetes:
+  label: Kubernetes
+  permalink: /kubernetes
+  description: Metal-stack is evolving to support the latest Kubernetes versions and features
 
 gardener:
   label: Gardener
   permalink: /gardener
-  description: Gardener tag
+  description: Gardener is the favored solution for orchestrated Kubernetes cluster provisioning on metal-stack
 
-infrastructure:
-  label: Infrastructure
-  permalink: /infrastructure
-  description: Infrastructure tag
+cluster-api:
+  label: Cluster API
+  permalink: /cluster-api
+  description: Cluster API is an interface for Kubernetes cluster management
 
-architecture:
-  label: Architecture
-  permalink: /architecture
-  description: Architecture tag
+release:
+  label: Release
+  permalink: /release
+  description: News about our latest releases
+
+conferences:
+  label: Conferences
+  permalink: /conferences
+  description: We participate on Conferences to stay in touch with the community
+
+hello:
+  label: Hello
+  permalink: /hello
+  description: Hello tag description
+
+docusaurus:
+  label: Docusaurus
+  permalink: /docusaurus
+  description: Docusaurus tag description
+
+hola:
+  label: Hola
+  permalink: /hola
+  description: Hola tag description

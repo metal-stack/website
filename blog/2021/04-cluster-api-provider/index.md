@@ -12,12 +12,10 @@ authors:
   socials:
     github: GrigoriyMikhalkin
 type: "blog"
-categories:
-  - "Release"
 tags:
-  - "Release"
-  - "Kubernetes"
-  - "Cluster API"
+  - release
+  - kubernetes
+  - cluster-api
 ---
 
 One of the main goals of the `metal-stack` project is to provide a fast and convenient way to provision Kubernetes clusters on bare-metal provided by `metal-stack`'s infrastructure layer.

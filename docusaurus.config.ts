@@ -35,17 +35,7 @@ const config: Config = {
     format: "detect",
   },
 
-
-  // plugins: [
-  //     [require.resolve('./blogPluginEnhanced'),
-  //       {
-  //         // id: 'blog',
-  //       },
-  //       ],
-  //   ["./src/plugins/tailwind-config.js", {}],
-  // ],
-  plugins: [[require.resolve('./blogPluginEnhanced'), {}], ["./src/plugins/tailwind-config.js", {}]],
-  // plugins: [["./src/plugins/tailwind-config.js", {}]],
+  plugins: [["./src/plugins/tailwind-config.js", {}]],
 
   presets: [
     [
@@ -59,30 +49,32 @@ const config: Config = {
             "https://github.com/metal-stack/docs-new/tree/main/",
         },
         blog: false,
-        // blog: {
-        //   showReadingTime: true,
-        //   feedOptions: {
-        //     type: "all",
-        //     //copyright: `Copyright © ${new Date().getFullYear()} metal-stack`,
-        //     createFeedItems: async (params) => {
-        //       const { blogPosts, defaultCreateFeedItems, ...rest } = params;
-        //       const res = await defaultCreateFeedItems({
-        //         // keep only the 10 most recent blog posts in the feed
-        //         blogPosts: blogPosts.filter((item, index) => index < 3),
-        //         ...rest,
-        //       });
-        //       return res;
-        //     },
-        //   },
-        //   // Please change this to your repo.
-        //   // Remove this to remove the "edit this page" links.
-        //   editUrl:
-        //     "https://github.com/metal-stack/docs-new/tree/main/",
-        //   // Useful options to enforce blogging best practices
-        //   onInlineTags: "warn",
-        //   onInlineAuthors: "ignore",
-        //   onUntruncatedBlogPosts: "warn",
-        // },
+        blog: {
+          showReadingTime: true,
+          blogSidebarTitle: 'All posts',
+          blogSidebarCount: 'ALL',
+          feedOptions: {
+            type: "all",
+            //copyright: `Copyright © ${new Date().getFullYear()} metal-stack`,
+            createFeedItems: async (params) => {
+              const { blogPosts, defaultCreateFeedItems, ...rest } = params;
+              const res = await defaultCreateFeedItems({
+                // keep only the 10 most recent blog posts in the feed
+                blogPosts: blogPosts.filter((item, index) => index < 30),
+                ...rest,
+              });
+              return res;
+            },
+          },
+          // Please change this to your repo.
+          // Remove this to remove the "edit this page" links.
+          editUrl:
+            "https://github.com/metal-stack/docs-new/tree/main/",
+          // Useful options to enforce blogging best practices
+          onInlineTags: "warn",
+          onInlineAuthors: "warn",
+          onUntruncatedBlogPosts: "warn",
+        },
         theme: {
           customCss: "./src/css/custom.css",
         },

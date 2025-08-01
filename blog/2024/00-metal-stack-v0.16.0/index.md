@@ -6,12 +6,10 @@ date: 2024-01-11T10:00:00+02:00
 description: "The New Year's release contains a ton of updates. Read about it in this blog article."
 authors: [gerrit91]
 type: "blog"
-categories:
-  - "Release"
-# tags:
-#   - 'Release'
-#   - 'Kubernetes'
-#   - 'Network'
+tags:
+  - release
+  - kubernetes
+  - network
 ---
 
 Happy New Year everyone! In this post we are gonna present the first metal-stack release of 2024, which is `v0.16.0`. 😺

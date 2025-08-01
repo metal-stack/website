@@ -6,12 +6,10 @@ date: 2024-05-08T10:30:00+01:00
 description: "In metal-stack v0.18.0 we introduced support for servers with GPUs. Read on to learn more."
 authors: [gerrit91]
 type: "blog"
-categories:
-  - "Release"
-# tags:
-#   - "Release"
-#   - "Kubernetes"
-#   - "Network"
+tags:
+  - release
+  - kubernetes
+  - network
 ---
 
 With the latest rise of Large Language Models (LLMs) and generative AI technologies, we started facing a high demand for providing GPUs through metal-stack. In reaction to this trend, we added support for provisioning servers with graphic cards in metal-stack `v0.18.0`. Our solution for this is presented in this blog article.

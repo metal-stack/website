@@ -6,12 +6,10 @@ date: 2023-07-04T11:30:00+02:00
 description: "metal-stack is now officially supporting SONiC switch os."
 authors: [gerrit91]
 type: "blog"
-categories:
-  - "Release"
 tags:
-  - "Release"
-  - "Kubernetes"
-  - "Network"
+  - release
+  - kubernetes
+  - network
 ---
 
 In metal-stack v0.14.0 we have added support for [SONiC](https://sonicfoundation.dev/), the operating system for the switches in a metal-stack managed data center.

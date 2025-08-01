@@ -6,12 +6,11 @@ date: 2023-11-10T08:00:00+02:00
 description: "Four companies using the Gardener project a lot came together for a week for fun and better software"
 authors: [majst01]
 type: "blog"
-categories:
-  - "Hackathon"
 tags:
-  - "Kubernetes"
-  - "Gardener"
-  - "Scalability"
+  - kubernetes
+  - gardener
+  - scalability
+  - hackathon
 ---
 
 It has already become a regular event to come together every six months to hack and improve the Gardener Project.

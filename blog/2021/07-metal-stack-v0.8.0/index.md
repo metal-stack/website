@@ -6,12 +6,10 @@ date: 2021-09-24T08:00:00+02:00
 description: "metal-stack v0.8.0 is out. Read the summary of changes in this blog article."
 authors: [gerrit91]
 type: "blog"
-categories:
-  - "Release"
 tags:
-  - "Release"
-  - "Kubernetes"
-  - "Gardener"
+  - release
+  - kubernetes
+  - gardener
 ---
 
 metal-stack v0.8.0 has been released and as always, there are many new things to show. 🤩

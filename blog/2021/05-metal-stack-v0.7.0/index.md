@@ -6,12 +6,10 @@ date: 2021-06-15T08:00:00+02:00
 description: "With metal-stack v0.7.0 we launched many new features worth to know about. Read the details in this blog article."
 authors: [gerrit91]
 type: "blog"
-categories:
-  - "Release"
 tags:
-  - "Release"
-  - "Kubernetes"
-  - "Gardener"
+  - release
+  - kubernetes
+  - gardener
 ---
 
 We are continuing our bare-metal journey with the minor release v0.7.0. Along with bug fixes in many places, this release also adds some great new capabilities to metal-stack, which we'd like to introduce to you in this blog post.
