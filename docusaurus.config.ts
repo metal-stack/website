@@ -74,32 +74,6 @@ const config: Config = {
             "https://github.com/metal-stack/docs-new/tree/main/",
         },
         blog: false,
-        // blog: {
-        //   showReadingTime: true,
-        //   blogSidebarTitle: 'All posts',
-        //   blogSidebarCount: 'ALL',
-        //   feedOptions: {
-        //     type: "all",
-        //     //copyright: `Copyright © ${new Date().getFullYear()} metal-stack`,
-        //     createFeedItems: async (params) => {
-        //       const { blogPosts, defaultCreateFeedItems, ...rest } = params;
-        //       const res = await defaultCreateFeedItems({
-        //         // keep only the 10 most recent blog posts in the feed
-        //         blogPosts: blogPosts.filter((item, index) => index < 30),
-        //         ...rest,
-        //       });
-        //       return res;
-        //     },
-        //   },
-        //   // Please change this to your repo.
-        //   // Remove this to remove the "edit this page" links.
-        //   editUrl:
-        //     "https://github.com/metal-stack/docs-new/tree/main/",
-        //   // Useful options to enforce blogging best practices
-        //   onInlineTags: "warn",
-        //   onInlineAuthors: "warn",
-        //   onUntruncatedBlogPosts: "warn",
-        // },
         theme: {
           customCss: "./src/css/custom.css",
         },
