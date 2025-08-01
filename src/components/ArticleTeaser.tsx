@@ -1,7 +1,6 @@
 import Link from '@docusaurus/Link';
 import {ArticleTeaserProps} from "@site/src/types/ArticleTeaserProps";
 
-
 export default function ArticleTeaser(props: ArticleTeaserProps) {
   return (
     <article>
@@ -11,7 +10,6 @@ export default function ArticleTeaser(props: ArticleTeaserProps) {
             {props.title}
           </h3>
           <hr className="mt-4 border-neutral-200 dark:border-neutral-800" />
-          {/* <p className="mt-5 line-clamp-3 text-sm leading-6 text-neutral-600"> */}
           <p className="mt-5 line-clamp-3 text-sm leading-6">{props.description}</p>
         </div>
         <div className="relative mt-8 flex items-center gap-x-4">

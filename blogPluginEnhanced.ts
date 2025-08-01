@@ -1,3 +1,4 @@
+// implementation according to: https://github.com/facebook/docusaurus/issues/4138#issuecomment-2656372172
 import type { LoadContext, Plugin } from '@docusaurus/types';
 import blogPlugin, { type BlogContent } from '@docusaurus/plugin-content-blog';
 import type { PluginOptions as BlogPluginOptions } from '@docusaurus/plugin-content-blog';
