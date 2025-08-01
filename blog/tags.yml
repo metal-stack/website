@@ -33,17 +33,37 @@ conferences:
   permalink: /conferences
   description: We participate on Conferences to stay in touch with the community
 
-hello:
-  label: Hello
-  permalink: /hello
-  description: Hello tag description
+infrastructure:
+  label: Infrastructure
+  permalink: /infrastructure
+  description: Infrastructure
 
-docusaurus:
-  label: Docusaurus
-  permalink: /docusaurus
-  description: Docusaurus tag description
+architecture:
+  label: Architecture
+  permalink: /architecture
+  description: Posts about Architecture to define the building blocks of metal-stack
 
-hola:
-  label: Hola
-  permalink: /hola
-  description: Hola tag description
+storage:
+  label: Storage
+  permalink: /storage
+  description: Posts about persisting data in a cluster environment.
+
+hackathon:
+  label: Hackathon
+  permalink: /hackathon
+  description: We participate on Hackathons to evolve the ecosystem of and around metal-stack
+
+ipv6:
+  label: IPv6
+  permalink: /ipv6
+  description: IPv6 is supported by metal-stack
+
+scalability:
+  label: Scalability
+  permalink: /scalability
+  description: Solutions to change the size of the environment
+
+vpn:
+  label: VPN
+  permalink: /vpn
+  description: Create connections between clusters and clients via VPN
