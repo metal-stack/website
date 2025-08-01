@@ -4,7 +4,7 @@ shortDescription: metal-stack and Gardener team hack together
 watermark: "Blog"
 date: 2021-11-05T08:00:00+02:00
 description: "metal-stack and gardener team came together to celebrate a hackathon in a hut in the Tyrolean mountains."
-author: "Stefan Majer"
+authors: ["majst01"]
 authorImage: https://avatars.githubusercontent.com/majst01
 authorProfile: https://github.com/majst01
 type: "blog"
