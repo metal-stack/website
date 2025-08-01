@@ -19,7 +19,7 @@ export default function ArticleTeaser(props: ArticleTeaserProps) {
             className="h-10 w-10 rounded-full bg-neutral-50"
           />
           <div className="text-sm leading-tight">
-            <p className="font-semibold text-black dark:text-white">
+            <p className="font-semibold text-black dark:text-white mb-0">
               <span className="absolute inset-0"></span>
               {props.firstAuthor.name}
             </p>
