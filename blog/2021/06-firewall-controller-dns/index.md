@@ -43,7 +43,7 @@ For such situations, DNS-based policies come quite handy. Instead of filtering t
 
 ### Implementation
 
-As we discussed in the previous section [What is Firewall Controller](./#what-is-firewall-controller), one of the responsibilities of the firewall-controller is to apply Ingress/Egress policies provided by a user (reminder: it's done via CWNP resource). These policies are translated to nftables rules, which are later used by nftables service to filter network packets.
+As we discussed in the previous section [What is Firewall Controller](./index.md#what-is-firewall-controller), one of the responsibilities of the firewall-controller is to apply Ingress/Egress policies provided by a user (reminder: it's done via CWNP resource). These policies are translated to nftables rules, which are later used by nftables service to filter network packets.
 
 nftables rules can use individual IP addresses or CIDRs for filtering, but know nothing about DNS. So it's quite trivial to create nftables rules based on CIDR policies, provided by a user. But in case of DNS-based rules, we need to translate the provided FQDNs to actual IP addresses.
 

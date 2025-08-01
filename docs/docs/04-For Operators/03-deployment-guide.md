@@ -6,7 +6,7 @@ sidebar_position: 3
 
 # Deployment Guide
 
-We are bootstrapping the [metal control plane](../concepts/architecture.md#Metal-Control-Plane-1) as well as our [partitions](../concepts/architecture.md#Partitions-1) with [Ansible](https://www.ansible.com/) through CI.
+We are bootstrapping the [metal control plane](../03-Concepts/01-architecture.md#Metal-Control-Plane-1) as well as our [partitions](../03-Concepts/01-architecture.md#Partitions-1) with [Ansible](https://www.ansible.com/) through CI.
 
 In order to build up your deployment, we recommend to make use of the same Ansible roles that we are using by ourselves in order to deploy the metal-stack. You can find them in the repository called [metal-roles](https://github.com/metal-stack/metal-roles).
 
@@ -31,7 +31,7 @@ You can use the [mini-lab](https://github.com/metal-stack/mini-lab) as a templat
 The metal control plane is typically deployed in a Kubernetes cluster. Therefore, this document will assume that you have a Kubernetes cluster ready for getting deployed. Even though it is theoretically possible to deploy metal-stack without Kubernetes, we strongly advise you to use the described method because we believe that Kubernetes gives you a lot of benefits regarding the stability and maintainability of the application deployment.
 
 :::tip
-For metal-stack it does not matter where your control plane Kubernetes cluster is located. You can of course use a cluster managed by a hyperscaler. This has the advantage of not having to setup Kubernetes by yourself and could even become beneficial in terms of fail-safe operation. However, we also describe a solution of how to setup metal-stack with a self-hosted, [Autonomous Control Plane](../developers/proposals/MEP18/README.md) cluster. The only requirement from metal-stack is that your partitions can establish network connections to the metal control plane. If you are interested, you can find a reasoning behind this deployment decision [here](../concepts/architecture.md#Target-Deployment-Platforms).
+For metal-stack it does not matter where your control plane Kubernetes cluster is located. You can of course use a cluster managed by a hyperscaler. This has the advantage of not having to setup Kubernetes by yourself and could even become beneficial in terms of fail-safe operation. However, we also describe a solution of how to setup metal-stack with a self-hosted, [Autonomous Control Plane](../../contributing/01-Proposals/MEP18/README.md) cluster. The only requirement from metal-stack is that your partitions can establish network connections to the metal control plane. If you are interested, you can find a reasoning behind this deployment decision [here](../03-Concepts/01-architecture.md#Target-Deployment-Platforms).
 :::
 
 Let's start off with a fresh folder for your deployment:
@@ -235,7 +235,7 @@ metal_control_plane_ingress_dns: <your-dns-domain> # if you do not have a DNS en
 
 We have several components in our stack that communicate over encrypted gRPC just like Kubernetes components do.
 
-For the very basic setup you will need to create self-signed certificates for the communication between the following components (see [architecture](../concepts/architecture.md) document):
+For the very basic setup you will need to create self-signed certificates for the communication between the following components (see [architecture](../03-Concepts/01-architecture.md) document):
 
 - [metal-api](https://github.com/metal-stack/metal-api) and [masterdata-api](https://github.com/metal-stack/masterdata-api) (in-cluster traffic communication)
 - [metal-api](https://github.com/metal-stack/metal-api) and [metal-hammer](https://github.com/metal-stack/metal-hammer) (partition to control plane communication)
@@ -476,7 +476,7 @@ markdownTemplate(t, base_image)
 ````
 
 :::tip
-If you are having issues regarding the deployment take a look at the [troubleshoot document](troubleshoot.md). Please give feedback such that we can make the deployment of the metal-stack easier for you and for others!
+If you are having issues regarding the deployment take a look at the [troubleshoot document](./06-troubleshoot.md). Please give feedback such that we can make the deployment of the metal-stack easier for you and for others!
 :::
 
 ### Providing Images

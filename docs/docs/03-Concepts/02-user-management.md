@@ -7,7 +7,7 @@ sidebar_position: 2
 # User Management
 
 At the moment, metal-stack can more or less be seen as a low-level API that does not scope access based on projects and tenants.
-Fine-grained access control with full multi-tenancy support is actively worked on in [MEP4](.././developers/proposals/MEP4/README.md).
+Fine-grained access control with full multi-tenancy support is actively worked on in [MEP4](../../contributing/01-Proposals/MEP4/README.md).
 
 Until then projects and tenants can be created, but have no effect on access control.
 
@@ -28,7 +28,7 @@ Currently the only way to act as a different user than the default ones, is by u
 ## Role Mapping
 
 The following table shows which role is required to access the endpoints of the various services at a high level.
-Only the minimum role required to access the group of endpoints is shown. For the more in-depth documentation of all endpoints, head over to the [API documentation](../references/apidocs.md).
+Only the minimum role required to access the group of endpoints is shown. For the more in-depth documentation of all endpoints, head over to the [API documentation](../08-References/API/metal-api/metal-api.md).
 
 | **Service**                     | **Group of Endpoints**          | **Minimum Role** |
 | ------------------------------- | ------------------------------- | ---------------- |

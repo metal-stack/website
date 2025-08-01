@@ -58,7 +58,7 @@ Every Kubernetes cluster that is fully provisioned and managed by Gardener is ca
 
 During the provisioning flow of a cluster, Gardener emits resources that are expected to be reconciled by controllers of a cloud provider. This section briefly describes the controllers implemented by metal-stack to allow the creation of a Kubernetes cluster on metal-stack infrastructure.
 
-If you want to learn how to deploy metal-stack with Gardener, please check out the corresponding [deployment-guide section](../../operators/deployment-guide.md#Gardener-with-metal-stack-1).
+If you want to learn how to deploy metal-stack with Gardener, please check out the corresponding [deployment-guide section](../../04-For%20Operators/03-deployment-guide.md#Gardener-with-metal-stack-1).
 
 ### gardener-extension-provider-metal
 

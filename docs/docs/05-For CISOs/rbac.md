@@ -31,4 +31,4 @@ To ensure that internal components interact securely with the metal-api, metal-s
 
 Users can interact with the metal-api using [metalctl](https://github.com/metal-stack/metalctl), the command-line interface provided by metal-stack. Depending on the required operations, users should authenticate with the appropriate role to match their level of access.
 
-As part of [MEP-4](../developers/proposals/MEP4/README.md), significant work is underway to introduce more fine-grained access control mechanisms within metal-stack, enhancing the precision and flexibility of permission management.
+As part of [MEP-4](../../contributing/01-Proposals/MEP4/README.md), significant work is underway to introduce more fine-grained access control mechanisms within metal-stack, enhancing the precision and flexibility of permission management.

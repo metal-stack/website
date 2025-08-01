@@ -15,10 +15,10 @@ The minimal need to know principle is a security concept that restricts access t
 ### RBAC
 
 :::info
-As of now metal-stack does not implement fine-grained Role-Based Access Control (RBAC) within the `metal-api` but this is worked on in [MEP-4](../../developers/proposals/MEP4/README.md).
+As of now metal-stack does not implement fine-grained Role-Based Access Control (RBAC) within the `metal-api` but this is worked on in [MEP-4](../../../contributing/01-Proposals/MEP4/README.md).
 :::
 
-As described in our [User Management](../../concepts/user-management.md) concept the [metal-api](https://github.com/metal-stack/metal-api) currently offers three different user roles for authorization:
+As described in our [User Management](../../03-Concepts/02-user-management.md) concept the [metal-api](https://github.com/metal-stack/metal-api) currently offers three different user roles for authorization:
 
 - `Admin`
 - `Edit`
@@ -27,7 +27,7 @@ As described in our [User Management](../../concepts/user-management.md) concept
 To ensure that internal components interact securely with the metal-api, metal-stack assigns specific roles to each service based on the principle of least privilege.
 
 | Component                                                                                                             | Role  |
-|-----------------------------------------------------------------------------------------------------------------------|-------|
+| --------------------------------------------------------------------------------------------------------------------- | ----- |
 | [metal-image-cache-sync](https://github.com/metal-stack/metal-image-cache-sync)                                       | View  |
 | [machine-controller-manager-provider-metal](https://github.com/metal-stack/machine-controller-manager-provider-metal) | Edit  |
 | [gardener-extension-provider-metal](https://github.com/metal-stack/gardener-extension-provider-metal)                 | Edit  |
