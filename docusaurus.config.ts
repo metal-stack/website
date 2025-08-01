@@ -64,6 +64,8 @@ const config: Config = {
         },
         blog: {
           showReadingTime: true,
+          blogSidebarTitle: 'All posts',
+          blogSidebarCount: 'ALL',
           feedOptions: {
             type: "all",
             //copyright: `Copyright © ${new Date().getFullYear()} metal-stack`,
@@ -71,7 +73,7 @@ const config: Config = {
               const { blogPosts, defaultCreateFeedItems, ...rest } = params;
               const res = await defaultCreateFeedItems({
                 // keep only the 10 most recent blog posts in the feed
-                blogPosts: blogPosts.filter((item, index) => index < 3),
+                blogPosts: blogPosts.filter((item, index) => index < 30),
                 ...rest,
               });
               return res;
