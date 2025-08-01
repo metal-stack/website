@@ -4,7 +4,7 @@ shortDescription: Recap of the 7th Gardener Hackathon showcasing innovative chan
 description: The Gardener community joined for the 7th Hack the Garden Hackathon to improve the Ecosystem.
 watermark: "Blog"
 date: 2025-06-11T17:00:00+01:00
-authors: [valentin]
+authors: [vknabel]
 type: "blog"
 tags:
   - hackathon

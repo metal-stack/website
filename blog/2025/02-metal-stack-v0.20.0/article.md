@@ -4,7 +4,7 @@ shortDescription:
 watermark: "Blog"
 date: 2025-02-26T10:00:00+01:00
 description: "Finally IPv6 made it into the metal-api. This and more interesting features of the latest release can be read in this blog article."
-authors: [gerrit]
+authors: [gerrit91]
 type: "blog"
 tags:
   - release

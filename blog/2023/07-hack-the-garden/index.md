@@ -4,7 +4,7 @@ shortDescription: Four companies work together to improve the Gardener Project.
 watermark: "Blog"
 date: 2023-11-10T08:00:00+02:00
 description: "Four companies using the Gardener project a lot came together for a week for fun and better software"
-authors: [stefan]
+authors: [majst01]
 type: "blog"
 tags:
   - kubernetes

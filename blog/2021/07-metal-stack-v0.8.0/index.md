@@ -4,7 +4,7 @@ shortDescription: Updates on Gardener, FSLs and machine management
 watermark: "Blog"
 date: 2021-09-24T08:00:00+02:00
 description: "metal-stack v0.8.0 is out. Read the summary of changes in this blog article."
-authors: [gerrit]
+authors: [gerrit91]
 type: "blog"
 tags:
   - release

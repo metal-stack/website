@@ -4,7 +4,7 @@ shortDescription: Joining to move Gardener forward
 watermark: "Blog"
 date: 2023-06-02T08:00:00+02:00
 description: "Developers and operators from five companies came together for a week in Leverkusen, for moving Gardener forward"
-authors: [valentin]
+authors: [vknabel]
 type: "blog"
 tags:
   - kubernetes

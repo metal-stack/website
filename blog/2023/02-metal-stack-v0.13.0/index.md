@@ -4,7 +4,7 @@ shortDescription:
 watermark: "Blog"
 date: 2023-04-05T11:30:00+02:00
 description: "Let's take a look at the birth of a new controller in our stack, the firewall-controller-manager."
-authors: [gerrit]
+authors: [gerrit91]
 type: "blog"
 tags:
   - release

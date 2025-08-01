@@ -4,7 +4,7 @@ shortDescription:
 watermark: "Blog"
 date: 2025-02-03T10:00:00+02:00
 description: "For the first time metal-stack was part of the biggest Open Source conference in Europe."
-authors: [gerrit]
+authors: [gerrit91]
 type: "blog"
 tags:
   - news

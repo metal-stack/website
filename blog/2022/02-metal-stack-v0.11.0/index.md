@@ -4,7 +4,7 @@ shortDescription:
 watermark: "Blog"
 date: 2022-09-14T08:00:00+02:00
 description: "Here comes metal-stack v0.11.0. Read the quick summary of changes in this blog article!"
-authors: [gerrit]
+authors: [gerrit91]
 type: "blog"
 tags:
   - release

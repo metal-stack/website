@@ -4,7 +4,7 @@ shortDescription: "The Gardener Hackathon went into the sixth round."
 watermark: "Blog"
 date: 2024-12-10T17:00:00+02:00
 description: "Engineers from four different companies and two countries hacked together on Gardener."
-authors: [valentin]
+authors: [vknabel]
 type: "blog"
 tags:
   - kubernetes

@@ -4,7 +4,7 @@ shortDescription: Planning meetings are now public.
 description: This gives a chance for our community to bring up relevant topics and increase transparency.
 watermark: Blog
 date: 2025-06-30T08:00:00+01:00
-authors: [gerrit]
+authors: [gerrit91]
 type: 'blog'
 tags:
   - release

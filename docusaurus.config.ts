@@ -4,20 +4,6 @@ import type * as Preset from "@docusaurus/preset-classic";
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
-const commonDocsOptions = {
-  breadcrumbs: true,
-  showLastUpdateAuthor: false,
-  showLastUpdateTime: true,
-};
-
-const image_url = {
-  "Gerrit Schwerthelm": "https://github.com/gerrit91.png",
-  valentin: "https://github.com/vknabel.png",
-  stefan: "https://github.com/majst01.png",
-  markus: "https://github.com/mwindower.png",
-  grigoriy: "https://github.com/GrigoriyMikhalkin.png",
-};
-
 const config: Config = {
   title: "metal-stack docs",
   tagline: "Docs for metal-stack.",
@@ -49,7 +35,30 @@ const config: Config = {
     format: "detect",
   },
 
-  plugins: [["./src/plugins/tailwind-config.js", {}]],
+  plugins: [[require.resolve('./blogPluginEnhanced'), {
+      showReadingTime: true,
+      blogSidebarTitle: 'All posts',
+      blogSidebarCount: 'ALL',
+      feedOptions: {
+        type: "all",
+        //copyright: `Copyright © ${new Date().getFullYear()} metal-stack`,
+        createFeedItems: async (params) => {
+          const { blogPosts, defaultCreateFeedItems, ...rest } = params;
+          return await defaultCreateFeedItems({
+            // keep only the 10 most recent blog posts in the feed
+            blogPosts: blogPosts.filter((item, index) => index < 30),
+            ...rest,
+          });
+        },
+      },
+      // Please change this to your repo.
+      // Remove this to remove the "edit this page" links.
+      editUrl: "https://github.com/metal-stack/docs-new/tree/main/",
+      // Useful options to enforce blogging best practices
+      onInlineTags: "warn",
+      onInlineAuthors: "ignore",
+      onUntruncatedBlogPosts: "warn",
+  }], ["./src/plugins/tailwind-config.js", {}]],
 
   presets: [
     [
@@ -62,32 +71,7 @@ const config: Config = {
           editUrl:
             "https://github.com/metal-stack/docs-new/tree/main/",
         },
-        blog: {
-          showReadingTime: true,
-          blogSidebarTitle: 'All posts',
-          blogSidebarCount: 'ALL',
-          feedOptions: {
-            type: "all",
-            //copyright: `Copyright © ${new Date().getFullYear()} metal-stack`,
-            createFeedItems: async (params) => {
-              const { blogPosts, defaultCreateFeedItems, ...rest } = params;
-              const res = await defaultCreateFeedItems({
-                // keep only the 10 most recent blog posts in the feed
-                blogPosts: blogPosts.filter((item, index) => index < 30),
-                ...rest,
-              });
-              return res;
-            },
-          },
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            "https://github.com/metal-stack/docs-new/tree/main/",
-          // Useful options to enforce blogging best practices
-          onInlineTags: "warn",
-          onInlineAuthors: "warn",
-          onUntruncatedBlogPosts: "warn",
-        },
+        blog: false,
         theme: {
           customCss: "./src/css/custom.css",
         },

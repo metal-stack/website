@@ -4,7 +4,7 @@ shortDescription:
 watermark: "Blog"
 date: 2024-02-08T10:30:00+01:00
 description: "In this release metal-stack implemented support for Kubernetes cluster isolation. Read on to learn what this feature is about."
-authors: [gerrit]
+authors: [gerrit91]
 type: "blog"
 tags:
   - release
