@@ -4,14 +4,13 @@ shortDescription: "The Gardener Hackathon went into the sixth round."
 watermark: "Blog"
 date: 2024-12-10T17:00:00+02:00
 description: "Engineers from four different companies and two countries hacked together on Gardener."
-authors: [valentin]
+authors: [vknabel]
 type: "blog"
-categories:
-  - "Hackathon"
-# tags:
-#   - 'Kubernetes'
-#   - 'Gardener'
-#   - 'VPN'
+tags:
+  - kubernetes
+  - gardener
+  - vpn
+  - hackathon
 ---
 
 At the beginning of December we came together and started the 6th Hack the Garden event. With 22 participants from Germany and Bulgaria, this hackathon set a new record. Participating were [SAP](https://sap.com), [STACKIT](https://stackit.de), [x-cellent technologies GmbH](https://www.x-cellent.com) and [inovex](https://www.inovex.de/).

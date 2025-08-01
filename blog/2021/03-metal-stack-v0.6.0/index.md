@@ -4,15 +4,13 @@ shortDescription: Clusters with private networks only
 watermark: "Blog"
 date: 2021-03-05T08:00:00+02:00
 description: "Release v0.6.0 has landed! 🛸"
-authors: [markus]
+authors: [mwindower]
 type: "blog"
-categories:
-  - "Release"
 tags:
-  - "Release"
-  - "Network"
-  - "Kubernetes"
-  - "Gardener"
+  - release
+  - network
+  - kubernetes
+  - gardener
 ---
 
 Release v0.6.0 has landed! 🛸

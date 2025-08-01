@@ -4,14 +4,12 @@ shortDescription:
 watermark: "Blog"
 date: 2024-02-08T10:30:00+01:00
 description: "In this release metal-stack implemented support for Kubernetes cluster isolation. Read on to learn what this feature is about."
-authors: [gerrit]
+authors: [gerrit91]
 type: "blog"
-categories:
-  - "Release"
-# tags:
-#   - "Release"
-#   - "Kubernetes"
-#   - "Network"
+tags:
+  - release
+  - kubernetes
+  - network
 ---
 
 The `v0.17.0` release presents an interesting feature for users who want to be able to benefit from Kubernetes while having to fulfill strict regulatory requirements. We call this feature cluster isolation. Read on to learn what it is and how it works.

@@ -4,13 +4,11 @@ shortDescription:
 watermark: "Blog"
 date: 2023-02-17T12:00:00+02:00
 description: "The new version comes with API auditing functionality. Read the short summary of changes in this blog article."
-authors: [gerrit]
+authors: [gerrit91]
 type: "blog"
-categories:
-  - "Release"
 tags:
-  - "Release"
-  - "Kubernetes"
+  - release
+  - kubernetes
 ---
 
 metal-stack v0.12.0 delivers auditing for the metal-api, which amongst other great additions will be explained in today's release post. And the good news is that we have many minor releases in the pipeline, which will follow very soon. So keep an eye on this blog to watch the progress of our open source project. 😎

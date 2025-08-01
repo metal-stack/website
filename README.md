@@ -82,7 +82,7 @@ title: Your Title
 watermark: "Blog"
 date: 2025-02-03T10:00:00+02:00
 description: short description of the post
-authors: [gerrit]
+authors: [gerrit91]
 type: "blog"
 categories:
   - "Conferences"

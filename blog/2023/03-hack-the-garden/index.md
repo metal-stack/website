@@ -4,14 +4,13 @@ shortDescription: Joining to move Gardener forward
 watermark: "Blog"
 date: 2023-06-02T08:00:00+02:00
 description: "Developers and operators from five companies came together for a week in Leverkusen, for moving Gardener forward"
-authors: [valentin]
+authors: [vknabel]
 type: "blog"
-categories:
-  - "Hackathon"
 tags:
-  - "Kubernetes"
-  - "Gardener"
-  - "IPv6"
+  - kubernetes
+  - gardener
+  - ipv6
+  - hackathon
 ---
 
 After the success of the two previous hackathons, [STACKIT](https://www.stackit.de/) invited the gardener community to Leverkusen for a week of hacking on Gardener. The attendees were from [SAP](https://sap.com), [STACKIT](https://www.stackit.de/), [23technologies](https://23technologies.cloud/), and the metal-stack team from [FI-TS](https://f-i-ts.de) and [x-cellent technologies](https://x-cellent.com).

@@ -4,15 +4,13 @@ shortDescription:
 watermark: "Blog"
 date: 2023-08-28T09:30:00+02:00
 description: "Our lead engineer [@majst01](https://github.com/majst01) lately had the opportunity to get interviewed by Gregor Schumacher, a German blogger and author of [cloudahead.de](https://www.cloudahead.de/)."
-authors: [gerrit]
+authors: [gerrit91]
 type: "blog"
-categories:
-  - "Release"
 tags:
-  - "Architecture"
-  - "Infrastructure"
-  - "Kubernetes"
-  - "Network"
+  - architecture
+  - infrastructure
+  - kubernetes
+  - network
 ---
 
 Our lead engineer [@majst01](https://github.com/majst01) lately had the opportunity to get interviewed by Gregor Schumacher, a German blogger and author of [cloudahead.de](https://www.cloudahead.de/). It touches topics such as open-source, data sovereignty and, of course, metal-stack. Thanks for talking about these vast topics. 💪

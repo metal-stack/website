@@ -4,14 +4,13 @@ shortDescription: Five companies hack together to make Gardener better
 watermark: "Blog"
 date: 2022-10-01T08:00:00+02:00
 description: "Five companies using the Gardener project a lot came together for a week in the Kleinwalsertal, for fun and better software"
-authors: [stefan]
+authors: [majst01]
 type: "blog"
-categories:
-  - "Hackathon"
 tags:
-  - "Kubernetes"
-  - "Gardener"
-  - "IPv6"
+  - kubernetes
+  - gardener
+  - ipv6
+  - hackathon
 ---
 
 Last year in November, we from the metal-stack and the SAP Gardener team held our first joined hackathon in the Tyrolean Alps [Hack the Metal](https://metal-stack.io/blog/2021/11/hack-the-metal/). We all said that this must be repeated because it was so much fun and we created a lot of useful enhancements which otherwise wouldn't exist.
