@@ -6,7 +6,7 @@ sidebar_position: 3
 
 # Deployment Guide
 
-We are bootstrapping the [metal control plane](../03-Concepts/01-architecture.md#Metal-Control-Plane-1) as well as our [partitions](../03-Concepts/01-architecture.md#Partitions-1) with [Ansible](https://www.ansible.com/) through CI.
+We are bootstrapping the [metal control plane](../03-Concepts/01-architecture.md#metal-control-plane) as well as our [partitions](../03-Concepts/01-architecture.md#partitions) with [Ansible](https://www.ansible.com/) through CI.
 
 In order to build up your deployment, we recommend to make use of the same Ansible roles that we are using by ourselves in order to deploy the metal-stack. You can find them in the repository called [metal-roles](https://github.com/metal-stack/metal-roles).
 
@@ -31,7 +31,7 @@ You can use the [mini-lab](https://github.com/metal-stack/mini-lab) as a templat
 The metal control plane is typically deployed in a Kubernetes cluster. Therefore, this document will assume that you have a Kubernetes cluster ready for getting deployed. Even though it is theoretically possible to deploy metal-stack without Kubernetes, we strongly advise you to use the described method because we believe that Kubernetes gives you a lot of benefits regarding the stability and maintainability of the application deployment.
 
 :::tip
-For metal-stack it does not matter where your control plane Kubernetes cluster is located. You can of course use a cluster managed by a hyperscaler. This has the advantage of not having to setup Kubernetes by yourself and could even become beneficial in terms of fail-safe operation. However, we also describe a solution of how to setup metal-stack with a self-hosted, [Autonomous Control Plane](../../contributing/01-Proposals/MEP18/README.md) cluster. The only requirement from metal-stack is that your partitions can establish network connections to the metal control plane. If you are interested, you can find a reasoning behind this deployment decision [here](../03-Concepts/01-architecture.md#Target-Deployment-Platforms).
+For metal-stack it does not matter where your control plane Kubernetes cluster is located. You can of course use a cluster managed by a hyperscaler. This has the advantage of not having to setup Kubernetes by yourself and could even become beneficial in terms of fail-safe operation. However, we also describe a solution of how to setup metal-stack with a self-hosted, [Autonomous Control Plane](../../contributing/01-Proposals/MEP18/README.md) cluster. The only requirement from metal-stack is that your partitions can establish network connections to the metal control plane. If you are interested, you can find a reasoning behind this deployment decision [here](../03-Concepts/01-architecture.md#target-deployment-platforms).
 :::
 
 Let's start off with a fresh folder for your deployment:
