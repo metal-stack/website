@@ -6,11 +6,9 @@ date: 2023-04-05T11:30:00+02:00
 description: "Let's take a look at the birth of a new controller in our stack, the firewall-controller-manager."
 authors: [gerrit]
 type: "blog"
-categories:
-  - "Release"
 tags:
-  - "Release"
-  - "Kubernetes"
+  - release
+  - kubernetes
 ---
 
 With metal-stack v0.13.0 we are undergoing big changes to our Gardener integration. In this release, we give birth to a new Kubernetes controller called [firewall-controller-manager](https://github.com/metal-stack/firewall-controller-manager) (FCM). The reasons behind the decision to implement a new controller and the features we added to it are presented in this blog article.

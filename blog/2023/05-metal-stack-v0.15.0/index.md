@@ -6,12 +6,10 @@ date: 2023-08-23T11:30:00+02:00
 description: "Spread machines intelligently in the data center."
 authors: [gerrit]
 type: "blog"
-categories:
-  - "Release"
 tags:
-  - "Release"
-  - "Kubernetes"
-  - "Network"
+  - release
+  - kubernetes
+  - network
 ---
 
 metal-stack v0.15.0 implements [MEP-12: Rack Spreading](https://docs.metal-stack.io/stable/development/proposals/MEP12/README/).

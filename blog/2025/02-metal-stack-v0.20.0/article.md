@@ -6,12 +6,10 @@ date: 2025-02-26T10:00:00+01:00
 description: "Finally IPv6 made it into the metal-api. This and more interesting features of the latest release can be read in this blog article."
 authors: [gerrit]
 type: "blog"
-categories:
-  - "Release"
-# tags:
-#   - 'Release'
-#   - 'Kubernetes'
-#   - 'Network'
+tags:
+  - release
+  - kubernetes
+  - network
 ---
 
 Admittedly, we planned supporting IPv6 for metal-stack years ago. 😅

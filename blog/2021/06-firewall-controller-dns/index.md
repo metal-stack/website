@@ -6,12 +6,10 @@ date: 2021-06-15T09:00:00+02:00
 description: "We just released a new firewall-controller that now comes with DNS-based L3 policies support! Read this post to find out when it can be useful and how you can try this out."
 authors: [grigoriy]
 type: "blog"
-categories:
-  - "Release"
 tags:
-  - "Release"
-  - "Kubernetes"
-  - "Networking"
+  - release
+  - kubernetes
+  - network
 ---
 
 We just released a new firewall-controller that now comes with DNS-based L3 policies support! Read this post to find out when it can be useful and how you can try this out.

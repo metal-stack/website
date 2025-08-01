@@ -1,19 +1,69 @@
-facebook:
-  label: Facebook
-  permalink: /facebook
-  description: Facebook tag description
+news:
+  label: News
+  permalink: /news
+  description: Latest news around metal-stack
 
-hello:
-  label: Hello
-  permalink: /hello
-  description: Hello tag description
+network:
+  label: Network
+  permalink: /network
+  description: Articles around datacenter networks related to metal-stack
 
-docusaurus:
-  label: Docusaurus
-  permalink: /docusaurus
-  description: Docusaurus tag description
+kubernetes:
+  label: Kubernetes
+  permalink: /kubernetes
+  description: Metal-stack is evolving to support the latest Kubernetes versions and features 
 
-hola:
-  label: Hola
-  permalink: /hola
-  description: Hola tag description
+gardener:
+  label: Gardener
+  permalink: /gardener
+  description: Gardener is the favored solution for orchestrated Kubernetes cluster provisioning on metal-stack
+  
+cluster-api:
+  label: Cluster API
+  permalink: /cluster-api
+  description: Cluster API is an interface for Kubernetes cluster management
+
+release:
+  label: Release
+  permalink: /release
+  description: News about our latest releases
+
+conferences:
+  label: Conferences
+  permalink: /conferences
+  description: We participate on Conferences to stay in touch with the community
+
+infrastructure:
+  label: Infrastructure
+  permalink: /infrastructure
+  description: Infrastructure
+
+architecture:
+  label: Architecture
+  permalink: /architecture
+  description: Posts about Architecture to define the building blocks of metal-stack
+
+storage:
+  label: Storage
+  permalink: /storage
+  description: Posts about persisting data in a cluster environment.
+
+hackathon:
+  label: Hackathon
+  permalink: /hackathon
+  description: We participate on Hackathons to evolve the ecosystem of and around metal-stack
+
+ipv6:
+  label: IPv6
+  permalink: /ipv6
+  description: IPv6 is supported by metal-stack
+
+scalability:
+  label: Scalability
+  permalink: /scalability
+  description: Solutions to change the size of the environment
+
+vpn:
+  label: VPN
+  permalink: /vpn
+  description: Create connections between clusters and clients via VPN

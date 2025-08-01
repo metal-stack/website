@@ -6,12 +6,10 @@ date: 2024-11-12T10:30:00+01:00
 description: "We published metal-stack v0.19.0 with more features for isolated environments. Read on to learn more."
 authors: [gerrit]
 type: "blog"
-categories:
-  - "Release"
 tags:
-  - "Release"
-  - "Kubernetes"
-  - "Network"
+  - release
+  - kubernetes
+  - network
 ---
 
 It's been a while since the last minor release of metal-stack. However, under the hood there has been more activity on our repository landscape than ever before. We had many new first-time contributors and we are really happy to see so much participation in our open source project. metal-stack `v0.19.0` contains a huge amount of updates, features and fixes, which you will learn about in this blog article.

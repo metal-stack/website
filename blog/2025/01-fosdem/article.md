@@ -6,11 +6,9 @@ date: 2025-02-03T10:00:00+02:00
 description: "For the first time metal-stack was part of the biggest Open Source conference in Europe."
 authors: [gerrit]
 type: "blog"
-categories:
-  - "Conferences"
-# tags:
-#   - 'News'
-#   - 'Conferences'
+tags:
+  - news
+  - conferences
 ---
 
 Without high expectations, we submitted an application to [FOSDEM](https://fosdem.org/) at the end of last year. So we were very excited when we heard that metal-stack had been accepted with a stand and a presentation at FOSDEM 2025. It was a sign for us. It proved to us that there is a demand for solutions that provide highly scalable infrastructure in on-premises data centers.

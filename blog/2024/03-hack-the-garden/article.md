@@ -9,9 +9,10 @@ type: "blog"
 categories:
   - "Hackathon"
 tags:
-  - "Kubernetes"
-  - "Gardener"
-  - "VPN"
+  - kubernetes
+  - gardener
+  - hackathon
+  - vpn
 ---
 
 It was the fifth time that people from different companies came together to hack and improve the Gardener project.

@@ -10,13 +10,11 @@ description: |
   also introducing the cloud native digital competency standards.
 author: "Christian Brunner"
 type: "blog"
-categories:
-  - "Architecture"
 tags:
-  - "Kubernetes"
-  - "Gardener"
-  - "Infrastructure"
-  - "Architecture"
+  - kubernetes
+  - gardener
+  - infrastructure
+  - architecture
 ---
 
 Early in 2018 [FI-TS](https://f-i-ts.de/) decided to build a Kubernetes-as-a-Service solution for

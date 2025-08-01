@@ -6,12 +6,10 @@ date: 2021-03-25T08:00:00+02:00
 description: "As of today, we support two ways to orchestrate Kubernetes Clusters: Gardener and Cluster API! You may try it out on your local machine and simulate your own cloud provider"
 authors: [grigoriy]
 type: "blog"
-categories:
-  - "Release"
 tags:
-  - "Release"
-  - "Kubernetes"
-  - "Cluster API"
+  - release
+  - kubernetes
+  - cluster-api
 ---
 
 One of the main goals of the `metal-stack` project is to provide a fast and convenient way to provision Kubernetes clusters on bare-metal provided by `metal-stack`'s infrastructure layer.
