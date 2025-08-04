@@ -1,5 +1,5 @@
 ---
-slug: /enhancement-proposals/MEP-7
+slug: /MEP-7-configurable-filesystem-layout-for-machine-allocation
 title: MEP-7
 sidebar_position: 7
 ---

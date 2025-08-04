@@ -1,9 +1,10 @@
 ---
+slug: /firewall-controller-manager
 title: Firewall Controller Manager
 sidebar_position: 4
 ---
 
-# Firewall Management
+# Firewall Controller Manager
 
 To make the firewalls created with metal-stack easily configurable through Kubernetes resources, we add our [firewall-controller](https://github.com/metal-stack/firewall-controller) to the firewall image. The controller watches special CRDs, enabling users to manage:
 

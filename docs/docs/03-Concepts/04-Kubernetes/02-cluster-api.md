@@ -1,4 +1,5 @@
 ---
+slug: /cluster-api
 title: Cluster API
 sidebar_position: 2
 ---

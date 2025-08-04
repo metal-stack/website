@@ -1,5 +1,5 @@
 ---
-slug: /enhancement-proposals/MEP-4
+slug: /MEP-4-multi-tenancy-for-the-metal-api
 title: MEP-4
 sidebar_position: 4
 ---

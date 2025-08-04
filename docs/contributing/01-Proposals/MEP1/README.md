@@ -1,5 +1,5 @@
 ---
-slug: /enhancement-proposals/MEP-1
+slug: /MEP-1-distributed-metal-control-plane
 title: MEP-1
 sidebar_position: 1
 ---

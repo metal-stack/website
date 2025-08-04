@@ -1,4 +1,5 @@
 ---
+slug: /storage
 title: Storage
 sidebar_position: 7
 ---

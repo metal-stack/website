@@ -1,5 +1,5 @@
 ---
-slug: /enhancement-proposals/MEP-11
+slug: /MEP-11-auditing-of-metal-stack-resources
 title: MEP-11
 sidebar_position: 11
 ---

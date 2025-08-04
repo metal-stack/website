@@ -1,5 +1,5 @@
 ---
-slug: /enhancement-proposals/MEP-12
+slug: /MEP-12-rack-spreading
 title: MEP-12
 sidebar_position: 12
 ---

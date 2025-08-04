@@ -1,5 +1,5 @@
 ---
-slug: /enhancement-proposals/MEP-16
+slug: /MEP-16-metal-api-as-an-alternative-configuration-source-for-the-firewall-controller
 title: MEP-16
 sidebar_position: 16
 ---

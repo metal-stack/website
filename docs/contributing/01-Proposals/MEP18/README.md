@@ -1,5 +1,5 @@
 ---
-slug: /enhancement-proposals/MEP-18
+slug: /MEP-18-autonomous-control-plane
 title: MEP-18
 sidebar_position: 18
 ---

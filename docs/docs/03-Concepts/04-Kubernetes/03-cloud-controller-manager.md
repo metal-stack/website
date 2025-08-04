@@ -1,9 +1,10 @@
 ---
+slug: /metal-cloud-controller-manager
 title: Cloud Controller Manager
 sidebar_position: 3
 ---
 
-# metal-ccm
+# metal Cloud Controller Manager
 
 CCM stands for [cloud-controller-manager](https://kubernetes.io/docs/concepts/architecture/cloud-controller/) and is the bridge between Kubernetes and a cloud-provider.
 

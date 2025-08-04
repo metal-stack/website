@@ -1,4 +1,5 @@
 ---
+slug: /gardener
 title: Gardener
 sidebar_position: 1
 ---

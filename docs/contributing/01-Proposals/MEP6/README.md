@@ -1,5 +1,5 @@
 ---
-slug: /enhancement-proposals/MEP-6
+slug: /MEP-6-dmz-networks
 title: MEP-6
 sidebar_position: 6
 ---

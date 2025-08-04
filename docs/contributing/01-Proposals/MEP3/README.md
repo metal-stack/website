@@ -1,5 +1,5 @@
 ---
-slug: /enhancement-proposals/MEP-3
+slug: /MEP-3-machine-re-installation
 title: MEP-3
 sidebar_position: 3
 ---

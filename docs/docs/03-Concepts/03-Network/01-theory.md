@@ -1,4 +1,5 @@
 ---
+slug: /networking
 title: Networking
 sidebar_position: 1
 ---

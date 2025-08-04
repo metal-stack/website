@@ -1,5 +1,5 @@
 ---
-slug: /enhancement-proposals/MEP-9
+slug: /MEP-9-no-open-ports-to-the-data-center
 title: MEP-9
 sidebar_position: 9
 ---

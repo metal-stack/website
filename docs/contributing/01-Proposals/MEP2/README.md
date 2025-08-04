@@ -1,5 +1,5 @@
 ---
-slug: /enhancement-proposals/MEP-2
+slug: /MEP-2-two-factor-authentication
 title: MEP-2
 sidebar_position: 2
 ---

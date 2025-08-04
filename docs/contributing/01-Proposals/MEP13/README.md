@@ -1,5 +1,5 @@
 ---
-slug: /enhancement-proposals/MEP-13
+slug: /MEP-13-dual-stack-support
 title: MEP-13
 sidebar_position: 13
 ---

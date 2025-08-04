@@ -1,4 +1,5 @@
 ---
+slug: /gpu-workers
 title: GPU Workers
 sidebar_position: 6
 ---

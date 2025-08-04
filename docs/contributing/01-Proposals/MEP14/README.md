@@ -1,5 +1,5 @@
 ---
-slug: /enhancement-proposals/MEP-14
+slug: /MEP-14-independence-from-external-sources
 title: MEP-14
 sidebar_position: 14
 ---

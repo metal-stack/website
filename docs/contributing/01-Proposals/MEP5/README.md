@@ -1,5 +1,5 @@
 ---
-slug: /enhancement-proposals/MEP-5
+slug: /MEP-5-shared-networks
 title: MEP-5
 sidebar_position: 5
 ---

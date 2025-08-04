@@ -1,5 +1,5 @@
 ---
-slug: /enhancement-proposals/MEP-10
+slug: /MEP-10-sonic-support
 title: MEP-10
 sidebar_position: 10
 ---

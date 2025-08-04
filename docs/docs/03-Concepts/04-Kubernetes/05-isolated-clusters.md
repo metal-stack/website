@@ -1,4 +1,5 @@
 ---
+slug: /isolated-kubernetes-clusters
 title: Isolated Clusters
 sidebar_position: 5
 ---
