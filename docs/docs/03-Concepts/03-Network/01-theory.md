@@ -177,7 +177,7 @@ Implementation of the network operation requires the data center infrastructure 
 
 ### Physical Wiring
 
-Reference: See the [CLOS overview picture](#CLOS)
+Reference: See the [CLOS overview picture](./01-theory.md#clos)
 
 | Name                        | Wiring                                                                                        |
 | :-------------------------- | :-------------------------------------------------------------------------------------------- |

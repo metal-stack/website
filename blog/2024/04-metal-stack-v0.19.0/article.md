@@ -17,7 +17,7 @@ It's been a while since the last minor release of metal-stack. However, under th
 <!--truncate -->
 
 1. [Running metal-stack in Offline Environments](#running-metal-stack-in-offline-environments)
-1. [Gardener Integration From Version 1.81 to 1.97](#gardener-integration-from-version-1.81-to-1.97)
+1. [Gardener Integration From Version 1.81 to 1.97](#gardener-integration-from-version-181-to-197)
 1. [New Features on Machine Sizes](#new-features-on-machine-sizes)
 1. [Encryption of backup-restore-sidecar backups](#encryption-of-backup-restore-sidecar-backups)
 1. [Migration From Cumulus to SONiC](#migration-from-cumulus-to-sonic)
