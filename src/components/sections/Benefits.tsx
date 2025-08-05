@@ -12,6 +12,7 @@ import SectionIntro from "../../components/SectionIntro";
 import Usp from "../../components/Usp";
 import Container from "../../components/Container";
 import Row from "../../components/Row";
+import Link from "@docusaurus/Link";
 
 export default function Benefits() {
   return (
@@ -34,12 +35,9 @@ export default function Benefits() {
           >
             <p className="flex items-center font-medium mt-4 text-black dark:text-white">
               Find out more{" "}
-              <a
-                href="https://docs.metal-stack.io/stable/#Why-Bare-Metal?"
-                className="mx-1"
-              >
+              <Link to="/docs/why-bare-metal" className="mx-1">
                 here
-              </a>
+              </Link>
               <ChevronRight />
             </p>
           </Usp>
