@@ -115,7 +115,8 @@ To update the dependencies for the Reference pages:
 bun run fetch-readmes
 ```
 ## Component references
-Ensure first, that all files in the docs folder are updated and ready to freeze. Also execute `bun run fetch-readmes` to update files from components and apis. 
+Ensure first, that all files in the docs folder are updated and ready to freeze. Also execute `bun run fetch-readmes` to update files from components and apis with the release-vector file from the main branch.
+It is also possible to use `bun run fetch-readmes v0.20.8` to use the release-vector file with a specific tag (i.E. v0.20.8).
 All components are referenced in the `/scripts/components.json` file. Use this minimal template to add a new component:
 ```json
 {
