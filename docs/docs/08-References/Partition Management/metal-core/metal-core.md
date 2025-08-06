@@ -1,7 +1,7 @@
 ---
 slug: /references/metal-core
 title: metal-core
-sidebar_position: 1
+sidebar_position: 2
 ---
 
 # metal-core

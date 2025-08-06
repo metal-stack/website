@@ -1,7 +1,7 @@
 ---
 slug: /references/metal-hammer
 title: metal-hammer
-sidebar_position: 2
+sidebar_position: 4
 ---
 
 # Metal Stack Hammer
