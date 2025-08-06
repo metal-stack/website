@@ -6,7 +6,28 @@ import YAML from 'yaml'
 
 const outputBase = path.resolve(__dirname, "../docs/docs/08-References");
 
-const releaseVectorPath = "https://raw.githubusercontent.com/metal-stack/releases/refs/heads/master/release.yaml"
+function isValidVersion(version) {
+  const regex = /^v\d{1,3}\.\d{1,3}\.\d{1,3}$/;
+  return regex.test(version);
+}
+
+async function getReleaseVectorYaml(version) {
+  let releaseVectorPath = "https://raw.githubusercontent.com/metal-stack/releases/refs/heads/master/release.yaml"
+
+  if (version !== "") {
+    if(isValidVersion(version)) {
+      releaseVectorPath = "https://raw.githubusercontent.com/metal-stack/releases/refs/tags/" + version + "/release.yaml"
+    }
+    else {
+      console.error("Version " + version + " is invalid")
+    }
+  }
+
+  console.log("Get release-vector from " + releaseVectorPath)
+
+  const releaseVectorFile = await axios.get(releaseVectorPath);
+  return YAML.parse(releaseVectorFile.data);
+}
 
 function webURL(component) {
   return "https://github.com/" + component.repo + "/blob/" + component.branch
@@ -181,11 +202,15 @@ async function fetchComponentDocs() {
   if (!fs.existsSync(outputBase)) {
     fs.mkdirSync(outputBase, { recursive: true });
   }
-  
-  const releaseVectorFile = await axios.get(releaseVectorPath);
-  let releaseVector = YAML.parse(releaseVectorFile.data);
+
+  const versionParameter = Bun.argv[2]
+  console.log("Version Parameter: " + versionParameter)
+
+  let releaseVector = getReleaseVectorYaml(versionParameter)
 
   let componentDocs = require("./components.json");
+
+  console.log("Updating component versions with release-vector...")
 
   for (const section of componentDocs) {
     for (const component of section.components) {
@@ -195,7 +220,7 @@ async function fetchComponentDocs() {
       }
 
       let docsVersion = component.tag
-      let releaseVersion = findPath(releaseVector,component.releasePath)
+      let releaseVersion = findPath(releaseVector, component.releasePath)
 
       if(releaseVersion === undefined) {
         console.warn("Path for release version for component " + component.name + " empty, not found or incorrect.")
