@@ -110,17 +110,17 @@ Please note that every [networking setup](../../03-Concepts/03-Network/01-theory
 
 ### Used Technologies
 
-| Technology | Parties                     | Notes                                                                                            |
-| ---------- | --------------------------- | ------------------------------------------------------------------------------------------------ |
-| VRF        | Switches, Firewalls         | Isolation of network segments, e.g. for management and data traffic.                             |
-| VLAN       | Switches, Firewalls         | Layer 2 traffic segmentation.                                                                    |
-| VXLAN      | Switches, Firewalls         | Encapsulate Layer 2 frames in Layer 3 packets for network virtualization.                        |
-| EVPN       | Switches, Firewalls         | Overlay network technology for scalable and flexible network architectures.                      |
-| VPN        | Firewalls                   | Management access [without open SSH ports](../../08-For Developers/01-proposals/MEP9/README.md). |
-| BGP        | Multiple                    | Routing protocol for dynamic routing and network management.                                     |
-| SSH        | Management Server, Switches | Secure shell access for management and configuration.                                            |
-| LLDP       | Switches, Machines          | Link Layer Discovery Protocol for network device discovery.                                      |
-| ICMP       | Multiple                    | Used for network diagnostics and reachability testing.                                           |
+| Technology | Parties                     | Notes                                                                                          |
+| ---------- | --------------------------- | ---------------------------------------------------------------------------------------------- |
+| VRF        | Switches, Firewalls         | Isolation of network segments, e.g. for management and data traffic.                           |
+| VLAN       | Switches, Firewalls         | Layer 2 traffic segmentation.                                                                  |
+| VXLAN      | Switches, Firewalls         | Encapsulate Layer 2 frames in Layer 3 packets for network virtualization.                      |
+| EVPN       | Switches, Firewalls         | Overlay network technology for scalable and flexible network architectures.                    |
+| VPN        | Firewalls                   | Management access [without open SSH ports](../../../contributing/01-Proposals/MEP9/README.md). |
+| BGP        | Multiple                    | Routing protocol for dynamic routing and network management.                                   |
+| SSH        | Management Server, Switches | Secure shell access for management and configuration.                                          |
+| LLDP       | Switches, Machines          | Link Layer Discovery Protocol for network device discovery.                                    |
+| ICMP       | Multiple                    | Used for network diagnostics and reachability testing.                                         |
 
 ## With Gardener
 
