@@ -17,9 +17,9 @@ The used framework to generate docs is [docusaurus](https://docusaurus.io).
 │   ├── 2024
 │   └── 2025
 ├── docs                    # docs folder split by different scopes
-│   ├── contributing        # guidlines for contributors
+│   ├── contributing        # guidelines for contributors
 │   ├── docs                # documentation pages
-│   ├── references          # auto-genereted references of componets and apis
+│   ├── references          # auto-generated references of components and apis
 ├── scripts                 # custom scripts (e.g: resolving component documentation)
 ├── src                     # custom routes and react
 │   ├── components
@@ -97,27 +97,34 @@ tags:
 
 <YOUR ARTICLE>
 ```
+
 ## Setup & Build
-Reqires Bun as .js runtime.
+
+Requires Bun as .js runtime.
 
 Run the following command to install dependencies:
+
 ```
 bun install
 ```
 
 To generate a local preview use:
+
 ```
 bun run start
 ```
 
 To update the dependencies for the Reference pages:
+
 ```
 bun run fetch-readmes
 ```
+
 ## Component references
 Ensure first, that all files in the docs folder are updated and ready to freeze. Also execute `bun run fetch-readmes` to update files from components and apis with the release-vector file from the main branch.
 It is also possible to use `bun run fetch-readmes v0.20.8` to use the release-vector file with a specific tag (i.E. v0.20.8).
 All components are referenced in the `/scripts/components.json` file. Use this minimal template to add a new component:
+
 ```json
 {
         "name": "metalctl", // name of the component, will appear in the navigation
@@ -127,12 +134,17 @@ All components are referenced in the `/scripts/components.json` file. Use this m
         "withDocs": true // set to true to retrieve further .md files from a /docs folder. With false, only the README.md will be retrieved.
 },
 ```
+
 The `tag` property will be updated automatically from the release-vector file.
+
 ## Document Versioning
+
 You create a new version with:
+
 ```
 bun run docusaurus docs:version v0.21.6
 ```
+
 Now, the new version will be create and the latest files will be copied to the "`versioned`" folders.
 
 ## Release Notes
