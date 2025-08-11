@@ -13,7 +13,8 @@
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
     "typecheck": "tsc",
-    "fetch-readmes": "bun ./scripts/fetch-readmes.js"
+    "fetch-readmes": "bun ./scripts/fetch-readmes.js",
+    "create-release-notes": "bun ./scripts/create-release-notes.js"
   },
   "dependencies": {
     "@carbon/icons-react": "^11.63.0",
