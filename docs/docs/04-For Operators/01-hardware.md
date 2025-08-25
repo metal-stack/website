@@ -24,7 +24,7 @@ The following server types are officially supported and verified by the metal-st
 | Supermicro | Microcloud  | 5039MD8-H8TNR    | X11SDD-8C-F    | stable |
 | Supermicro | Microcloud  | SYS-531MC-H8TNR  | X13SCD-F       | stable |
 | Supermicro | Microcloud  | 3015MR-H8TNR     | H13SRD-F       | stable |
-| Lenovo     | ThinkSystem | SD530            |                | alpha  |
+| Gigabyte   |             |                  |                | alpha  |
 
 Other server series and models might work but were not reported to us.
 
@@ -37,7 +37,7 @@ The following GPU types are officially supported and verified by the metal-stack
 | NVIDIA | RTX 6000 | stable |
 | NVIDIA | H100     | stable |
 
-Other GPU models might work but were not reported to us. For a detailed description howto use GPU support in a kubernetes cluster please check this [documentation](../03-Concepts/04-Kubernetes/06-gpu-workers.md)
+Other GPU models might work but were not reported to us. For a detailed description howto use GPU support in a kubernetes cluster please check this [documentation](../05-Concepts/04-Kubernetes/06-gpu-workers.md).
 
 ## Network Cards
 
@@ -69,7 +69,7 @@ Other switch series and models might work but were not reported to us.
 
 On our switches we run [SONiC](https://sonicfoundation.dev). The metal-core writes network configuration specifically implemented for this operating system. Please also consider running SONiC on your switches if you do not want to run into any issues with networking.
 
-Our previous support for [Cumulus Linux](hhttps://www.nvidia.com/en-us/networking/ethernet-switching/cumulus-linux/) will come to an end.
+Our previous support for [Cumulus Linux](https://www.nvidia.com/en-us/networking/ethernet-switching/cumulus-linux/) will come to an end.
 
 Of course, contributions for supporting other switch vendors and operating systems are highly appreciated.
 :::
