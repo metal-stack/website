@@ -25,6 +25,7 @@ The following server types are officially supported and verified by the metal-st
 | Supermicro | Microcloud  | SYS-531MC-H8TNR  | X13SCD-F       | stable |
 | Supermicro | Microcloud  | 3015MR-H8TNR     | H13SRD-F       | stable |
 | Lenovo     | ThinkSystem | SD530            |                | alpha  |
+| Gigabyte   | T-Series    | TO25-Z11-AA01    | MZ13-HD0       | alpha  |
 
 Other server series and models might work but were not reported to us.
 
@@ -43,12 +44,13 @@ Other GPU models might work but were not reported to us. For a detailed descript
 
 The following network cards are officially supported and verified by the metal-stack project for usage in servers:
 
-| Vendor   | Series     | Model                        | Status |
-|----------|------------|------------------------------|:-------|
-| Intel    | XXV710     | DA2 DualPort 2x25G SFP28     | stable |
-| Intel    | E810       | DA2 DualPort 2x25G SFP28     | stable |
-| Intel    | E810       | CQDA2 DualPort 2x100G QSFP28 | stable |
-| Mellanox | ConnectX-5 | MCX512A-ACAT 2x25G SFP28     | stable |
+| Vendor   | Series        | Model                        | Status |
+|----------|---------------|------------------------------|:-------|
+| Intel    | XXV710        | DA2 DualPort 2x25G SFP28     | stable |
+| Intel    | E810          | DA2 DualPort 2x25G SFP28     | stable |
+| Intel    | E810          | CQDA2 DualPort 2x100G QSFP28 | stable |
+| Mellanox | ConnectX-5    | MCX512A-ACAT 2x25G SFP28     | stable |
+| Mellanox | ConnectX-6 Lx | MCX631432AC-ADAB 2x25G SFP28 | alpha  |
 
 ## Switches
 
