@@ -24,7 +24,6 @@ The following server types are officially supported and verified by the metal-st
 | Supermicro | Microcloud  | 5039MD8-H8TNR    | X11SDD-8C-F    | stable |
 | Supermicro | Microcloud  | SYS-531MC-H8TNR  | X13SCD-F       | stable |
 | Supermicro | Microcloud  | 3015MR-H8TNR     | H13SRD-F       | stable |
-| Lenovo     | ThinkSystem | SD530            |                | alpha  |
 | Gigabyte   | T-Series    | TO25-Z11-AA01    | MZ13-HD0       | alpha  |
 
 Other server series and models might work but were not reported to us.
