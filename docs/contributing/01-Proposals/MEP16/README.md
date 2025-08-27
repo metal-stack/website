@@ -218,7 +218,7 @@ The GEPM should be migrated to the new `Firewall.spec.userdataContents` field.
 
 ### Cluster API Provider Metal Stack
 
-![architectural overview](firewall-for-capms-overview.drawio.svg)
+![architectural overview](firewall-for-capms-overview.svg)
 
 In Cluster API there are essentially two main clusters: the management cluster and the workload cluster while the CAPMS takes in the role of the GEPM.
 Typically a local bootstrap cluster is created in KinD which acts as the management cluster. It creates the workload cluster. Thereafter the ownership of the workload cluster is typically moved (using `clusterctl move`) to a different cluster which will then become the management cluster.

@@ -24,7 +24,7 @@ As a next step, we can also consider joining the management servers to the VPN m
 
 ## High Level Design
 
-[](./architecture.drawio.svg)
+[](./architecture.svg)
 
 > Simplified drawing showing old vs. new architecture.
 
