@@ -120,11 +120,6 @@ const config: Config = {
         },
         { to: "/blog", label: "Blog", position: "left" },
         {
-          href: "https://metalstack.cloud/de/on-premises",
-          label: "Services",
-          position: "right",
-        },
-        {
           href: "https://github.com/metal-stack",
           "aria-label": "GitHub repository",
           position: "right",

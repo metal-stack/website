@@ -154,6 +154,9 @@ footer {
 .navbar {
   position: sticky;
   width: 100%;
+  border-bottom: 0.5px solid rgb(82 82 82);
+  font-size: 92%;
+  padding: 0 5% 0 5%;
 }
 
 .header-github-link::after {
