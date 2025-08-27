@@ -95,7 +95,18 @@ const config: Config = {
         src: "img/metal-stack.png",
       },
       items: [
-        { type: "docsVersionDropdown" },
+        { type: "docsVersionDropdown", dropdownItemsAfter: [
+              {
+                type: 'html',
+                value: '<hr class="dropdown-separator">',
+              },
+              {
+                label: "Archived: v0.1 - v0.21.8",
+                //! TODO: change to archived dns
+                href: "https://docs.metal-stack.io/stable/"
+              }
+            ],
+           },
         {
           type: "doc",
           label: "Docs",
