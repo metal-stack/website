@@ -94,7 +94,7 @@ Description The following table might not be displayed in completeness. Scroll t
 ## With SONiC
 
 While metal-stack does not directly depend on SONiC, it is the only actively maintained implementation of our networking stack. Therefore, the following communication is required by metal-stack components to interact with SONiC.
-Please note that every [networking setup](../../03-Concepts/03-Network/01-theory.md) has its own requirements and configurations, so the following table might not be complete for your setup.
+Please note that every [networking setup](../../05-Concepts/03-Network/01-theory.md) has its own requirements and configurations, so the following table might not be complete for your setup.
 
 | No.  | Component  | Source Zone       | Protocol | Destination          | Destination Zone    | Port  |  C  |  I  | Auth | Trust | Purpose       | Notes                                         |
 | ---- | ---------- | ----------------- | :------: | -------------------- | ------------------- | :---: | :-: | :-: | :--: | :---: | ------------- | --------------------------------------------- |
@@ -124,7 +124,7 @@ Please note that every [networking setup](../../03-Concepts/03-Network/01-theory
 
 ## With Gardener
 
-When using metal-stack in [conjunction with Gardener](../../03-Concepts/04-Kubernetes/01-gardener.md), the following communication is required by metal-stack components.
+When using metal-stack in [conjunction with Gardener](../../05-Concepts/04-Kubernetes/01-gardener.md), the following communication is required by metal-stack components.
 
 :::info
 The following table might not be displayed in completeness. Scroll to the right to see all entries.
@@ -154,7 +154,7 @@ The following table might not be displayed in completeness. Scroll to the right 
 
 ## With Cluster API
 
-By using the [Cluster API provider for metal-stack](../../03-Concepts/04-Kubernetes/02-cluster-api.md), the following communictations are required by metal-stack components.
+By using the [Cluster API provider for metal-stack](../../05-Concepts/04-Kubernetes/02-cluster-api.md), the following communictations are required by metal-stack components.
 
 :::info
 The following table might not be displayed in completeness. Scroll to the right to see all entries.
@@ -174,7 +174,7 @@ The following table might not be displayed in completeness. Scroll to the right 
 
 ## With Lightbits
 
-In order to use [Lightbits as a storage solution](../../03-Concepts/04-Kubernetes/07-storage.md), the following communications are required by metal-stack components.
+In order to use [Lightbits as a storage solution](../../05-Concepts/04-Kubernetes/07-storage.md), the following communications are required by metal-stack components.
 
 :::info
 The following table might not be displayed in completeness. Scroll to the right to see all entries.
