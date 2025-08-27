@@ -18,7 +18,7 @@ This document is intended for developers, especially maintainers of metal-stack 
 
 The following diagram attempts to describe our current release flow:
 
-![](release_flow.drawio.svg)
+![](release_flow.svg)
 
 A release is created in the following way:
 
