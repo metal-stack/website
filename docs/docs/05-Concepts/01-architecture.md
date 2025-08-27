@@ -100,7 +100,7 @@ Some notes on this picture:
 
 The following figure shows several partitions connected to a single metal control plane. Of course, it is also possible to have multiple metal control planes, which can be useful for staging.
 
-![metal-stack](./assets/metal-stack-architecture.drawio.svg)
+![metal-stack](./assets/metal-stack-architecture.svg)
 
 > Figure 3: Reduced view on the communication between the metal control plane and multiple partitions.
 
@@ -113,7 +113,7 @@ Some notes on this picture:
 
 The following sequence diagram illustrates some of the main principles of the machine provisioning lifecycle.
 
-![provisioning sequence](./assets/provisioning_sequence.drawio.svg)
+![provisioning sequence](./assets/provisioning_sequence.svg)
 
 > Figure 4: Sequence diagram of the machine provisioning sequence.
 

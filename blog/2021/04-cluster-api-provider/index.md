@@ -34,7 +34,7 @@ Cluster API was started by the Kubernetes Special Interest Group (SIG) Cluster L
 - for managing machines, there is a `Machine` resource (comparable to the `Pod` resource for apps)
 - and a `MachineDeployment` resource (comparable to the `Deployment` resource for apps)
 
-![Cluster API](./cluster_api.drawio.svg)
+![Cluster API](./cluster_api.svg)
 
 Cluster API components usually run in a separate management cluster. It includes core controllers, like [Cluster controller](https://cluster-api.sigs.k8s.io/developer/architecture/controllers/cluster.html) and [Machine controller](https://cluster-api.sigs.k8s.io/developer/architecture/controllers/machine.html) which implement high-level logic for managing the cluster lifecycle. Infrastructure providers contain provider specific logic, like communication with bare-metal machines and setting additional services and functionality (cluster network, firewalls, etc).
 
@@ -44,7 +44,7 @@ For more details, you may check the [Cluster API docs](https://cluster-api.sigs.
 
 The provider can be seen as an intermediate layer between the `metal-stack` infrastructure layer, which manages bare-metal machines and the Cluster API, which manages Kubernetes clusters. It communicates with the `metal-stack` API using our golang client [`metal-go`](https://github.com/metal-stack/metal-go).
 
-![provider architecture](./metal_stack_arch.drawio.svg)
+![provider architecture](./metal_stack_arch.svg)
 
 The provider consists of 3 controllers:
 

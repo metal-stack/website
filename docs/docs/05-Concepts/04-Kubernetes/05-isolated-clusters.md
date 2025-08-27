@@ -26,7 +26,7 @@ In order to be able to restrict ingress and egress internet traffic, but still m
 - DNS and NTP configuration is also adopted to use the DNS and NTP servers on this private environment.
 - A list of networks which are allowed to reach is managed, this list reflects the networks of the cloud provider and is not modifiable by the cluster user. This list usually contains the internet prefixes of the provider and one or more RFC address ranges.
 
-![Network Design](isolated-kubernetes.drawio.svg)
+![Network Design](isolated-kubernetes.svg)
 
 Users are advised to attach an additional network to the Kubernetes cluster in order to be able to pull container images for the application workloads from private registries.
 

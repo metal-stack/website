@@ -49,7 +49,7 @@ nftables rules can use individual IP addresses or CIDRs for filtering, but know 
 
 Here's flow chart to illustrate how DNS based policies are handled:
 
-![DNS](./fc_dns_flow.drawio.svg)
+![DNS](./fc_dns_flow.svg)
 
 1. **DNS proxy** intercepts DNS traffic and propagates query results to the DNS cache. Traffic is intercepted with the help of nftables DNAT rules. There are two rules (one for TCP and one for UDP packets) for each private interface that needs access to a public network. These rules change their original destination address to the public IP address of firewall machine (where DNS proxy is waiting for packets):
 
