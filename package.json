@@ -17,9 +17,9 @@
   },
   "dependencies": {
     "@carbon/icons-react": "^11.63.0",
-    "@docusaurus/core": "3.7.0",
-    "@docusaurus/plugin-content-blog": "^3.7.0",
-    "@docusaurus/preset-classic": "3.7.0",
+    "@docusaurus/core": "^3.8.1",
+    "@docusaurus/plugin-content-blog": "^3.8.1",
+    "@docusaurus/preset-classic": "^3.8.1",
     "@headlessui/react": "^2.2.6",
     "@mdx-js/react": "^3.0.0",
     "@tailwindcss/postcss": "^4.1.11",
@@ -34,9 +34,9 @@
     "tailwindcss": "^4.1.6"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "3.7.0",
-    "@docusaurus/tsconfig": "3.7.0",
-    "@docusaurus/types": "3.7.0",
+    "@docusaurus/module-type-aliases": "^3.8.1",
+    "@docusaurus/tsconfig": "^3.8.1",
+    "@docusaurus/types": "^3.8.1",
     "typescript": "~5.6.2",
     "yaml": "^2.8.0"
   },
@@ -54,8 +54,5 @@
   },
   "engines": {
     "node": ">=18.0"
-  },
-  "resolutions": {
-    "image-size": "~1.0.2"
   }
 }
