@@ -89,7 +89,7 @@ const config: Config = {
     // Replace with your project's social card
     image: "img/metal-stack.png",
     navbar: {
-      title: "metal-stack",
+      title: "metal-stack.io",
       logo: {
         alt: "metal-stack-log",
         src: "img/metal-stack.png",
