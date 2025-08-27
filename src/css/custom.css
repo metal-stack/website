@@ -202,3 +202,7 @@ footer {
   border-style: solid;
   border-color: #e5e7eb;
 }
+
+.footer__link-item {
+  color: rgb(115 115 115);
+}

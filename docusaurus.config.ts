@@ -142,23 +142,19 @@ const config: Config = {
       style: "dark",
       links: [
         {
-          title: "Docs",
+          title: "metal-stack.io",
           items: [
             {
-              label: "Concepts",
-              to: "/docs/architecture",
+              label: "Blog",
+              to: "/blog",
             },
             {
-              label: "For Operators",
-              to: "/docs/hardware",
+              label: "Imprint",
+              to: "/imprint",
             },
             {
-              label: "For Users",
-              to: "/docs/client-libraries",
-            },
-            {
-              label: "Components",
-              to: "/docs/references/metalctl",
+              label: "Privacy policy",
+              to: "/privacy",
             },
           ],
         },
@@ -197,16 +193,28 @@ const config: Config = {
           ],
         },
         {
-          title: "Blog",
+          title: "Docs",
           items: [
             {
-              label: "Blog",
-              to: "/blog",
+              label: "Concepts",
+              to: "/docs/architecture",
+            },
+            {
+              label: "For Operators",
+              to: "/docs/hardware",
+            },
+            {
+              label: "For Users",
+              to: "/docs/client-libraries",
+            },
+            {
+              label: "Components",
+              to: "/docs/references/metalctl",
             },
           ],
         },
       ],
-      // copyright: `Copyright © ${new Date().getFullYear()} metal-stack.`,
+      copyright: `Copyright © ${new Date().getFullYear()} metal-stack. All rights reserved.`,
     },
     prism: {
       theme: prismThemes.github,
