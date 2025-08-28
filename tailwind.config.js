@@ -1,7 +1,6 @@
 const typography = require("@tailwindcss/typography");
 const forms = require("@tailwindcss/forms");
 const defaultTheme = require("tailwindcss/defaultTheme");
-const colors = require("tailwindcss/colors");
 
 const config = {
   content: ["./src/**/*.{html,js,svelte,ts}"],
