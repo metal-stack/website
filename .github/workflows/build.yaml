@@ -21,7 +21,7 @@ jobs:
           bun-version: v1.2
 
       - name: Install Dependencies
-        run: bun install --frozen-lockfile --production
+        run: bun install --frozen-lockfile --production --ignore-scripts
 
       - name: Build Website
         run: bun run build

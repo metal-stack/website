@@ -190,7 +190,7 @@ Reference: See the [CLOS overview picture](./01-theory.md#clos)
 | Management Server           | Jump-host to access all network switches within the CLOS topology for administrative purpose. |
 | Management Switch           | Connected to the management port of each of the network switches.                             |
 
-![Physical Wiring](network-physical-wiring.drawio.svg)
+![Physical Wiring](network-physical-wiring.svg)
 
 > Picture 5: This illustration shows an example of a suitable physical wiring inside a metal-stack partition.
 
@@ -198,7 +198,7 @@ Tenant servers are organized into a layer called projects. In case those tenant 
 
 To operate the CLOS topology, software defined configuration to enable BGP, VRF, EVPN and VXLAN must be set up.
 
-![Network VRFs across the different switch layers](network-vrfs.drawio.svg)
+![Network VRFs across the different switch layers](network-vrfs.svg)
 
 > Picture 6: This illustration shows the VRF tenant separation and VRF termination happening on the firewall for the tenant VRF and external network VRFs.
 

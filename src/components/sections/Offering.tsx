@@ -4,7 +4,7 @@ import Row from "../../components/Row";
 import Section from "../../components/Section";
 import SectionIntro from "../../components/SectionIntro";
 import { Button } from "../../components/Button";
-// import { useColorMode } from "@docusaurus/theme-common";
+import { useColorMode } from "@docusaurus/theme-common";
 
 let cloudFeatures = [
   { src: "/img/icons8-gdpr.svg", title: "Fully DSGVO and GDPR compliant", key: "compilence" },
@@ -16,7 +16,7 @@ let cloudFeatures = [
 ];
 
 export default function Offering() {
-  // const colorMode = useColorMode();
+  const { isDarkTheme } = useColorMode();
   return (
     <Section id="cloud-offering" className="pb-0 sm:pb-20 dark:bg-neutral-900 ">
       <Row className=" overflow-clip">
@@ -66,7 +66,7 @@ export default function Offering() {
             <div className="aspect-w-16 aspect-h-9 relative sm:ml-10 rounded-lg overflow-clip sm:-mr-96">
               <img
                 className="w-full object-cover h-full"
-                src="/img/browser-mockup-light.png"
+                src={isDarkTheme ? "/img/browser-mockup-dark.png" : "/img/browser-mockup-light.png"}
                 alt="Screenshot of the user interface of the metalstack.cloud management console."
               />
             </div>

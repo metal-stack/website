@@ -7,6 +7,8 @@
 /* You can override the default Infima variables here. */
 @import "tailwindcss/theme.css";
 @import "tailwindcss/utilities.css";
+@import url('./fonts/inter/inter-v12-latin.css');
+@import url('./fonts/space-grotesk/space-grotesk-v13-latin.css');
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
@@ -152,6 +154,9 @@ footer {
 .navbar {
   position: sticky;
   width: 100%;
+  border-bottom: 0.5px solid rgb(82 82 82);
+  font-size: 92%;
+  padding: 0 5% 0 5%;
 }
 
 .header-github-link::after {
@@ -199,4 +204,8 @@ footer {
   border-width: 0;
   border-style: solid;
   border-color: #e5e7eb;
+}
+
+.footer__link-item {
+  color: rgb(115 115 115);
 }

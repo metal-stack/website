@@ -18,7 +18,7 @@ Using plain metal-stack without additional layer was not a focus in the past. Th
 
 ## Gardener
 
-We recommend using metal-stack with our [Gardener integration](../03-Concepts/04-Kubernetes/01-gardener.md), which allows to manage Kubernetes clusters at scale. This integration is battle proof, well documented, used by many organizations in production and build on top of the open-source project [Gardener](https://gardener.cloud/).
+We recommend using metal-stack with our [Gardener integration](../05-Concepts/04-Kubernetes/01-gardener.md), which allows to manage Kubernetes clusters at scale. This integration is battle proof, well documented, used by many organizations in production and build on top of the open-source project [Gardener](https://gardener.cloud/).
 
 When compared to our Cluster API integration, this is more and provides a lot more features and stability. Clusters can more easily be created and managed.
 

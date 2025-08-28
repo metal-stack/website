@@ -18,7 +18,7 @@ The minimal need to know principle is a security concept that restricts access t
 As of now metal-stack does not implement fine-grained Role-Based Access Control (RBAC) within the `metal-api` but this is worked on in [MEP-4](../../../contributing/01-Proposals/MEP4/README.md).
 :::
 
-As described in our [User Management](../../03-Concepts/02-user-management.md) concept the [metal-api](https://github.com/metal-stack/metal-api) currently offers three different user roles for authorization:
+As described in our [User Management](../../05-Concepts/02-user-management.md) concept the [metal-api](https://github.com/metal-stack/metal-api) currently offers three different user roles for authorization:
 
 - `Admin`
 - `Edit`

@@ -72,6 +72,17 @@ This file is used to generate the sidebar.
 }
 ```
 
+## Embedding drawio images
+
+> ⚠️ referenced `.drawio.svg` images throw **warnings** because of unsupported file-types. We save `.drawio` files separatly and export them as `svg`. Issue is also known in [docusaurus](https://github.com/facebook/docusaurus/issues/9715)
+
+Some svgs still can have problems e.g:
+
+- `drawio.svg` files pulled by references
+- too large svg
+
+For this we have a pre-commit hook, which optimizes them with [svgo](https://github.com/svg/svgo)
+
 ## Blog
 
 In order to add a blog-post follow this template. If a new author is referenced you have to add the author to the `authors.yaml`.

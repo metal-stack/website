@@ -46,7 +46,7 @@ The architecture of the FCM is pretty much inspired by Kubernetes `Deployment`s 
 
 Here is a brief drawing showing the essential parts of the architecture:
 
-![Architecture](./architecture.drawio.svg)
+![Architecture](./architecture.svg)
 
 The following table is a summary over the [CRDs](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) introduced by the FCM:
 
