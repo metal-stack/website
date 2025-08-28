@@ -7,6 +7,7 @@ import Tab from "../../components/Tab";
 import { useState } from "react";
 import TabPanel from "../../components/TabPanel";
 
+
 export default function Features() {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -16,10 +17,8 @@ export default function Features() {
       className="bg-neutral-100 dark:bg-neutral-950"
     >
       <SectionIntro
-        title="Cloud superpowers for your servers."
-        description="metal-stack enables you to operate your own cloud infrastructure
-                  on bare-metal servers, making you independent from hyperscalers
-                  and cloud providers."
+        title="Distinguishing features"
+        description="Before starting development on metal-stack, we set out to create guiding principles to check our work against. These principles are the foundation of our work, reflect our motivation and present main considerations in the design of metal-stack."
       />
       <Row>
         <Container>

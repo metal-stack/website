@@ -18,20 +18,21 @@ The supported images for worker nodes currently are:
 
 | Platform | Distribution | Version |
 | :------- | :----------- | :------ |
-| Linux    | Debian       | 11      |
-| Linux    | Ubuntu       | 22.04   |
+| Linux    | Debian       | 12      |
+| Linux    | Debian       | 13      |
+| Linux    | Ubuntu       | 24.04   |
 
 The supported images for firewalls are:
 
 | Platform | Distribution | Version | Based On |
 | :------- | :----------- | :------ | -------- |
-| Linux    | Ubuntu       | 3       | 22.04    |
+| Linux    | Ubuntu       | 3       | 24.04    |
 
 ## Building Your Own Images
 
 It is fully possible to build your own operating system images and provide them through the metal-stack.
 
-There are some conventions though that you need to follow in order to make your image installable through the metal-hammer. You should understand the [machine provisioning sequence](../03-Concepts/01-architecture.md#machine-provisioning-sequence) before starting to write your own images.
+There are some conventions though that you need to follow in order to make your image installable through the metal-hammer. You should understand the [machine provisioning sequence](../05-Concepts/01-architecture.md#machine-provisioning-sequence) before starting to write your own images.
 
 1. Images need to be compressed to a tarball using the [lz4](https://de.wikipedia.org/wiki/LZ4) compression algorithm
 1. An `md5` checksum file with the same name as the image archive needs to be provided in the download path along with the actual os image

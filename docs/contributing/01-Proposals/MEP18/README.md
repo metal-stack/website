@@ -50,7 +50,7 @@ So, our proposal is to chain two metal-stack control planes. The initial control
 
 The following figure shows how the high-level architecture of this setup looks like. A even more simplified illustration of this setup can be looked up in the appendix[^1].
 
-![Autonomous Control Plane Architecture](./autonomous-control-plane-images/metal-stack-autonomous-control-plane-full.drawio.svg)
+![Autonomous Control Plane Architecture](./autonomous-control-plane-images/metal-stack-autonomous-control-plane-full.svg)
 
 The k3s nodes can either be bare metal machines or virtual machines. When using VMs a single k3s node might be a viable solution, too. These nodes are supposed to be setup manually / partly automated with an operating system like Debian.
 
@@ -91,11 +91,11 @@ In addition to the metal-stack and Gardener deployment, some additional required
 
 Physical view, minimal setup for a initial cluster with a single physical node:
 
-![Small Initial Cluster](autonomous-control-plane-images/small-initial-cluster.drawio.svg)
+![Small Initial Cluster](autonomous-control-plane-images/small-initial-cluster.svg)
 
 Physical View, bigger ha setup which is spread across two data centers:
 
-![HA Initial Cluster](autonomous-control-plane-images/ha-initial-cluster.drawio.svg)
+![HA Initial Cluster](autonomous-control-plane-images/ha-initial-cluster.svg)
 
 ### Control Plane High Availability
 
@@ -144,4 +144,4 @@ As part of this proposal, we provide the following tools and integrations in ord
 
 ## Appendix
 
-[^1]: ![metal-stack-chain](autonomous-control-plane-images/metal-stack-chain.drawio.svg)
+[^1]: ![metal-stack-chain](autonomous-control-plane-images/metal-stack-chain.svg)
