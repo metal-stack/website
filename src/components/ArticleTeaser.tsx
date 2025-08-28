@@ -4,20 +4,21 @@ import {ArticleTeaserProps} from "@site/src/types/ArticleTeaserProps";
 export default function ArticleTeaser(props: ArticleTeaserProps) {
   return (
     <article>
-      <Link to={props.slug} className="bg-white/50 group dark:bg-neutral-900 border border-neutral-200 dark:border-white/5 filter backdrop-blur-xl rounded-lg block p-8 h-full">
+      <Link to={props.slug} className="group  border border-neutral-200 dark:border-white/5 filter backdrop-blur-xl rounded-lg block p-8 h-full">
         <div className=" relative">
           <h3 className="mt-0 text-lg font-semibold leading-6  group-hover:text-amber-500 !line-clamp-2 h-12">
             {props.title}
           </h3>
-          <hr className="mt-4 border-neutral-200 dark:border-neutral-800" />
+          <hr className="mt-4 border-neutral-200 dark:border-neutral-800 border-b-1" />
           <p className="mt-5 line-clamp-3 text-sm leading-6">{props.description}</p>
         </div>
         <div className="relative mt-8 flex items-center gap-x-4">
-          <img
-            src={props.firstAuthor.url}
-            alt="Author image"
-            className="h-10 w-10 rounded-full bg-neutral-50"
-          />
+          { props.firstAuthor.url &&
+            <img
+              src={props.firstAuthor.url}
+              alt="Author image"
+              className="h-10 w-10 rounded-full bg-neutral-50"
+            /> }
           <div className="text-sm leading-tight">
             <p className="font-semibold text-black dark:text-white mb-0">
               <span className="absolute inset-0"></span>

@@ -35,33 +35,43 @@ const config: Config = {
     format: "detect",
   },
 
-  plugins: [[require.resolve('./blogPluginEnhanced'), {
-    showReadingTime: true,
-    blogSidebarTitle: 'All posts',
-    blogSidebarCount: 'ALL',
-    feedOptions: {
-      type: "all",
-      //copyright: `Copyright © ${new Date().getFullYear()} metal-stack`,
-      createFeedItems: async (params) => {
-        const { blogPosts, defaultCreateFeedItems, ...rest } = params;
-        return await defaultCreateFeedItems({
-          // keep only the 10 most recent blog posts in the feed
-          blogPosts: blogPosts.filter((item, index) => index < 30),
-          ...rest,
-        });
+  plugins: [
+    [
+      require.resolve("./blogPluginEnhanced"),
+      {
+        showReadingTime: true,
+        blogSidebarTitle: "All posts",
+        blogSidebarCount: 0,
+        postsPerPage: 12,
+        feedOptions: {
+          type: "all",
+          //copyright: `Copyright © ${new Date().getFullYear()} metal-stack`,
+          createFeedItems: async (params) => {
+            const { blogPosts, defaultCreateFeedItems, ...rest } = params;
+            return await defaultCreateFeedItems({
+              // keep only the 10 most recent blog posts in the feed
+              blogPosts: blogPosts.filter((item, index) => index < 30),
+              ...rest,
+            });
+          },
+        },
+        // Please change this to your repo.
+        // Remove this to remove the "edit this page" links.
+        editUrl: "https://github.com/metal-stack/docs-new/tree/main/",
+        // Useful options to enforce blogging best practices
+        onInlineTags: "warn",
+        onInlineAuthors: "ignore",
+        onUntruncatedBlogPosts: "warn",
       },
-    },
-    // Please change this to your repo.
-    // Remove this to remove the "edit this page" links.
-    editUrl: "https://github.com/metal-stack/docs-new/tree/main/",
-    // Useful options to enforce blogging best practices
-    onInlineTags: "warn",
-    onInlineAuthors: "ignore",
-    onUntruncatedBlogPosts: "warn",
-  }], ["./src/plugins/tailwind-config.js", {}],
-  [require.resolve('docusaurus-lunr-search'), {
-    languages: ['en']
-  }]],
+    ],
+    ["./src/plugins/tailwind-config.js", {}],
+    [
+      require.resolve("docusaurus-lunr-search"),
+      {
+        languages: ["en"],
+      },
+    ],
+  ],
 
   presets: [
     [
@@ -71,8 +81,7 @@ const config: Config = {
           sidebarPath: "./sidebars.ts",
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl:
-            "https://github.com/metal-stack/docs-new/tree/main/",
+          editUrl: "https://github.com/metal-stack/docs-new/tree/main/",
         },
         blog: false,
         theme: {
@@ -89,24 +98,26 @@ const config: Config = {
     // Replace with your project's social card
     image: "img/metal-stack.png",
     navbar: {
-      title: "metal-stack",
+      title: "metal-stack.io",
       logo: {
         alt: "metal-stack-log",
         src: "img/metal-stack.png",
       },
       items: [
-        { type: "docsVersionDropdown", dropdownItemsAfter: [
-              {
-                type: 'html',
-                value: '<hr class="dropdown-separator">',
-              },
-              {
-                label: "Archived: v0.1 - v0.21.8",
-                //! TODO: change to archived dns
-                href: "https://docs.metal-stack.io/stable/"
-              }
-            ],
-           },
+        {
+          type: "docsVersionDropdown",
+          dropdownItemsAfter: [
+            {
+              type: "html",
+              value: '<hr class="dropdown-separator">',
+            },
+            {
+              label: "Archived: v0.1 - v0.21.8",
+              //! TODO: change to archived dns
+              href: "https://docs.metal-stack.io/stable/",
+            },
+          ],
+        },
         {
           type: "doc",
           label: "Docs",
@@ -119,11 +130,6 @@ const config: Config = {
           docId: "contributing/Proposals/index",
         },
         { to: "/blog", label: "Blog", position: "left" },
-        {
-          href: "https://metalstack.cloud/de/on-premises",
-          label: "Services",
-          position: "right",
-        },
         {
           href: "https://github.com/metal-stack",
           "aria-label": "GitHub repository",
@@ -142,23 +148,19 @@ const config: Config = {
       style: "dark",
       links: [
         {
-          title: "Docs",
+          title: "metal-stack.io",
           items: [
             {
-              label: "Concepts",
-              to: "/docs/architecture",
+              label: "Blog",
+              to: "/blog",
             },
             {
-              label: "For Operators",
-              to: "/docs/hardware",
+              label: "Imprint",
+              to: "/imprint",
             },
             {
-              label: "For Users",
-              to: "/docs/client-libraries",
-            },
-            {
-              label: "Components",
-              to: "/docs/references/metalctl",
+              label: "Privacy policy",
+              to: "/privacy",
             },
           ],
         },
@@ -197,16 +199,28 @@ const config: Config = {
           ],
         },
         {
-          title: "Blog",
+          title: "Docs",
           items: [
             {
-              label: "Blog",
-              to: "/blog",
+              label: "Concepts",
+              to: "/docs/architecture",
+            },
+            {
+              label: "For Operators",
+              to: "/docs/hardware",
+            },
+            {
+              label: "For Users",
+              to: "/docs/client-libraries",
+            },
+            {
+              label: "Components",
+              to: "/docs/references/metalctl",
             },
           ],
         },
       ],
-      // copyright: `Copyright © ${new Date().getFullYear()} metal-stack.`,
+      copyright: `Copyright © ${new Date().getFullYear()} metal-stack. All rights reserved.`,
     },
     prism: {
       theme: prismThemes.github,
