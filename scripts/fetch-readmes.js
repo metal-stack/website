@@ -89,14 +89,19 @@ sidebar_position: ${component.position}
     const filePath = path.join(outputDir, name);
     fs.writeFileSync(filePath, finalContent, "utf8");
 
-    console.log(`✅ Fetched and processed from ${component.name}: ${name}`);
+    //console.log(`✅ Fetched and processed from ${component.name}: ${name}`);
   } catch (err) {
-    console.error(`❌ Failed to fetch from ${component.name}: ${name}`, err.message);
+    console.error(`❌ Failed to fetch from ${component.name}: ${name}, ${url} `, err.message);
   }
 }
 
 async function resolveDocs(baseurl, outputDir, component) {
-  const apiUrl = `https://api.github.com/repos/${component.repo}/contents/docs?ref=${component.tag}`;
+
+  let apiUrl = `https://api.github.com/repos/${component.repo}/contents/docs`
+  if(component.tag !== "") {
+    apiUrl = `https://api.github.com/repos/${component.repo}/contents/docs?ref=${component.tag}`
+  }
+  
   const docsOutputDir = outputDir
 
   try {
@@ -160,11 +165,16 @@ async function fetchComponentDocs() {
 
   for (const section of componentDocs) {
     for (const component of section.components) {
+      if(component.tag === "" || component.releasePath === "") {
+        console.warn("Tag or path for " + component.name + " is empty. Skip Version Update.")
+        continue
+      }
+
       let docsVersion = component.tag
       let releaseVersion = findPath(releaseVector,component.releasePath)
 
       if(releaseVersion === undefined) {
-        console.error("Path for release version for component " + component.name + " not found or incorrect")
+        console.warn("Path for release version for component " + component.name + " empty, not found or incorrect.")
         continue
       }
 
@@ -184,7 +194,10 @@ async function fetchComponentDocs() {
         fs.mkdirSync(outputDir, { recursive: true });
       }
 
-      const baseurl = `https://raw.githubusercontent.com/${component.repo}/${component.tag}`;
+      let baseurl = `https://raw.githubusercontent.com/${component.repo}/refs/heads/${component.branch}`;
+      if(component.tag !== "") {
+        baseurl = `https://raw.githubusercontent.com/${component.repo}/${component.tag}`;
+      }
       const url = `${baseurl}/README.md`;
       const fileName = `${component.name}.md`;
 
