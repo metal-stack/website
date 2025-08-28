@@ -123,6 +123,88 @@
     ]
   },
   {
+    "name": "Deployment",
+    "components": [
+      {
+        "name": "ansible-common",
+        "releasePath": "ansible-roles.ansible-common.version",
+        "repo": "metal-stack/ansible-common",
+        "branch": "master",
+        "tag": "v0.7.0",
+        "position": 1,
+        "withDocs": false
+      },
+      {
+        "name": "helm-charts",
+        "releasePath": "",
+        "repo": "metal-stack/helm-charts",
+        "branch": "master",
+        "tag": "",
+        "position": 2,
+        "withDocs": false
+      },
+      {
+        "name": "metal-images",
+        "releasePath": "",
+        "repo": "metal-stack/metal-images",
+        "branch": "master",
+        "tag": "",
+        "position": 3,
+        "withDocs": false
+      },
+      {
+        "name": "metal-roles",
+        "releasePath": "ansible-roles.metal-roles.version",
+        "repo": "metal-stack/metal-roles",
+        "branch": "master",
+        "tag": "v0.17.7",
+        "position": 4,
+        "withDocs": false
+      },
+      {
+        "name": "mini-lab",
+        "releasePath": "projects.metal-stack.mini-lab.version",
+        "repo": "metal-stack/mini-lab",
+        "branch": "master",
+        "tag": "v0.4.4",
+        "position": 5,
+        "withDocs": false
+      }
+    ]
+  },
+  {
+    "name": "Monitoring",
+    "components": [
+      {
+        "name": "metal-metrics-exporter",
+        "releasePath": "docker-images.metal-stack.control-plane.metal-metrics-exporter.tag",
+        "repo": "metal-stack/metal-metrics-exporter",
+        "branch": "main",
+        "tag": "v0.3.0",
+        "position": 1,
+        "withDocs": false
+      },
+      {
+        "name": "nftables-exporter",
+        "releasePath": "",
+        "repo": "metal-stack/nftables-exporter",
+        "branch": "master",
+        "tag": "",
+        "position": 2,
+        "withDocs": false
+      },
+      {
+        "name": "rethinkdb-exporter",
+        "releasePath": "docker-images.metal-stack.control-plane.rethinkdb-exporter.tag",
+        "repo": "metal-stack/rethinkdb-exporter",
+        "branch": "master",
+        "tag": "v0.1.4",
+        "position": 3,
+        "withDocs": false
+      }
+    ]
+  },
+  {
     "name": "Kubernetes",
     "components": [
       {
