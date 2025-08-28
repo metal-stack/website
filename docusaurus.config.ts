@@ -89,7 +89,7 @@ const config: Config = {
     // Replace with your project's social card
     image: "img/metal-stack.png",
     navbar: {
-      title: "metal-stack",
+      title: "metal-stack.io",
       logo: {
         alt: "metal-stack-log",
         src: "img/metal-stack.png",
@@ -120,11 +120,6 @@ const config: Config = {
         },
         { to: "/blog", label: "Blog", position: "left" },
         {
-          href: "https://metalstack.cloud/de/on-premises",
-          label: "Services",
-          position: "right",
-        },
-        {
           href: "https://github.com/metal-stack",
           "aria-label": "GitHub repository",
           position: "right",
@@ -142,23 +137,19 @@ const config: Config = {
       style: "dark",
       links: [
         {
-          title: "Docs",
+          title: "metal-stack.io",
           items: [
             {
-              label: "Concepts",
-              to: "/docs/architecture",
+              label: "Blog",
+              to: "/blog",
             },
             {
-              label: "For Operators",
-              to: "/docs/hardware",
+              label: "Imprint",
+              to: "/imprint",
             },
             {
-              label: "For Users",
-              to: "/docs/client-libraries",
-            },
-            {
-              label: "Components",
-              to: "/docs/references/metalctl",
+              label: "Privacy policy",
+              to: "/privacy",
             },
           ],
         },
@@ -197,16 +188,28 @@ const config: Config = {
           ],
         },
         {
-          title: "Blog",
+          title: "Docs",
           items: [
             {
-              label: "Blog",
-              to: "/blog",
+              label: "Concepts",
+              to: "/docs/architecture",
+            },
+            {
+              label: "For Operators",
+              to: "/docs/hardware",
+            },
+            {
+              label: "For Users",
+              to: "/docs/client-libraries",
+            },
+            {
+              label: "Components",
+              to: "/docs/references/metalctl",
             },
           ],
         },
       ],
-      // copyright: `Copyright © ${new Date().getFullYear()} metal-stack.`,
+      copyright: `Copyright © ${new Date().getFullYear()} metal-stack. All rights reserved.`,
     },
     prism: {
       theme: prismThemes.github,

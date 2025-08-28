@@ -1,3 +1,4 @@
+import { ChevronRight } from "@carbon/icons-react";
 import Container from "../../components/Container";
 import Row from "../../components/Row";
 import Terminal from "../../components/Terminal";
@@ -62,7 +63,7 @@ export default function Header() {
                 >
                   v.0.21.4
                   <span className="whitespace-nowrap dark:text-white text-neutral-700 flex items-center gap-0.5 font-normal">
-                    release notes
+                    release notes <ChevronRight />
                   </span>
                 </a>
                 <h1 className="mt-4 mb-8 text-5xl">
@@ -86,7 +87,7 @@ export default function Header() {
               <div className="flex-1 sm:w-1/3 md:w-1/2 sm:-mr-20 sm:ml-20 mt-20 sm:mt-0">
                 <Terminal />
                 <Link to="/docs/references/metalctl" className="inline-flex items-center mt-8 rounded-full dark:bg-neutral-900/50 bg-white/50 border border-neutral-200 hover:border-neutral-300 text-neutral-800 dark:border-neutral-800 dark:hover:border-neutral-700 transition-all dark:text-white hover:dark:text-amber-500 py-2 px-4 font-medium text-sm filter backdrop-blur-sm">
-                  See all commands to manage your metal-stack data center
+                  See all commands to manage your metal-stack data center <ChevronRight />
                 </Link>
               </div>
             </div>
