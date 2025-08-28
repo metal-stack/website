@@ -4,7 +4,7 @@ import {ArticleTeaserProps} from "@site/src/types/ArticleTeaserProps";
 export default function ArticleTeaser(props: ArticleTeaserProps) {
   return (
     <article>
-      <Link to={props.slug} className="bg-white/50 group dark:bg-neutral-900 border border-neutral-200 dark:border-white/5 filter backdrop-blur-xl rounded-lg block p-8 h-full">
+      <Link to={props.slug} className="group  border border-neutral-200 dark:border-white/5 filter backdrop-blur-xl rounded-lg block p-8 h-full">
         <div className=" relative">
           <h3 className="mt-0 text-lg font-semibold leading-6  group-hover:text-amber-500 !line-clamp-2 h-12">
             {props.title}
