@@ -18,15 +18,10 @@ export default function GetStarted() {
             Although metal-stack is developed for large deployment environments,
             for demo-purposes, you may also run it on your local machine. Try
             our{" "}
-            <Link to="/docs/why-bare-metal" className="font-mono bg-neutral-900 text-white text-sm py-1 px-2 rounded-md">
+            <Link to="/docs/references/mini-lab" className="font-mono bg-neutral-900 text-white text-sm py-1 px-2 rounded-md">
               mini-lab
             </Link>
-            <a
-              href="https://docs.metal-stack.io/stable/external/mini-lab/README/"
-
-            >
-
-            </a>{" "}
+            {" "}
             on Github to explore the API and the core functionality of the
             software on your own. If you are considering metal-stack, feel free
             to let us know, – we love seeing what you build and are willing to
