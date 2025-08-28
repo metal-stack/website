@@ -9,7 +9,7 @@ export default function ArticleTeaser(props: ArticleTeaserProps) {
           <h3 className="mt-0 text-lg font-semibold leading-6  group-hover:text-amber-500 !line-clamp-2 h-12">
             {props.title}
           </h3>
-          <hr className="mt-4 border-neutral-200 dark:border-neutral-800" />
+          <hr className="mt-4 border-neutral-200 dark:border-neutral-800 border-b-1" />
           <p className="mt-5 line-clamp-3 text-sm leading-6">{props.description}</p>
         </div>
         <div className="relative mt-8 flex items-center gap-x-4">
