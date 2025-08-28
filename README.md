@@ -140,7 +140,9 @@ All components are referenced in the `/scripts/components.json` file. Use this m
 {
         "name": "metalctl", // name of the component, will appear in the navigation
         "releasePath": "binaries.metal-stack.metalctl.version", // json-path of the version or tag in the release-vector
+        "branch": "main", // branch name. Some old repositories use 'master'
         "repo": "metal-stack/metalctl", // component repository, 
+        "tag": "v0.18.1", // latest release tag of the component repository
         "position": 1, // use this property to sort the navigation subdirectories
         "withDocs": true // set to true to retrieve further .md files from a /docs folder. With false, only the README.md will be retrieved.
 },
