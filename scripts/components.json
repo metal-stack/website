@@ -3,21 +3,12 @@
     "name": "Clients",
     "components": [
       {
-        "name": "cli",
-        "releasePath": "",
-        "repo": "metal-stack/cli",
-        "branch": "main",
-        "tag": "",
-        "position": 1,
-        "withDocs": true
-      },
-      {
         "name": "metalctl",
         "releasePath": "binaries.metal-stack.metalctl.version",
         "repo": "metal-stack/metalctl",
         "branch": "main",
         "tag": "v0.18.1",
-        "position": 2,
+        "position": 1,
         "withDocs": true
       }
     ]
@@ -126,21 +117,12 @@
     "name": "Deployment",
     "components": [
       {
-        "name": "ansible-common",
-        "releasePath": "ansible-roles.ansible-common.version",
-        "repo": "metal-stack/ansible-common",
-        "branch": "master",
-        "tag": "v0.7.0",
-        "position": 1,
-        "withDocs": false
-      },
-      {
         "name": "helm-charts",
         "releasePath": "",
         "repo": "metal-stack/helm-charts",
         "branch": "master",
         "tag": "",
-        "position": 2,
+        "position": 1,
         "withDocs": false
       },
       {
@@ -149,16 +131,7 @@
         "repo": "metal-stack/metal-images",
         "branch": "master",
         "tag": "",
-        "position": 3,
-        "withDocs": false
-      },
-      {
-        "name": "metal-roles",
-        "releasePath": "ansible-roles.metal-roles.version",
-        "repo": "metal-stack/metal-roles",
-        "branch": "master",
-        "tag": "v0.17.7",
-        "position": 4,
+        "position": 2,
         "withDocs": false
       },
       {
@@ -167,7 +140,7 @@
         "repo": "metal-stack/mini-lab",
         "branch": "master",
         "tag": "v0.4.4",
-        "position": 5,
+        "position": 3,
         "withDocs": false
       }
     ]

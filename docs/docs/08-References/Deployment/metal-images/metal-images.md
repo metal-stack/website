@@ -1,7 +1,7 @@
 ---
 slug: /references/metal-images
 title: metal-images
-sidebar_position: 3
+sidebar_position: 2
 ---
 
 # metal-images

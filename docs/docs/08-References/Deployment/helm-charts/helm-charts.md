@@ -1,7 +1,7 @@
 ---
 slug: /references/helm-charts
 title: helm-charts
-sidebar_position: 2
+sidebar_position: 1
 ---
 
 # Helm Charts

@@ -1,7 +1,7 @@
 ---
 slug: /references/mini-lab
 title: mini-lab
-sidebar_position: 5
+sidebar_position: 3
 ---
 
 # mini-lab
