@@ -39,7 +39,7 @@ spec:
   resources:
     requests:
       storage: 100Mi
-  storageClassName: csi-lvm-sc-linear
+  storageClassName: csi-driver-lvm-linear
 ```
 
-The solution does not provide cloud-storage or whatsoever, but it improves the user's accessibility of local storage on bare-metal machines through Kubernetes. Check out the driver's documentation [here](../../08-References/Storage/csi-lvm/csi-lvm.md).
+The solution does not provide cloud-storage or whatsoever, but it improves the user's accessibility of local storage on bare-metal machines through Kubernetes. Check out the driver's documentation [here](../../08-References/Storage/csi-driver-lvm/csi-driver-lvm.md).

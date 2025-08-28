@@ -1,7 +1,7 @@
 ---
-slug: MULTITENANCY
+slug: /references/MULTITENANCY
 title: MULTITENANCY
-sidebar_position: 3
+sidebar_position: 2
 ---
 
 # Multi tenancy with lightbits storage

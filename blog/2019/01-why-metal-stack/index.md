@@ -116,7 +116,7 @@ Essentially this agent does two things:
 
 To provide storage for our environment, we chose to equip each server with local NVMe or SATA drives. We make these
 drives accessible as local persistent volumes from Kubernetes by integrating our
-[LVM CSI driver](https://github.com/metal-stack/csi-lvm) as a Gardener extension.
+[csi-driver-lvm](https://github.com/metal-stack/csi-driver-lvm) as a Gardener extension ([gardener-extension-csi-driver-lvm](https://github.com/metal-stack/gardener-extension-csi-driver-lvm)).
 
 To make sure, that data stored on these drives is erased before handing over the node to a cluster, the
 [metal-hammer](https://github.com/metal-stack/metal-hammer) either can erase the disks properly (which can take long)
