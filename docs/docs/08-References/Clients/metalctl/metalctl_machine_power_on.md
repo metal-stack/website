@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_machine_power_on
 title: metalctl_machine_power_on
-sidebar_position: 2
+sidebar_position: 66
 ---
 
 ## metalctl machine power on

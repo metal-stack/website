@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_audit
 title: metalctl_audit
-sidebar_position: 2
+sidebar_position: 1
 ---
 
 ## metalctl audit

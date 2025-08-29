@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_tenant_edit
 title: metalctl_tenant_edit
-sidebar_position: 2
+sidebar_position: 160
 ---
 
 ## metalctl tenant edit

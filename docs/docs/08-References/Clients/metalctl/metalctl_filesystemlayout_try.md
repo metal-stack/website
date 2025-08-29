@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_filesystemlayout_try
 title: metalctl_filesystemlayout_try
-sidebar_position: 2
+sidebar_position: 19
 ---
 
 ## metalctl filesystemlayout try

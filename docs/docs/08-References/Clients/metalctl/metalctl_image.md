@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_image
 title: metalctl_image
-sidebar_position: 2
+sidebar_position: 33
 ---
 
 ## metalctl image

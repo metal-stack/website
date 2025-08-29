@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_network_free
 title: metalctl_network_free
-sidebar_position: 2
+sidebar_position: 83
 ---
 
 ## metalctl network free

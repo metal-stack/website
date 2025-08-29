@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_switch_port
 title: metalctl_switch_port
-sidebar_position: 2
+sidebar_position: 148
 ---
 
 ## metalctl switch port

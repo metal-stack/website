@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_update
 title: metalctl_update
-sidebar_position: 2
+sidebar_position: 163
 ---
 
 ## metalctl update

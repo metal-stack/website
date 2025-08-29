@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_network_ip_create
 title: metalctl_network_ip_create
-sidebar_position: 2
+sidebar_position: 86
 ---
 
 ## metalctl network ip create

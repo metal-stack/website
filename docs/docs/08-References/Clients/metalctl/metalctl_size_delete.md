@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_size_delete
 title: metalctl_size_delete
-sidebar_position: 2
+sidebar_position: 115
 ---
 
 ## metalctl size delete

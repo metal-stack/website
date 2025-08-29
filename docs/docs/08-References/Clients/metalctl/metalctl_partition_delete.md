@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_partition_delete
 title: metalctl_partition_delete
-sidebar_position: 2
+sidebar_position: 99
 ---
 
 ## metalctl partition delete

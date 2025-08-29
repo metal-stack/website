@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_machine_reserve
 title: metalctl_machine_reserve
-sidebar_position: 2
+sidebar_position: 70
 ---
 
 ## metalctl machine reserve

@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_firmware_delete
 title: metalctl_firmware_delete
-sidebar_position: 2
+sidebar_position: 27
 ---
 
 ## metalctl firmware delete

@@ -209,3 +209,11 @@ footer {
 .footer__link-item {
   color: rgb(115 115 115);
 }
+
+/* hide the navbar on non-doc pages including it's hoverable dropdown */
+.plugin-pages #docs-version-dropdown,
+.plugin-blog #docs-version-dropdown,
+.plugin-pages .dropdown--hoverable:has(> #docs-version-dropdown),
+.plugin-blog .dropdown--hoverable:has(> #docs-version-dropdown) {
+  display: none;
+}

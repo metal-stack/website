@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_machine_apply
 title: metalctl_machine_apply
-sidebar_position: 2
+sidebar_position: 44
 ---
 
 ## metalctl machine apply
