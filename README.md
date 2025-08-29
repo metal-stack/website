@@ -8,7 +8,7 @@ The used framework to generate docs is [docusaurus](https://docusaurus.io).
 
 ## Structure
 
-```
+```plain
 ├── blog                    # blogs folder structured by year
 │   ├── 2019
 │   ├── 2021
@@ -35,7 +35,7 @@ The used framework to generate docs is [docusaurus](https://docusaurus.io).
 └── versions.json           # list of versions
 ```
 
-### How to organize the docs?
+### How to Organize the Docs?
 
 - Prioritize the `concept` section. If this is about a MEP, you likely already have the contents for this.
 - Use the `general` section to distribute users to their sections or to the deeper concept.
@@ -65,7 +65,7 @@ In order to add new docs you need to be aware of 2 cases:
 
 If you want to have your new document in the root-folder of the scope just add it with the following format:
 
-```
+```yaml
 ---
 slug: /your-doc-url
 title: Title of document
@@ -102,7 +102,7 @@ For this we have a pre-commit hook, which optimizes them with [svgo](https://git
 
 In order to add a blog-post follow this template. If a new author is referenced you have to add the author to the `authors.yaml`.
 
-```
+```yaml
 ---
 title: Your Title
 watermark: "Blog"
@@ -130,28 +130,29 @@ Requires Bun as .js runtime.
 
 Run the following command to install dependencies:
 
-```
+```bash
 bun install
 ```
 
 To generate a local preview use:
 
-```
+```bash
 bun run start
 ```
 
 To update the dependencies for the Reference pages:
 
-```
+```bash
 bun run fetch-readmes
 ```
 
-## Component references
+## Component References
+
 Ensure first, that all files in the docs folder are updated and ready to freeze. Also execute `bun run fetch-readmes` to update files from components and apis with the release-vector file from the main branch.
 It is also possible to use `bun run fetch-readmes v0.20.8` to use the release-vector file with a specific tag (i.E. v0.20.8).
 All components are referenced in the `/scripts/components.json` file. Use this minimal template to add a new component:
 
-```json
+```jsonc
 {
         "name": "metalctl", // name of the component, will appear in the navigation
         "releasePath": "binaries.metal-stack.metalctl.version", // json-path of the version or tag in the release-vector
@@ -160,7 +161,7 @@ All components are referenced in the `/scripts/components.json` file. Use this m
         "tag": "v0.18.1", // latest release tag of the component repository
         "position": 1, // use this property to sort the navigation subdirectories
         "withDocs": true // set to true to retrieve further .md files from a /docs folder. With false, only the README.md will be retrieved.
-},
+}
 ```
 
 The `tag` property will be updated automatically from the release-vector file.
@@ -169,17 +170,21 @@ The `tag` property will be updated automatically from the release-vector file.
 
 You create a new version with:
 
-```
+```bash
 bun run docusaurus docs:version v0.21.6
 ```
 
 Now, the new version will be create and the latest files will be copied to the "`versioned`" folders.
 
-## Release Notes
-The release notes can be synced from GitHub with the GitHub API. Therefore, ensure that a valid access token is created and set on the GitHub Runner or local machine with the name `GH_RELEASE_TOKEN`.
+This, however, is usually done by the metal-robot through an automatically generated pull request.
 
-To run the synchronization, run the following commmand:
-```
+## Release Notes
+
+The release notes can be synced from GitHub with the GitHub API. Therefore, ensure that a valid access token is created and set on the GitHub Runner or local machine with the name `GITHUB_TOKEN`.
+
+To run the synchronization, run the following command:
+
+```bash
 bun run create-release-notes
 ```
 If you run this before the build step, also the release notes get indexed.
