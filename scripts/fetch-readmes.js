@@ -6,7 +6,28 @@ import YAML from 'yaml'
 
 const outputBase = path.resolve(__dirname, "../docs/docs/08-References");
 
-const releaseVectorPath = "https://raw.githubusercontent.com/metal-stack/releases/refs/heads/master/release.yaml"
+function isValidVersion(version) {
+  const regex = /^v\d{1,3}\.\d{1,3}\.\d{1,3}$/;
+  return regex.test(version);
+}
+
+async function getReleaseVectorYaml(version) {
+  let releaseVectorPath = "https://raw.githubusercontent.com/metal-stack/releases/refs/heads/master/release.yaml"
+
+  if (version !== "" && version !== undefined ) {
+    if(isValidVersion(version)) {
+      releaseVectorPath = "https://raw.githubusercontent.com/metal-stack/releases/refs/tags/" + version + "/release.yaml"
+    }
+    else {
+      console.error("Version " + version + " is invalid")
+    }
+  }
+
+  console.log("Get release-vector from " + releaseVectorPath)
+
+  const releaseVectorFile = await axios.get(releaseVectorPath);
+  return YAML.parse(releaseVectorFile.data);
+}
 
 function webURL(component) {
   return "https://github.com/" + component.repo + "/blob/" + component.branch
@@ -60,7 +81,7 @@ async function downloadDoc(url, baseurl, outputDir, component, name, index) {
       let fileExtension = ref.split('.').pop().toLowerCase();
 
       if(fileExtension !== "md" && !imageExtensions.includes(fileExtension)) {
-        console.log("Replacing " + ref + " with "  + webURL(component) + "/" + ref)
+        console.log("Replacing link " + ref + " with "  + webURL(component) + "/" + ref)
         content = content.replace(ref, webURL(component) + "/" + ref);
       }
     }
@@ -110,7 +131,7 @@ sidebar_position: ${index}
     const filePath = path.join(outputDir, name);
     fs.writeFileSync(filePath, finalContent, "utf8");
 
-    //console.log(`✅ Fetched and processed from ${component.name}: ${name}`);
+    console.log(`✅ Fetched and processed from ${component.name}: ${name}`);
   } catch (err) {
     console.error(`❌ Failed to fetch from ${component.name}: ${name}, ${url} `, err.message);
   }
@@ -122,8 +143,6 @@ async function resolveDocs(baseurl, outputDir, component) {
   if(component.tag !== "") {
     apiUrl = `https://api.github.com/repos/${component.repo}/contents/docs?ref=${component.tag}`
   }
-
-  console.log(apiUrl)
   
   const docsOutputDir = outputDir
 
@@ -181,11 +200,14 @@ async function fetchComponentDocs() {
   if (!fs.existsSync(outputBase)) {
     fs.mkdirSync(outputBase, { recursive: true });
   }
-  
-  const releaseVectorFile = await axios.get(releaseVectorPath);
-  let releaseVector = YAML.parse(releaseVectorFile.data);
+
+  const versionParameter = Bun.argv[2]
+
+  let releaseVector = await getReleaseVectorYaml(versionParameter)
 
   let componentDocs = require("./components.json");
+
+  console.log("Updating component versions with release-vector...")
 
   for (const section of componentDocs) {
     for (const component of section.components) {
@@ -195,7 +217,7 @@ async function fetchComponentDocs() {
       }
 
       let docsVersion = component.tag
-      let releaseVersion = findPath(releaseVector,component.releasePath)
+      let releaseVersion = findPath(releaseVector, component.releasePath)
 
       if(releaseVersion === undefined) {
         console.warn("Path for release version for component " + component.name + " empty, not found or incorrect.")
