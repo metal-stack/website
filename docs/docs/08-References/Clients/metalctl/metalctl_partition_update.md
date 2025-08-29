@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_partition_update
 title: metalctl_partition_update
-sidebar_position: 2
+sidebar_position: 103
 ---
 
 ## metalctl partition update

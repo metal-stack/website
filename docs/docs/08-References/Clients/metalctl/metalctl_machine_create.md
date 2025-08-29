@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_machine_create
 title: metalctl_machine_create
-sidebar_position: 2
+sidebar_position: 47
 ---
 
 ## metalctl machine create

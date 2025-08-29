@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_vpn
 title: metalctl_vpn
-sidebar_position: 2
+sidebar_position: 167
 ---
 
 ## metalctl vpn

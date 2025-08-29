@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_machine_list
 title: metalctl_machine_list
-sidebar_position: 2
+sidebar_position: 58
 ---
 
 ## metalctl machine list

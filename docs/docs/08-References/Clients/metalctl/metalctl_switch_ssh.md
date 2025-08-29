@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_switch_ssh
 title: metalctl_switch_ssh
-sidebar_position: 2
+sidebar_position: 153
 ---
 
 ## metalctl switch ssh

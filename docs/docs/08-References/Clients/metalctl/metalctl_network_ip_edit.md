@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_network_ip_edit
 title: metalctl_network_ip_edit
-sidebar_position: 2
+sidebar_position: 89
 ---
 
 ## metalctl network ip edit

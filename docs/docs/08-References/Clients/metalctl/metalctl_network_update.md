@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_network_update
 title: metalctl_network_update
-sidebar_position: 2
+sidebar_position: 94
 ---
 
 ## metalctl network update

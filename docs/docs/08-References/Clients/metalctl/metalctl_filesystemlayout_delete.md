@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_filesystemlayout_delete
 title: metalctl_filesystemlayout_delete
-sidebar_position: 2
+sidebar_position: 14
 ---
 
 ## metalctl filesystemlayout delete

@@ -8,6 +8,12 @@ const outputBase = path.resolve(__dirname, "../docs/docs/08-References");
 
 const releaseVectorPath = "https://raw.githubusercontent.com/metal-stack/releases/refs/heads/master/release.yaml"
 
+function webURL(component) {
+  return "https://github.com/" + component.repo + "/blob/" + component.branch
+}
+
+const imageExtensions = ["png", "svg", "gif", "jpg", "jpeg"]
+
 async function downloadFile(url, destPath) {
   const writer = fs.createWriteStream(destPath);
   const res = await axios.get(url, { responseType: "stream" });
@@ -18,7 +24,7 @@ async function downloadFile(url, destPath) {
   });
 }
 
-async function downloadDoc(url, baseurl, outputDir, component, name) {
+async function downloadDoc(url, baseurl, outputDir, component, name, index) {
   try {
     const res = await axios.get(url);
     let content = res.data;
@@ -46,6 +52,19 @@ async function downloadDoc(url, baseurl, outputDir, component, name) {
       }
     }
 
+    // This Regex finds all relative references to files in .md style like "(../deploy/postgres_manual_restore.yaml)", removing the braces
+    const isRelativeReferenceRegex = /\((?:(?:\.\.?\/)+|\.?\/|\/)(?:[\w.-]+\/)*[\w.-]+\.[\w.-]+\)/g;
+    const relativeReferences = [...content.matchAll(isRelativeReferenceRegex)].map((m) => m[0].substr(1,m[0].length -2))
+
+    for (const ref of relativeReferences) {
+      let fileExtension = ref.split('.').pop().toLowerCase();
+
+      if(fileExtension !== "md" && !imageExtensions.includes(fileExtension)) {
+        console.log("Replacing " + ref + " with "  + webURL(component) + "/" + ref)
+        content = content.replace(ref, webURL(component) + "/" + ref);
+      }
+    }
+
     const mdLinkRegex = /\[([^\]]+)\]\(([^)]+\.md)\)/g;
     const mdLinks = [...content.matchAll(mdLinkRegex)].map((m) => ({
       text: m[1],
@@ -53,6 +72,7 @@ async function downloadDoc(url, baseurl, outputDir, component, name) {
     }));
 
     for (const link of mdLinks) {
+      
       const mdFileName = path.basename(link.href);
       const linkedFilePath = path.join(outputDir, mdFileName);
 
@@ -64,7 +84,8 @@ async function downloadDoc(url, baseurl, outputDir, component, name) {
             baseurl,
             outputDir,
             component,
-            mdFileName
+            mdFileName,
+            mdLinks.indexOf(link)
           );
           console.log(`📄 Fetched linked markdown: ${link.href}`);
         } catch (e) {
@@ -79,7 +100,7 @@ async function downloadDoc(url, baseurl, outputDir, component, name) {
     const frontmatter = `---
 slug: /references/${name.replace(".md", "")}
 title: ${name.replace(".md", "")}
-sidebar_position: ${component.position}
+sidebar_position: ${index}
 ---
 
 `;
@@ -101,6 +122,8 @@ async function resolveDocs(baseurl, outputDir, component) {
   if(component.tag !== "") {
     apiUrl = `https://api.github.com/repos/${component.repo}/contents/docs?ref=${component.tag}`
   }
+
+  console.log(apiUrl)
   
   const docsOutputDir = outputDir
 
@@ -125,7 +148,8 @@ async function resolveDocs(baseurl, outputDir, component) {
           baseurl,
           docsOutputDir,
           component,
-          file.name
+          file.name,
+          response.data.indexOf(file)
         );
       } else {
         console.log(`❓ Skipping no markdown files.`);
@@ -201,7 +225,7 @@ async function fetchComponentDocs() {
       const url = `${baseurl}/README.md`;
       const fileName = `${component.name}.md`;
 
-      downloadDoc(url, baseurl, outputDir, component, fileName);
+      downloadDoc(url, baseurl, outputDir, component, fileName, component.position);
 
       if (component.withDocs) {
         resolveDocs(baseurl, outputDir, component);

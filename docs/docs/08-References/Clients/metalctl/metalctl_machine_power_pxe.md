@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_machine_power_pxe
 title: metalctl_machine_power_pxe
-sidebar_position: 2
+sidebar_position: 67
 ---
 
 ## metalctl machine power pxe

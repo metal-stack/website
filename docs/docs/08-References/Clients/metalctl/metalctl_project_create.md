@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_project_create
 title: metalctl_project_create
-sidebar_position: 2
+sidebar_position: 106
 ---
 
 ## metalctl project create

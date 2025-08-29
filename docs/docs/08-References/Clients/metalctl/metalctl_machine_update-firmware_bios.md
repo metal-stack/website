@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_machine_update-firmware_bios
 title: metalctl_machine_update-firmware_bios
-sidebar_position: 2
+sidebar_position: 72
 ---
 
 ## metalctl machine update-firmware bios

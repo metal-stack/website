@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_completion_bash
 title: metalctl_completion_bash
-sidebar_position: 2
+sidebar_position: 5
 ---
 
 ## metalctl completion bash

@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_image_update
 title: metalctl_image_update
-sidebar_position: 2
+sidebar_position: 40
 ---
 
 ## metalctl image update

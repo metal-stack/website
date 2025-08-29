@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_network_ip_apply
 title: metalctl_network_ip_apply
-sidebar_position: 2
+sidebar_position: 85
 ---
 
 ## metalctl network ip apply

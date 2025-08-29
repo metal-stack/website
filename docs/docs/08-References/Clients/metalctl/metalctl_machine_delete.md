@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_machine_delete
 title: metalctl_machine_delete
-sidebar_position: 2
+sidebar_position: 48
 ---
 
 ## metalctl machine delete

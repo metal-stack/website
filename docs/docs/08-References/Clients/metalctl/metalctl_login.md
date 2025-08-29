@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_login
 title: metalctl_login
-sidebar_position: 2
+sidebar_position: 41
 ---
 
 ## metalctl login

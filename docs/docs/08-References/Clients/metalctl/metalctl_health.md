@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_health
 title: metalctl_health
-sidebar_position: 2
+sidebar_position: 32
 ---
 
 ## metalctl health

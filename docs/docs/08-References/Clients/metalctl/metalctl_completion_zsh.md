@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_completion_zsh
 title: metalctl_completion_zsh
-sidebar_position: 2
+sidebar_position: 8
 ---
 
 ## metalctl completion zsh
