@@ -24,7 +24,7 @@ jobs:
           bun run create-release-notes
 
           version=$(jq -r '.version' src/version.json)
-          jq "del(.[] | select(. == \"${version}\"))" versions.json > versions.json
+          jq "del(.[] | select(. == \"${version}\"))" versions.json > versions.json.tmp && mv versions.json.tmp versions.json
           bun run docusaurus docs:version ${version}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
