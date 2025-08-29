@@ -127,7 +127,7 @@ const config: Config = {
         {
           label: "Contributing",
           type: "doc",
-          docId: "contributing/Proposals/index",
+          docId: "contributing/contribution-guideline",
         },
         { to: "/blog", label: "Blog", position: "left" },
         {

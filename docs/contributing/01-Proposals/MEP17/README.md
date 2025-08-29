@@ -1,3 +1,9 @@
+---
+slug: /MEP-17-global-network-view
+title: MEP-17
+sidebar_position: 17
+---
+
 # Global Network View
 
 > [!IMPORTANT]
