@@ -132,8 +132,8 @@ bun run fetch-readmes
 ```
 
 ## Component references
-
-Ensure first, that all files in the docs folder are updated and ready to freeze. Also execute `bun run fetch-readmes` to update files from components and apis.
+Ensure first, that all files in the docs folder are updated and ready to freeze. Also execute `bun run fetch-readmes` to update files from components and apis with the release-vector file from the main branch.
+It is also possible to use `bun run fetch-readmes v0.20.8` to use the release-vector file with a specific tag (i.E. v0.20.8).
 All components are referenced in the `/scripts/components.json` file. Use this minimal template to add a new component:
 
 ```json
@@ -160,26 +160,11 @@ bun run docusaurus docs:version v0.21.6
 
 Now, the new version will be create and the latest files will be copied to the "`versioned`" folders.
 
-## Comparison
+## Release Notes
+The release notes can be synced from GitHub with the GitHub API. Therefore, ensure that a valid access token is created and set on the GitHub Runner or local machine with the name `GH_RELEASE_TOKEN`.
 
-### Benefits
-
-**Core** features:
-
-- md, mdx based documentation
-- simple and flexible file structure
-- versioning
-- blog integration
-
-**Nice** to have:
-
-- completely in typescript
-- highly customizable
-- custom page routing
-- custom styling and theming
-- possibility for translations
-
-### Disadvantages
-
-- new framework
-- copies of versions can explode the size of the repository
+To run the synchronization, run the following commmand:
+```
+bun run create-release-notes
+```
+If you run this before the build step, also the release notes get indexed.

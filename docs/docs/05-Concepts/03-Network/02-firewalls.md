@@ -2,6 +2,7 @@
 slug: /firewalls
 title: Firewalls
 sidebar_position: 1
+draft: true
 ---
 
 # Firewalls

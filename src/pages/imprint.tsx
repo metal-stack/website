@@ -15,7 +15,7 @@ export default function Imprint() {
         <Container>
             <div className="pt-16 sm:pt-24 pb-20 sm:flex items-end gap-8 relative isolate">
               <div className="w-full">
-                <h2>Information pursuant to Sect. 5 German Telemedia Act (TMG)</h2>
+                <h2>Information pursuant to § 5 German Digital Services Act (DDG)</h2>
                 <p>
                     x-cellent technologies GmbH<br />
                     Rosenkavalierplatz 10<br />
