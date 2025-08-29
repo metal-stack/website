@@ -1,15 +1,12 @@
-name: build
+name: Auto Generate
 
 on:
-  workflow_dispatch:
-  pull_request:
   push:
     branches:
-      - main
+      - auto-generate/*
 
 jobs:
-  build-docs:
-    name: build-docs
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
@@ -25,3 +22,13 @@ jobs:
 
       - name: Build Website
         run: bun run build
+
+      - name: Push
+        run: |
+          if ! git diff --exit-code; then
+            git config --global user.name "auto-build"
+            git config --global user.email "info@metal-stack.io"
+            git add .
+            git commit -m "Auto generate"
+            git push
+          fi
