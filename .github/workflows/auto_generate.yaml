@@ -25,6 +25,8 @@ jobs:
           bun run fetch-readmes
           bun run create-release-notes
           bun run docusaurus docs:version $(jq -r '.version' src/version.json)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push
         run: |
