@@ -6,6 +6,8 @@
 /:version/apidocs/apidocs https://docs.archive.metal-stack.io/:version/references/metal-api/index.html 302
 
 # non-migration related redirects
+https://docs.metal-stack.io https://metal-stack.io/docs/home
+https://docs.metal-stack.io/* https://metal-stack.io/:splat
 /docs /docs/home
 
 # migrate archived paths to stable versions quickly
