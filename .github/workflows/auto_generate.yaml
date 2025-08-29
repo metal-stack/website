@@ -31,8 +31,7 @@ jobs:
 
       - name: Push
         run: |
-          # husky is a pre-commit hook on svgs
-          bun run prepare
+          bun run optimize:svg
 
           if ! git diff --exit-code; then
             git config --global user.name "auto-build"
