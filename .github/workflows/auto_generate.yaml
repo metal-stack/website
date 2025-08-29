@@ -23,6 +23,7 @@ jobs:
       - name: Build Website
         run: |
           bun run fetch-readmes
+          bun run create-release-notes
           bun run docusaurus docs:version $(jq -r '.version' src/version.json)
 
       - name: Push
