@@ -268,10 +268,10 @@
       },
       {
         "name": "os-metal-extension",
-        "releasePath": "docker-images.metal-stack.gardener.os-metal-extension.tag",
+        "releasePath": "",
         "repo": "metal-stack/os-metal-extension",
-        "branch": "main",
-        "tag": "v0.8.8",
+        "branch": "master",
+        "tag": "",
         "position": 5,
         "withDocs": false
       }

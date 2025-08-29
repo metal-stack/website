@@ -14,7 +14,7 @@ function isValidVersion(version) {
 async function getReleaseVectorYaml(version) {
   let releaseVectorPath = "https://raw.githubusercontent.com/metal-stack/releases/refs/heads/master/release.yaml"
 
-  if (version !== "") {
+  if (version !== "" && version !== undefined ) {
     if(isValidVersion(version)) {
       releaseVectorPath = "https://raw.githubusercontent.com/metal-stack/releases/refs/tags/" + version + "/release.yaml"
     }
@@ -81,7 +81,7 @@ async function downloadDoc(url, baseurl, outputDir, component, name, index) {
       let fileExtension = ref.split('.').pop().toLowerCase();
 
       if(fileExtension !== "md" && !imageExtensions.includes(fileExtension)) {
-        console.log("Replacing " + ref + " with "  + webURL(component) + "/" + ref)
+        console.log("Replacing link " + ref + " with "  + webURL(component) + "/" + ref)
         content = content.replace(ref, webURL(component) + "/" + ref);
       }
     }
@@ -131,7 +131,7 @@ sidebar_position: ${index}
     const filePath = path.join(outputDir, name);
     fs.writeFileSync(filePath, finalContent, "utf8");
 
-    //console.log(`✅ Fetched and processed from ${component.name}: ${name}`);
+    console.log(`✅ Fetched and processed from ${component.name}: ${name}`);
   } catch (err) {
     console.error(`❌ Failed to fetch from ${component.name}: ${name}, ${url} `, err.message);
   }
@@ -143,8 +143,6 @@ async function resolveDocs(baseurl, outputDir, component) {
   if(component.tag !== "") {
     apiUrl = `https://api.github.com/repos/${component.repo}/contents/docs?ref=${component.tag}`
   }
-
-  console.log(apiUrl)
   
   const docsOutputDir = outputDir
 
@@ -204,9 +202,8 @@ async function fetchComponentDocs() {
   }
 
   const versionParameter = Bun.argv[2]
-  console.log("Version Parameter: " + versionParameter)
 
-  let releaseVector = getReleaseVectorYaml(versionParameter)
+  let releaseVector = await getReleaseVectorYaml(versionParameter)
 
   let componentDocs = require("./components.json");
 
