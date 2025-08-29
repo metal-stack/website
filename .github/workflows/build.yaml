@@ -8,14 +8,14 @@ on:
       - main
 
 jobs:
-  build-docs: 
+  build-docs:
     name: build-docs
     runs-on: ubuntu-latest
     steps:
-      - name: checkout 
-        uses: actions/checkout@v4
+      - name: checkout
+        uses: actions/checkout@v5
 
-      - name: setup-bun 
+      - name: setup-bun
         uses: oven-sh/setup-bun@v2
         with:
           bun-version: v1.2

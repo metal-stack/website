@@ -1,8 +1,8 @@
-# Docs-New
+# website
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/f42ce2b4-45f8-4a11-9555-5a25f7a5e2aa/deploy-status)](https://app.netlify.com/projects/docs-new/deploys)
 
-This repository contains a PoC of how the documentation of [metal-stack.io](https://metal-stack.io) can be refactored to meet new requirements.
+This repository contains the website including the documentation of [metal-stack.io](https://metal-stack.io).
 
 The used framework to generate docs is [docusaurus](https://docusaurus.io).
 
@@ -34,6 +34,21 @@ The used framework to generate docs is [docusaurus](https://docusaurus.io).
 ├── sidebars.ts             # handle sidebar navigation structure
 └── versions.json           # list of versions
 ```
+
+### How to organize the docs?
+
+- Prioritize the `concept` section. If this is about a MEP, you likely already have the contents for this.
+- Use the `general` section to distribute users to their sections or to the deeper concept.
+- user, operator or developer specific sections would be nice, but are optional.
+
+#### Example
+
+- Roles and Permissions
+  - Concept: explains all roles, permissions and sessions
+  - For operators: OIDC, creation in CI, ... How to / Explanation
+  - For users: how to guide to create tokens and edit permissions
+  - General: base concept, links to How to guides and deeper Concept
+  - CISO / Compliance: minimal need to know Principle Explanation / Concept
 
 ## Backwards-Compatibility
 
@@ -141,7 +156,7 @@ All components are referenced in the `/scripts/components.json` file. Use this m
         "name": "metalctl", // name of the component, will appear in the navigation
         "releasePath": "binaries.metal-stack.metalctl.version", // json-path of the version or tag in the release-vector
         "branch": "main", // branch name. Some old repositories use 'master'
-        "repo": "metal-stack/metalctl", // component repository, 
+        "repo": "metal-stack/metalctl", // component repository,
         "tag": "v0.18.1", // latest release tag of the component repository
         "position": 1, // use this property to sort the navigation subdirectories
         "withDocs": true // set to true to retrieve further .md files from a /docs folder. With false, only the README.md will be retrieved.

@@ -1,0 +1,42 @@
+name: Auto Generate
+
+on:
+  push:
+    branches:
+      - auto-generate/*
+
+jobs:
+  auto-generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v5
+
+      - name: setup-bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: v1.2
+
+      - name: Build Website
+        run: |
+          bun install
+          bun run fetch-readmes
+          bun run create-release-notes
+
+          version=$(jq -r '.version' src/version.json)
+          jq "del(.[] | select(. == \"${version}\"))" versions.json > versions.json.tmp && mv versions.json.tmp versions.json
+          bun run docusaurus docs:version ${version}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push
+        run: |
+          bun run optimize:svg
+
+          if ! git diff --exit-code; then
+            git config --global user.name "auto-build"
+            git config --global user.email "info@metal-stack.io"
+            git add .
+            git commit -m "Auto generate"
+            git push
+          fi
