@@ -35,7 +35,7 @@ The used framework to generate docs is [docusaurus](https://docusaurus.io).
 └── versions.json           # list of versions
 ```
 
-### How To Organize the Docs?
+### How to Organize the Docs?
 
 - Prioritize the `concept` section. If this is about a MEP, you likely already have the contents for this.
 - Use the `general` section to distribute users to their sections or to the deeper concept.
