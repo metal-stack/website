@@ -72,6 +72,17 @@ This file is used to generate the sidebar.
 }
 ```
 
+## Embedding drawio images
+
+> ⚠️ referenced `.drawio.svg` images throw **warnings** because of unsupported file-types. We save `.drawio` files separatly and export them as `svg`. Issue is also known in [docusaurus](https://github.com/facebook/docusaurus/issues/9715)
+
+Some svgs still can have problems e.g:
+
+- `drawio.svg` files pulled by references
+- too large svg
+
+For this we have a pre-commit hook, which optimizes them with [svgo](https://github.com/svg/svgo)
+
 ## Blog
 
 In order to add a blog-post follow this template. If a new author is referenced you have to add the author to the `authors.yaml`.
@@ -129,7 +140,9 @@ All components are referenced in the `/scripts/components.json` file. Use this m
 {
         "name": "metalctl", // name of the component, will appear in the navigation
         "releasePath": "binaries.metal-stack.metalctl.version", // json-path of the version or tag in the release-vector
+        "branch": "main", // branch name. Some old repositories use 'master'
         "repo": "metal-stack/metalctl", // component repository, 
+        "tag": "v0.18.1", // latest release tag of the component repository
         "position": 1, // use this property to sort the navigation subdirectories
         "withDocs": true // set to true to retrieve further .md files from a /docs folder. With false, only the README.md will be retrieved.
 },
