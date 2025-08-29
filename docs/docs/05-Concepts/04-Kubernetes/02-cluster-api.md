@@ -15,4 +15,4 @@ This project is currently under heavy development and is not advised to be used 
 Please use our stack on top of [Gardener](./01-gardener.md) for production workloads.
 :::
 
-Due to the early development stage of the project, all docs are currently in the [README](https://github.com/metal-stack/cluster-api-provider-metal-stack/blob/main/README.md) of the provider repository.
+See the [cluster-api-provider-metal-stack documentation](../../08-References/Kubernetes/cluster-api-provider-metal-stack/cluster-api-provider-metal-stack.md) for more in-depth information.
