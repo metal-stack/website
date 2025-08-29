@@ -17,11 +17,9 @@ jobs:
         with:
           bun-version: v1.2
 
-      - name: Install Dependencies
-        run: bun install --frozen-lockfile --production --ignore-scripts
-
       - name: Build Website
         run: |
+          bun install
           bun run fetch-readmes
           bun run create-release-notes
           bun run docusaurus docs:version $(jq -r '.version' src/version.json)
