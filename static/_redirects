@@ -3,9 +3,49 @@
 # Source: https://docs.netlify.com/routing/redirects/
 
 # temporary redirects we have no better alternatives yet
-/stable/apidocs/apidocs https://docs.archive.metal-stack.io/v0.21/references/metal-api/index.html 302
+/:version/apidocs/apidocs https://docs.archive.metal-stack.io/:version/references/metal-api/index.html 302
 
 # migrate archived paths to stable versions quickly
+/docs/overview/* /docs/:splat 301
+/docs/concepts/* /docs/:splat 301
+/docs/general/* /docs/:splat 301
+/docs/users/* /docs/:splat 301
+/docs/operators/* /docs/:splat 301
+/docs/installation/* /docs/:splat 301
+/docs/cisos/security/principles /docs/security-principles 301
+/docs/cisos/security/* /docs/:splat 301
+/docs/cisos/* /docs/:splat 301
+/docs/developers/proposals /docs/enhancement-proposals 301
+/docs/developers/* /docs/:splat 301
+/docs/development/client_libraries /docs/client-libraries 301
+/docs/development/roadmap /docs/planning-meetings#idea-backlog 301
+/docs/development/proposals /docs/enhancement-proposals 301
+/docs/development/contributing /docs/contribution-guideline  301
+/docs/development/* /docs/:splat  301
+/docs/external/mini-lab/roles/auth-dex/README https://github.com/metal-stack/mini-lab/tree/master/roles/auth-dex 301
+/docs/apidocs/metal-api/index.html /docs/references/metal-api 301
+/docs/external/metalctl/docs/* /docs/references/:splat 301
+
+/docs/:version/overview/* /docs/:version/:splat 301
+/docs/:version/concepts/* /docs/:version/:splat 301
+/docs/:version/general/* /docs/:version/:splat 301
+/docs/:version/users/* /docs/:version/:splat 301
+/docs/:version/operators/* /docs/:version/:splat 301
+/docs/:version/installation/* /docs/:version/:splat 301
+/docs/:version/cisos/security/principles /docs/:version/security-principles 301
+/docs/:version/cisos/security/* /docs/:version/:splat 301
+/docs/:version/cisos/* /docs/:version/:splat 301
+/docs/:version/developers/proposals /docs/:version/enhancement-proposals 301
+/docs/:version/developers/* /docs/:version/:splat 301
+/docs/:version/development/client_libraries /docs/:version/client-libraries 301
+/docs/:version/development/roadmap /docs/:version/planning-meetings#idea-backlog 301
+/docs/:version/development/proposals /docs/:version/enhancement-proposals 301
+/docs/:version/development/contributing /docs/:version/contribution-guideline  301
+/docs/:version/development/* /docs/:version/:splat  301
+/docs/:version/external/mini-lab/roles/auth-dex/README https://github.com/metal-stack/mini-lab/tree/master/roles/auth-dex 301
+/docs/:version/apidocs/metal-api/index.html /docs/:version/references/metal-api 301
+/docs/:version/external/metalctl/docs/* /docs/:version/references/:splat 301
+
 /stable/overview/* /docs/:splat 301
 /stable/concepts/* /docs/:splat 301
 /stable/general/* /docs/:splat 301
@@ -24,8 +64,27 @@
 /stable/development/* /docs/:splat  301
 /stable/external/mini-lab/roles/auth-dex/README https://github.com/metal-stack/mini-lab/tree/master/roles/auth-dex 301
 /stable/apidocs/metal-api/index.html /docs/references/metal-api 301
-
 /stable/external/metalctl/docs/* /docs/references/:splat 301
+
+/dev/overview/* /docs/next/:splat 301
+/dev/concepts/* /docs/next/:splat 301
+/dev/general/* /docs/next/:splat 301
+/dev/users/* /docs/next/:splat 301
+/dev/operators/* /docs/next/:splat 301
+/dev/installation/* /docs/next/:splat 301
+/dev/cisos/security/principles /docs/next/security-principles 301
+/dev/cisos/security/* /docs/next/:splat 301
+/dev/cisos/* /docs/next/:splat 301
+/dev/developers/proposals /docs/next/enhancement-proposals 301
+/dev/developers/* /docs/next/:splat 301
+/dev/development/client_libraries /docs/next/client-libraries 301
+/dev/development/roadmap /docs/next/planning-meetings#idea-backlog 301
+/dev/development/proposals /docs/next/enhancement-proposals 301
+/dev/development/contributing /docs/next/contribution-guideline  301
+/dev/development/* /docs/next/:splat  301
+/dev/external/mini-lab/roles/auth-dex/README https://github.com/metal-stack/mini-lab/tree/master/roles/auth-dex 301
+/dev/apidocs/metal-api/index.html /docs/next/references/metal-api 301
+/dev/external/metalctl/docs/* /docs/next/references/:splat 301
 
 # enhancement proposals
 /stable/development/proposals/MEP1/README /docs/MEP-1-distributed-metal-control-plane 301
@@ -45,12 +104,37 @@
 /stable/development/proposals/MEP1/README /docs/MEP-17-global-network-view 301
 /stable/development/proposals/MEP1/README /docs/MEP-18-autonomous-control-plane 301
 
+/dev/development/proposals/MEP1/README /docs/next/MEP-1-distributed-metal-control-plane 301
+/dev/development/proposals/MEP1/README /docs/next/MEP-2-two-factor-authentication 301
+/dev/development/proposals/MEP1/README /docs/next/MEP-3-machine-re-installation 301
+/dev/development/proposals/MEP1/README /docs/next/MEP-4-multi-tenancy-for-the-metal-api 301
+/dev/development/proposals/MEP1/README /docs/next/MEP-5-shared-networks 301
+/dev/development/proposals/MEP1/README /docs/next/MEP-6-dmz-networks 301
+/dev/development/proposals/MEP1/README /docs/next/MEP-7-configurable-filesystem-layout-for-machine-allocation 301
+/dev/development/proposals/MEP1/README /docs/next/MEP-9-no-open-ports-to-the-data-center 301
+/dev/development/proposals/MEP1/README /docs/next/MEP-10-sonic-support 301
+/dev/development/proposals/MEP1/README /docs/next/MEP-11-auditing-of-metal-stack-resources 301
+/dev/development/proposals/MEP1/README /docs/next/MEP-12-rack-spreading 301
+/dev/development/proposals/MEP1/README /docs/next/MEP-13-dual-stack-support 301
+/dev/development/proposals/MEP1/README /docs/next/MEP-14-independence-from-external-sources 301
+/dev/development/proposals/MEP1/README /docs/next/MEP-16-metal-api-as-an-alternative-configuration-source-for-the-firewall-controller 301
+/dev/development/proposals/MEP1/README /docs/next/MEP-17-global-network-view 301
+/dev/development/proposals/MEP1/README /docs/next/MEP-18-autonomous-control-plane 301
+
 # external redirects
 /stable/external/:repo/CONTRIBUTING /docs/contribution-guideline 301
 /stable/external/firewall-controller/DEVELOP /docs/contribution-guideline 301
 /stable/external/:repo/README /docs/references/:repo 301
 
-# semantic versions
+/dev/external/:repo/CONTRIBUTING /docs/next/contribution-guideline 301
+/dev/external/firewall-controller/DEVELOP /docs/next/contribution-guideline 301
+/dev/external/:repo/README /docs/next/references/:repo 301
+
+/v:verson/external/:repo/CONTRIBUTING /docs/v:version/next/contribution-guideline 301
+/v:verson/external/firewall-controller/DEVELOP /docs/v:version/next/contribution-guideline 301
+/v:verson/external/:repo/README /docs/v:version/next/references/:repo 301
+
+# names versions
 /stable/* /docs/:splat 301
 /dev/* /docs/next/:splat 301
 
@@ -78,10 +162,16 @@
 
 # mixed archived and current versions
 /v0.21.0/* https://docs.archived.metal-stack.io/v0.21.0/:splat
-/v0.21.0/* https://docs.archived.metal-stack.io/v0.21.0/:splat
-/v0.21.0/* https://docs.archived.metal-stack.io/v0.21.0/:splat
-/v0.21.0/* https://docs.archived.metal-stack.io/v0.21.0/:splat
-/v0.21/* /docs/v0.21.8/:splat
+/v0.21.1/* https://docs.archived.metal-stack.io/v0.21.1/:splat
+/v0.21.2/* https://docs.archived.metal-stack.io/v0.21.2/:splat
+/v0.21.3/* https://docs.archived.metal-stack.io/v0.21.3/:splat
+/v0.21.4/* https://docs.archived.metal-stack.io/v0.21.4/:splat
+/v0.21.5/* https://docs.archived.metal-stack.io/v0.21.5/:splat
+/v0.21.6/* https://docs.archived.metal-stack.io/v0.21.6/:splat
+/v0.21.7/* https://docs.archived.metal-stack.io/v0.21.7/:splat
+/v0.21.8/* https://docs.archived.metal-stack.io/v0.21.8/:splat
+# we redirect all v0.21 to stable
+/v0.21/* /docs/:splat
 
 # archived patch releases
 /v0.1.:patch/* https://docs.archived.metal-stack.io/v0.1.:patch/:splat
