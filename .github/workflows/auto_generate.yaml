@@ -31,6 +31,9 @@ jobs:
 
       - name: Push
         run: |
+          # husky is a pre-commit hook on svgs
+          bun run prepare
+
           if ! git diff --exit-code; then
             git config --global user.name "auto-build"
             git config --global user.email "info@metal-stack.io"
