@@ -35,7 +35,7 @@ The used framework to generate docs is [docusaurus](https://docusaurus.io).
 └── versions.json           # list of versions
 ```
 
-### How to organize the docs?
+### How To Organize the Docs?
 
 - Prioritize the `concept` section. If this is about a MEP, you likely already have the contents for this.
 - Use the `general` section to distribute users to their sections or to the deeper concept.
@@ -146,7 +146,8 @@ To update the dependencies for the Reference pages:
 bun run fetch-readmes
 ```
 
-## Component references
+## Component References
+
 Ensure first, that all files in the docs folder are updated and ready to freeze. Also execute `bun run fetch-readmes` to update files from components and apis with the release-vector file from the main branch.
 It is also possible to use `bun run fetch-readmes v0.20.8` to use the release-vector file with a specific tag (i.E. v0.20.8).
 All components are referenced in the `/scripts/components.json` file. Use this minimal template to add a new component:
@@ -160,7 +161,7 @@ All components are referenced in the `/scripts/components.json` file. Use this m
         "tag": "v0.18.1", // latest release tag of the component repository
         "position": 1, // use this property to sort the navigation subdirectories
         "withDocs": true // set to true to retrieve further .md files from a /docs folder. With false, only the README.md will be retrieved.
-},
+}
 ```
 
 The `tag` property will be updated automatically from the release-vector file.
