@@ -149,6 +149,10 @@ footer {
   height: 30px;
 }
 
+.navbar__link--active {
+  font-weight: var(--ifm-font-weight-semibold);
+}
+
 .navbar {
   position: sticky;
   width: 100%;
