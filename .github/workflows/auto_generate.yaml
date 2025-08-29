@@ -6,7 +6,7 @@ on:
       - auto-generate/*
 
 jobs:
-  build:
+  auto-generate:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
@@ -22,7 +22,10 @@ jobs:
           bun install
           bun run fetch-readmes
           bun run create-release-notes
-          bun run docusaurus docs:version $(jq -r '.version' src/version.json)
+
+          version=$(jq -r '.version' src/version.json)
+          jq "del(.[] | select(. == \"${version}\"))" versions.json > versions.json
+          bun run docusaurus docs:version ${version}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
