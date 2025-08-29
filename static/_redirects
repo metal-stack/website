@@ -5,6 +5,9 @@
 # temporary redirects we have no better alternatives yet
 /:version/apidocs/apidocs https://docs.archive.metal-stack.io/:version/references/metal-api/index.html 302
 
+# non-migration related redirects
+/docs /docs/home
+
 # migrate archived paths to stable versions quickly
 /stable/overview/* /docs/:splat 301
 /stable/concepts/* /docs/:splat 301
