@@ -41,7 +41,6 @@ export default function GetStarted() {
               variant="black"
               className="flex items-center gap-2"
               href="/docs/references/mini-lab"
-              target="_blank"
             >
               <Catalog className="w-6 h-6" />
               See docs
