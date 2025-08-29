@@ -21,7 +21,9 @@ jobs:
         run: bun install --frozen-lockfile --production --ignore-scripts
 
       - name: Build Website
-        run: bun run build
+        run: |
+          bun run fetch-readmes
+          bun run docusaurus docs:version $(jq -r '.version' src/version.json)
 
       - name: Push
         run: |
