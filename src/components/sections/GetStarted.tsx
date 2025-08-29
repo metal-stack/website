@@ -37,6 +37,7 @@ export default function GetStarted() {
               <LogoSlack className="w-5 h-5 group-hover:translate-x-0.5 transition-all" />{" "}
               Join our Slack
             </Button>
+            {/* TODO: change to archived dns */}
             <Button
               variant="black"
               className="flex items-center gap-2"
