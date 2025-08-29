@@ -105,7 +105,25 @@ const config: Config = {
       },
       items: [
         {
+          type: "doc",
+          label: "Docs",
+          position: "left",
+          docId: "docs/home",
+        },
+        {
+          label: "Contributing",
+          type: "doc",
+          docId: "contributing/contribution-guideline",
+        },
+        {
+          to: "/blog",
+          label: "Blog",
+          position: "left",
+        },
+        {
           type: "docsVersionDropdown",
+          id: "docs-version-dropdown",
+          position: "right",
           dropdownItemsAfter: [
             {
               type: "html",
@@ -118,18 +136,6 @@ const config: Config = {
             },
           ],
         },
-        {
-          type: "doc",
-          label: "Docs",
-          position: "left",
-          docId: "docs/home",
-        },
-        {
-          label: "Contributing",
-          type: "doc",
-          docId: "contributing/contribution-guideline",
-        },
-        { to: "/blog", label: "Blog", position: "left" },
         {
           href: "https://github.com/metal-stack",
           "aria-label": "GitHub repository",
