@@ -43,9 +43,9 @@ To ensure that internal components interact securely with the metal-api, metal-s
 
 Users can interact with the metal-api using [metalctl](https://github.com/metal-stack/metalctl), the command-line interface provided by metal-stack. Depending on the required operations, users should authenticate with the appropriate role to match their level of access.
 
-## Defence in Depth
+## Defense in Depth
 
-Defence in depth is a security strategy that employs multiple layers of defense to protect systems and data. By implementing various security measures at different levels, metal-stack aims to mitigate risks and enhance overall security posture.
+Defense in depth is a security strategy that employs multiple layers of defense to protect systems and data. By implementing various security measures at different levels, metal-stack aims to mitigate risks and enhance overall security posture.
 
 ## Redundancy
 

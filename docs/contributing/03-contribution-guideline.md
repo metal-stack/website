@@ -110,7 +110,7 @@ Development follows the official guide to:
 
 #### Libraries
 
-metal-stack maintains several libraries that you should utilize in your project in order unify common behavior. Some of these projects are:
+metal-stack maintains several libraries that you should utilize in your project in order to unify common behavior. Some of these projects are:
 
 - [metal-go](https://github.com/metal-stack/metal-go)
 - [metal-lib](https://github.com/metal-stack/metal-lib)
@@ -121,7 +121,7 @@ From the server-side you should ensure that you are returning the common error j
 
 ### Documentation
 
-We want to share knowledge and keep things simple. If things cannot kept simple we want enable everybody to understand them by:
+We want to share knowledge and keep things simple. If things cannot kept simple we want to enable everybody to understand them by:
 
 - Document in short sentences[^4].
 - Do not explain the HOW (this is already documented by your code and documenting the obvious is considered a defect).
