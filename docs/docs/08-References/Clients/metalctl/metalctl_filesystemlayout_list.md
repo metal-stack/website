@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_filesystemlayout_list
 title: metalctl_filesystemlayout_list
-sidebar_position: 2
+sidebar_position: 17
 ---
 
 ## metalctl filesystemlayout list

@@ -175,15 +175,15 @@ const config: Config = {
           items: [
             {
               label: "Benefits",
-              to: "/",
+              to: "/#benefits",
             },
             {
               label: "Features",
-              to: "/",
+              to: "/#distinguishing-features",
             },
             {
               label: "metalstack.cloud",
-              to: "/",
+              href: "https://metalstack.cloud",
             },
           ],
         },

@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_network_ip_delete
 title: metalctl_network_ip_delete
-sidebar_position: 2
+sidebar_position: 87
 ---
 
 ## metalctl network ip delete

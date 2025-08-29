@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_network_create
 title: metalctl_network_create
-sidebar_position: 2
+sidebar_position: 79
 ---
 
 ## metalctl network create

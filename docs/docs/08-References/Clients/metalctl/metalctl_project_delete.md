@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_project_delete
 title: metalctl_project_delete
-sidebar_position: 2
+sidebar_position: 107
 ---
 
 ## metalctl project delete

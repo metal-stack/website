@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_partition_describe
 title: metalctl_partition_describe
-sidebar_position: 2
+sidebar_position: 100
 ---
 
 ## metalctl partition describe

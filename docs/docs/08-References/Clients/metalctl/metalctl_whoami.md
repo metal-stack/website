@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_whoami
 title: metalctl_whoami
-sidebar_position: 2
+sidebar_position: 169
 ---
 
 ## metalctl whoami

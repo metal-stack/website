@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_machine_update-firmware_bmc
 title: metalctl_machine_update-firmware_bmc
-sidebar_position: 2
+sidebar_position: 73
 ---
 
 ## metalctl machine update-firmware bmc

@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_machine_identify_off
 title: metalctl_machine_identify_off
-sidebar_position: 2
+sidebar_position: 52
 ---
 
 ## metalctl machine identify off

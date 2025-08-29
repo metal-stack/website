@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_machine_power_bios
 title: metalctl_machine_power_bios
-sidebar_position: 2
+sidebar_position: 62
 ---
 
 ## metalctl machine power bios
