@@ -213,7 +213,7 @@ footer {
 /* hide the navbar on non-doc pages including it's hoverable dropdown */
 .plugin-pages #docs-version-dropdown,
 .plugin-blog #docs-version-dropdown,
-.plugin-pages .navbar__item.dropdown.dropdown--hoverable:has(> #docs-version-dropdown),
-.plugin-blog .navbar__item.dropdown.dropdown--hoverable:has(> #docs-version-dropdown) {
+.plugin-pages .dropdown--hoverable:has(> #docs-version-dropdown),
+.plugin-blog .dropdown--hoverable:has(> #docs-version-dropdown) {
   display: none;
 }
