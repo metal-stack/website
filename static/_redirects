@@ -2,19 +2,48 @@
 # The file is created to use the server-side-redirection of netlify
 # Source: https://docs.netlify.com/routing/redirects/
 
-# changed paths
-/stable/overview/* /docs/:splat 301
-/stable/installation/* /docs/:splat 301
+# temporary redirects we have no better alternatives yet
 /stable/apidocs/apidocs https://docs.archive.metal-stack.io/v0.21/references/metal-api/index.html 302
+
+# migrate archived paths to stable versions quickly
+/stable/overview/* /docs/:splat 301
+/stable/concepts/* /docs/:splat 301
+/stable/general/* /docs/:splat 301
+/stable/users/* /docs/:splat 301
+/stable/operators/* /docs/:splat 301
+/stable/installation/* /docs/:splat 301
+/stable/cisos/security/principles /docs/security-principles 301
+/stable/cisos/security/* /docs/:splat 301
+/stable/cisos/* /docs/:splat 301
+/stable/developers/proposals /docs/enhancement-proposals 301
+/stable/developers/* /docs/:splat 301
 /stable/development/client_libraries /docs/client-libraries 301
 /stable/development/roadmap /docs/planning-meetings#idea-backlog 301
 /stable/development/proposals /docs/enhancement-proposals 301
 /stable/development/contributing /docs/contribution-guideline  301
-/stable/external/mini-lab/roles/auth-dex/README /docs/introduction 301
+/stable/development/* /docs/:splat  301
+/stable/external/mini-lab/roles/auth-dex/README https://github.com/metal-stack/mini-lab/tree/master/roles/auth-dex 301
 /stable/apidocs/metal-api/index.html /docs/references/metal-api 301
 
 /stable/external/metalctl/docs/* /docs/references/:splat 301
-/stable/development/proposals/* /docs/enhancement-proposals/:splat 301
+
+# enhancement proposals
+/stable/development/proposals/MEP1/README /docs/MEP-1-distributed-metal-control-plane 301
+/stable/development/proposals/MEP1/README /docs/MEP-2-two-factor-authentication 301
+/stable/development/proposals/MEP1/README /docs/MEP-3-machine-re-installation 301
+/stable/development/proposals/MEP1/README /docs/MEP-4-multi-tenancy-for-the-metal-api 301
+/stable/development/proposals/MEP1/README /docs/MEP-5-shared-networks 301
+/stable/development/proposals/MEP1/README /docs/MEP-6-dmz-networks 301
+/stable/development/proposals/MEP1/README /docs/MEP-7-configurable-filesystem-layout-for-machine-allocation 301
+/stable/development/proposals/MEP1/README /docs/MEP-9-no-open-ports-to-the-data-center 301
+/stable/development/proposals/MEP1/README /docs/MEP-10-sonic-support 301
+/stable/development/proposals/MEP1/README /docs/MEP-11-auditing-of-metal-stack-resources 301
+/stable/development/proposals/MEP1/README /docs/MEP-12-rack-spreading 301
+/stable/development/proposals/MEP1/README /docs/MEP-13-dual-stack-support 301
+/stable/development/proposals/MEP1/README /docs/MEP-14-independence-from-external-sources 301
+/stable/development/proposals/MEP1/README /docs/MEP-16-metal-api-as-an-alternative-configuration-source-for-the-firewall-controller 301
+/stable/development/proposals/MEP1/README /docs/MEP-17-global-network-view 301
+/stable/development/proposals/MEP1/README /docs/MEP-18-autonomous-control-plane 301
 
 # external redirects
 /stable/external/:repo/CONTRIBUTING /docs/contribution-guideline 301
@@ -75,4 +104,3 @@
 /v0.18.:patch/* https://docs.archived.metal-stack.io/v0.18.:patch/:splat
 /v0.19.:patch/* https://docs.archived.metal-stack.io/v0.19.:patch/:splat
 /v0.20.:patch/* https://docs.archived.metal-stack.io/v0.20.:patch/:splat
-
