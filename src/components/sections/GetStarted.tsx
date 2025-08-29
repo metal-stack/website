@@ -32,6 +32,7 @@ export default function GetStarted() {
               variant="black"
               className="group flex items-center gap-2"
               href="https://metal-stack.slack.com"
+              target="_blank"
             >
               <LogoSlack className="w-5 h-5 group-hover:translate-x-0.5 transition-all" />{" "}
               Join our Slack
@@ -40,6 +41,7 @@ export default function GetStarted() {
               variant="black"
               className="flex items-center gap-2"
               href="https://docs.metal-stack.io/stable/external/mini-lab/README/"
+              target="_blank"
             >
               <Catalog className="w-6 h-6" />
               See docs
