@@ -209,3 +209,11 @@ footer {
 .footer__link-item {
   color: rgb(115 115 115);
 }
+
+.plugin-pages #docs-version-dropdown {
+  display: none;
+}
+
+.plugin-blog #docs-version-dropdown {
+  display: none;
+}
