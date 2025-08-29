@@ -3,7 +3,7 @@ import Container from "../../components/Container";
 import Row from "../../components/Row";
 import Terminal from "../../components/Terminal";
 import Link from "@docusaurus/Link";
-import latestRelease from "../../version.json"
+import latestRelease from "../../version.json";
 
 export default function Header() {
   return (
@@ -59,7 +59,7 @@ export default function Header() {
             <div className="pt-52 sm:pt-80 pb-20 sm:flex items-end gap-8 relative isolate">
               <div className="sm:w-2/3 md:w-1/2">
                 <a
-                  href={"./docs/home"}
+                  href={"docs/release-notes/" + latestRelease.version}
                   className="rounded-full inline-flex items-center gap-1 py-1 px-2 border-2 border-sky-500 text-sm bg-sky-500/20 hover:bg-sky-600/20 transition-all hover:text-sky-400 text-sky-400 font-bold"
                 >
                   {latestRelease.version}
