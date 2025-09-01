@@ -100,10 +100,12 @@ https://docs.metal-stack.io/* https://metal-stack.io/:splat 301!
 # some articles briefly had an article.md instead of an index.md leading to different urls
 /blog/:year/:month-:slug/article /blog/:year/:month-:slug 301
 /tags/:tag /blog/tags/:tag 301
+/tags/:tag/page/:page /blog/tags/:tag/page/:page 301
 /tags/:tag/index.html /blog/tags/:tag 301
 # previously there were categories - now there aren't
 /categories/:tag /blog/tags/:tag 301
 /categories/:tag/index.html /blog/tags/:tag 301
+/categories/:tag/page/:page /blog/tags/:tag/page/:page 301
 
 # external redirects
 /stable/references/external/tailscale/README /docs/tailscale-service-exposal 301
