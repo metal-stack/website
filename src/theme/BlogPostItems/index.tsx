@@ -18,7 +18,7 @@ function BlogPostItemTeaser({children,className}:BlogPostItemProps): ReactNode {
       slug: metadata.permalink,
       title: metadata.title,
       description: metadata.description,
-      date: new Date(),
+      date: new Date(metadata.date),
       firstAuthor: {
           name: metadata.authors[0]?.name || "",
           url: metadata.authors[0]?.imageURL || "",
