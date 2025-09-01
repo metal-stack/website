@@ -4,7 +4,7 @@
     "": {
       "name": "docs",
       "dependencies": {
-        "@carbon/icons-react": "^11.63.0",
+        "@carbon/icons-react": "^11.66.0",
         "@docusaurus/core": "^3.8.1",
         "@docusaurus/plugin-content-blog": "^3.8.1",
         "@docusaurus/preset-classic": "^3.8.1",
@@ -282,9 +282,9 @@
 
     "@babel/types": ["@babel/types@7.28.2", "", { "dependencies": { "@babel/helper-string-parser": "^7.27.1", "@babel/helper-validator-identifier": "^7.27.1" } }, "sha512-ruv7Ae4J5dUYULmeXw1gmb7rYRz57OWCPM57pHojnLq/3Z1CK2lNSLTCVjxVk1F/TZHwOZZrOWi0ur95BbLxNQ=="],
 
-    "@carbon/icon-helpers": ["@carbon/icon-helpers@10.64.0", "", { "dependencies": { "@ibm/telemetry-js": "^1.5.0" } }, "sha512-yzxBQkMyZcQvn2aM7vjRkoq34MfFi07ZxX5HOmSoHO6H6eFqiRiSuUjWq7x/OwYMV7ADpzvtQ8FjxLBvxdwi0Q=="],
+    "@carbon/icon-helpers": ["@carbon/icon-helpers@10.65.0", "", { "dependencies": { "@ibm/telemetry-js": "^1.5.0" } }, "sha512-QsYaZSD33vmE/uAX8EmNO095btGNSasbQj8ETOj+PLGya9xMUrFAWY/GEYM2w9qZRBTrbcrXn61rnBVT2DWbKg=="],
 
-    "@carbon/icons-react": ["@carbon/icons-react@11.65.0", "", { "dependencies": { "@carbon/icon-helpers": "^10.64.0", "@ibm/telemetry-js": "^1.5.0", "prop-types": "^15.8.1" }, "peerDependencies": { "react": ">=16" } }, "sha512-mX7KjJJLghNRum97TCbY3eor/r79lOtNyFfdZ+LAzHC3+KPBrfqrEkUnbXkcfKKgrqLhUB1txiQJywp7/aoFBQ=="],
+    "@carbon/icons-react": ["@carbon/icons-react@11.66.0", "", { "dependencies": { "@carbon/icon-helpers": "^10.65.0", "@ibm/telemetry-js": "^1.5.0", "prop-types": "^15.8.1" }, "peerDependencies": { "react": ">=16" } }, "sha512-bx5fATpmngdRHfEojovoIKJ0Gs/W5o0pRJNh/yfbJA25RHlbTOfWxgljVK+hx5zPF/qjvshIm4rT29eDvX+ifQ=="],
 
     "@colors/colors": ["@colors/colors@1.5.0", "", {}, "sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ=="],
 
