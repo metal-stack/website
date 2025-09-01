@@ -1,6 +1,6 @@
 # website
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/f42ce2b4-45f8-4a11-9555-5a25f7a5e2aa/deploy-status)](https://app.netlify.com/projects/docs-new/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/f42ce2b4-45f8-4a11-9555-5a25f7a5e2aa/deploy-status)](https://app.netlify.com/projects/website/deploys)
 
 This repository contains the website including the documentation of [metal-stack.io](https://metal-stack.io).
 
