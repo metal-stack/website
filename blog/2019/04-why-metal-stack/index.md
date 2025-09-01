@@ -1,7 +1,7 @@
 ---
 title: "metal-stack — Why and How"
 watermark: "Blog"
-date: 2020-04-19T09:51:57+02:00
+date: 2019-04-19T09:51:57+02:00
 description: |
   Early in 2018 [FI-TS](https://f-i-ts.de/) decided to build a Kubernetes-as-a-Service solution for
   financial institutions. As with every regulated industry, there are digital sovereignty concerns
