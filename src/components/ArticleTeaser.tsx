@@ -13,9 +13,6 @@ export default function ArticleTeaser(props: ArticleTeaserProps) {
     timeZone: 'UTC',
   });
 
-  const formatDate = (blogDate: string) =>
-    dateTimeFormat.format(new Date(blogDate));
-
   return (
     <article>
       <Link to={props.slug} className={`${ isDarkTheme ? "dark:bg-neutral-900" : "bg-white/50"} group border border-neutral-200 dark:border-white/5 filter backdrop-blur-xl rounded-lg block p-8 h-full`}>
@@ -39,7 +36,7 @@ export default function ArticleTeaser(props: ArticleTeaserProps) {
               {props.firstAuthor.name}
             </p>
             <time dateTime={props.date.toString()} className="text-neutral-500">
-              {dateTimeFormat.format(props.date)}
+              {dateTimeFormat.format(new Date(props.date.toString()))}
             </time>
           </div>
         </div>
