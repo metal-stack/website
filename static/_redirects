@@ -94,6 +94,17 @@ https://docs.metal-stack.io/* https://metal-stack.io/:splat 301!
 /dev/development/proposals/MEP1/README /docs/next/MEP-17-global-network-view 301
 /dev/development/proposals/MEP1/README /docs/next/MEP-18-autonomous-control-plane 301
 
+# blog related stuff
+/blog/:year/:month/:slug /docs/:year/:month-:slug 301
+/blog/:year/:month/:slug/index.html /docs/:year/:month-:slug 301
+# some articles briefly had an article.md instead of an index.md leading to different urls
+/docs/:year/:month-:slug/article /docs/:year/:month-:slug 301
+/tags/:tag /blog/tags/:tag 301
+/tags/:tag/index.html /blog/tags/:tag 301
+# previously there were categories - now there aren't
+/categories/:tag /blog/tags/:tag 301
+/categories/:tag/index.html /blog/tags/:tag 301
+
 # external redirects
 /stable/references/external/tailscale/README /docs/tailscale-service-exposal 301
 /stable/references/external/metalctl/docs/* /docs/references/:splat 301
