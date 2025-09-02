@@ -47,7 +47,7 @@ Once a proposal was accepted, an issue should be raised and the implementation s
 ## Proposal Process
 
 1. Before starting a new proposal, it is advised to have a quick chat with one of the maintainers.
-2. Create a draft pull request in the [website](https://github.com/metal-stack/website) repository with your proposal. Your proposal doesn't have to finished at this point.
+2. Create a draft pull request in the [website](https://github.com/metal-stack/website) repository with your proposal. Your proposal doesn't have to be finished at this point.
 3. Share the PR in the [metal-stack Slack](https://metal-stack.slack.com/) and invite maintainers to review it.
 4. The review itself will probably take place in multiple iterations. Don't be discouraged if your proposal is not accepted right away. The goal is to reach consensus.
 5. Once your proposal is accepted, create an umbrella issue in the relevant repository or when multiple repositories are involved in the [releases](https://github.com/metal-stack/releases).
@@ -60,6 +60,7 @@ In the first section of your MEP, start with the current situation and the motiv
 
 Next follows the main part: describe your proposal in detail. Which parts of of metal-stack are affected? Are there API changes? If yes, describe them and provide examples here.
 Try to think of side effects your proposal might have. Try to provide a view on how your proposal affects users of metal-stack.
+Highlight breaking changes and think of a migration path for existing users. If your proposal affects multiple components, try to describe the interaction between them.
 
 After the main part of your proposal, feel free to add additional sections, e.g. about alternatives that were considered, non-goals or future possibilities.
 
