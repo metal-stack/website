@@ -57,7 +57,7 @@ const config: Config = {
         },
         // Please change this to your repo.
         // Remove this to remove the "edit this page" links.
-        editUrl: "https://github.com/metal-stack/docs-new/tree/main/",
+        editUrl: "https://github.com/metal-stack/website/tree/main/",
         // Useful options to enforce blogging best practices
         onInlineTags: "warn",
         onInlineAuthors: "ignore",
@@ -81,7 +81,7 @@ const config: Config = {
           sidebarPath: "./sidebars.ts",
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl: "https://github.com/metal-stack/docs-new/tree/main/",
+          editUrl: "https://github.com/metal-stack/website/tree/main/",
         },
         blog: false,
         theme: {
