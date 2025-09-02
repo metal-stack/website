@@ -1,9 +1,18 @@
 import Link from '@docusaurus/Link';
 import {ArticleTeaserProps} from "@site/src/types/ArticleTeaserProps";
 import { useColorMode } from "@docusaurus/theme-common";
+import { useDateTimeFormat } from '@docusaurus/theme-common/internal';
 
 export default function ArticleTeaser(props: ArticleTeaserProps) {
   const { isDarkTheme } = useColorMode();
+
+  const dateTimeFormat = useDateTimeFormat({
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'UTC',
+  });
+
   return (
     <article>
       <Link to={props.slug} className={`${ isDarkTheme ? "dark:bg-neutral-900" : "bg-white/50"} group border border-neutral-200 dark:border-white/5 filter backdrop-blur-xl rounded-lg block p-8 h-full`}>
@@ -27,7 +36,7 @@ export default function ArticleTeaser(props: ArticleTeaserProps) {
               {props.firstAuthor.name}
             </p>
             <time dateTime={props.date.toString()} className="text-neutral-500">
-              {new Date(props.date).toLocaleDateString()}
+              {dateTimeFormat.format(new Date(props.date.toString()))}
             </time>
           </div>
         </div>
