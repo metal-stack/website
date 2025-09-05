@@ -15,6 +15,9 @@ jobs:
       - name: checkout
         uses: actions/checkout@v5
 
+      - name: Check spelling
+        uses: crate-ci/typos@master
+
       - name: setup-bun
         uses: oven-sh/setup-bun@v2
         with:
