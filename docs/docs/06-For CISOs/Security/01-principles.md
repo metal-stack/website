@@ -54,19 +54,23 @@ Redundancy is a key principle in metal-stack's security architecture. It involve
 ## BMC User Management
 
 For bare metal provisioning with metal-stack, two dedicated users to interact with a machine BMC are created.
-The `metal-hammer` first creates a BMC user called `root` or `superuser` with the administrator privilege. The password used, is configured with the Ansible variable [`metal_api_bmc_superuser_pwd`](https://github.com/metal-stack/metal-roles/blob/master/control-plane/roles/metal/README.md#metal-api). It is necessary e.g. for [`metal-bmc`](https://github.com/metal-stack/metal-roles/blob/master/partition/roles/metal-bmc/README.md), to perform its actions while deleting a machine and adding it to the pool of available machines again.
+The `metal-hammer` first creates a BMC user called `root` or `superuser` with the administrator privilege. The password used, is configured with the Ansible variable [`metal_api_bmc_superuser_pwd`](https://github.com/metal-stack/metal-roles/blob/master/control-plane/roles/metal/README.md#metal-api). It is necessary e.g. for [`metal-bmc`](https://github.com/metal-stack/metal-roles/blob/master/partition/roles/metal-bmc/README.md), to perform its actions while deleting a machine and adding it to the pool of available machines again. Since metal-stack operates within a Kubernetes cluster, the `metal_api_bmc_superuser_pwd` is stored as a Kubernetes Secret in the metal-control-plane namespace, with the value represented in base64 encoding.
 
 :::info
 Note: The superuser feature is optional. If no superuser password is configured, it is disabled. In this case, `metal-bmc` cannot report machine data for unallocated machines.
 :::
 
-Afterwards a user called `metal` with administrator privileges is created by `metal-hammer`. This happens while the machine registers itself at the `metal-api`. Its password is not configured via an Ansible variable in `metal-roles`, because it is generated automatically and added to the `MachineIPMI` details. The `Register` event is issued to the `metal-api` to store all necessary machine details. Each time a machine is allocated, its password is reset, while the user account itself remains in place. The applied password constraints are as follows:
+Afterwards a user called `metal` with administrator privileges is created by `metal-hammer`. When a machine registers with the `metal-api`, a password for the metal user is automatically generated and not set through an Ansible variable in `metal-roles`. This password is added to the machine’s IPMI details, which are then persisted in the `metal-db`. The register event triggers the `metal-api` to store all required machine information. Each time a machine is allocated, the password is reset and updated in the database, while the user account itself remains unchanged. The applied password constraints are as follows:
 
 - Password length: 10 characters
 - Number of digits: 3
 - Number of special characters: 0
 - Uppercase allowed
 - Repeated characters allowed
+
+:::info
+Note: The `metal-db` is not encrypted. Access to the metal-control-plane namespace should therefore be carefully restricted to trusted administrators only.
+:::
 
 The `metal` user is solely intended for SOL (Serial over LAN) out-of-band administrative access to the machine via [metalctl](/docs/references/metalctl). To establish this connection, the [`metal-console`](docs/references/metal-console) component is used, which transfers console output over SSH. This setup ensures secure, remote out-of-band management, allowing operators to troubleshoot and control machines even when the operating system is unavailable.
 To maintain security, the BMC credentials should be treated as system-managed accounts. For security and compliance, administrators are strongly advised to avoid interactive logins with them.
