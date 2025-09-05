@@ -26,4 +26,4 @@ This approach uses the [`metal-console`](../08-References/Control%20Plane/metal-
 
 Both methods ensure secure and controlled access to machines without exposing them unnecessarily to the network, maintaining the integrity and safety of the infrastructure.
 
-Connecting directly to a machine without a clear plan of action can have unintended consequences and negatively impact stability. For this reason, administrative privileges are required. This restriction ensures that only authorized personnel with the necessary expertise can perform actions that affect the underlying infrastructure. These principles will evolve with the introduction of MEP-4.
+Connecting directly to a machine without a clear plan of action can have unintended consequences and negatively impact stability. For this reason, administrative privileges are required. This restriction ensures that only authorized personnel with the necessary expertise can perform actions that affect the underlying infrastructure. These principles will evolve with the introduction of [MEP-4](../../contributing/01-Proposals/MEP4/README.md).
