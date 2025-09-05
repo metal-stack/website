@@ -8,7 +8,7 @@ title: Remote Access
 
 Remote access to machines and firewalls is essential for performing administrative tasks such as incident management, troubleshooting and sometimes for development. Standard SSH access is often insufficient for these purposes. In many cases, direct serial console access is required to fully manage the system. metal-stack follows a security-first approach by not offering direct SSH access to machines. This practice reduces the attack surface and prevents unauthorized access that could lead to system damage. Detailed information can be found in [MEP-9](../../contributing/01-Proposals/MEP9/README.md). Administrators can access machines in two primary ways.
 
-**Out-of-band management via Serial over LAN (SOL)**
+**Out-of-band management via SOL**
 
 ```bash
 metalctl machine console <ID> --ipmi
@@ -27,3 +27,7 @@ This approach uses the [`metal-console`](../08-References/Control%20Plane/metal-
 Both methods ensure secure and controlled access to machines without exposing them unnecessarily to the network, maintaining the integrity and safety of the infrastructure.
 
 Connecting directly to a machine without a clear plan of action can have unintended consequences and negatively impact stability. For this reason, administrative privileges are required. This restriction ensures that only authorized personnel with the necessary expertise can perform actions that affect the underlying infrastructure. These principles will evolve with the introduction of [MEP-4](../../contributing/01-Proposals/MEP4/README.md).
+
+## Switches and Management Infrastructure
+
+TODO: Describe how to access switches (and other management infrastructure like mgmt servers) via SSH
