@@ -1,6 +1,6 @@
 # website
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/f42ce2b4-45f8-4a11-9555-5a25f7a5e2aa/deploy-status)](https://app.netlify.com/projects/docs-new/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/927c840e-43dc-4721-9d49-aac06f52c33f/deploy-status)](https://app.netlify.com/projects/metal-stack-io/deploys)
 
 This repository contains the website including the documentation of [metal-stack.io](https://metal-stack.io).
 
@@ -89,7 +89,7 @@ This file is used to generate the sidebar.
 
 ## Embedding drawio images
 
-> ⚠️ referenced `.drawio.svg` images throw **warnings** because of unsupported file-types. We save `.drawio` files separatly and export them as `svg`. Issue is also known in [docusaurus](https://github.com/facebook/docusaurus/issues/9715)
+> ⚠️ referenced `.drawio.svg` images throw **warnings** because of unsupported file-types. We save `.drawio` files separately and export them as `svg`. Issue is also known in [docusaurus](https://github.com/facebook/docusaurus/issues/9715)
 
 Some svgs still can have problems e.g:
 

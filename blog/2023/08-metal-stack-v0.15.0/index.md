@@ -27,7 +27,7 @@ Check out the direct link to the release [here](https://github.com/metal-stack/r
 
 Before metal-stack v0.15.0, when creating a machine through the metal-api, the machine was placed randomly inside a partition. The algorithm did not consider spreading machines across different racks and different chassis.
 
-This may lead to the situation that a group of machines (that for example form a cluster) can end up being placed in the same rack and the same chassis. In certain meltdown scenarios like a rack loosing power or chassis meltdown, it is desirable have machines within a project spread across data ceneter racks as best as possible.
+This may lead to the situation that a group of machines (that for example form a cluster) can end up being placed in the same rack and the same chassis. In certain meltdown scenarios like a rack losing power or chassis meltdown, it is desirable have machines within a project spread across data ceneter racks as best as possible.
 
 So, instead of just randomly deciding the placement of a machine candidate, there is now a placement strategy that distributes machines within the same partition on the available racks evenly. For placement, it is also possible to allocate machines with so called "placement tags", allowing own distribution groups defined by the user. With this release, our Gardener integration already takes this opportunity to spread cluster workers across racks utilizing the cluster ID tag.
 
