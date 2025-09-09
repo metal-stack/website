@@ -119,7 +119,7 @@ The following sequence diagram illustrates some of the main principles of the ma
 
 Here is a video showing a screen capture of a machine's serial console while running the metal-hammer in "wait mode". Then, a user allocates the machine and the metal-hammer installs the target operating system and the machine boots into the new operating system kernel via the kexec system call.
 
-```@raw html
+```html
 <div class="video-container">
 <iframe src="https://www.youtube-nocookie.com/embed/3oEhInk6BaU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
