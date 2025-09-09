@@ -31,6 +31,7 @@ jobs:
 
       - name: Push
         run: |
+          bun run build
           bun run optimize:svg
 
           if ! git diff --exit-code; then
