@@ -75,18 +75,11 @@ At the end of this section we are gonna end up with the following files and fold
 
 You can already define the `inventories/group_vars/all/images.yaml` file. It contains the metal-stack version you are gonna deploy:
 
-````@eval
-using Docs
 
-t = """
 ```yaml
 ---
-metal_stack_release_version: %s
+metal_stack_release_version: <metal-stack-release-version>
 ```
-"""
-
-markdownTemplate(t, releaseVersion())
-````
 
 ### Releases and Ansible Role Dependencies
 
@@ -450,30 +443,21 @@ For the actual communication between the metal-api and the user clients (REST AP
 
 Finally, it should be possible to run the deployment through a Docker container. Make sure to have the [Kubeconfig file](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/) of your cluster and set the path in the following command accordingly:
 
-````@eval
-using Docs
-
-base_image = releaseVector()["docker-images"]["metal-stack"]["generic"]["deployment-base"]["tag"]
-
-t = raw"""
 ```bash
 export KUBECONFIG=<path-to-your-cluster-kubeconfig>
+export METAL_VERSION=<metal-stack-release-version>
 docker run --rm -it \
   -v $(pwd):/workdir \
   --workdir /workdir \
   -e KUBECONFIG="${KUBECONFIG}" \
   -e K8S_AUTH_KUBECONFIG="${KUBECONFIG}" \
   -e ANSIBLE_INVENTORY=inventories/control-plane.yaml \
-  ghcr.io/metal-stack/metal-deployment-base:%s \
+  ghcr.io/metal-stack/metal-deployment-base:${METAL_VERSION} \
   /bin/bash -ce \
     "ansible-playbook obtain_role_requirements.yaml
      ansible-galaxy install -r requirements.yaml
      ansible-playbook deploy_metal_control_plane.yaml"
 ```
-"""
-
-markdownTemplate(t, base_image)
-````
 
 :::tip
 If you are having issues regarding the deployment take a look at the [troubleshoot document](./06-troubleshoot.md). Please give feedback such that we can make the deployment of the metal-stack easier for you and for others!
