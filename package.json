@@ -14,7 +14,7 @@
     "write-heading-ids": "docusaurus write-heading-ids",
     "typecheck": "tsc",
     "fetch-readmes": "bun ./scripts/fetch-readmes.js",
-    "optimize:svg": "svgo -f . --recursive",
+    "optimize:svg": "svgo -f . --recursive --multipass",
     "prepare": "husky",
     "create-release-notes": "bun ./scripts/create-release-notes.js"
   },

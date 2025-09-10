@@ -5,4 +5,4 @@ leafs = "leafs"
 nd = "nd"
 
 [files]
-extend-exclude = ["*.svg", "*.drawio", "allocate.yml"]
+extend-exclude = ["*.svg", "*.drawio", "allocate.yml", "07-Release Notes", "08-References"]
