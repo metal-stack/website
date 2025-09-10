@@ -175,7 +175,7 @@ As it turns out we got even more. Because we switched all network object manipul
 
 Shown below are the benchmark results before and after using `inet.af/netaddr`
 
-```sh
+```bash
 name                    old time/op    new time/op    delta
 NewPrefixMemory-4         3.15µs ± 1%    2.34µs ± 7%   -25.56%  (p=0.016 n=4+5)
 NewPrefixPostgres-4       10.3ms ± 6%    10.1ms ±12%      ~     (p=0.686 n=4+4)

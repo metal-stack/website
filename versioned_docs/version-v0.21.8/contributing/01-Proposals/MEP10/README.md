@@ -31,7 +31,7 @@ files created by `metal-core`. But by using the split mode, the integrated confi
 we have to write our BGP configuration to the daemon-specific files `bgp.conf`, `staticd.conf`, and `zebra.conf` instead
 to `frr.conf`.
 
-```shell
+```bash
 elif [ "$CONFIG_TYPE" == "split" ]; then
     echo "no service integrated-vtysh-config" > /etc/frr/vtysh.conf
     rm -f /etc/frr/frr.conf
