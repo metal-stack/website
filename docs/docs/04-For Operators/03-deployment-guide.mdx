@@ -3,7 +3,6 @@ slug: /deployment-guide
 title: Deployment Guide
 sidebar_position: 3
 ---
-
 # Deployment Guide
 
 We are bootstrapping the [metal control plane](../05-Concepts/01-architecture.md#metal-control-plane) as well as our [partitions](../05-Concepts/01-architecture.md#partitions) with [Ansible](https://www.ansible.com/) through CI.
@@ -75,10 +74,16 @@ At the end of this section we are gonna end up with the following files and fold
 
 You can already define the `inventories/group_vars/all/images.yaml` file. It contains the metal-stack version you are gonna deploy:
 
-```yaml
----
-metal_stack_release_version: <metal-stack-release-version>
-```
+import CodeBlock from '@theme/CodeBlock';
+import latestRelease from '@site/src/version.json'
+export function ImageReleaseConfig() {
+  return <><CodeBlock language="yaml">
+            ---{"\n"}
+            metal_stack_release_version: {latestRelease.version}
+          </CodeBlock></>
+}
+
+<ImageReleaseConfig />
 
 ### Releases and Ansible Role Dependencies
 
@@ -442,9 +447,17 @@ For the actual communication between the metal-api and the user clients (REST AP
 
 Finally, it should be possible to run the deployment through a Docker container. Make sure to have the [Kubeconfig file](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/) of your cluster and set the path in the following command accordingly:
 
+export function VariableConfig() {
+  return <><CodeBlock language="bash">
+              export KUBECONFIG={"\<"}path-to-your-cluster-kubeconfig{"\>"}{"\n"}
+              export METAL_VERSION={latestRelease.version}
+          </CodeBlock></>
+}
+
+<VariableConfig />
+
+Then you can spin up the deployment with docker:
 ```bash
-export KUBECONFIG=<path-to-your-cluster-kubeconfig>
-export METAL_VERSION=<metal-stack-release-version>
 docker run --rm -it \
   -v $(pwd):/workdir \
   --workdir /workdir \
