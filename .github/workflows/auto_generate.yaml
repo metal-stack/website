@@ -23,6 +23,8 @@ jobs:
           bun run fetch-readmes
           bun run create-release-notes
 
+          [ -d versioned_docs/${version}/docs/08-References/API ] || cp -r ../../../../docs/docs/08-References/API versioned_docs/${version}/docs/08-References
+
           version=$(jq -r '.version' src/version.json)
           jq "del(.[] | select(. == \"${version}\"))" versions.json > versions.json.tmp && mv versions.json.tmp versions.json
           bun run docusaurus docs:version ${version}
