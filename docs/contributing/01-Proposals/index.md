@@ -23,7 +23,7 @@ Possible states are:
 
 Once a proposal was accepted, an issue should be raised and the implementation should be done in a separate PR.
 
-| Name                                                           | Description                                    |      State      |                              Umbrella                              |
+| Name                                                           | Description                                    |      State      |                              Progress                              |
 | :------------------------------------------------------------- | :--------------------------------------------- | :-------------: | :----------------------------------------------------------------: |
 | [MEP-1](MEP1/README.md)                                        | Distributed Control Plane Deployment           |   `Declined`    |                                                                    |
 | [MEP-2](MEP2/README.md)                                        | Two Factor Authentication                      |    `Aborted`    |                                                                    |
