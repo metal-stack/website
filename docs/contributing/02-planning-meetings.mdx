@@ -6,7 +6,7 @@ sidebar_position: 2
 
 # Planning Meetings
 
-Public planning meetings are held **biweekly** on **odd calendar weeks** from **14:00 to 14:30** on Microsoft Teams. The purpose is to provide an overview of our current projects and priorities, as well as to discuss new topics and issues within the group.
+Public planning meetings are held **biweekly** on **odd calendar weeks** from **14:00 to 14:30** (Berlin/Europe timezone) on Microsoft Teams. The purpose is to provide an overview of our current projects and priorities, as well as to discuss new topics and issues within the group.
 
 export function PlanningMeetingDatesTable() {
   const today = new Date();
@@ -22,12 +22,22 @@ export function PlanningMeetingDatesTable() {
     nextMonday.setDate(nextMonday.getDate() + 7)
   }
 
+  const blacklist = [
+    new Date('2025-12-29'),
+  ]
+
+  const amount = 20
   const dates = [];
 
-  for (let i = 0; i < 7; i++) {
+  for (let i = 0; i < amount; i++) {
     const nextDate = new Date(nextMonday);
     nextDate.setDate(nextDate.getDate() + (i * 14))
-    dates.push(nextDate.toDateString());
+
+    if (blacklist.find(item => {return item.toDateString() == nextDate.toDateString()}) !== undefined ) {
+      continue
+    }
+
+    dates.push(nextDate.toDateString())
   }
 
   return (
@@ -35,6 +45,7 @@ export function PlanningMeetingDatesTable() {
       <thead>
         <tr>
           <th style={{textAlign: 'left'}}>Date</th>
+          <th style={{textAlign: 'left'}}>Time</th>
           <th style={{textAlign: 'left'}}>Link</th>
         </tr>
       </thead>
@@ -42,6 +53,7 @@ export function PlanningMeetingDatesTable() {
         {dates.map((date, index) => (
           <tr>
             <td key={index}>{date}</td>
+            <td >14:00 – 14:30</td>
             <td><a href="https://teams.microsoft.com/l/meetup-join/19%3ameeting_ZTVmNWFkYjYtMzVmYi00ZTMxLTk5ZTUtMGFjYjU2OTk0MjQz%40thread.v2/0?context=%7b%22Tid%22%3a%22f9d9b921-8f78-466d-95fd-4495e73d8d65%22%2c%22Oid%22%3a%228ac2a791-e637-4a90-8505-0a1ee175ebfc%22%7d" target="_blank">Join Link</a></td>
           </tr>
         ))}
