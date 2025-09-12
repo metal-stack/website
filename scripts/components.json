@@ -7,7 +7,7 @@
         "releasePath": "binaries.metal-stack.metalctl.version",
         "repo": "metal-stack/metalctl",
         "branch": "main",
-        "tag": "v0.18.1",
+        "tag": "v0.18.3",
         "position": 1,
         "withDocs": true
       }
@@ -30,7 +30,7 @@
         "releasePath": "docker-images.metal-stack.control-plane.ipam.tag",
         "repo": "metal-stack/go-ipam",
         "branch": "main",
-        "tag": "v1.14.12",
+        "tag": "v1.14.13",
         "position": 2,
         "withDocs": false
       },
@@ -39,7 +39,7 @@
         "releasePath": "docker-images.metal-stack.control-plane.masterdata-api.tag",
         "repo": "metal-stack/masterdata-api",
         "branch": "main",
-        "tag": "v0.11.11",
+        "tag": "v0.12.0",
         "position": 3,
         "withDocs": false
       },
@@ -48,7 +48,7 @@
         "releasePath": "docker-images.metal-stack.control-plane.metal-api.tag",
         "repo": "metal-stack/metal-api",
         "branch": "main",
-        "tag": "v0.41.2",
+        "tag": "v0.42.3",
         "position": 4,
         "withDocs": false
       },
@@ -57,7 +57,7 @@
         "releasePath": "docker-images.metal-stack.control-plane.metal-console.tag",
         "repo": "metal-stack/metal-console",
         "branch": "main",
-        "tag": "v0.7.4",
+        "tag": "v0.7.5",
         "position": 5,
         "withDocs": false
       }
@@ -80,7 +80,7 @@
         "releasePath": "docker-images.metal-stack.partition.metal-bmc.tag",
         "repo": "metal-stack/metal-bmc",
         "branch": "main",
-        "tag": "v0.5.8",
+        "tag": "v0.6.0",
         "position": 2,
         "withDocs": false
       },
@@ -89,7 +89,7 @@
         "releasePath": "docker-images.metal-stack.partition.metal-core.tag",
         "repo": "metal-stack/metal-core",
         "branch": "main",
-        "tag": "v0.12.5",
+        "tag": "v0.13.1",
         "position": 3,
         "withDocs": false
       },
@@ -98,7 +98,7 @@
         "releasePath": "binaries.metal-stack.metal-hammer.version",
         "repo": "metal-stack/metal-hammer",
         "branch": "main",
-        "tag": "v0.13.13",
+        "tag": "v0.13.15",
         "position": 4,
         "withDocs": false
       },
@@ -107,7 +107,7 @@
         "releasePath": "docker-images.metal-stack.partition.pixiecore.tag",
         "repo": "metal-stack/pixie",
         "branch": "main",
-        "tag": "v0.3.6",
+        "tag": "v0.3.7",
         "position": 5,
         "withDocs": false
       }
@@ -235,7 +235,7 @@
         "releasePath": "docker-images.metal-stack.gardener.gardener-extension-audit.tag",
         "repo": "metal-stack/gardener-extension-audit",
         "branch": "main",
-        "tag": "v0.1.15",
+        "tag": "v0.2.2",
         "position": 1,
         "withDocs": false
       },
@@ -253,7 +253,7 @@
         "releasePath": "docker-images.metal-stack.gardener.gardener-extension-ontap.tag",
         "repo": "metal-stack/gardener-extension-ontap",
         "branch": "main",
-        "tag": "main",
+        "tag": "v0.2.3",
         "position": 3,
         "withDocs": false
       },
