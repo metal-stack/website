@@ -10,9 +10,20 @@ Public planning meetings are held **biweekly** on **odd calendar weeks** from **
 
 export function PlanningMeetingDatesTable() {
   const today = new Date();
-
   const dayOfWeek = today.getDay();
-  const daysUntilMonday = (dayOfWeek === 0) ? 1 : (8 - dayOfWeek);
+
+  let daysUntilMonday = 0;
+  switch (dayOfWeek) {
+    case 0:
+      daysUntilMonday = 1;
+      break;
+    case 1:
+      daysUntilMonday = 0;
+      break;
+    default:
+      daysUntilMonday = 8 - dayOfWeek;
+  }
+
   const nextMonday = new Date();
   nextMonday.setDate(nextMonday.getDate() + daysUntilMonday)
 
