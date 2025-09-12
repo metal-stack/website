@@ -30,6 +30,11 @@ export default function Api() {
       .then(setSpec);
   }, []);
 
+  useEffect(() => {
+    const href = `${location.origin}${location.pathname}${location.search}`;
+    if (location.href != href) location.href = href;
+  }, [colorMode]);
+
   return (
     <div key={colorMode}>
       {spec && (
