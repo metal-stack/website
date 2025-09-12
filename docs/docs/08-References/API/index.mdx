@@ -1,0 +1,26 @@
+---
+slug: /references/api
+title: API
+---
+
+import { useState, useEffect } from "react";
+
+export function VersionedLink({ children }) {
+  const [version, setVersion] = useState("");
+
+  useEffect(() => {
+    const path = window.location.pathname;
+    const v = path
+      .replace("/docs/", "")
+      .replace("references/api", "")
+      .replace("/", "");
+    if (v === "") setVersion("latest");
+    else setVersion(v);
+  }, []);
+
+  if (version) return <a href={`/api?version=${version}`}>{children}</a>;
+
+  return null;
+}
+
+Go to <VersionedLink>API Reference</VersionedLink>.

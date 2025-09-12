@@ -12,6 +12,7 @@
         "@mdx-js/react": "^3.0.0",
         "@scalar/api-reference-react": "^0.7.45",
         "@tailwindcss/postcss": "^4.1.11",
+        "@types/semver": "^7.7.1",
         "axios": "^1.9.0",
         "clsx": "^2.0.0",
         "docusaurus-lunr-search": "^3.6.0",
@@ -19,6 +20,7 @@
         "prism-react-renderer": "^2.3.0",
         "react": "^19.1.1",
         "react-dom": "^19.0.0",
+        "semver": "^7.7.2",
         "tailwind-merge": "^3.3.1",
         "tailwindcss": "^4.1.6",
       },
@@ -786,6 +788,8 @@
     "@types/retry": ["@types/retry@0.12.0", "", {}, "sha512-wWKOClTTiizcZhXnPY4wikVAwmdYHp8q6DmC+EJUzAMsycb7HB32Kh9RN4+0gExjmPmZSAQjgURXIGATPegAvA=="],
 
     "@types/sax": ["@types/sax@1.2.7", "", { "dependencies": { "@types/node": "*" } }, "sha512-rO73L89PJxeYM3s3pPPjiPgVVcymqU490g0YO5n5By0k2Erzj6tay/4lr1CHAAU4JyOWd1rpQ8bCf6cZfHU96A=="],
+
+    "@types/semver": ["@types/semver@7.7.1", "", {}, "sha512-FmgJfu+MOcQ370SD0ev7EI8TlCAfKYU+B4m5T3yXc1CiRN94g/SZPtsCkk506aUDtlMnFZvasDwHHUcZUEaYuA=="],
 
     "@types/send": ["@types/send@0.17.5", "", { "dependencies": { "@types/mime": "^1", "@types/node": "*" } }, "sha512-z6F2D3cOStZvuk2SaP6YrwkNO65iTZcwA2ZkSABegdkAh/lf+Aa/YQndZVfmEXT5vgAp6zv06VQ3ejSVjAny4w=="],
 
