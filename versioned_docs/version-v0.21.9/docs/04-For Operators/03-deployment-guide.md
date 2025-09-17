@@ -556,21 +556,21 @@ If you decided to use OIDC, you can parametrize the [metal role](https://github.
 ```yaml
 ---
 metal_masterdata_api_tenants:
-- meta:
-    id: <id>
-    kind: Tenant
-    apiversion: v1
-    version: 0
-  name: <name>
-  iam_config:
-    issuer_config:
+  - meta:
+      id: <id>
+      kind: Tenant
+      apiversion: v1
+      version: 0
+    name: <name>
+    iam_config:
+      issuer_config:
         client_id: <client_id>
         url: <oidc_url>
-    idm_config:
-      idm_type: <type> # "AD" | "UX"
-    group_config:
-      namespace_max_length: 20
-  description: <description>
+      idm_config:
+        idm_type: <type> # "AD" | "UX"
+      group_config:
+        namespace_max_length: 20
+    description: <description>
 ```
 
 ## Bootstrapping a Partition

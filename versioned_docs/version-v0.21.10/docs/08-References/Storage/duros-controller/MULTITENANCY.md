@@ -20,7 +20,7 @@ Multi tenancy in metal-stack and gardener are based on projects. In metal-stack,
 
 Lightbits storage has also the notion of a project, once a cluster is created, a new project is created in the lightos storage API, the project there matches the project from the gardener/metal-stack perspective. For every cluster an authentication token in the JWT format is created, this token is able to create/update/list/delete volumes in the lightos cluster in the given project, resp. lightos project. For every kubernetes cluster, even in the same project, an individual JWT token is created. The token is also set to have a 8 day validity, 1 day before the token will get invalid and the cluster still exists, a new token is issued.
 
-The duros-controller is responsible to create such tokens, it is deployed in the seed's shoot namespace (find details on gardener architecture [here](../../../05-Concepts/01-architecture.md)). This namespace is fully managed by the provider and invisible for the cluster user. Once the token has been created, the token is stored in a secret in the actual user cluster alongside with the deployment of the lightbits CSI driver and storage classes. This CSI driver will then be responsible to create/update/delete volumes based on the manifests deployed in the cluster.
+The duros-controller is responsible to create such tokens, it is deployed in the seed's shoot namespace (find details on gardener architecture [here](../../../05-Concepts/01-architecture.mdx)). This namespace is fully managed by the provider and invisible for the cluster user. Once the token has been created, the token is stored in a secret in the actual user cluster alongside with the deployment of the lightbits CSI driver and storage classes. This CSI driver will then be responsible to create/update/delete volumes based on the manifests deployed in the cluster.
 
 ```bash
 k get sc
@@ -79,7 +79,6 @@ metadata:
   namespace: kube-system
   resourceVersion: "1837602"
   uid: 406c3583-d4cd-4a0b-8615-3a6f2b9b7577
-
 ```
 
 ## Lightbits and NVMEoTCP

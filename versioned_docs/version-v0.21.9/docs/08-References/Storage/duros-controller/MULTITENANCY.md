@@ -79,7 +79,6 @@ metadata:
   namespace: kube-system
   resourceVersion: "1837602"
   uid: 406c3583-d4cd-4a0b-8615-3a6f2b9b7577
-
 ```
 
 ## Lightbits and NVMEoTCP
