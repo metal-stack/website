@@ -93,9 +93,9 @@ Some suggestions for the initial K8s cluster are:
 
 Suggestions for default values are:
 
-  - `gcp_machine_type`: e2-standard-8
-  - `gcp_autoscaling_min_nodes`: 1
-  - `gcp_autoscaling_max_nodes`: 3
+- `gcp_machine_type`: e2-standard-8
+- `gcp_autoscaling_min_nodes`: 1
+- `gcp_autoscaling_max_nodes`: 3
 
 ### Initial Cluster on metalstack.cloud
 
@@ -118,13 +118,13 @@ After setting up the initial K8s cluster and metal-stack, Gardener can be deploy
 
 This deploys the following components:
 
-  - virtual garden
-  - Gardener control plane components
-  - soil cluster
-  - managed seed cluster (into the metal-stack partition)
+- virtual garden
+- Gardener control plane components
+- soil cluster
+- managed seed cluster (into the metal-stack partition)
 
 In summary, this results in the following:
 
- - `Garden cluster` created in the initial cluster
- - `soil cluster` created in the initial cluster. This will be the `initial seed` used for spinning up `shooted seeds` in the metal-stack partition
- - `shooted seed` inside the metal-stack partition, where all `shoots` are derived from
+- `Garden cluster` created in the initial cluster
+- `soil cluster` created in the initial cluster. This will be the `initial seed` used for spinning up `shooted seeds` in the metal-stack partition
+- `shooted seed` inside the metal-stack partition, where all `shoots` are derived from

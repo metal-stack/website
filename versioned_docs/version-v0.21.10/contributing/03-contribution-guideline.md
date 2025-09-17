@@ -125,7 +125,7 @@ We want to share knowledge and keep things simple. If things cannot kept simple 
 
 - Document in short sentences[^4].
 - Do not explain the HOW (this is already documented by your code and documenting the obvious is considered a defect).
-- Explain the WHY. Add a "to" in your documentation line to force yourself to explain the reasonning (e.g.  "`<THE WHAT> to <THE TO>`").
+- Explain the WHY. Add a "to" in your documentation line to force yourself to explain the reasonning (e.g. "`<THE WHAT> to <THE TO>`").
 
 ### Python
 
@@ -137,7 +137,11 @@ Development follows the official guide to:
 - If you want to add a Python microservice to the mix, consider [pyinstaller](https://github.com/pyinstaller/pyinstaller) on Alpine to achieve small image sizes
 
 [^1]: [https://martinfowler.com/bliki/CodeOwnership.html](https://martinfowler.com/bliki/CodeOwnership.html)
+
 [^2]: [https://go.dev/doc/effective_go](https://go.dev/doc/effective_go)
+
 [^3]: [https://github.com/golang/go/wiki/CodeReviewComments](https://github.com/golang/go/wiki/CodeReviewComments)
+
 [^4]: [https://github.com/golang/go/wiki/CodeReviewComments#comment-sentences](https://github.com/golang/go/wiki/CodeReviewComments#comment-sentences)
+
 [^5]: [https://www.python.org/dev/peps/pep-0008/](https://www.python.org/dev/peps/pep-0008/)
