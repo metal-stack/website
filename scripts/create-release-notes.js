@@ -19,7 +19,7 @@ function increaseHeadlineLevel(body) {
 
 gitHubClient.get('/repos/metal-stack/releases/releases')
     .then(function(response) {
-        const releases= response.data
+        const releases = response.data
 
         for(let i= 0; i< releases.length; i++ ) {
 
@@ -37,5 +37,8 @@ gitHubClient.get('/repos/metal-stack/releases/releases')
                 fs.writeFileSync(filePath, frontmatter + "\n# " + releases[i].name + "\n" + ghLink + "\n" + increaseHeadlineLevel(releases[i].body))
             }
         }
-    }
-)
+    })
+    .catch(function (error) { 
+        console.log(error.response.data)
+    })
+
