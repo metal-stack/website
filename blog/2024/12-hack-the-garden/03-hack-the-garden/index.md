@@ -57,7 +57,7 @@ During the Hackathon several topics regarding VPN2 have been addressed:
 The node-agent replaced the former logic written in bash which is responsible to bootstrap and further manage the worker node since the last Gardener Hackathon.
 As it is now a controller-runtime based operator, a lot of further improvements are possible.
 
-One of the topics on the wishlist for the node-agent was to make its configuration more type safe. Up to now, the configuration is based on files and systemd units. This is problematic for configurtations files where multiple parties want to ship modifications, e.g. the `containerd.toml` which requires modifications when a different container runtime should be used, a GPU is in the worker node or a Registry Mirror should be used.
+One of the topics on the wishlist for the node-agent was to make its configuration more type safe. Up to now, the configuration is based on files and systemd units. This is problematic for configurations files where multiple parties want to ship modifications, e.g. the `containerd.toml` which requires modifications when a different container runtime should be used, a GPU is in the worker node or a Registry Mirror should be used.
 
 To make such modifications possible without destroying the configuration of another requirement, a type safe configuration for the node-agent was introduced and some extensions where already converted to take advantage of this new feature.
 
