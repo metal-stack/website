@@ -142,7 +142,7 @@ const config: Config = {
           className: "header-github-link",
         },
         {
-          href: "https://metal-stack.slack.com",
+          href: "https://join.slack.com/t/metal-stack/shared_invite/zt-3eqheaymr-obQueWBLOMkhbEWTZZyDRg",
           "aria-label": "Slack link",
           position: "right",
           className: "header-slack-link",
@@ -190,8 +190,8 @@ const config: Config = {
           title: "Contribute",
           items: [
             {
-              label: "Connect on Slack",
-              href: "https://metal-stack.slack.com",
+              label: "Join our Slack Channel",
+              href: "https://join.slack.com/t/metal-stack/shared_invite/zt-3eqheaymr-obQueWBLOMkhbEWTZZyDRg",
             },
             {
               label: "Contribute on GitHub",
