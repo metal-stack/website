@@ -79,7 +79,7 @@ JWT Tokens can be revoked by admins and the user itself.
 
 ### API Server
 
-Is put into a new github repo which implements the services defined in the `api` repository. It opens a `https` endpoints where the grpc (via connectrpc.com) and oidc servives are exposed.
+Is put into a new github repo which implements the services defined in the `api` repository. It opens a `https` endpoints where the grpc (via connectrpc.com) and oidc services are exposed.
 
 ### Migration of the Consumers
 

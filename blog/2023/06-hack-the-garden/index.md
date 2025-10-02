@@ -86,4 +86,4 @@ Although we split up into smaller teams for each topic, we regularly met to shar
 
 If you want to dig deeper into one of the above topics, have a look on the [Gardener Community Hackathon](https://github.com/gardener-community/hackathon/blob/main/2023-05_Leverkusen/README.md) repository. We also included summaries of the past two hackathon there, too! And if you want to see some demos, have a look at the [community meeting recording](https://sap-my.sharepoint.com/:v:/p/rafael_franzke/Eb4L8MjN7IdGoep2r6OSDA0BrpiLq4ot_cex59hOBecmdQ?e=FDZT8k).
 
-It was incredible to see that many productive teams, sitting next to each other and working together, mostly for the first time, and across organizational boundaries contribting to the same overarching goal. Let's get everything clean and merged. Psst, we are already looking forward to the next hackathon!
+It was incredible to see that many productive teams, sitting next to each other and working together, mostly for the first time, and across organizational boundaries contributing to the same overarching goal. Let's get everything clean and merged. Psst, we are already looking forward to the next hackathon!
