@@ -16,7 +16,7 @@ The meetings are held **biweekly on odd calendar weeks** from **14:00 to 14:30**
 
 <!-- truncate -->
 
-You can find the link to join in our documentation [here](https://docs.metal-stack.io/dev/developers/planning-meetings/). If you want to get an invitation to the event, please drop us a line on our [Slack channel](https://metal-stack.slack.com).
+You can find the link to join in our documentation [here](https://docs.metal-stack.io/dev/developers/planning-meetings/). If you want to get an invitation to the event, please drop us a line on our [Slack channel](https://join.slack.com/t/metal-stack/shared_invite/zt-3eqheaymr-obQueWBLOMkhbEWTZZyDRg).
 
 Planning meetings are currently not recorded. The meetings are held either in English or German depending on the attendees.
 

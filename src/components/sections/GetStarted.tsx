@@ -31,7 +31,7 @@ export default function GetStarted() {
             <Button
               variant="black"
               className="group flex items-center gap-2"
-              href="https://metal-stack.slack.com"
+              href="https://join.slack.com/t/metal-stack/shared_invite/zt-3eqheaymr-obQueWBLOMkhbEWTZZyDRg"
               target="_blank"
             >
               <LogoSlack className="w-5 h-5 group-hover:translate-x-0.5 transition-all" />{" "}
