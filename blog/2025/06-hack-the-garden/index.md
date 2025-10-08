@@ -49,7 +49,7 @@ To mitigate this, the project administrators are now able to define defaults and
 
 ### L7 Load Balancing for `kube-apiserver`
 
-In the [previous hackathon](../../2024/05-hack-the-garden/article.md) proper load balancing of the Gardener kube-apiservers was implemented for external traffic. Though the internal traffic is still not load balanced leading to bad distributions of requests and potentially overloading a single kube-apiserver. The resulting throttling cannot be solved by simply scaling things up.
+In the [previous hackathon](../../2024/12-hack-the-garden/index.md) proper load balancing of the Gardener kube-apiservers was implemented for external traffic. Though the internal traffic is still not load balanced leading to bad distributions of requests and potentially overloading a single kube-apiserver. The resulting throttling cannot be solved by simply scaling things up.
 
 Instead the internal traffic will now be load balanced, too. This is achieved by routing the internal traffic through the Istio Gateway and thereby treating the internal traffic similar to the external traffic.
 
