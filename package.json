@@ -23,7 +23,7 @@
     "@docusaurus/core": "^3.8.1",
     "@docusaurus/plugin-content-blog": "^3.8.1",
     "@docusaurus/preset-classic": "^3.8.1",
-    "@headlessui/react": "^2.2.6",
+    "@headlessui/react": "^2.2.9",
     "@mdx-js/react": "^3.1.1",
     "@scalar/api-reference-react": "^0.8.1",
     "@tailwindcss/postcss": "^4.1.13",
