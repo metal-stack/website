@@ -46,7 +46,7 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.2.4",
     "svgo": "^4.0.0",
-    "typescript": "~5.9.2",
+    "typescript": "~5.9.3",
     "yaml": "^2.8.0"
   },
   "browserslist": {
