@@ -12,7 +12,7 @@ tags:
   - network
 ---
 
-This release took a long way, but finally it's there. In this version of metal-stack, we expect all users with an existing Gardener integration to migrate to the Gardener Operator. How this can be done and what other changes are contained in this release, are described briefly in this blog article.
+This release has come a long way, and it's finally here. In this version of metal-stack, we expect all users with an existing Gardener integration to migrate to the Gardener Operator. This blog article briefly describes how this can be done and what other changes are included in this release.
 
 - [Gardener Operator](#gardener-operator)
 - [Cluster API Integration](#cluster-api-integration)
