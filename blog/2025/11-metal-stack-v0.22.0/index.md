@@ -30,7 +30,7 @@ With the introduction of the [Gardener Operator](https://gardener.cloud/docs/gar
 
 Historically, metal-stack shipped with an own approach for deploying the Gardener through the [metal-roles](https://github.com/metal-stack/metal-roles) based on Ansible. It utilized the upstream helm charts for the Gardener Control Plane and a self-managed Virtual Garden Helm chart (which was based on the garden-setup repository). Luckily, these charts are now obsolete, minimizing the maintenance burden, and it's sufficient to rely on a single Helm chart during the deployment: The one that sets up the Gardener Operator. The new set of Ansible roles that we ship with this release are using Gardener Operator resources to install Gardener.
 
-In general, the migration path that we use is described [here](https://github.com/metal-stack/metal-roles/tree/master/control-plane/roles/gardener-operator#migration-path). As the migration of existing production setups can be pretty complex, please reach out to us at our Slack Community. We're here to help if necessary.
+In general, the migration path that we use is described [here](https://github.com/metal-stack/metal-roles/tree/master/control-plane/roles/gardener-operator#migration-path). The idea is to restore the data of the Virtual Garden from the backup, re-registering the existing Gardenlets and migrating the shooted seeds to a new Gardenlet. As the migration of existing production setups can be pretty complex, please reach out to us at our Slack Community. We're here to help if necessary.
 
 After this release, we will try to catch up with the most recent Gardener releases again in order to be able to provide K8s 1.33 support soon.
 
