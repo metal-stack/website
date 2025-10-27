@@ -18,4 +18,5 @@ This update extends metal-stack's open infrastructure capabilities from OCP-base
 - Standardized, energy-efficient hardware integration
 
 Release Notes: https://metal-stack.io/docs/release-notes/v0.21.10
+
 GitHub Release: https://github.com/metal-stack/releases/releases/tag/v0.21.10
