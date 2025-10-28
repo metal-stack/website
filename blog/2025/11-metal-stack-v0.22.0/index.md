@@ -28,9 +28,9 @@ Check out the direct link to the release [here](https://github.com/metal-stack/r
 
 With the introduction of the [Gardener Operator](https://gardener.cloud/docs/gardener/concepts/operator/), the Gardener Project has started to provide a standardized way to deploy and manage Gardener installations for the community. It comes with a lot of beneficial traits allowing high-availability of the Virtual Garden (no downtime during updates anymore), provisioning extensions through OCI artifacts and enforced kubeconfig secret rotation such that there is no static admin kubeconfig anymore, etc.
 
-Historically, metal-stack shipped with an own approach for deploying the Gardener through the [metal-roles](https://github.com/metal-stack/metal-roles) based on Ansible. It utilized the upstream helm charts for the Gardener Control Plane and a self-managed Virtual Garden Helm chart (which was based on the garden-setup repository). Luckily, these charts are now obsolete, minimizing the maintenance burden, and it's sufficient to rely on a single Helm chart during the deployment: The one that sets up the Gardener Operator. So, we still ship the Ansible roles but with a new set of Ansible roles that  are using Gardener Operator resources to install the Gardener.
+Historically, metal-stack shipped with an own approach for deploying the Gardener through the [metal-roles](https://github.com/metal-stack/metal-roles) based on Ansible. It utilized the upstream helm charts for the Gardener Control Plane and a self-managed Virtual Garden Helm chart (which was based on the garden-setup repository). Luckily, some of these charts are now obsolete, minimizing the maintenance burden, and it's sufficient to rely on a single Helm chart during the deployment: The one that sets up the Gardener Operator. So, we still ship the Ansible roles but with a new set of Ansible roles that are using Gardener Operator resources to install the Gardener.
 
-In general, the migration path that we use is described [here](https://github.com/metal-stack/metal-roles/tree/master/control-plane/roles/gardener-operator#migration-path). The idea is to restore the data of the Virtual Garden from the backup, re-registering the existing Gardenlets and migrating the shooted seeds to a new Gardenlet. As the migration of existing production setups can be pretty complex, please reach out to us at our Slack Community. We're here to help if necessary.
+In general, the migration path that we use is described [here](https://github.com/metal-stack/metal-roles/tree/v0.17.19/control-plane/roles/gardener-operator#migration-path). The idea is to restore the data of the Virtual Garden from the backup, re-registering the existing Gardenlets and migrating the shooted seeds to a new Gardenlet. As the migration of existing production setups can be pretty complex, please reach out to us at our [Slack Community](https://join.slack.com/t/metal-stack/shared_invite/zt-3eqheaymr-obQueWBLOMkhbEWTZZyDRg). We're here to help if necessary.
 
 After this release, we will try to catch up with the most recent Gardener releases again in order to be able to provide K8s 1.33 support soon.
 
@@ -38,7 +38,7 @@ After this release, we will try to catch up with the most recent Gardener releas
 
 Another big aspect of this release are extended integration tests for the [cluster-api-provider-metal-stack](https://github.com/metal-stack/cluster-api-provider-metal-stack). The tests are running in the big integration suite hosted at the FI-TS, ensuring compatibility with our metal-stack components for every release from now on. This makes Cluster API an integral part for providing Kubernetes on metal-stack for users that do not rely on the Gardener integration.
 
-The release adds new OS images on images.metal-stack.io that include expected components for Cluster API bootstrapping like `kubeadm`.
+The release adds new OS images on `images.metal-stack.io` that include expected components for Cluster API bootstrapping like `kubeadm`.
 
 The tests for the provider are based on the official [e2e framework](https://cluster-api.sigs.k8s.io/developer/core/e2e). For now, they only include cluster creation tests. In the following releases we will work on extending the test cases and we are also planning to run CNCF conformance tests against CAPI clusters, too.
 
@@ -82,4 +82,4 @@ To make this work, we would like to mention [@honigeintopf](https://github.com/h
 
 Please check out the [release notes](https://github.com/metal-stack/releases/releases/tag/v0.22.0) to find a full overview over every change that went part of this release.
 
-As always, feel free to visit our Slack channel and ask if there are any questions. 😄
+As always, feel free to visit our [Slack](https://join.slack.com/t/metal-stack/shared_invite/zt-3eqheaymr-obQueWBLOMkhbEWTZZyDRg) channel and ask if there are any questions. 😄
