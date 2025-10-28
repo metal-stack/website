@@ -48,7 +48,7 @@ In order to provide a common basis for identifying software vulnerabilities, all
 
 Using these artifacts for CVE scanning can be done pretty easily. Please find examples for this in our documentation on [metal-stack.io/docs](https://metal-stack.io/docs/sbom).
 
-This task was mainly driven by (@mac641)[https://github.com/mac641]. Kudos to him!
+This task was mainly driven by [@mac641](https://github.com/mac641). Kudos to him!
 
 ## MEP-4 in Alpha Stage
 
