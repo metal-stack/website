@@ -70,13 +70,13 @@ A lot of work from our contributor [@iljarotar](https://github.com/iljarotar) wa
 
 In case you still use the `sonic` role we advise operators to migrate to the [sonic-config](https://github.com/metal-stack/metal-roles/tree/master/partition/roles/sonic-config), which utilizes the generator for the switch configuration.
 
-Another important step was made in the mini-lab, which now allows spinning up the lab with different versions of SONiC. In our integration tests we can also ensure support for Enterprise now. We're aiming for more sophisticated testing of different flavors of SONiC to suit more real-world scenarios.
+Another important step was made in the mini-lab, which now allows spinning up the lab with different versions of SONiC. In our integration tests we can also ensure support for Enterprise SONiC now. We're aiming for more sophisticated testing of different flavors of SONiC to suit more real-world scenarios.
 
 ## Gardener Ontap Extension
 
 As another storage solutation in Gardener setups, we included beta integration for [NetApp ONTAP storage](https://www.netapp.com/de/ontap-data-management-software/). This integration is provided by a dedicated Gardener extension, which is called [gardener-extension-ontap](https://github.com/metal-stack/gardener-extension-ontap).
 
-To make this work, we would like to mention [@honigeintopf](https://github.com/honigeintopf) and thank him for the huge amount of efforts to build this extension.
+The person who made this possible is [@honigeintopf](https://github.com/honigeintopf) and we'd like to thank him for the huge amount of efforts that went into this extension.
 
 ## More Information
 
