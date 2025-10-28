@@ -1,0 +1,18 @@
+---
+slug: /cluster-api
+title: Cluster API
+sidebar_position: 2
+---
+
+# Cluster API
+
+[Cluster API](https://cluster-api.sigs.k8s.io/) is a Kubernetes project that aims to simplify the management of Kubernetes clusters. It provides a declarative way to create, configure, and manage clusters using Kubernetes-style APIs.
+
+We provide the [Cluster API provider for metal-stack (CAPMS)](https://github.com/metal-stack/cluster-api-provider-metal-stack) infrastructure provider that allows the declaration of Kubernetes clusters.
+
+:::warning "Early Development Stage"
+This project is currently under heavy development and is not advised to be used in production any time soon.
+Please use our stack on top of [Gardener](./01-gardener.md) for production workloads.
+:::
+
+See the [cluster-api-provider-metal-stack documentation](../../08-References/Kubernetes/cluster-api-provider-metal-stack/cluster-api-provider-metal-stack.md) for more in-depth information.

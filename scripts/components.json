@@ -89,7 +89,7 @@
         "releasePath": "docker-images.metal-stack.partition.metal-core.tag",
         "repo": "metal-stack/metal-core",
         "branch": "main",
-        "tag": "v0.13.1",
+        "tag": "v0.13.5",
         "position": 3,
         "withDocs": false
       },
@@ -235,7 +235,7 @@
         "releasePath": "docker-images.metal-stack.gardener.gardener-extension-audit.tag",
         "repo": "metal-stack/gardener-extension-audit",
         "branch": "main",
-        "tag": "v0.2.3",
+        "tag": "v0.3.0",
         "position": 1,
         "withDocs": false
       },
@@ -253,7 +253,7 @@
         "releasePath": "docker-images.metal-stack.gardener.gardener-extension-ontap.tag",
         "repo": "metal-stack/gardener-extension-ontap",
         "branch": "main",
-        "tag": "v0.2.6",
+        "tag": "v0.2.8",
         "position": 3,
         "withDocs": false
       },
