@@ -1,8 +1,8 @@
 ---
 title: Support for Gigabyte OCP Open Rack Line Servers
-description: metal-stack v0.21.10 now supports Gigabyte OCP Open Rack line servers.
+description: metal-stack now supports Gigabyte OCP Open Rack line servers.
 watermark: Blog
-date: 2025-10-24T16:00:00+01:00
+date: 2025-10-29T10:00:00+01:00
 authors: [philiphaas]
 type: 'blog'
 tags:
