@@ -10,7 +10,7 @@ This enhancement proposal was replaced by [MEP18](../MEP18/README.md).
 
 ## Problem Statement
 
-We face the situation that we argue for running bare metal on premise because this way the customers can control where and how their software and data are processed and stored.
+We face the situation that we argue for running bare metal on-premises because this way the customers can control where and how their software and data are processed and stored.
 On the other hand, we have currently decided that our metal-api control plane components run on a kubernetes cluster (in our case on a cluster provided by one of the available hyperscalers).
 
 Running the control plane on Kubernetes has the following benefits:
