@@ -12,7 +12,7 @@ We hope that the following properties appeal to you as well.
 
 ## On-Premise
 
-Running on-premise gives you data sovereignty and usually a better price / performance ratio than with hyperscalers — especially the larger you grow your environment. Another benefit of running on-premise is an easier connectivity to existing company networks.
+Running on-premises gives you data sovereignty and usually a better price / performance ratio than with hyperscalers — especially the larger you grow your environment. Another benefit of running on-premises is an easier connectivity to existing company networks.
 
 ## Fast Provisioning
 

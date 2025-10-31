@@ -59,7 +59,7 @@ export default function Features() {
                     Together with our friends from the open-source project
                     Gardener, metal-stack can serve as a cloud provider for
                     delivering bare-metal Kubernetes clusters at scale. We
-                    strive for being a serious, on-premise solution to
+                    strive for being a serious, on-premises solution to
                     hyperscaler offerings.
                   </p>
                 </div>
