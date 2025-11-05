@@ -14,17 +14,18 @@ We came up with a repository called [go-hal](https://github.com/metal-stack/go-h
 
 The following server types are officially supported and verified by the metal-stack project:
 
-| Vendor     | Series      | Model            | Board Type     | Status |
-|------------|-------------|------------------|:---------------|:-------|
-| Supermicro | Big-Twin    | SYS-2029BT-HNR   | X11DPT-B       | stable |
-| Supermicro | Big-Twin    | SYS-220BT-HNTR   | X12DPT-B6      | stable |
-| Supermicro | SuperServer | SSG-5019D8-TR12P | X11SDV-8C-TP8F | stable |
-| Supermicro | SuperServer | 2029UZ-TN20R25M  | X11DPU         | stable |
-| Supermicro | SuperServer | SYS-621C-TN12R   | X13DDW-A       | stable |
-| Supermicro | Microcloud  | 5039MD8-H8TNR    | X11SDD-8C-F    | stable |
-| Supermicro | Microcloud  | SYS-531MC-H8TNR  | X13SCD-F       | stable |
-| Supermicro | Microcloud  | 3015MR-H8TNR     | H13SRD-F       | stable |
-| Lenovo     | ThinkSystem | SD530            |                | alpha  |
+| Vendor     | Series             | Model            | Board Type     | Status |
+| ---------- | ------------------ | ---------------- | :------------- | :----- |
+| Supermicro | Big-Twin           | SYS-2029BT-HNR   | X11DPT-B       | stable |
+| Supermicro | Big-Twin           | SYS-220BT-HNTR   | X12DPT-B6      | stable |
+| Supermicro | SuperServer        | SSG-5019D8-TR12P | X11SDV-8C-TP8F | stable |
+| Supermicro | SuperServer        | 2029UZ-TN20R25M  | X11DPU         | stable |
+| Supermicro | SuperServer        | SYS-621C-TN12R   | X13DDW-A       | stable |
+| Supermicro | Microcloud         | 5039MD8-H8TNR    | X11SDD-8C-F    | stable |
+| Supermicro | Microcloud         | SYS-531MC-H8TNR  | X13SCD-F       | stable |
+| Supermicro | Microcloud         | 3015MR-H8TNR     | H13SRD-F       | stable |
+| Lenovo     | ThinkSystem        | SD530            |                | alpha  |
+| Gigabyte   | OCP Open Rack line |                  |                | alpha  |
 
 Other server series and models might work but were not reported to us.
 
