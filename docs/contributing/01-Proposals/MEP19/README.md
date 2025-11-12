@@ -22,7 +22,7 @@ To support explicit region and zone concepts in metal-stack, several functional 
 - Proper spreading of worker nodes and control plane components across [multiple zones](https://kubernetes.io/docs/setup/best-practices/multiple-zones/) and regions must be possible.
 - Nodes that belong to the same Kubernetes cluster must have the capability to communicate directly with each other, even if they are located in different partitions, provided that network configurations allow this communication using their respective Node CIDRs.
 - It must be possible for nodes within a single Kubernetes cluster to use different Node CIDR ranges, depending on their partition or zone assignment. Major cloud providers use node groups to configure Node CIRDs differently.
-- Zones stay seperate failure domains (e.g. a failure in the EVPN control-plane of one zone should not affect the other to avoid EVPN fate-sharing)
+- Zones stay separate failure domains (e.g. a failure in the EVPN control-plane of one zone should not affect the other to avoid EVPN fate-sharing)
 
 ## Criteria
 - Number of hops: for communication btw. worker nodes, to the internet and to the storage.
