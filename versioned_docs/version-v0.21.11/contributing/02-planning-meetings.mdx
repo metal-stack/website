@@ -27,9 +27,10 @@ export function PlanningMeetingDatesTable() {
   const nextMonday = new Date();
   nextMonday.setDate(nextMonday.getDate() + daysUntilMonday)
 
-  const currentWeek = Math.ceil((nextMonday.getDate() + 1) / 7);
-  const currentYear = nextMonday.getFullYear();
-  if (currentWeek % 2 !== 0) {
+  let onejan = new Date(today.getFullYear(), 0, 1);
+  let week = Math.ceil((((nextMonday.getTime() - onejan.getTime()) / 86400000) + onejan.getDay() + 1) / 7);
+
+  if (week % 2 === 0) {
     nextMonday.setDate(nextMonday.getDate() + 7)
   }
 
