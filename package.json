@@ -21,7 +21,7 @@
   "dependencies": {
     "@carbon/icons-react": "^11.67.0",
     "@docusaurus/core": "^3.8.1",
-    "@docusaurus/plugin-content-blog": "^3.8.1",
+    "@docusaurus/plugin-content-blog": "^3.9.2",
     "@docusaurus/preset-classic": "^3.8.1",
     "@headlessui/react": "^2.2.9",
     "@mdx-js/react": "^3.1.1",
