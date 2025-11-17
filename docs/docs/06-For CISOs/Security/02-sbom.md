@@ -45,25 +45,32 @@ wget https://github.com/metal-stack/metalctl/releases/latest/download/sbom-darwi
 
 ## Identify CVEs
 
-There are many tools that can help you to identify the CVEs with the help of an SBOM. Just to name one example, the
-[cve-bin-tool](https://github.com/intel/cve-bin-tool) can be used to do this, which would look like this:
+There are many tools that can help you to identify the CVEs with the help of an SBOM. Just to name one example,
+[grype](https://github.com/anchore/grype) can be used to do this, which would look like this:
 
 ```plain
-cve-bin-tool --sbom-file sbom.json --format json 
+$ grype sbom-darwin-arm64.json
+ ✔ Scanned for vulnerabilities     [14 vulnerability matches]
+   ├── by severity: 0 critical, 5 high, 9 medium, 0 low, 0 negligible
+NAME                                 INSTALLED  FIXED IN         TYPE       VULNERABILITY        SEVERITY  EPSS           RISK
+stdlib                               go1.24.5   1.24.8, 1.25.2   go-module  CVE-2025-61723       High      < 0.1% (23rd)  < 0.1
+stdlib                               go1.24.5   1.24.8, 1.25.2   go-module  CVE-2025-61725       High      < 0.1% (23rd)  < 0.1
+stdlib                               go1.24.5   1.24.8, 1.25.2   go-module  CVE-2025-58186       Medium    < 0.1% (17th)  < 0.1
+stdlib                               go1.24.5   1.24.8, 1.25.2   go-module  CVE-2025-61724       Medium    < 0.1% (17th)  < 0.1
+stdlib                               go1.24.5   1.24.8, 1.25.2   go-module  CVE-2025-47912       Medium    < 0.1% (16th)  < 0.1
+stdlib                               go1.24.5   1.24.8, 1.25.2   go-module  CVE-2025-58188       High      < 0.1% (8th)   < 0.1
+stdlib                               go1.24.5   1.24.8, 1.25.2   go-module  CVE-2025-58189       Medium    < 0.1% (12th)  < 0.1
+github.com/gorilla/csrf              v1.7.3                      go-module  GHSA-82ff-hg59-8x73  Medium    < 0.1% (8th)   < 0.1
+stdlib                               go1.24.5   1.23.12, 1.24.6  go-module  CVE-2025-47907       High      < 0.1% (4th)   < 0.1
+stdlib                               go1.24.5   1.23.12, 1.24.6  go-module  CVE-2025-47906       Medium    < 0.1% (5th)   < 0.1
+stdlib                               go1.24.5   1.24.8, 1.25.2   go-module  CVE-2025-58185       Medium    < 0.1% (6th)   < 0.1
+stdlib                               go1.24.5   1.24.9, 1.25.3   go-module  CVE-2025-58187       High      < 0.1% (2nd)   < 0.1
+stdlib                               go1.24.5   1.24.8, 1.25.2   go-module  CVE-2025-58183       Medium    < 0.1% (2nd)   < 0.1
+github.com/go-viper/mapstructure/v2  v2.3.0     2.4.0            go-module  GHSA-2464-8j7c-4cjm  Medium    N/A            N/A
+```
 
-[09:57:06] INFO     cve_bin_tool - CVE Binary Tool v3.4                                                                                                                              cli.py:624
-           INFO     cve_bin_tool - This product uses the NVD API but is not endorsed or certified by the NVD.                                                                        cli.py:625
-           INFO     cve_bin_tool - For potentially faster NVD downloads, mirrors are available using -n json-mirror                                                                  cli.py:628
-           INFO     cve_bin_tool.CVEDB - Using cached CVE data (<24h old). Use -u now to update immediately.                                                                       cvedb.py:320
-           INFO     cve_bin_tool.CVEDB - There are 251234 CVE entries in the database                                                                                              cvedb.py:386
-           INFO     cve_bin_tool.CVEDB - There are 205244 CVE entries from NVD in the database                                                                                     cvedb.py:388
-           INFO     cve_bin_tool.CVEDB - There are 25495 CVE entries from GAD in the database                                                                                      cvedb.py:388
-           INFO     cve_bin_tool.CVEDB - There are 20495 CVE entries from REDHAT in the database                                                                                   cvedb.py:388
-           INFO     cve_bin_tool - CVE database contains CVEs from National Vulnerability Database (NVD), Open Source Vulnerability Database (OSV), Gitlab Advisory Database (GAD)   cli.py:915
-                    and RedHat                                                                                                                                                                 
-           INFO     cve_bin_tool - CVE database last updated on 01 July 2025 at 09:53:14                                                                                             cli.py:918
-[09:57:13] INFO     cve_bin_tool - The number of products to process from SBOM - 116                                                                                                cli.py:1134
-           INFO     cve_bin_tool - Overall CVE summary:                                                                                                                             cli.py:1181
-           INFO     cve_bin_tool - There are 0 products with known CVEs detected                                                                                                    cli.py:1182
-           INFO     cve_bin_tool.OutputEngine - JSON report stored                                                                                                                  __init__.py:878
+Or even simpler by passing the output of `docker buildx imagetools inspect` into grype like so:
+
+```bash
+docker buildx imagetools inspect ghcr.io/metal-stack/<image name>:<tag> --format "{{ json .SBOM.SPDX }}" | grype
 ```
