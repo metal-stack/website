@@ -194,7 +194,7 @@
         "releasePath": "docker-images.metal-stack.kubernetes.droptailer.tag",
         "repo": "metal-stack/droptailer",
         "branch": "main",
-        "tag": "v0.2.18",
+        "tag": "v0.2.19",
         "position": 2,
         "withDocs": false
       },
@@ -235,7 +235,7 @@
         "releasePath": "docker-images.metal-stack.gardener.gardener-extension-audit.tag",
         "repo": "metal-stack/gardener-extension-audit",
         "branch": "main",
-        "tag": "v0.3.0",
+        "tag": "v0.4.0",
         "position": 1,
         "withDocs": false
       },
@@ -244,7 +244,7 @@
         "releasePath": "docker-images.metal-stack.gardener.gardener-extension-csi-driver-lvm.tag",
         "repo": "metal-stack/gardener-extension-csi-driver-lvm",
         "branch": "main",
-        "tag": "v0.1.4",
+        "tag": "v0.1.6",
         "position": 2,
         "withDocs": false
       },
@@ -253,7 +253,7 @@
         "releasePath": "docker-images.metal-stack.gardener.gardener-extension-ontap.tag",
         "repo": "metal-stack/gardener-extension-ontap",
         "branch": "main",
-        "tag": "v0.2.8",
+        "tag": "v0.2.9",
         "position": 3,
         "withDocs": false
       },
@@ -294,7 +294,7 @@
         "releasePath": "docker-images.metal-stack.kubernetes.duros-controller.tag",
         "repo": "metal-stack/duros-controller",
         "branch": "main",
-        "tag": "v0.11.7",
+        "tag": "v0.11.8",
         "position": 2,
         "withDocs": false
       }
