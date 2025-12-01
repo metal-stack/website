@@ -19,7 +19,7 @@
     "create-release-notes": "bun ./scripts/create-release-notes.js"
   },
   "dependencies": {
-    "@carbon/icons-react": "^11.67.0",
+    "@carbon/icons-react": "^11.70.0",
     "@docusaurus/core": "^3.9.2",
     "@docusaurus/plugin-content-blog": "^3.9.2",
     "@docusaurus/preset-classic": "^3.9.2",
