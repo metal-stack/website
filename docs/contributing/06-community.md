@@ -1,7 +1,7 @@
 ---
 slug: /community
 title: Community
-sidebar_position: 5
+sidebar_position: 6
 draft: true
 ---
 
