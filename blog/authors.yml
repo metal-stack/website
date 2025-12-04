@@ -42,3 +42,12 @@ philiphaas:
   page: true
   socials:
     github: philiphaas
+
+honigeintopf:
+  name: Ebubekir Ates
+  title: Maintainer
+  url: https://github.com/Honigeintopf
+  image_url: https://github.com/honigeintopf.png
+  page: true
+  socials:
+    github: Honigeintopf
