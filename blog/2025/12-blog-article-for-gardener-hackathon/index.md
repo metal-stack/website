@@ -1,7 +1,7 @@
 ---
 title: Gardener Hackathon Winter 2025 Highlights
-shortDescription: Largest Gardener hackathon yet with 28 contributors pushing control-plane automation and networking upgrades.
-description: 28 people joined the winter Gardener Hackathon, pushing MEP-18 gardenadm work, Gateway API migration plans, and scale tests forward.
+shortDescription: Largest Gardener hackathon yet with 27 contributors pushing control-plane automation and networking upgrades.
+description: 27 people joined the winter Gardener Hackathon, pushing MEP-18 gardenadm work, Gateway API migration plans, and scale tests forward.
 watermark: "Blog"
 date: 2025-12-08T09:00:00+01:00
 authors: [honigeintopf]
@@ -17,7 +17,7 @@ This winter's Hack the Garden ended up being our biggest gathering yet. Twenty-e
 
 ## Venue and Mood Snapshot
 
-The house was filled to the brim with 28 engineers from different companies and backgrounds—almost twice as many as the early days of the hackathon. That energy was palpable from breakfast to the late-night laptop sessions. We still followed the “everyone cooks, everyone cleans” rule, but this time the kitchen was more of a welcome distraction than another meeting room. Getting a break from terminals while chopping vegetables together was honestly one of my favorite parts of the week.
+The house was filled to the brim with 27 engineers from different companies and backgrounds—almost twice as many as the early days of the hackathon. That energy was palpable from breakfast to the late-night laptop sessions. We still followed the “everyone cooks, everyone cleans” rule, but this time the kitchen was more of a welcome distraction than another meeting room. Getting a break from terminals while chopping vegetables together was honestly one of my favorite parts of the week.
 
 ![Hackathon team standing in front of Blautopf](./group-photo.jpg)
 
