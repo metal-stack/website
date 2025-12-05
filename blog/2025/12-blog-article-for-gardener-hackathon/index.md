@@ -12,7 +12,7 @@ tags:
   - kubernetes
 ---
 
-This winter's Hack the Garden ended up being our biggest gathering yet. Twenty-eight contributors squeezed into our temporary headquarters, making it the most crowded (and productive) hackathon we have ever organized. That headcount translated directly into output: we closed long-standing issues, revived ambitious ideas, and compared notes late into the night. If you are looking for the complete list of tracks, check out the official [Gardener Hackathon recap](https://gardener.cloud/community/hackathons/2025-11/), but here are my highlights.
+This winter's Hack the Garden ended up being our biggest gathering yet. Twenty-seven contributors squeezed into our temporary headquarters, making it the most crowded (and productive) hackathon we have ever organized. That headcount translated directly into output: we closed long-standing issues, revived ambitious ideas, and compared notes late into the night. If you are looking for the complete list of tracks, check out the official [Gardener Hackathon recap](https://gardener.cloud/community/hackathons/2025-11/), but here are my highlights.
 
 
 ## Venue and Mood Snapshot
