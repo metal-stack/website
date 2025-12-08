@@ -61,19 +61,21 @@ We are generally open to write code in any language that fits best to the functi
 
 ### Artifacts
 
-Artifacts are always produced by a CI process (Github Actions).
+Artifacts are always produced by a CI process (i.e. Github Actions).
 
-Docker images are published on the Github Container Registry of the metal-stack organization.
+Container images and [OCI artifacts](https://github.com/opencontainers/image-spec) are published on the Github Container Registry of the metal-stack organization. Please consider using Github Actions workflows utilizing similar actions as the other repositories (e.g. [build-push-action](https://github.com/docker/build-push-action), ...)
+
+For OCI images, we usually utilize [oras](https://github.com/oras-project/oras) for pushing the artifact to the registry.
+
+For signing artifacts we use [cosign](https://github.com/sigstore/cosign). The private key for signing artifacts is a CI secret called `COSIGN_PRIVATE_KEY`.
 
 Binary artifacts or OS images can be uploaded to `images.metal-stack.io` if necessary.
 
-When building Docker images, please consider our build tool [docker-make](https://github.com/fi-ts/docker-make) or the specific [docker-make action](https://github.com/fi-ts/action-docker-make) respectively.
-
 ### APIs
 
-We are currently making use of [Swagger](https://swagger.io/) when we exposing traditional REST APIs for end-users. This helps us with being technology-agnostic as we can generate clients in almost any language using [go-swagger](https://goswagger.io/). Swagger additionally simplifies the documentation of our APIs.
+The preferred way to implement an API is using [Connect RPC](https://connectrpc.com/), which is based on [grpc](https://grpc.io/). For working with the [Protobuf](https://protobuf.dev/) definitions, we utilize [buf](https://github.com/bufbuild/buf).
 
-Most APIs though are not required to be user-facing but are of technical nature. These are preferred to be implemented using [grpc](https://grpc.io/).
+The metal-api does still have a [Swagger-based](https://swagger.io/) API exposing traditional REST APIs for end-users. This API framework will become deprecated so it should not be used anymore for new projects.
 
 #### Versioning
 
@@ -105,15 +107,11 @@ Development follows the official guide to:
 
 - **Dependency Management** by using Go modules
 - **Build and Test Automation** by using [GNU Make](https://man7.org/linux/man-pages/man1/make.1p.html).
-- **End-user APIs** should consider using go-swagger and [Go-Restful](https://github.com/emicklei/go-restful)
-  **Technical APIs** should consider using [grpc](https://grpc.io/)
+- **APIs** should consider using [buf](https://github.com/bufbuild/buf)
 
 #### Libraries
 
-metal-stack maintains several libraries that you should utilize in your project in order to unify common behavior. Some of these projects are:
-
-- [metal-go](https://github.com/metal-stack/metal-go)
-- [metal-lib](https://github.com/metal-stack/metal-lib)
+metal-stack maintains libraries that you can utilize in your project in order to unify common behavior. The main project that does this is called [metal-lib](https://github.com/metal-stack/metal-lib).
 
 #### Error Handling with Generated Swagger Clients
 
