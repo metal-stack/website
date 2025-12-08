@@ -111,7 +111,7 @@ Development follows the official guide to:
 
 #### Libraries
 
-metal-stack maintains libraries that you can utilize in your project in order to unify common behavior. The main project that does this called [metal-lib](https://github.com/metal-stack/metal-lib).
+metal-stack maintains libraries that you can utilize in your project in order to unify common behavior. The main project that does this is called [metal-lib](https://github.com/metal-stack/metal-lib).
 
 #### Error Handling with Generated Swagger Clients
 
