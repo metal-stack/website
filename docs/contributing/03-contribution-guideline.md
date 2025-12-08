@@ -73,7 +73,7 @@ Binary artifacts or OS images can be uploaded to `images.metal-stack.io` if nece
 
 ### APIs
 
-The preferred to be implement an API is using [Connect RPC](https://connectrpc.com/), which is based on [grpc](https://grpc.io/). For working with the [Protobuf](https://protobuf.dev/) definitions, we utilize [buf](https://github.com/bufbuild/buf).
+The preferred way to implement an API is using [Connect RPC](https://connectrpc.com/), which is based on [grpc](https://grpc.io/). For working with the [Protobuf](https://protobuf.dev/) definitions, we utilize [buf](https://github.com/bufbuild/buf).
 
 The metal-api does still have a [Swagger-based](https://swagger.io/) API exposing traditional REST APIs for end-users. This API framework will become deprecated so it should not be used anymore for new projects.
 
