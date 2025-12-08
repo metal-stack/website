@@ -63,7 +63,7 @@ We are generally open to write code in any language that fits best to the functi
 
 Artifacts are always produced by a CI process (i.e. Github Actions).
 
-Container images or OCI artifacts are published on the Github Container Registry of the metal-stack organization. Please consider using Github Actions workflows utilizing similar actions as the repositories (e.g. [build-push-action](https://github.com/docker/build-push-action), ...)
+Container images and [OCI artifacts](https://github.com/opencontainers/image-spec) are published on the Github Container Registry of the metal-stack organization. Please consider using Github Actions workflows utilizing similar actions as the repositories (e.g. [build-push-action](https://github.com/docker/build-push-action), ...)
 
 For OCI images, we usually utilize [oras](https://github.com/oras-project/oras) for pushing the artifact to the registry.
 
