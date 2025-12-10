@@ -8,7 +8,9 @@ sidebar_position: 19
 
 In metal-stack, the concepts of regions and zones are currently represented implicitly through partition names rather than as dedicated API entities. This design uses naming conventions to encode both region and zone information within a partition identifier. For example, the partition name `fra_eqx_01` translates to Frankfurt (region), Equinix (zone), and 01 (partition).
 
-From a networking perspective, `supernetworks` can be scoped to a partition, and traffic is not routed between partitions — except for external networks such as the Internet or MPLS connections. Currently, all networks are configured with disjunct IP prefixes. With the introduction of [MEP-4](../MEP4/README.md), this behavior will change: Network prefixes may overlap across partitions but must remain disjunct within a single project.
+From a networking perspective, traffic between private node networks is not routed between partitions. To prevent misconfiguration, private networks are derived from partition-scoped `supernetworks`, preventing private node networks to be used across different partitions. Only external networks such as the Internet or MPLS connections can be used to route traffic between partitions. 
+
+Additionally, all networks have disjunct IP prefixes. With the introduction of [MEP-4](../MEP4/README.md), this behavior will change: Network prefixes may overlap across partitions but must remain disjunct within a single project. This is possible since go-ipam release `v1.12.0`, which introduced the concept of network namespaces.
 
 ## Motivation
 
