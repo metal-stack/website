@@ -29,7 +29,7 @@ To support explicit region and zone concepts in metal-stack, several functional 
 ## Criteria
 - Number of hops: for communication btw. worker nodes, to the internet and to the storage.
 
-Storage resources must either be strictly located in a single partition or replicated across all partitions. This can be enforced using [`allowedTopologies`](https://kubernetes.io/docs/concepts/storage/storage-classes/#allowed-topologies) within a StorageClass.
+Storage resources must either be strictly located in a single partition or replicated across all partitions. This can be enforced using [`allowedTopologies`](https://kubernetes.io/docs/concepts/storage/storage-classes/#allowed-topologies) within a `StorageClass`.
 
 An open design question remains regarding Pod and Service CIDRs. Should overlay networks be avoided and purely relied on routed IPv6? Or should an overlay network be introduced across partitions? Further evaluation is needed to determine the optimal approach.
 
