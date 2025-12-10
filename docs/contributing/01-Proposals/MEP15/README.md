@@ -1,7 +1,12 @@
+---
+slug: /MEP-15-hal-improvements
+title: MEP-15
+sidebar_position: 15
+---
 # HAL Improvements
 
 Currently, we have a specific list of hardware vendors and models that we support with metal-stack.
-This list is documented in [docs.metal-stack.io](https://docs.metal-stack.io/stable/overview/hardware/).
+This list is documented in [the documentation of metal-stack.io](https://docs.metal-stack.io/stable/overview/hardware/).
 
 Vendor support needs to be implemented in our "hardware abstraction layer" (HAL) called [go-hal](https://github.com/metal-stack/go-hal) once the particular set of hardware arrives.
 
@@ -14,7 +19,7 @@ It is almost impossible to touch these pieces of code again because it could bre
 
 So with this MEP, we want to evaluate ways to improve our code to make it easier to add new vendors, increase the reliability of the implementation, and provide broader hardware support more quickly.
 
-While we continue to have a list of vendors and models for which we verified our integration works, we will also be able to say that we have general support for a number of drivers, starting with IPMI, Redfish, iDrac and Unmanaged (e.g. for developer usage in the mini-lab).
+While we continue to have a list of vendors and models for which we verified our integration works, we will also be able to say that we have general support for standard protocols (IPMI, Redfish), as well as vendor-optimized drivers (e.g., iDRAC) and unmanaged modes (e.g. for developer usage in the mini-lab or for completely disable management through metal-stack).
 
 Vendors that implement these driver APIs properly may work right out of the box through our default implementation for a given driver. Through a CLI operators can quickly figure out if the existing implementation is sufficient or not. If a vendor requires specific modifications of the default implementation a dedicated vendor-overwrite can be implemented in go-hal (which will be required for Supermicro for sure).
 
@@ -46,7 +51,7 @@ This table contains the available drivers to access a machine with, which is tri
 
 ## New Approach for Bootstrapping
 
-After a server is mounted in a rack in the data center, the BMC of a server gets connected to a management switch. The BMC obtains an IP address via DHCP broadcast from a DNS server, typically running on an mgmt-server in the data center partition. Then, the metal-bmc periodically checks the DHCP lease list in order to discover new BMCs or update existing ones.
+After a server is mounted in a rack in the data center, the BMC of a server gets connected to a management switch. The BMC obtains an IP address via DHCP broadcast from a DNS server, typically running on an [mgmt-server](/docs/docs/04-For%20Operators/03-deployment-guide.mdx#management-servers) in the data center partition. Then, the metal-bmc periodically checks the DHCP lease list in order to discover new BMCs or update existing ones.
 
 So far, nothing new here. But now it's getting different:
 
@@ -59,6 +64,8 @@ It then reports this BMC to the metal-api containing the mac address, IP and pos
 A user might provide connection details for specific drivers or select a different default driver for BMC management. It is now theoretically possible to interact with the machine BMC through the metal-api. Note that the metal-hammer was not yet involved.
 
 If there is already an entity found in the `bmc` table, the metal-bmc attempts to update the BMC information. If, in addition to that, credentials are already provided to access the machine, the metal-bmc can additionally figure out a machine UUID related to the BMC address it can establish a relation between BMC table and machine table by updating the machine ID field in the `bmc` table and also update information about the board.
+
+In case a connection to the BMC is not possible (e.g. because the BMC became unavailable or provided access credentials are incorrect), the metal-bmc writes `status` information including the error and a `last_updated` timestamp into the table. This way it is possible to monitor the BMC connection health and if the metal-bmc is running in general.
 
 When a machine gets connected to the leaf switches and boots for the first time, the metal-hammer is run through PXE boot.
 
@@ -90,7 +97,7 @@ metalctl bmc describe 92:33:b8:0e:df:8f
 mac: 92:33:b8:0e:df:8f
 address: 10.0.0.1
 vendor: Supermicro
-protocol: Redfish
+driver: Redfish
 machine_id: 37c43c25-69fe-4f88-b69d-4e71dc4070d0
 created_at: "2024-11-19T11:15:53.760Z"
 changed_at: "2024-11-19T11:18:53.760Z"
@@ -111,10 +118,10 @@ bmc:
 ipmi:
   interface: lanplus
   port: 623
-  password: abc
+  password: <only shown when called with --with-passwords>
   user: metal
 redfish:
-  password: abc
+  password: <only shown when called with --with-passwords>
   user: metal
 powermetric:
   averageconsumedwatts: 70
@@ -132,6 +139,9 @@ powermetric:
 ledstate:
   description: ""
   value: LED-OFF
+status:
+  last_updated: "2024-11-19T11:15:53.760Z"
+  last_error: None
 ```
 
 Additional commands:
@@ -139,10 +149,10 @@ Additional commands:
 ```
 # establish initial access without metal-hammer
 metalctl bmc create-ipmi-user 92:33:b8:0e:df:8f --ipmi-role privileged --ipmi-password 123!
-# set preferred protocol
-metalctl bmc update 92:33:b8:0e:df:8f --preferred-protocol IPMI
+# set preferred driver
+metalctl bmc update 92:33:b8:0e:df:8f --preferred-driver IPMI
 # enforce using Redfish implementation for this specific BMC
-metalctl bmc update 92:33:b8:0e:df:8f --preferred-protocol Redfish --redfish-user afish --redfish-password 123!
+metalctl bmc update 92:33:b8:0e:df:8f --preferred-driver Redfish --redfish-user afish --redfish-password 123!
 ```
 
 ## Feature Deprecation
