@@ -16,7 +16,7 @@ Additionally, all networks have disjunct IP prefixes. With the introduction of [
 
 With [MEP-12](../MEP12/README.md) the rack spreading feature has been introduced. Limitations of this feature are: It can not be explicitly decided, in which racks nodes are placed. Moreover, this is performed with a best-effort strategy. If no machine is available in one rack, it might get placed in the one where already a machine is present.
 
-Already with current metal-stack installations, it is possible to spread partitions across data centers. However, this is still one failure domain, e.g. a single BGP failure could bring down the whole partition. As known from major cloud providers, zonal distribution of workload enhances availability and fault tolerance.
+Another issue with this approach is that the single partition is still one failure domain, e.g. a single BGP failure could bring down the whole partition. As known from major cloud providers, zonal distribution of workload enhances availability and fault tolerance.
 
 ## Requirements to Achieve this Goal
 
