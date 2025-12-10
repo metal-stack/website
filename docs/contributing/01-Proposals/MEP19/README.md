@@ -31,7 +31,7 @@ To support explicit region and zone concepts in metal-stack, several functional 
 
 Storage resources must either be strictly located in a single partition or replicated across all partitions. This can be enforced using [`allowedTopologies`](https://kubernetes.io/docs/concepts/storage/storage-classes/#allowed-topologies) within a `StorageClass`.
 
-An open design question remains regarding Pod and Service CIDRs. Should overlay networks be avoided and purely relied on routed IPv6? Or should an overlay network be introduced across partitions? Further evaluation is needed to determine the optimal approach.
+An open design question remains regarding Pod and Service CIDRs, which we usually configure for native routing (using FRR peering with CNI and with MetalLB for service exposal). In case of zonal routing, this would imply that traffic inside the FRR peering range also needs to be routable across zonal partitions. Should overlay networks be allowed or is it possible to depend on IPv6 in order to solve this issue? Further evaluation is needed to determine the optimal approach.
 
 ## Proposals
 
