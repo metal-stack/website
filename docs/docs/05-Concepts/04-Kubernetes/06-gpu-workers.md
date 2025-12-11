@@ -57,8 +57,8 @@ On the other hand, if you are planning to deploy multiple applications that requ
 
 There are several approaches to sharing GPUs, please consult the official Nvidia documentation for further reference.
 
-[https://developer.nvidia.com/blog/improving-gpu-utilization-in-kubernetes](https://developer.nvidia.com/blog/improving-gpu-utilization-in-kubernetes)
-[https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/gpu-operator-mig.html](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/gpu-operator-mig.html)
-[https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/gpu-sharing.html](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/gpu-sharing.html)
+- [https://developer.nvidia.com/blog/improving-gpu-utilization-in-kubernetes](https://developer.nvidia.com/blog/improving-gpu-utilization-in-kubernetes)
+- [https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/gpu-operator-mig.html](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/gpu-operator-mig.html)
+- [https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/gpu-sharing.html](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/gpu-sharing.html)
 
 With this, happy AI processing.
