@@ -241,3 +241,43 @@ footer {
   width: 100%;
   height: 100%;
 }
+
+@media print {
+  @page {
+    size: A4;
+    background-color: var(--color-neutral-50);
+    margin: 12mm 10mm;
+  }
+  
+  :root {
+    --font-size-base: 0.9rem;
+    --ifm-font-size-base: 0.9rem;
+    --ifm-line-height-base: 1.4;
+  }
+
+  body {
+    font-size: var(--font-size-base) !important;
+    color: #000 !important;
+    background: var(--color-neutral-50);
+  }
+
+  .navbar,
+  footer,
+  .theme-doc-toc-desktop,
+  .theme-doc-footer,
+  .theme-doc-version-banner,
+  .theme-doc-breadcrumbs,
+  .theme-doc-version-badge,
+  .theme-edit-this-page {
+    display: none !important;
+  }
+
+  .container {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
