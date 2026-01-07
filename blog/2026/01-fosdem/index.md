@@ -2,7 +2,7 @@
 title: metal-stack.io is at FOSDEM 2026!
 shortDescription:
 watermark: "Blog"
-date: 2026-01-08T10:00:00+02:00
+date: 2026-01-07T10:00:00+02:00
 description: "We are thrilled to announce a stand at FOSDEM 2026 in Brussels again."
 authors: [gerrit91]
 type: "blog"
