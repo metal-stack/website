@@ -24,6 +24,7 @@ The following server types are officially supported and verified by the metal-st
 | Supermicro | Microcloud         | 5039MD8-H8TNR    | X11SDD-8C-F    | stable |
 | Supermicro | Microcloud         | SYS-531MC-H8TNR  | X13SCD-F       | stable |
 | Supermicro | Microcloud         | 3015MR-H8TNR     | H13SRD-F       | stable |
+| Supermicro | Workstation        | AS-2115HV-TNRT   | H13SRH         | stable |
 | Lenovo     | ThinkSystem        | SD530            |                | alpha  |
 | Gigabyte   | OCP Open Rack line |                  |                | alpha  |
 
