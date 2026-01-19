@@ -5,7 +5,7 @@
     "": {
       "name": "docs",
       "dependencies": {
-        "@carbon/icons-react": "^11.72.0",
+        "@carbon/icons-react": "^11.73.0",
         "@docusaurus/core": "^3.9.2",
         "@docusaurus/plugin-content-blog": "^3.9.2",
         "@docusaurus/preset-classic": "^3.9.2",
@@ -290,7 +290,7 @@
 
     "@carbon/icon-helpers": ["@carbon/icon-helpers@10.70.0", "", { "dependencies": { "@ibm/telemetry-js": "^1.5.0" } }, "sha512-c3w4CMvdentyisIG8WvJf4W5bU39JElrMJvS57DvXUKdWayJqwG9698+ah3PwsNw815u270koIsDv69N6Gsxug=="],
 
-    "@carbon/icons-react": ["@carbon/icons-react@11.72.0", "", { "dependencies": { "@carbon/icon-helpers": "^10.70.0", "@ibm/telemetry-js": "^1.5.0", "prop-types": "^15.8.1" }, "peerDependencies": { "react": ">=16" } }, "sha512-FMNEFzYwvEd3PwlI0DKmr9V6aj54XbyjM6jQYxgWCHHmp4WhirqIQ99js09WG10SiUv55Uy5VHqE8jWiu3EnRg=="],
+    "@carbon/icons-react": ["@carbon/icons-react@11.73.0", "", { "dependencies": { "@carbon/icon-helpers": "^10.70.0", "@ibm/telemetry-js": "^1.5.0", "prop-types": "^15.8.1" }, "peerDependencies": { "react": ">=16" } }, "sha512-nAgyfcEKzQUt+68+mvz0gQQtcn7jpRxiUsvG/uZ/MIJZoLHhtRt5u5pymU9JLNnQFJWwyIUhraDeLip7MpHjIQ=="],
 
     "@codemirror/autocomplete": ["@codemirror/autocomplete@6.18.7", "", { "dependencies": { "@codemirror/language": "^6.0.0", "@codemirror/state": "^6.0.0", "@codemirror/view": "^6.17.0", "@lezer/common": "^1.0.0" } }, "sha512-8EzdeIoWPJDsMBwz3zdzwXnUpCzMiCyz5/A3FIPpriaclFCGDkAzK13sMcnsu5rowqiyeQN2Vs2TsOcoDPZirQ=="],
 
