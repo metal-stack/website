@@ -91,10 +91,8 @@ import latestRelease from '@site/src/version.json'
 export function ImageReleaseConfig() {
 return <><CodeBlock language="yaml">
 ---{"\n"}
-metal_stack_release_version: {latestRelease.version}
-
 metal_stack_release_vectors:
-  - url: oci://ghcr.io/metal-stack/releases:{{ metal_stack_release_version }}
+  - url: oci://ghcr.io/metal-stack/releases:{latestRelease.version}
     variable_mapping_path: metal_stack_release.mapping
     include_role_defaults: metal-roles/common/roles/defaults
     oci_cosign_verify_key: |
