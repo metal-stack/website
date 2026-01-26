@@ -77,7 +77,7 @@ At the end of this section we are gonna end up with the following files and fold
 
 As metal-stack consists of many microservices all having individual versions, we have come up with a [releases](https://github.com/metal-stack/releases) repository. It contains a YAML file (we often call it release vector) describing the fitting versions of all components for every release of metal-stack. Ansible role dependencies are also part of a metal-stack release. Both the metal-stack release vector and the metal-stack ansible-roles are shipped as OCI artifacts following a specific format that's described [here](../../contributing/05-oci-artifacts.md). These artifacts are signed with the CI token of the metal-stack Github organization and can be verified using [cosign](https://github.com/sigstore/cosign).
 
-In order to download the release vector and the referenced ansible-roles prior to a deployment, we provide a small helper module called `metal_stack_release_vector` as part of the [metal-deployment-base](https://github.com/metal-stack/metal-deployment-base) deployment image. It's main tasks are:
+In order to download the release vector and the referenced ansible-roles prior to a deployment, we provide a small helper module called `metal_stack_release_vector` as part of the [metal-deployment-base](https://github.com/metal-stack/metal-deployment-base) deployment image. Its main tasks are:
 
 - Downloading the release vector OCI artifact.
 - Downloading the ansible-role OCI artifacts referenced in the release vector.
@@ -107,7 +107,7 @@ metal_stack_release_vectors:{"\n"}
 
 The public key for the validation is attached to each metal-stack release.
 
-Optional further parametrization for this module can be found its [module documentation](https://github.com/metal-stack/ansible-common/blob/a5977fc618cd34a6cebda262602b8cbc0632500d/library/metal_stack_release_vector.py).
+Optional further parametrization for this module can be found in its [module documentation](https://github.com/metal-stack/ansible-common/blob/a5977fc618cd34a6cebda262602b8cbc0632500d/library/metal_stack_release_vector.py).
 
 ### Inventory
 
