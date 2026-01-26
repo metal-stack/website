@@ -98,3 +98,13 @@ Some further remarks:
      - published
   ```
 - In case they are necessary, please do not forget to include `NOTEWORTHY`, `ACTIONS_REQUIRED` or `BREAKING_CHANGE` sections into releases. More information on those release draft sections can be read in a pull request template.
+
+### Pre-Releases
+
+Most metal-stack repositories are installed through the metal-stack release vector. Therefore, it is safe to release them and wait for the release integration suite to return results.
+
+However, there are certain repositories that have an external user base and can be used without a running metal-stack installation. Examples include [csi-driver-lvm](https://github.com/metal-stack/csi-driver-lvm) and [go-ipam](https://github.com/metal-stack/go-ipam).
+
+In the latter case, maintainers should create pre-releases using the GitHub feature "Set as a pre-release" if necessary. Additionally, maintainers should use an `-rc.x` tag to indicate that this component version is a pre-release. If the metal-stack integration tests do not add any substantial test coverage and if the component is thoroughly tested, a release candidate can be skipped.
+
+Once these components have been integration-tested, they can be released as the latest version with a valid tag on the same Git hash. In this case, the component in the release vector can be updated to the release version without running the integration suite again. If necessary, comment in the releases repository to execute this action (let a maintainer unfreeze the release pull request).
