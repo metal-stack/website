@@ -51,7 +51,7 @@ This table contains the available drivers to access a machine with, which is tri
 
 ## New Approach for Bootstrapping
 
-After a server is mounted in a rack in the data center, the BMC of a server gets connected to a management switch. The BMC obtains an IP address via DHCP broadcast from a DNS server, typically running on an [mgmt-server](/docs/docs/04-For%20Operators/03-deployment-guide.mdx#management-servers) in the data center partition. Then, the metal-bmc periodically checks the DHCP lease list in order to discover new BMCs or update existing ones.
+After a server is mounted in a rack in the data center, the BMC of a server gets connected to a management switch. The BMC obtains an IP address via DHCP broadcast from a DHCP server, typically running on an [mgmt-server](/docs/docs/04-For%20Operators/03-deployment-guide.mdx#management-servers) in the data center partition. Then, the metal-bmc periodically checks the DHCP lease list in order to discover new BMCs or update existing ones.
 
 So far, nothing new here. But now it's getting different:
 
