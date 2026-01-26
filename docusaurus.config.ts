@@ -6,7 +6,8 @@ import type * as Preset from "@docusaurus/preset-classic";
 
 const config: Config = {
   title: "metal-stack.io",
-  tagline: "Bring the cloud to your data center. metal-stack is an open source software that provides an API for provisioning and managing physical servers in the data center.",
+  tagline:
+    "Bring the cloud to your data center. metal-stack is an open source software that provides an API for provisioning and managing physical servers in the data center.",
   favicon: "img/favicon.ico",
 
   // Set the production url of your site here
@@ -21,7 +22,6 @@ const config: Config = {
   projectName: "website", // Usually your repo name.
 
   onBrokenLinks: "warn",
-  onBrokenMarkdownLinks: "warn",
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
@@ -33,6 +33,9 @@ const config: Config = {
 
   markdown: {
     format: "detect",
+    hooks: {
+      onBrokenMarkdownLinks: "warn",
+    },
   },
 
   plugins: [
@@ -142,7 +145,7 @@ const config: Config = {
           className: "header-github-link",
         },
         {
-          href: "https://metal-stack.slack.com",
+          href: "https://join.slack.com/t/metal-stack/shared_invite/zt-3eqheaymr-obQueWBLOMkhbEWTZZyDRg",
           "aria-label": "Slack link",
           position: "right",
           className: "header-slack-link",
@@ -190,8 +193,8 @@ const config: Config = {
           title: "Contribute",
           items: [
             {
-              label: "Connect on Slack",
-              href: "https://metal-stack.slack.com",
+              label: "Join our Slack Channel",
+              href: "https://join.slack.com/t/metal-stack/shared_invite/zt-3eqheaymr-obQueWBLOMkhbEWTZZyDRg",
             },
             {
               label: "Contribute on GitHub",
@@ -230,7 +233,7 @@ const config: Config = {
     prism: {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
-      additionalLanguages: ['bash']
+      additionalLanguages: ["bash"],
     },
   } satisfies Preset.ThemeConfig,
 };

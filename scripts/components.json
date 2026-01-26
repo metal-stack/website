@@ -30,7 +30,7 @@
         "releasePath": "docker-images.metal-stack.control-plane.ipam.tag",
         "repo": "metal-stack/go-ipam",
         "branch": "main",
-        "tag": "v1.14.13",
+        "tag": "v1.14.14",
         "position": 2,
         "withDocs": false
       },
@@ -39,7 +39,7 @@
         "releasePath": "docker-images.metal-stack.control-plane.masterdata-api.tag",
         "repo": "metal-stack/masterdata-api",
         "branch": "main",
-        "tag": "v0.12.0",
+        "tag": "v0.13.0",
         "position": 3,
         "withDocs": false
       },
@@ -48,7 +48,7 @@
         "releasePath": "docker-images.metal-stack.control-plane.metal-api.tag",
         "repo": "metal-stack/metal-api",
         "branch": "main",
-        "tag": "v0.42.3",
+        "tag": "v0.42.5",
         "position": 4,
         "withDocs": false
       },
@@ -80,7 +80,7 @@
         "releasePath": "docker-images.metal-stack.partition.metal-bmc.tag",
         "repo": "metal-stack/metal-bmc",
         "branch": "main",
-        "tag": "v0.6.0",
+        "tag": "v0.6.1",
         "position": 2,
         "withDocs": false
       },
@@ -89,7 +89,7 @@
         "releasePath": "docker-images.metal-stack.partition.metal-core.tag",
         "repo": "metal-stack/metal-core",
         "branch": "main",
-        "tag": "v0.13.1",
+        "tag": "v0.15.0",
         "position": 3,
         "withDocs": false
       },
@@ -98,7 +98,7 @@
         "releasePath": "binaries.metal-stack.metal-hammer.version",
         "repo": "metal-stack/metal-hammer",
         "branch": "main",
-        "tag": "v0.13.15",
+        "tag": "v0.13.17",
         "position": 4,
         "withDocs": false
       },
@@ -139,7 +139,7 @@
         "releasePath": "projects.metal-stack.mini-lab.version",
         "repo": "metal-stack/mini-lab",
         "branch": "master",
-        "tag": "v0.4.4",
+        "tag": "v0.5.0",
         "position": 3,
         "withDocs": false
       }
@@ -194,7 +194,7 @@
         "releasePath": "docker-images.metal-stack.kubernetes.droptailer.tag",
         "repo": "metal-stack/droptailer",
         "branch": "main",
-        "tag": "v0.2.18",
+        "tag": "v0.2.19",
         "position": 2,
         "withDocs": false
       },
@@ -221,7 +221,7 @@
         "releasePath": "docker-images.metal-stack.kubernetes.metal-ccm.tag",
         "repo": "metal-stack/metal-ccm",
         "branch": "main",
-        "tag": "v0.9.8",
+        "tag": "v0.9.9",
         "position": 5,
         "withDocs": false
       }
@@ -235,7 +235,7 @@
         "releasePath": "docker-images.metal-stack.gardener.gardener-extension-audit.tag",
         "repo": "metal-stack/gardener-extension-audit",
         "branch": "main",
-        "tag": "v0.2.2",
+        "tag": "v0.4.2",
         "position": 1,
         "withDocs": false
       },
@@ -244,7 +244,7 @@
         "releasePath": "docker-images.metal-stack.gardener.gardener-extension-csi-driver-lvm.tag",
         "repo": "metal-stack/gardener-extension-csi-driver-lvm",
         "branch": "main",
-        "tag": "v0.1.4",
+        "tag": "v0.1.9",
         "position": 2,
         "withDocs": false
       },
@@ -253,7 +253,7 @@
         "releasePath": "docker-images.metal-stack.gardener.gardener-extension-ontap.tag",
         "repo": "metal-stack/gardener-extension-ontap",
         "branch": "main",
-        "tag": "v0.2.3",
+        "tag": "v0.2.11",
         "position": 3,
         "withDocs": false
       },
@@ -294,7 +294,7 @@
         "releasePath": "docker-images.metal-stack.kubernetes.duros-controller.tag",
         "repo": "metal-stack/duros-controller",
         "branch": "main",
-        "tag": "v0.11.7",
+        "tag": "v0.11.9",
         "position": 2,
         "withDocs": false
       }

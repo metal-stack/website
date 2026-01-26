@@ -33,3 +33,21 @@ mwindower:
   page: true
   socials:
     github: mwindower
+
+philiphaas:
+  name: Philip Haas
+  title: Head of Marketing @ x-cellent technologies GmbH
+  url: https://github.com/philiphaas
+  image_url: https://github.com/philiphaas.png
+  page: true
+  socials:
+    github: philiphaas
+
+honigeintopf:
+  name: Ebubekir Ates
+  title: Maintainer
+  url: https://github.com/Honigeintopf
+  image_url: https://github.com/honigeintopf.png
+  page: true
+  socials:
+    github: Honigeintopf

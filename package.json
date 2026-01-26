@@ -19,42 +19,38 @@
     "create-release-notes": "bun ./scripts/create-release-notes.js"
   },
   "dependencies": {
-    "@carbon/icons-react": "^11.67.0",
-    "@docusaurus/core": "^3.8.1",
-    "@docusaurus/plugin-content-blog": "^3.8.1",
-    "@docusaurus/preset-classic": "^3.8.1",
-    "@headlessui/react": "^2.2.6",
+    "@carbon/icons-react": "^11.73.0",
+    "@docusaurus/core": "^3.9.2",
+    "@docusaurus/plugin-content-blog": "^3.9.2",
+    "@docusaurus/preset-classic": "^3.9.2",
+    "@headlessui/react": "^2.2.9",
     "@mdx-js/react": "^3.1.1",
-    "@scalar/api-reference-react": "^0.7.45",
-    "@tailwindcss/postcss": "^4.1.13",
+    "@scalar/api-reference-react": "^0.8.27",
+    "@tailwindcss/postcss": "^4.1.18",
     "@types/semver": "^7.7.1",
-    "axios": "^1.12.2",
+    "axios": "^1.13.2",
     "clsx": "^2.0.0",
     "docusaurus-lunr-search": "^3.6.0",
     "postcss": "^8.5.3",
     "prism-react-renderer": "^2.3.0",
-    "react": "^19.1.1",
-    "react-dom": "^19.0.0",
-    "semver": "^7.7.2",
-    "tailwind-merge": "^3.3.1",
-    "tailwindcss": "^4.1.13"
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "semver": "^7.7.3",
+    "tailwind-merge": "^3.4.0",
+    "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "^3.8.1",
-    "@docusaurus/tsconfig": "^3.8.1",
-    "@docusaurus/types": "^3.8.1",
+    "@docusaurus/module-type-aliases": "^3.9.2",
+    "@docusaurus/tsconfig": "^3.9.2",
+    "@docusaurus/types": "^3.9.2",
     "husky": "^9.1.7",
-    "lint-staged": "^16.1.6",
+    "lint-staged": "^16.2.7",
     "svgo": "^4.0.0",
-    "typescript": "~5.9.2",
-    "yaml": "^2.8.0"
+    "typescript": "~5.9.3",
+    "yaml": "^2.8.2"
   },
   "browserslist": {
-    "production": [
-      ">0.5%",
-      "not dead",
-      "not op_mini all"
-    ],
+    "production": [">0.5%", "not dead", "not op_mini all"],
     "development": [
       "last 3 chrome version",
       "last 3 firefox version",
@@ -65,8 +61,6 @@
     "node": ">=18.0"
   },
   "lint-staged": {
-    "*.svg": [
-      "svgo --multipass"
-    ]
+    "*.svg": ["svgo --multipass"]
   }
 }
