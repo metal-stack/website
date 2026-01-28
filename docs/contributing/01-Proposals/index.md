@@ -43,6 +43,7 @@ Once a proposal was accepted, an issue should be raised and the implementation s
 | [MEP-16](MEP16/README.md)                                      | Firewall Support for Cluster API Provider      |   `Accepted`    | [releases#237](https://github.com/metal-stack/releases/issues/237) |
 | [MEP-17](MEP17/README.md)                                      | Global Network View                            | `In Discussion` |                                                                    |
 | [MEP-18](MEP18/README.md)                                      | Autonomous Control Plane                       | `In Discussion` |                                                                    |
+| [MEP-19](MEP19/README.md)                                      | Zone Awareness in metal-stack.io               | `In Discussion` |                                                                    |
 
 ## Proposal Process
 
