@@ -55,3 +55,12 @@ We started in 2018 with metal-stack and went into production with the software i
 ### **But if you're open source, how do you make money with this? Do you offer support for this?**
 
 As we are a consulting company: Yes, we do offer support for metal-stack! We can help you to plan, support and operate Kubernetes as a Service on Bare Metal in your own data center and also have experts on digital transformation regarding other topics. If you need more information on who we are, check out [https://x-cellent.com/](https://x-cellent.com/).
+
+### **What sets your solution apart from similar projects like OpenStack Ironic or Ubuntu MaaS?**
+
+When we built metal-stack we wanted to make it a driver for Kubernetes as a Service in an on-premise data center. For this reason, we are more opinionated on certain topics than other projects. For example:
+
+- **Networking**: The network is part of the solution of metal-stack. We require BGP in the data center and a switch that can run [metal-core](https://github.com/metal-stack/metal-core) to dynamically apply port reconfiguration during machine allocation. With this, we can lower operational overhead, run [Kubernetes CNIs](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/) with native routing (i.e. without overlay networks), provide services of type `LoadBalancer` with [MetalLB](https://metallb.io/) and achieve effective routing even in case of failover.
+- **Firewalls**: We did not want to see any more big external firewalls with complex state. This is why firewalls are an essential part in our infrastructure that can be managed by the [firewall-controller](https://github.com/metal-stack/firewall-controller) through Kubernetes resources.
+- **Slim and Fast**: Kubernetes needs to be able to scale quickly and we wanted the provisioning process to be really quick. The provisioning time of a machine (depending on the vendor) can take only a minute. We wrote everything in Go in an API-driven manner such that users can easily access services without requiring manual interaction from operators.
+- **Runs on K8s but also without**: We wanted metal-stack to not rely on Kubernetes per se. We have an imperative REST (soon only gRPC) API that does not require the Kubernetes API to operate. To us, this gives us the best of two worlds: Staying open to future platforms (because we're not locked into Kubernetes) while utilizing effective infrastructure under the hood to run the control plane.
