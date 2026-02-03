@@ -50,7 +50,7 @@ However, for educational purposes, like learning about networking, booting Linux
 
 ### **When did you start?**
 
-We started in 2018 with metal-stack and went into production with the software in 2020. Today, we manage more than 2000 servers with metal-stack, and we do not see any particular bottlenecks yet. Through the years, we are quite confident to say you can use it for production, too.
+We started in 2018 with metal-stack and went into production with the software in 2020. Today, we manage more than 2000 servers with metal-stack, and we do not see any particular bottlenecks yet. Through the years, we are quite confident to say you can use it for production.
 
 ### **But if you're open source, how do you make money with this? Do you offer support for this?**
 
