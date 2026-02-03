@@ -21,7 +21,7 @@ The DIY-rack that [@qrnvttrl](https://github.com/qrnvttrl) brought to our stand 
 
 ## We have a GUI?
 
-With the [metal-ui](https://github.com/metal-stack/metal-ui) that [@ostempel](https://github.com/ostempel) implemented specifically for the FOSDEM, it became so much easier to show you the possibilities of our new V2 API (as described in [MEP-4](https://metal-stack.io/docs/next/MEP-4-multi-tenancy-for-the-metal-api)). Thanks Oliver for bringing this shiny little thing to our stand and showing it to people! In my opinion we should invest more time into it, give people a chance to contribute to the repository in case they see a need for managing metal-stack not only through CLI but also through a native desktop application.
+With the [metal-ui](https://github.com/metal-stack/metal-ui) that [@ostempel](https://github.com/ostempel) implemented specifically for the FOSDEM, it became so much easier to show the possibilities of our new V2 API (as described in [MEP-4](https://metal-stack.io/docs/next/MEP-4-multi-tenancy-for-the-metal-api)). Thanks Oliver for bringing this shiny little thing to our stand and showing it to people! In my opinion we should invest more time into it, give people a chance to contribute to the repository in case they see a need for managing metal-stack not only through CLI but also through a native desktop application.
 
 ## People noticeably shifting to sovereign infrastructure
 
