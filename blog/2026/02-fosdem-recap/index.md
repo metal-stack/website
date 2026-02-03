@@ -17,7 +17,7 @@ First and foremost, I would like to say that, once again, this year's journey to
 
 ## The "smallest functional metal-stack installation"
 
-The DIY-rack that [@qrnvttrl](https://github.com/qrnvttrl) brought to our stand in Brussels was an absolute eye-catcher. It was built for his bachelor thesis at the [FI-TS](https://www.f-i-ts.de/) and is such a good starting point for conversations and it allowed us to show data center technology in a very compact, functional format for the first time. Quirin even offered to write a blog article about it to provide some background information on how it came into existence and what parts were used to build it. I guess a lot of people wanted to know it more precisely, so keep an eye on the blog to find out soon.
+The DIY-rack that [@qrnvttrl](https://github.com/qrnvttrl) brought to our stand in Brussels was an absolute eye-catcher. It was built for his bachelor thesis at [FI-TS](https://www.f-i-ts.de/) and is such a good starting point for conversations and it allowed us to show data center technology in a very compact, functional format for the first time. Quirin even offered to write a blog article about it to provide some background information on how it came into existence and what parts were used to build it. I guess a lot of people wanted to know it more precisely, so keep an eye on the blog to find out soon.
 
 ## We have a GUI?
 
@@ -25,7 +25,7 @@ With the [metal-ui](https://github.com/metal-stack/metal-ui) that [@ostempel](ht
 
 ## People noticeably shifting to sovereign infrastructure
 
-From speaking to so many people, it became even more apparent than last year, that the current policitical world situation forces many deciders and engineers to explore sovereign infrastructure technology. The times are definitely over when we are asked why one should not just move all the workload to the cloud. Almost everybody had an understanding by now of what chances are in there for Europe to define our version of data and cloud sovereignty. We would be more than happy if we can give back something to you with the metal-stack project on your journey to modern data center infrastructure. It was really incredible that so many of you actively approached us and just wanted to talk and know more about what we do.
+From speaking to so many people, it became even more apparent than last year, that the current political world situation forces many deciders and engineers to explore sovereign infrastructure technology. The times are definitely over when we are asked why one should not just move all the workload to the cloud. Almost everybody had an understanding by now of what chances are in there for Europe to define our version of data and cloud sovereignty. We would be more than happy if we can give back something to you with the metal-stack project on your journey to modern data center infrastructure. It was really incredible that so many of you actively approached us and just wanted to talk and know more about what we do.
 
 Another thanks go out to the organizers of the event and all the people who made the conference possible. It's a safe space for everyone who attends, and you can just be who you are. We appreciate this a lot. During a perfect Belgian beer this weekend, the following sentence was said (not sure if I am allowed to say who said it, but it was great): Computer science is a treasure of our planet that represents what we're able to achieve. It's collective intellectual property and everybody can contribute to that. Openly and without fear. 🍻
 
