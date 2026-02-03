@@ -17,7 +17,7 @@ First and foremost, I would like to say that, once again, this year's journey to
 
 ## The "smallest functional metal-stack installation"
 
-The DIY-rack that [@qrnvttrl](https://github.com/qrnvttrl) brought to our stand in Brussels was an absolute eye-catcher. It was built for his bachelor thesis at [FI-TS](https://www.f-i-ts.de/) and is such a good starting point for conversations and it allowed us to show data center technology in a very compact, functional format for the first time. Quirin even offered to write a blog article about it to provide some background information on how it came into existence and what parts were used to build it. I guess a lot of people wanted to know it more in more detail, so keep an eye on the blog to find out soon.
+The DIY-rack that [@qrnvttrl](https://github.com/qrnvttrl) brought to our stand in Brussels was an absolute eye-catcher. It was built for his bachelor thesis at [FI-TS](https://www.f-i-ts.de/) and is such a good starting point for conversations and it allowed us to show data center technology in a very compact, functional format for the first time. Quirin even offered to write a blog article about it to provide some background information on how it came into existence and what parts were used to build it. I guess a lot of people wanted to know it in more detail, so keep an eye on the blog to find out soon.
 
 ## We have a GUI?
 
