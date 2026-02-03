@@ -13,6 +13,8 @@ tags:
 
 It's a great honor for us that we were accepted a stand at the FOSDEM 2026 again.
 
+<!-- truncate -->
+
 The conference brings together thousands of developers and enthusiasts to talk, learn and collaborate.
 
 It will take place on the weekend from January 31st to February 1st. Entrance is free for everyone.
