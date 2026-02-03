@@ -46,7 +46,7 @@ Theoretically, yes. Theoretically, you can do a lot of things. 🤓
 
 metal-stack is definitely classified as data center technology and installing this at home is kind of overkill. The bigger your environment gets, the more value you can get from metal-stack. It enables a small team of just a few people to manage thousands of servers. Maybe consider the company you work for to use metal-stack, as it fits their needs more likely than at home.
 
-However, for educational purposes, like learning about networking, booting Linux, switches and so on, metal-stack might be a perfect playground for that. Specifically, (containerlab)[https://containerlab.dev/] turned out to be a really cool project to test out ideas regarding network topologies and using BGP in the data center. This is used in our virtual lab, called the [mini-lab](https://github.com/metal-stack/mini-lab), too.
+However, for educational purposes, like learning about networking, booting Linux, switches and so on, metal-stack might be a perfect playground for that. Specifically, [containerlab](https://containerlab.dev/) turned out to be a really cool project to test out ideas regarding network topologies and using BGP in the data center. This is used in our virtual lab, called the [mini-lab](https://github.com/metal-stack/mini-lab), too.
 
 ### **When did you start?**
 
