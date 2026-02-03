@@ -56,6 +56,8 @@ We started in 2018 with metal-stack and went into production with the software i
 
 As we are a consulting company, Yes, we do offer support for metal-stack! We can help you to plan, support and operate Kubernetes as a Service on Bare Metal in your own data center and also have experts on digital transformation regarding other topics. If you need more information on who we are, check out [https://x-cellent.com/](https://x-cellent.com/).
 
+Also keep in mind we have a hosted version of metal-stack that is named [metalstack.cloud](https://metalstack.cloud).
+
 ### **What sets your solution apart from similar projects like OpenStack Ironic or Ubuntu MaaS?**
 
 When we built metal-stack we wanted to make it a driver for Kubernetes as a Service in an on-premise data center. For this reason, we are more opinionated on certain topics than other projects. For example:
