@@ -28,7 +28,7 @@
     "@scalar/api-reference-react": "^0.8.46",
     "@tailwindcss/postcss": "^4.1.18",
     "@types/semver": "^7.7.1",
-    "axios": "^1.13.4",
+    "axios": "^1.13.5",
     "clsx": "^2.0.0",
     "docusaurus-lunr-search": "^3.6.0",
     "postcss": "^8.5.3",
