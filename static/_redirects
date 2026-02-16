@@ -10,6 +10,12 @@ https://docs.metal-stack.io https://metal-stack.io/docs/home 301!
 https://docs.metal-stack.io/* https://metal-stack.io/:splat 301!
 /docs /docs/home
 
+# redirect renamed sites
+/docs/deployment /docs/deployment-guide
+/docs/:version/deployment /docs/:version/deployment-guide
+/docs/isolated-kubernetes /docs/isolated-kubernetes-clusters
+/docs/:version/isolated-kubernetes /docs/:version/isolated-kubernetes-clusters
+
 # migrate archived paths to stable versions quickly
 /stable/overview/* /docs/:splat 301
 /stable/concepts/* /docs/:splat 301
