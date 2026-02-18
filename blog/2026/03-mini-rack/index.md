@@ -47,7 +47,7 @@ The four machines were used to install two shoot-clusters with Gardener, each wi
 
 ## Everything failed ...
 
-With that the first question of my thesis was answered: Building a autonomous control-plane the way it is described in MEP-18 is a very good solution for our bootstrapping-problem regarding automation and low complexity for the operators.But the second question is still open: What consequences do specific failure scenarios have and how can we return back to normal operation? That's why I did three different failure scenarios on the mini-rack. First I deleted only the k3s-cluster, then only the worker-nodes of the shoots and lastly all five Beelinks at once.
+With that the first question of my thesis was answered: Building an autonomous control-plane the way it is described in MEP-18 is a very good solution for our bootstrapping-problem regarding automation and low complexity for the operators. But the second question is still open: What consequences do specific failure scenarios have and how can we return back to normal operation? That's why I did three different failure scenarios on the mini-rack. First I deleted only the k3s-cluster, then only the worker-nodes of the shoots and lastly all five Beelinks at once.
 
 The short-term consequences of the outage were just as expected. When the k3s-cluster fails, there is no direct impact on the productive control-planes.
 But the automatic restore-process with the backup-restore-mechanisms of metal-stack and Gardener made some trouble. Because sometimes there was made a new backup instead of restoring an old one. In these case it is important that you have more than just one backup version in your S3-Storage to restore it manually. 
