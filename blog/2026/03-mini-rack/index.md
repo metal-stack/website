@@ -31,7 +31,7 @@ Inspired by [Jeff Geerlings mini-rack guide](https://github.com/geerlingguy/mini
 
 The router is used to provide internet access for the whole rack through Wifi and is also our endpoint for tailscale to access the rack from remote. With the CWWKs having six ethernet ports we can use them to simulate the CLOS-architecture of the switches. So we had one spine-switch connected to the router and each of the leaf-switches. The leaf-switches are linked with four of the Beelinks, which are the machines managed by metal-stack. The remaining Beelink is used for an initial k3s-cluster, that is hosting the control-planes of metal-stack and Gardener. The KVM devices are used to remotely access the console of the machines.
 
-<img src="mini-rack.jpg" width="1200px">
+![](./mini-rack.jpg)
 
 ## Deploying the stack
 
