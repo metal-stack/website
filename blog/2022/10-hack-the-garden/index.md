@@ -11,6 +11,7 @@ tags:
   - gardener
   - ipv6
   - hackathon
+  - events
 ---
 
 Last year in November, we from the metal-stack and the SAP Gardener team held our first joined hackathon in the Tyrolean Alps [Hack the Metal](https://metal-stack.io/blog/2021/11/hack-the-metal/). We all said that this must be repeated because it was so much fun and we created a lot of useful enhancements which otherwise wouldn't exist.
