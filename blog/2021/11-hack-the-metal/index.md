@@ -12,6 +12,7 @@ tags:
   - kubernetes
   - gardener
   - hackathon
+  - events
 ---
 
 We, the gardener and metal-stack team, were thinking of organizing a hackathon together since autumn 2019, but then the pandemic made this impossible.

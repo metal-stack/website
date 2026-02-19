@@ -11,6 +11,7 @@ tags:
   - gardener
   - ipv6
   - hackathon
+  - events
 ---
 
 After the success of the two previous hackathons, [STACKIT](https://www.stackit.de/) invited the gardener community to Leverkusen for a week of hacking on Gardener. The attendees were from [SAP](https://sap.com), [STACKIT](https://www.stackit.de/), [23technologies](https://23technologies.cloud/), and the metal-stack team from [FI-TS](https://f-i-ts.de) and [x-cellent technologies](https://x-cellent.com).
