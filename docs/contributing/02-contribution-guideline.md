@@ -1,7 +1,7 @@
 ---
 slug: /contribution-guideline
 title: Contribution Guideline
-sidebar_position: 3
+sidebar_position: 2
 ---
 
 # Contribution Guideline
@@ -21,7 +21,7 @@ Open a Github issue in the project you would like to contribute. Within the issu
 When opening an issue please consider the following aspects:
 
 1. Create a meaningful issue describing the WHY? of your contribution.
-1. Try to set appropriate labels to the issue. For example, attach the `triage` label to your issue if you want it to be discussed in the next [planning meeting](./02-planning-meetings.mdx). It might be useful to attend the meeting if you want to emphasize it being worked on.
+1. Try to set appropriate labels to the issue. For example, attach the `triage` label to your issue if you want it to be discussed in the next [planning meeting](./03-roadmap.mdx#planning-meetings). It might be useful to attend the meeting if you want to emphasize it being worked on.
 
 ### Pull Requests
 

@@ -1,7 +1,7 @@
 ---
 slug: /oci-artifacts
 title: OCI Artifacts
-sidebar_position: 5
+sidebar_position: 6
 ---
 
 # OCI Artifacts

@@ -1,7 +1,7 @@
 ---
 slug: /release-flow
 title: Release Flow
-sidebar_position: 4
+sidebar_position: 5
 ---
 
 # Releases

@@ -9,6 +9,8 @@
 https://docs.metal-stack.io https://metal-stack.io/docs/home 301!
 https://docs.metal-stack.io/* https://metal-stack.io/:splat 301!
 /docs /docs/home
+/docs/planning-meetings /docs/roadmap
+/docs/next/planning-meetings /docs/next/roadmap
 
 # migrate archived paths to stable versions quickly
 /stable/overview/* /docs/:splat 301

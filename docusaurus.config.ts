@@ -114,9 +114,9 @@ const config: Config = {
           docId: "docs/home",
         },
         {
-          label: "Contributing",
+          label: "Community",
           type: "doc",
-          docId: "contributing/contribution-guideline",
+          docId: "contributing/community",
         },
         {
           to: "/blog",

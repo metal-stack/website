@@ -7,7 +7,7 @@ sidebar_position: 2
 # User Management
 
 At the moment, metal-stack can more or less be seen as a low-level API that does not scope access based on projects and tenants.
-Fine-grained access control with full multi-tenancy support is actively worked on in [MEP4](../../contributing/01-Proposals/MEP4/README.md).
+Fine-grained access control with full multi-tenancy support is actively worked on in [MEP4](../../community/04-Proposals/MEP4/README.md).
 
 Until then projects and tenants can be created, but have no effect on access control.
 
