@@ -13,6 +13,7 @@ tags:
   - gardener
   - hackathon
   - vpn
+  - events
 ---
 
 It was the fifth time that people from different companies came together to hack and improve the Gardener project.

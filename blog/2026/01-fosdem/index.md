@@ -8,7 +8,7 @@ authors: [gerrit91]
 type: "blog"
 tags:
   - news
-  - conferences
+  - events
 ---
 
 It's a great honor for us that we were accepted a stand at the FOSDEM 2026 again.
