@@ -74,6 +74,18 @@ const config: Config = {
         languages: ["en"],
       },
     ],
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "community",
+        path: "community",
+        routeBasePath: "community",
+        sidebarPath: "./sidebars-community.ts",
+        editUrl: "https://github.com/metal-stack/website/tree/main/",
+        includeCurrentVersion: true,
+        lastVersion: undefined, // intentionally no version
+      },
+    ],
   ],
 
   presets: [
@@ -81,7 +93,7 @@ const config: Config = {
       "classic",
       {
         docs: {
-          sidebarPath: "./sidebars.ts",
+          sidebarPath: "./sidebars-docs.ts",
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl: "https://github.com/metal-stack/website/tree/main/",
@@ -115,10 +127,7 @@ const config: Config = {
         },
         {
           label: "Community",
-          type: "doc",
-          // TODO: after next release change to:
-          // docId: "contributing/community",
-          docId: "contributing/contribution-guideline",
+          to: "/community",
         },
         {
           to: "/blog",
