@@ -116,7 +116,7 @@ Please note that every [networking setup](../../05-Concepts/03-Network/01-theory
 | VLAN       | Switches, Firewalls         | Layer 2 traffic segmentation.                                                                  |
 | VXLAN      | Switches, Firewalls         | Encapsulate Layer 2 frames in Layer 3 packets for network virtualization.                      |
 | EVPN       | Switches, Firewalls         | Overlay network technology for scalable and flexible network architectures.                    |
-| VPN        | Firewalls                   | Management access [without open SSH ports](../../../contributing/01-Proposals/MEP9/README.md). |
+| VPN        | Firewalls                   | Management access [without open SSH ports](..//community/MEP-9-no-open-ports-to-the-data-center). |
 | BGP        | Multiple                    | Routing protocol for dynamic routing and network management.                                   |
 | SSH        | Management Server, Switches | Secure shell access for management and configuration.                                          |
 | LLDP       | Switches, Machines          | Link Layer Discovery Protocol for network device discovery.                                    |

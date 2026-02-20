@@ -150,4 +150,4 @@ Thus, for creating a partition as well as a machine or a firewall, the flags `dn
 
 In order to be fully offline resilient, make sure to check out `metal-image-cache-sync`. This component provides copies of `metal-images`, `metal-kernel` and `metal-hammer`.
 
-This feature is related to [MEP14](../../contributing/01-Proposals/MEP14/README.md).
+This feature is related to [MEP14](/community/MEP-14-independence-from-external-sources).

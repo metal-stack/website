@@ -7,8 +7,8 @@
 /* You can override the default Infima variables here. */
 @import "tailwindcss/theme.css";
 @import "tailwindcss/utilities.css";
-@import url('./fonts/inter/inter-v12-latin.css');
-@import url('./fonts/space-grotesk/space-grotesk-v13-latin.css');
+@import url("./fonts/inter/inter-v12-latin.css");
+@import url("./fonts/space-grotesk/space-grotesk-v13-latin.css");
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
@@ -56,11 +56,10 @@
 html[data-theme="dark"] {
   --ifm-background-color: var(--color-neutral-950);
   --ifm-background-surface-color: var(--color-neutral-950);
-
 }
 
-html[data-theme="dark"]  p img {
-  background-color:#f5f5f57f;
+html[data-theme="dark"] p img {
+  background-color: #f5f5f57f;
 }
 
 body {
@@ -120,8 +119,9 @@ p {
   @apply text-base text-neutral-500 dark:text-neutral-400 leading-relaxed;
 }
 
-ul, ol {
-  @apply  text-neutral-500 dark:text-neutral-400 ;
+ul,
+ol {
+  @apply text-neutral-500 dark:text-neutral-400;
 }
 
 a {
@@ -224,8 +224,10 @@ footer {
 /* hide the navbar on non-doc pages including it's hoverable dropdown */
 .plugin-pages #docs-version-dropdown,
 .plugin-blog #docs-version-dropdown,
+.plugin-id-community #docs-version-dropdown,
 .plugin-pages .dropdown--hoverable:has(> #docs-version-dropdown),
-.plugin-blog .dropdown--hoverable:has(> #docs-version-dropdown) {
+.plugin-blog .dropdown--hoverable:has(> #docs-version-dropdown),
+.plugin-id-community .dropdown--hoverable:has(> #docs-version-dropdown) {
   display: none;
 }
 
