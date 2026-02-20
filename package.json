@@ -16,7 +16,8 @@
     "fetch-readmes": "bun ./scripts/fetch-readmes.js",
     "optimize:svg": "svgo -f . --recursive --multipass",
     "prepare": "husky",
-    "create-release-notes": "bun ./scripts/create-release-notes.js"
+    "create-release-notes": "bun ./scripts/create-release-notes.js",
+    "docs:pdf": "bun ./scripts/docs-pdf.mjs"
   },
   "dependencies": {
     "@carbon/icons-react": "^11.75.0",
