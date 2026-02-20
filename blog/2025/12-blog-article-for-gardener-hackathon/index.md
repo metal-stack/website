@@ -30,7 +30,7 @@ With so many people on-site we divided into multiple tracks. The recap page list
 
 ### Autonomous Control Plane and gardenadm
 
-I'm knee-deep in [MEP-18](https://docs.metal-stack.io/stable/contributing/01-Proposals/MEP18/README/) at the moment, so I gravitated toward the `gardenadm` workstream even though it wasn't the main hackathon theme. The Gardener team pushed the tool to roughly 95% completion, ironing out installation flows and HA concerns so that bootstrapping an autonomous Gardener control plane finally feels repeatable. A handful of annoyingly small bugs are still blocking day-to-day usage, yet the remaining work is well understood and in flight.
+I'm knee-deep in [MEP-18](https://docs.metal-stack.io/stable/contributing/04-Proposals/MEP18/README/) at the moment, so I gravitated toward the `gardenadm` workstream even though it wasn't the main hackathon theme. The Gardener team pushed the tool to roughly 95% completion, ironing out installation flows and HA concerns so that bootstrapping an autonomous Gardener control plane finally feels repeatable. A handful of annoyingly small bugs are still blocking day-to-day usage, yet the remaining work is well understood and in flight.
 
 ### Networking Modernization
 
