@@ -116,7 +116,9 @@ const config: Config = {
         {
           label: "Community",
           type: "doc",
-          docId: "contributing/community",
+          // TODO: after next release change to:
+          // docId: "contributing/community",
+          docId: "contributing/contribution-guideline",
         },
         {
           to: "/blog",
