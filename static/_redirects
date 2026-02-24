@@ -11,6 +11,12 @@ https://docs.metal-stack.io/* https://metal-stack.io/:splat 301!
 /blog/tags/conferences /blog/tags/events
 /docs /docs/home
 
+# redirect renamed sites
+/docs/deployment /docs/deployment-guide
+/docs/:version/deployment /docs/:version/deployment-guide
+/docs/isolated-kubernetes /docs/isolated-kubernetes-clusters
+/docs/:version/isolated-kubernetes /docs/:version/isolated-kubernetes-clusters
+
 # migrate community out from docs
 /docs/planning-meetings /community/roadmap
 /docs/:v/planning-meetings /community/roadmap
