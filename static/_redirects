@@ -24,6 +24,9 @@ https://docs.metal-stack.io/* https://metal-stack.io/:splat 301!
 /docs/MEP-* /community/MEP-:splat
 /docs/:v/MEP-* /community/MEP-:splat
 
+# migrate patch versions to minors
+/docs/v0.:minor.:patch/* /docs/v0.:minor/:splat
+
 # migrate archived paths to stable versions quickly
 /stable/overview/* /docs/:splat 301
 /stable/concepts/* /docs/:splat 301

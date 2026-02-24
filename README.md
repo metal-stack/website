@@ -173,7 +173,7 @@ The `tag` property will be updated automatically from the release-vector file.
 You create a new version with:
 
 ```bash
-bun run docusaurus docs:version v0.21.6
+bun run docusaurus docs:version v0.22
 ```
 
 Now, the new version will be create and the latest files will be copied to the "`versioned`" folders.

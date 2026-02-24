@@ -23,20 +23,20 @@ jobs:
           bun run fetch-readmes
           bun run create-release-notes
 
-          version=$(jq -r '.version' src/version.json)
+          version=$(jq -r '.version' src/version.json | cut -d '.' -f1-2)
           jq "del(.[] | select(. == \"${version}\"))" versions.json > versions.json.tmp && mv versions.json.tmp versions.json
           bun run docusaurus docs:version ${version}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Push
-        run: |
-          bun run optimize:svg
+      # - name: Push
+      #   run: |
+      #     bun run optimize:svg
 
-          if ! git diff --exit-code; then
-            git config --global user.name "auto-build"
-            git config --global user.email "info@metal-stack.io"
-            git add .
-            git commit -m "Auto generate"
-            git push
-          fi
+      #     if ! git diff --exit-code; then
+      #       git config --global user.name "auto-build"
+      #       git config --global user.email "info@metal-stack.io"
+      #       git add .
+      #       git commit -m "Auto generate"
+      #       git push
+      #     fi
