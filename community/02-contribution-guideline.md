@@ -1,0 +1,145 @@
+---
+slug: /contribution-guideline
+title: Contribution Guideline
+sidebar_position: 2
+---
+
+# Contribution Guideline
+
+This document describes the way we want to contribute code to the projects of metal-stack, which are hosted on [github.com/metal-stack](https://github.com/metal-stack).
+
+The document is meant to be understood as a general guideline for contributions, but not as burden to be placed on a developer. Use your best judgment when contributing code. Try to be as clean and precise as possible when writing code and try to make your code as maintainable and understandable as possible for other people.
+
+Even if it should go without saying, we live an open culture of discussion, in which everybody is welcome to participate. We treat every contribution with respect and objectiveness with the general aim to write software of quality.
+
+If you want, feel free to propose changes to this document in a pull request.
+
+## How Can I Contribute?
+
+Open a Github issue in the project you would like to contribute. Within the issue, your idea can be discussed. It is also possible to directly create a pull request when the set of changes is relatively small.
+
+When opening an issue please consider the following aspects:
+
+1. Create a meaningful issue describing the WHY? of your contribution.
+1. Try to set appropriate labels to the issue. For example, attach the `triage` label to your issue if you want it to be discussed in the next [planning meeting](./03-roadmap.mdx#planning-meetings). It might be useful to attend the meeting if you want to emphasize it being worked on.
+
+### Pull Requests
+
+The process described here has several goals:
+
+- Maintain quality
+- Enable a sustainable system to review contributions
+- Enable documented and reproducible addition of contributions
+
+1. Create a repository fork within the context of that issue. Members of the organization may work on the repository directly without a fork, which allows building development artifacts more easily.
+1. Develop, document and test your contribution (try not to solve more than one issue in a single pull request).
+1. Create a Draft Pull Request to the repository's main branch.
+1. Create a meaningful description of the pull request or reference the related issue. The pull request template explains what the content should include, please read it.
+1. Ask for merging your contribution by removing the draft marker. Repository maintainers (see [Code Ownership](#code-ownership)) are notified automatically, but you can also reach out to people directly on Slack if you want a review from a specific person.
+
+## General Objectives
+
+This section contains language-agnostic topics that all metal-stack projects are trying to follow.
+
+### Code Ownership
+
+The code base is owned by the entire team and every member is allowed to contribute changes to any of the projects. This is considered as collective code ownership[^1].
+
+As a matter of fact, there are persons in a project, which already have experience with the sources. These are defined directly in the repository's [CODEOWNERS](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners) file. If you want to merge changes into the master branch, it is advisable to include code owners into the process of discussion and merging.
+
+### Microservices
+
+One major ambition of metal-stack is to follow the idea of [microservices](https://en.wikipedia.org/wiki/Microservices). This way, we want to achieve that we can
+
+- adapt to changes faster than with monolithic architectures,
+- be free of restrictions due to certain choices of technology,
+- leverage powerful traits of cloud infrastructures (e.g. high-scalability, high-availability, ...).
+
+### Programming Languages
+
+We are generally open to write code in any language that fits best to the function of the software. However, we encourage [golang](https://en.wikipedia.org/wiki/Go_(programming_language)) to be the main language of metal-stack as we think that it makes development faster when not establishing too many different languages in our architecture. Reason for this is that we are striving for consistent behavior of the microservices, similar to what has been described for the Twelve-Factor App (see [12 Factor](https://12factor.net/)). We help enforcing unified behavior by allowing a small layer of shared code for every programming language. We will refer to this shared code as "libraries" for the rest of this document.
+
+### Artifacts
+
+Artifacts are always produced by a CI process (i.e. Github Actions).
+
+Container images and [OCI artifacts](https://github.com/opencontainers/image-spec) are published on the Github Container Registry of the metal-stack organization. Please consider using Github Actions workflows utilizing similar actions as the other repositories (e.g. [build-push-action](https://github.com/docker/build-push-action), ...)
+
+For OCI images, we usually utilize [oras](https://github.com/oras-project/oras) for pushing the artifact to the registry.
+
+For signing artifacts we use [cosign](https://github.com/sigstore/cosign). The private key for signing artifacts is a CI secret called `COSIGN_PRIVATE_KEY`.
+
+Binary artifacts or OS images can be uploaded to `images.metal-stack.io` if necessary.
+
+### APIs
+
+The preferred way to implement an API is using [Connect RPC](https://connectrpc.com/), which is based on [grpc](https://grpc.io/). For working with the [Protobuf](https://protobuf.dev/) definitions, we utilize [buf](https://github.com/bufbuild/buf).
+
+The metal-api does still have a [Swagger-based](https://swagger.io/) API exposing traditional REST APIs for end-users. This API framework will become deprecated so it should not be used anymore for new projects.
+
+#### Versioning
+
+Artifacts are versioned by tagging the respective repository with a tag starting with the letter `v`. After the letter, there stands a valid [semantic version](https://semver.org/).
+
+### Documentation
+
+In order to make it easier for others to understand a project, we document general information and usage instructions in a `README.md` in any project.
+
+In addition to that, we document a microservice in the [docs](https://github.com/metal-stack/docs) repository. The documentation should contain the reasoning why this service exists and why it was being implemented the way it was being implemented. The aim of this procedure is to reduce the time for contributors to comprehend architectural decisions that were made during the process of writing the software and to clarify the general purpose of this service in the entire context of the software.
+
+## Guidelines
+
+This chapter describes general guidelines on how to develop and contribute code for a certain programming language.
+
+### Golang
+
+Development follows the official guide to:
+
+- Write clear, idiomatic Go code[^2]
+- Learn from mistakes that must not be repeated[^3]
+- Apply appropriate names to your artifacts:
+  - [https://go.dev/talks/2014/names.slide](https://go.dev/talks/2014/names.slide)
+  - [https://go.dev/blog/package-names](https://go.dev/blog/package-names)
+  - [https://go.dev/doc/effective_go#names](https://go.dev/doc/effective_go#names)
+- Enable others to understand the reasoning of non-trivial code sequences by applying a meaningful documentation.
+
+#### Development Decisions
+
+- **Dependency Management** by using Go modules
+- **Build and Test Automation** by using [GNU Make](https://man7.org/linux/man-pages/man1/make.1p.html).
+- **APIs** should consider using [buf](https://github.com/bufbuild/buf)
+
+#### Libraries
+
+metal-stack maintains libraries that you can utilize in your project in order to unify common behavior. The main project that does this is called [metal-lib](https://github.com/metal-stack/metal-lib).
+
+#### Error Handling with Generated Swagger Clients
+
+From the server-side you should ensure that you are returning the common error json struct in case of an error as defined in the `metal-lib/httperrors`. Ensure you are using `go-restful >= v2.9.1` and `go-restful-openapi >= v0.13.1` (allows default responses with error codes other than 200).
+
+### Documentation
+
+We want to share knowledge and keep things simple. If things cannot kept simple we want to enable everybody to understand them by:
+
+- Document in short sentences[^4].
+- Do not explain the HOW (this is already documented by your code and documenting the obvious is considered a defect).
+- Explain the WHY. Add a "to" in your documentation line to force yourself to explain the reasonning (e.g. "`<THE WHAT> to <THE TO>`").
+
+### Python
+
+Development follows the official guide to:
+
+- Style Guide for Python Code (PEP 8)[^5]
+  - The use of an IDE like [PyCharm](https://www.jetbrains.com/pycharm/) helps to write compliant code easily
+- Consider [setuptools](https://pythonhosted.org/an_example_pypi_project/setuptools.html) for packaging
+- If you want to add a Python microservice to the mix, consider [pyinstaller](https://github.com/pyinstaller/pyinstaller) on Alpine to achieve small image sizes
+
+[^1]: [https://martinfowler.com/bliki/CodeOwnership.html](https://martinfowler.com/bliki/CodeOwnership.html)
+
+[^2]: [https://go.dev/doc/effective_go](https://go.dev/doc/effective_go)
+
+[^3]: [https://github.com/golang/go/wiki/CodeReviewComments](https://github.com/golang/go/wiki/CodeReviewComments)
+
+[^4]: [https://github.com/golang/go/wiki/CodeReviewComments#comment-sentences](https://github.com/golang/go/wiki/CodeReviewComments#comment-sentences)
+
+[^5]: [https://www.python.org/dev/peps/pep-0008/](https://www.python.org/dev/peps/pep-0008/)
