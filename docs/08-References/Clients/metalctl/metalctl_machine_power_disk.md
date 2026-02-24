@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_machine_power_disk
 title: metalctl_machine_power_disk
-sidebar_position: 64
+sidebar_position: 65
 ---
 
 ## metalctl machine power disk

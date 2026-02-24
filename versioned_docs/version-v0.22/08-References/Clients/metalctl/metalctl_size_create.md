@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_size_create
 title: metalctl_size_create
-sidebar_position: 114
+sidebar_position: 115
 ---
 
 ## metalctl size create

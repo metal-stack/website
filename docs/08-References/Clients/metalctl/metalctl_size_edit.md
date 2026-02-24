@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_size_edit
 title: metalctl_size_edit
-sidebar_position: 117
+sidebar_position: 118
 ---
 
 ## metalctl size edit

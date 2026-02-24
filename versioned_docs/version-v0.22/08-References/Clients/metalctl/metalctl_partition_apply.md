@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_partition_apply
 title: metalctl_partition_apply
-sidebar_position: 96
+sidebar_position: 97
 ---
 
 ## metalctl partition apply

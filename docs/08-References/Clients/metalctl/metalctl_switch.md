@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_switch
 title: metalctl_switch
-sidebar_position: 139
+sidebar_position: 140
 ---
 
 ## metalctl switch

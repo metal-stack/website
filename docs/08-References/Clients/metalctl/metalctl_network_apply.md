@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_network_apply
 title: metalctl_network_apply
-sidebar_position: 78
+sidebar_position: 79
 ---
 
 ## metalctl network apply

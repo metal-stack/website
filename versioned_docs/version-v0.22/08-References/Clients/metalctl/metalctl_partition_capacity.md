@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_partition_capacity
 title: metalctl_partition_capacity
-sidebar_position: 97
+sidebar_position: 98
 ---
 
 ## metalctl partition capacity

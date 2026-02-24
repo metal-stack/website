@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_update_do
 title: metalctl_update_do
-sidebar_position: 165
+sidebar_position: 166
 ---
 
 ## metalctl update do

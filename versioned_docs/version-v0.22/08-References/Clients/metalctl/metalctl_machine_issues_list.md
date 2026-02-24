@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_machine_issues_list
 title: metalctl_machine_issues_list
-sidebar_position: 57
+sidebar_position: 58
 ---
 
 ## metalctl machine issues list

@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_machine_lock
 title: metalctl_machine_lock
-sidebar_position: 59
+sidebar_position: 60
 ---
 
 ## metalctl machine lock

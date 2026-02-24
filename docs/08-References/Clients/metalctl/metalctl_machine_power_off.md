@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_machine_power_off
 title: metalctl_machine_power_off
-sidebar_position: 65
+sidebar_position: 66
 ---
 
 ## metalctl machine power off

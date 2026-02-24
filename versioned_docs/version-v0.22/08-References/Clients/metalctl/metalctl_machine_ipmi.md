@@ -88,5 +88,6 @@ metalctl machine ipmi [<machine ID>] [flags]
 ### SEE ALSO
 
 * [metalctl machine](./metalctl_machine.md)	 - manage machine entities
+* [metalctl machine ipmi chassis-list](./metalctl_machine_ipmi_chassis-list.md)	 - display ipmi machines grouped by chassis serial
 * [metalctl machine ipmi events](./metalctl_machine_ipmi_events.md)	 - display machine hardware events
 

@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_machine_ipmi_events
 title: metalctl_machine_ipmi_events
-sidebar_position: 55
+sidebar_position: 56
 ---
 
 ## metalctl machine ipmi events
