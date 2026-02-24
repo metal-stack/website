@@ -17,9 +17,9 @@ The used framework to generate docs is [docusaurus](https://docusaurus.io).
 │   ├── 2024
 │   └── 2025
 ├── docs                    # docs folder split by different scopes
-│   ├── contributing        # guidelines for contributors
-│   ├── docs                # documentation pages
-│   ├── references          # auto-generated references of components and apis
+│   ├── 08-References       # auto-generated references of components and apis
+├── community               # guidelines for contributors and information about the community
+│   ├── 04-Proposals        # metal-stack enhancement proposals
 ├── scripts                 # custom scripts (e.g: resolving component documentation)
 ├── src                     # custom routes and react
 │   ├── components
