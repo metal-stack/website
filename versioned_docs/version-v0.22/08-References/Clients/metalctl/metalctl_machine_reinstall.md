@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_machine_reinstall
 title: metalctl_machine_reinstall
-sidebar_position: 69
+sidebar_position: 70
 ---
 
 ## metalctl machine reinstall

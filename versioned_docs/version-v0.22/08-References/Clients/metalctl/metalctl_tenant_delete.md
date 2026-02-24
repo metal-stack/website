@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_tenant_delete
 title: metalctl_tenant_delete
-sidebar_position: 158
+sidebar_position: 159
 ---
 
 ## metalctl tenant delete

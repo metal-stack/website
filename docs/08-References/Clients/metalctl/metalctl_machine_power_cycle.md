@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_machine_power_cycle
 title: metalctl_machine_power_cycle
-sidebar_position: 63
+sidebar_position: 64
 ---
 
 ## metalctl machine power cycle

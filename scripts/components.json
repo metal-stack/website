@@ -7,7 +7,7 @@
         "releasePath": "binaries.metal-stack.metalctl.version",
         "repo": "metal-stack/metalctl",
         "branch": "main",
-        "tag": "v0.18.4",
+        "tag": "v0.18.5",
         "position": 1,
         "withDocs": true
       }
@@ -153,7 +153,7 @@
         "releasePath": "docker-images.metal-stack.control-plane.metal-metrics-exporter.tag",
         "repo": "metal-stack/metal-metrics-exporter",
         "branch": "main",
-        "tag": "v0.3.0",
+        "tag": "v0.3.1",
         "position": 1,
         "withDocs": false
       },
@@ -235,7 +235,7 @@
         "releasePath": "docker-images.metal-stack.gardener.gardener-extension-audit.tag",
         "repo": "metal-stack/gardener-extension-audit",
         "branch": "main",
-        "tag": "v0.5.0",
+        "tag": "v0.5.1",
         "position": 1,
         "withDocs": false
       },

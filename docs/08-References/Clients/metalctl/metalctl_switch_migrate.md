@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_switch_migrate
 title: metalctl_switch_migrate
-sidebar_position: 147
+sidebar_position: 148
 ---
 
 ## metalctl switch migrate

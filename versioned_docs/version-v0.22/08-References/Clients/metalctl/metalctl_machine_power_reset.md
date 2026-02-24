@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_machine_power_reset
 title: metalctl_machine_power_reset
-sidebar_position: 68
+sidebar_position: 69
 ---
 
 ## metalctl machine power reset

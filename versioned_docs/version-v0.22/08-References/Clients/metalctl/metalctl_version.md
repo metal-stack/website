@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_version
 title: metalctl_version
-sidebar_position: 166
+sidebar_position: 167
 ---
 
 ## metalctl version
