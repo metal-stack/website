@@ -8,7 +8,7 @@ authors: [gerrit91]
 type: "blog"
 tags:
   - news
-  - conferences
+  - events
 ---
 
 First and foremost, I would like to say that, once again, this year's journey to Brussels was an absolute bliss. Talking to this number of people in such a short period of time is truly overwhelming. It brings you in touch with the open-source community in a way that would never seem possible through the internet. And it makes us thankful to be able to reach out to you in this place.

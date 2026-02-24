@@ -8,6 +8,7 @@
 # non-migration related redirects
 https://docs.metal-stack.io https://metal-stack.io/docs/home 301!
 https://docs.metal-stack.io/* https://metal-stack.io/:splat 301!
+/blog/tags/conferences /blog/tags/events
 /docs /docs/home
 
 # migrate community out from docs
