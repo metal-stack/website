@@ -1,0 +1,106 @@
+---
+slug: /roadmap
+title: Roadmap
+sidebar_position: 3
+---
+
+# Roadmap
+
+For metal-stack we share a [Github board](https://github.com/orgs/metal-stack/projects/37) that displays our roadmap. It gives a rough overview over our development focus.
+
+If you have ideas to improve metal-stack, please suggest your thoughts on the [discussions page](https://github.com/metal-stack/releases/discussions) in the releases repository.
+
+## Planning Meetings
+
+Public planning meetings are held **biweekly** on **odd calendar weeks** from **14:00 to 14:30** (Berlin/Europe timezone) on Microsoft Teams. The purpose is to provide an overview of our current projects and priorities, as well as to discuss new topics and issues within the group.
+
+export function PlanningMeetingDatesTable() {
+  const today = new Date();
+  const dayOfWeek = today.getDay();
+
+  let daysUntilMonday = 0;
+  switch (dayOfWeek) {
+    case 0:
+      daysUntilMonday = 1;
+      break;
+    case 1:
+      daysUntilMonday = 0;
+      break;
+    default:
+      daysUntilMonday = 8 - dayOfWeek;
+  }
+
+  const nextMonday = new Date();
+  nextMonday.setDate(nextMonday.getDate() + daysUntilMonday)
+
+  let onejan = new Date(today.getFullYear(), 0, 1);
+  let week = Math.ceil((((nextMonday.getTime() - onejan.getTime()) / 86400000) + onejan.getDay() + 1) / 7);
+
+  if (week % 2 === 0) {
+    nextMonday.setDate(nextMonday.getDate() + 7)
+  }
+
+  const blacklist = [
+    new Date('2025-12-29'),
+  ]
+
+  const amount = 8
+  const dates = [];
+
+  for (let i = 0; i < amount; i++) {
+    const nextDate = new Date(nextMonday);
+    nextDate.setDate(nextDate.getDate() + (i * 14))
+
+    if (blacklist.find(item => {return item.toDateString() == nextDate.toDateString()}) !== undefined ) {
+      continue
+    }
+
+    dates.push(nextDate.toDateString())
+  }
+
+  return (
+    <table>
+      <thead>
+        <tr>
+          <th style={{textAlign: 'left'}}>Date</th>
+          <th style={{textAlign: 'left'}}>Time</th>
+          <th style={{textAlign: 'left'}}>Link</th>
+        </tr>
+      </thead>
+      <tbody>
+        {dates.map((date, index) => (
+          <tr>
+            <td key={index}>{date}</td>
+            <td >14:00 – 14:30</td>
+            <td><a href="https://teams.microsoft.com/l/meetup-join/19%3ameeting_ZTVmNWFkYjYtMzVmYi00ZTMxLTk5ZTUtMGFjYjU2OTk0MjQz%40thread.v2/0?context=%7b%22Tid%22%3a%22f9d9b921-8f78-466d-95fd-4495e73d8d65%22%2c%22Oid%22%3a%228ac2a791-e637-4a90-8505-0a1ee175ebfc%22%7d" target="_blank">Join Link</a></td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )
+}
+
+<PlanningMeetingDatesTable />
+
+Our [development planning board](https://github.com/orgs/metal-stack/projects/34) can be found on GitHub.
+
+[//]: <> (The C025PB1EUKC in the slack url references the #devs channel.)
+If you want to get an invitation to the event, please drop us a line on our [Slack channel](https://metal-stack.slack.com/archives/C025PB1EUKC).
+
+Planning meetings are currently not recorded. The meetings are held either in English or German depending on the attendees.
+
+:::info
+Note that anyone can contribute to metal-stack without participating in planning meetings. However, if you want to speed up the review process for your requirements, it might be helpful to attend the meetings.
+:::
+
+### Meeting Agenda
+
+Here is the agenda that we generally want to follow in a planning meeting:
+
+- Possibility to bring up news that are interesting for every developer of the metal-stack org
+- Check `Done` column and archive cards
+  - Attendees have the chance to briefly present achievements if they want
+- Check the `In Progress` column and discuss whether these tasks are still worked on, there were significant blockers or they can be lower-prioritized
+- Check new issues labelled with `triage` and prioritize them
+- Allow attendees to bring up issues and prioritize them
+  - Attendees have the chance to briefly present these new issues

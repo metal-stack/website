@@ -17,9 +17,9 @@ The used framework to generate docs is [docusaurus](https://docusaurus.io).
 │   ├── 2024
 │   └── 2025
 ├── docs                    # docs folder split by different scopes
-│   ├── contributing        # guidelines for contributors
-│   ├── docs                # documentation pages
-│   ├── references          # auto-generated references of components and apis
+│   ├── 08-References       # auto-generated references of components and apis
+├── community               # guidelines for contributors and information about the community
+│   ├── 04-Proposals        # metal-stack enhancement proposals
 ├── scripts                 # custom scripts (e.g: resolving component documentation)
 ├── src                     # custom routes and react
 │   ├── components
@@ -173,7 +173,7 @@ The `tag` property will be updated automatically from the release-vector file.
 You create a new version with:
 
 ```bash
-bun run docusaurus docs:version v0.21.6
+bun run docusaurus docs:version v0.22
 ```
 
 Now, the new version will be create and the latest files will be copied to the "`versioned`" folders.
