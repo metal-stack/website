@@ -123,7 +123,7 @@ const config: Config = {
           type: "doc",
           label: "Docs",
           position: "left",
-          docId: "docs/home",
+          docId: "home",
         },
         {
           label: "Community",

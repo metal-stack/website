@@ -2,7 +2,7 @@
 import axios from "axios";
 const fs = require('fs');
 
-const releaseNotesPath = "docs/docs/07-Release Notes"
+const releaseNotesPath = "docs/07-Release Notes"
 
 const gitHubClient = axios.create({
   baseURL: "https://api.github.com",
