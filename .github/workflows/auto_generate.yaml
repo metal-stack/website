@@ -29,14 +29,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # - name: Push
-      #   run: |
-      #     bun run optimize:svg
+      - name: Push
+        run: |
+          bun run optimize:svg
 
-      #     if ! git diff --exit-code; then
-      #       git config --global user.name "auto-build"
-      #       git config --global user.email "info@metal-stack.io"
-      #       git add .
-      #       git commit -m "Auto generate"
-      #       git push
-      #     fi
+          if ! git diff --exit-code; then
+            git config --global user.name "auto-build"
+            git config --global user.email "info@metal-stack.io"
+            git add .
+            git commit -m "Auto generate"
+            git push
+          fi
