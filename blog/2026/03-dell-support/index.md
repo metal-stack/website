@@ -3,7 +3,7 @@ title: Support for Dell Servers
 shortDescription:
 watermark: "Blog"
 date: 2026-03-10T10:00:00+02:00
-description: "With release v0.22.6, metal-stack now supports Dell server hardware, providing greater flexibility and vendor independence for every metal-stack environment."
+description: "With release v0.22.6, metal-stack now supports Dell server hardware."
 authors: [simcod]
 type: "blog"
 tags:
