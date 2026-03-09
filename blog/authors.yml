@@ -60,3 +60,12 @@ qrnvttrl:
   page: true
   socials:
     github: qrnvttrl
+
+simcod:
+  name: Simon Mayer
+  title: Junior Cloud Native Engineer @ x-cellent technologies GmbH
+  url: https://github.com/simcod
+  image_url: https://github.com/simcod.png
+  page: true
+  socials:
+    github: simcod
