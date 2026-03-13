@@ -51,4 +51,4 @@ route since it did not allow us to automate the setup all that well.
 ## Getting started
 
 Head over to the [`cluster-api-provider-metal-stack`](https://github.com/metal-stack/cluster-api-provider-metal-stack)
-and follow the setup instructions defined in `DEVELOPMENT.md` to try it out for yourselves.
+and follow the setup instructions in `DEVELOPMENT.md` to try it out yourself.
