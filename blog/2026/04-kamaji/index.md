@@ -1,5 +1,5 @@
 ---
-title: Kamaji's multi-tenant control-plane on top of metal-stack
+title: Kamaji support for the mini-lab
 shortDescription:
 watermark: 'Blog'
 date: 2026-03-16T10:00:00+02:00
