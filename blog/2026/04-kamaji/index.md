@@ -2,7 +2,7 @@
 title: Kamaji's multi-tenant control-plane on top of metal-stack
 shortDescription:
 watermark: 'Blog'
-date:
+date: 2026-03-16T10:00:00+02:00
 description: A showcase of kamaji on top of metal-stack using the mini-lab
 authors: [mac641, ma-hartma]
 type: 'blog'
