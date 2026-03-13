@@ -12,21 +12,25 @@ tags:
   - mini-lab
 ---
 
-After getting to know the Kamaji devs at [FOSDEM](https://metal-stack.io/blog/2026/02-fosdem-recap), the idea grew to
-explore Kamaji on top of metal-stack. Of course, a first approach had to be made within our mini-lab.
+We are happy to announce that `mini-lab`/`capi-lab` supports _Kamaji_ now. 🥳
 
-## What is Kamaji?
+After getting to know the _Kamaji_ devs at [FOSDEM](https://metal-stack.io/blog/2026/02-fosdem-recap), the idea has been
+grown to explore _Kamaji_ on top of metal-stack. Of course, a first approach had to be made within our mini-lab. In this
+blog post we are going to give you some insights about the _Kamaji_ in the `mini-lab`/`capi-lab`.
+
+## What is _Kamaji_?
 
 <!-- ai -->
 
-Kamaji is a Control Plane Manager for Kubernetes, designed to simplify how you run and manage Kubernetes clusters.
-Instead of deploying control planes on dedicated machines, Kamaji runs them as pods within a single management cluster,
-cutting down on operational overhead and costs. It supports multi-tenancy, high availability, and integrates seamlessly
-with Cluster API, making it ideal for private clouds, public clouds, bare metal, and edge computing. With Kamaji, you
-get full control over your Kubernetes infrastructure while keeping operations streamlined and scalable. It’s built on
-upstream Kubernetes, ensuring compatibility and reliability for production workloads.
+_Kamaji_ is a Control Plane Manager for Kubernetes, designed to simplify how you run and manage Kubernetes clusters.
+Instead of deploying control planes on dedicated machines, _Kamaji_ runs them as pods within a single management
+cluster, cutting down on operational overhead and costs. It supports multi-tenancy, high availability, and integrates
+seamlessly with Cluster API, making it ideal for private clouds, public clouds, bare metal, and edge computing.
 
 <!-- /ai -->
+
+For further info, feel free to check out their [website](https://kamaji.clastix.io) and
+[GitHub](https://github.com/clastix/kamaji).
 
 ## Architecture
 
