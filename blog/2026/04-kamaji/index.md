@@ -30,12 +30,21 @@ upstream Kubernetes, ensuring compatibility and reliability for production workl
 
 ## Architecture
 
-Since Kamaji supports Cluster-API, we noticed that our
+Since _Kamaji_ supports Cluster-API, we noticed that our
 [`cluster-api-provider-metal-stack`](https://github.com/metal-stack/cluster-api-provider-metal-stack) and especially the
-`capi-lab`, was the best starting point. So we got to work and designed a simple architectural diagram:
+`capi-lab`, was the best starting point. Below you can find a simple architectural diagram to give you an overview how
+_Kamaji_ is used in the `mini-lab`/`capi-lab`:
 
 ![](./overview-kamaji.drawio.svg)
 
-Compared to the mini-lab, the Kamaji flavor in the `capi-lab` leaves every component as is but outsources the control
-plane capabilities of metal-stack to the Kamaji Management Cluster. Here you are able to spawn tenants at will with just
-one `make` command.
+Compared to the mini-lab, the _Kamaji_ flavor in the `capi-lab` leaves every component as is but outsources the control
+plane capabilities of metal-stack to the _Kamaji_ Management Cluster. Here you are able to spawn tenants at will with
+just one `make` command.
+
+Of course, you can also manually create and join machines in the `mini-lab` and deploy _Kamaji_. We did not take that
+route since it did not allow us to automate the setup all that well.
+
+## Getting started
+
+Head over to the [`cluster-api-provider-metal-stack`](https://github.com/metal-stack/cluster-api-provider-metal-stack)
+and follow the setup instructions defined in `DEVELOPMENT.md` to try it out for yourselves.
