@@ -8,36 +8,22 @@ sidebar_position: 2
 
 This document describes the way we want to contribute code to the projects of metal-stack, which are hosted on [github.com/metal-stack](https://github.com/metal-stack).
 
-The document is meant to be understood as a general guideline for contributions, but not as burden to be placed on a developer. Use your best judgment when contributing code. Try to be as clean and precise as possible when writing code and try to make your code as maintainable and understandable as possible for other people.
+The document is meant to be understood as a general guideline for contributions, but not as a burden to be placed on a developer. Use your best judgment when contributing code. Try to be as clean and precise as possible when writing code and try to make your code as maintainable and understandable as possible for other people.
 
-Even if it should go without saying, we live an open culture of discussion, in which everybody is welcome to participate. We treat every contribution with respect and objectiveness with the general aim to write software of quality.
+Even if it should go without saying, we live in an open culture of discussion, in which everybody is welcome to participate. We treat every contribution with respect and objectiveness with the general aim of writing software of quality.
 
-If you want, feel free to propose changes to this document in a pull request.
+If you want, feel free to propose changes to this document in a [pull request](https://github.com/metal-stack/website/pulls).
 
 ## How Can I Contribute?
 
-Open a Github issue in the project you would like to contribute. Within the issue, your idea can be discussed. It is also possible to directly create a pull request when the set of changes is relatively small.
+There are different approaches to suggest and contribute changes to metal-stack depending on their size.
 
-When opening an issue please consider the following aspects:
+- **Tiny changes**: Directly create a pull request in the corresponding repository.
+- **Small to medium-sized changes**: Open a GitHub issue for the project to which you would like to contribute. Your idea can then be discussed within the issue. The pull request will reference and close this issue.
+- **Big changes**: These would affect multiple repositories and propose significant architectural changes or changes to the project. In this case, consider writing a [Metal Enhancement Proposal (MEP)](./04-Proposals/index.md).
+- **General feature requests**: Please suggest your thoughts and ideas on the [discussions page](https://github.com/metal-stack/releases/discussions).
 
-1. Create a meaningful issue describing the WHY? of your contribution.
-1. Try to set appropriate labels to the issue. For example, attach the `triage` label to your issue if you want it to be discussed in the next [planning meeting](./03-roadmap.mdx#planning-meetings). It might be useful to attend the meeting if you want to emphasize it being worked on.
-
-### Pull Requests
-
-The process described here has several goals:
-
-- Maintain quality
-- Enable a sustainable system to review contributions
-- Enable documented and reproducible addition of contributions
-
-1. Create a repository fork within the context of that issue. Members of the organization may work on the repository directly without a fork, which allows building development artifacts more easily.
-1. Develop, document and test your contribution (try not to solve more than one issue in a single pull request).
-1. Create a Draft Pull Request to the repository's main branch.
-1. Create a meaningful description of the pull request or reference the related issue. The pull request template explains what the content should include, please read it.
-1. Ask for merging your contribution by removing the draft marker. Repository maintainers (see [Code Ownership](#code-ownership)) are notified automatically, but you can also reach out to people directly on Slack if you want a review from a specific person.
-
-## Usage of Generative AI Tools
+### Usage of Generative AI Tools
 
 The metal-stack project generally accepts contributions that make use of generative AI tools. We believe that AI can increase productivity and improve quality when developers use it *consciously*. Using this technology unconsciously, however, comes with risks for the project and the community, which is why we expect contributors to respect the following aspects for AI-generated contents:
 
@@ -49,15 +35,48 @@ The metal-stack project generally accepts contributions that make use of generat
 - **Code Understanding**: We expect full understanding of the contributed code. The code must have been executed and tested in some way by the contributor. The contribution guideline's overall style and design choices must be followed.
 - **Quality over Quantity**: It is very easy to generate a lot of code with the help of AI in a very short amount of time. By contrast, reviewing large pull requests takes exponentially longer as they grow in size. Therefore, contributions are expected to be minimal. Large changes must be discussed in issues as usual and discussed in the community.
 
-## General Objectives
+### Pull Requests
 
-This section contains language-agnostic topics that all metal-stack projects are trying to follow.
+Please consider the following aspects when you open an issue or pull request:
+
+1. Create a meaningful description _why_ your contribution is needed.
+1. Try to set appropriate labels. For example, attach the `triage` label to your issue if you want it to be discussed in the next [planning meeting](./03-roadmap.mdx#planning-meetings). It might be useful to attend the meeting if you want to emphasize it being worked on.
+
+Regarding pull requests there are some additional guidelines to follow:
+
+1. Create a repository fork within the context of that issue. Members of the organization may work on the repository directly without a fork, which allows building development artifacts more easily.
+1. Develop, document and test your contribution. Try not to solve more than one issue in a single pull request.
+1. Create a Draft Pull Request to the repository's main branch if you do not want to directly request a review from a code owner. It makes sense not to hold back your commits such that the community can notice there is progress going on.
+1. Create a meaningful description of the pull request and reference related issues if there are any. The pull request template explains what the content should include, please read it.
+1. Ask for merging your contribution by removing the draft marker. Repository maintainers (see [Code Ownership](#code-ownership)) are notified automatically, but you can also reach out to people directly if you want a review from a specific person. You can do so by mentioning them in a comment or reaching out to them on our Slack channel.
+1. In case you did not hear back from us within two weeks, add the `triage` label and participate in the next [planning meeting](./03-roadmap.mdx#planning-meetings).
 
 ### Code Ownership
 
-The code base is owned by the entire team and every member is allowed to contribute changes to any of the projects. This is considered as collective code ownership[^1].
+As a matter of fact, there are persons in a project, which already have experience with the sources. These are defined directly in the repository's [CODEOWNERS](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners) file. If you want to merge changes into the `main` branch, it is advisable to include code owners into the process of discussion and merging.
 
-As a matter of fact, there are persons in a project, which already have experience with the sources. These are defined directly in the repository's [CODEOWNERS](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners) file. If you want to merge changes into the master branch, it is advisable to include code owners into the process of discussion and merging.
+The responsibilities of code owners are:
+
+1. Reviewing pull requests.
+1. Participate and respond to issues and discussions.
+1. Issue refinement regarding description, type, labels and project state.
+1. Cleanup of [stale issues](#stale-issues).
+1. Take responsibility for the [release integration of the artifacts](./05-release-flow.md). Respect the different needs of the community.
+1. Keep an eye that documentation is up-to-date. This includes the [website](https://github.com/metal-stack/website) repository, too.
+
+There should always be at least two code owners for a repository.
+
+#### Stale Issues
+
+Code owners are expected to take care of the repository issues and pull requests. They decide whether they are still relevant for the project or if they can be closed.
+
+In general, issues should not be older than two years as it is unlikely they will ever be implemented.
+
+There can always be exceptions like long-standing umbrella issues, but if an issue receives no activity after a reasonable period of time, it should be closed and instead be re-opened. Otherwise it pollutes the planning dashboard and prevents the community from finding relevant issues.
+
+## General Objectives
+
+This section contains language-agnostic topics that all metal-stack projects are trying to follow.
 
 ### Microservices
 
@@ -73,9 +92,9 @@ We are generally open to write code in any language that fits best to the functi
 
 ### Artifacts
 
-Artifacts are always produced by a CI process (i.e. Github Actions).
+Artifacts are always produced by a CI process (i.e. GitHub Actions).
 
-Container images and [OCI artifacts](https://github.com/opencontainers/image-spec) are published on the Github Container Registry of the metal-stack organization. Please consider using Github Actions workflows utilizing similar actions as the other repositories (e.g. [build-push-action](https://github.com/docker/build-push-action), ...)
+Container images and [OCI artifacts](https://github.com/opencontainers/image-spec) are published on the GitHub Container Registry of the metal-stack organization. Please consider using GitHub Actions workflows utilizing similar actions as the other repositories (e.g. [build-push-action](https://github.com/docker/build-push-action), ...)
 
 For OCI images, we usually utilize [oras](https://github.com/oras-project/oras) for pushing the artifact to the registry.
 
@@ -89,69 +108,71 @@ The preferred way to implement an API is using [Connect RPC](https://connectrpc.
 
 The metal-api does still have a [Swagger-based](https://swagger.io/) API exposing traditional REST APIs for end-users. This API framework will become deprecated so it should not be used anymore for new projects.
 
-#### Versioning
+### Versioning
 
 Artifacts are versioned by tagging the respective repository with a tag starting with the letter `v`. After the letter, there stands a valid [semantic version](https://semver.org/).
 
+Generally, we apply forward fixes and do not backport features or fixes to previous artifact releases. For certain repositories consider using pre-releases as described in the [release flow](./05-release-flow.md#pre-releases).
+
 ### Documentation
 
-In order to make it easier for others to understand a project, we document general information and usage instructions in a `README.md` in any project.
+In order to make it easier for others to understand a repository, we document general information and usage instructions in a `README.md`. It must contain the purpose of the repository. Ideally, the `README.md` targets new users and should describe how to use it and how it can be developed. For complex development setups consider a dedicated documentation in a `DEVELOPMENT.md`.
 
-In addition to that, we document a microservice in the [docs](https://github.com/metal-stack/docs) repository. The documentation should contain the reasoning why this service exists and why it was being implemented the way it was being implemented. The aim of this procedure is to reduce the time for contributors to comprehend architectural decisions that were made during the process of writing the software and to clarify the general purpose of this service in the entire context of the software.
+Documentation should be as close to the source code as possible such that it can be easily maintained along with the pull requests. Parts of this information can be made available in the reference section of our central metal-stack.io documentation.
 
-## Guidelines
+If the documentation spans across multiple repositories, touches architectural aspects or interplay between components, it should be contributed to the [website repository](https://github.com/metal-stack/website). Code owners can use the `requires docs update` label to indicate when a change in a repository requires a general update on the website.
+
+## Language Guidelines
 
 This chapter describes general guidelines on how to develop and contribute code for a certain programming language.
 
-### Golang
+### Comments
 
-Development follows the official guide to:
+Just a few words about using comments in programming languages: Write code that is understandable without comments. There can always be exceptions to this rule, e.g. the solution is not intuitive, something is really complex, etc.
 
-- Write clear, idiomatic Go code[^2]
-- Learn from mistakes that must not be repeated[^3]
-- Apply appropriate names to your artifacts:
-  - [https://go.dev/talks/2014/names.slide](https://go.dev/talks/2014/names.slide)
-  - [https://go.dev/blog/package-names](https://go.dev/blog/package-names)
-  - [https://go.dev/doc/effective_go#names](https://go.dev/doc/effective_go#names)
-- Enable others to understand the reasoning of non-trivial code sequences by applying a meaningful documentation.
+Of course, public interfaces should be documented, which often happens in the form of code comments.
 
-#### Development Decisions
+### Dependencies
 
-- **Dependency Management** by using Go modules
-- **Build and Test Automation** by using [GNU Make](https://man7.org/linux/man-pages/man1/make.1p.html).
-- **APIs** should consider using [buf](https://github.com/bufbuild/buf)
+Only use dependencies when they are really necessary. When introducing a new dependency, make sure the dependency is maintained and trustworthy.
 
-#### Libraries
+Dependencies have to be updated regularly.
 
-metal-stack maintains libraries that you can utilize in your project in order to unify common behavior. The main project that does this is called [metal-lib](https://github.com/metal-stack/metal-lib).
+### Makefile
 
-#### Error Handling with Generated Swagger Clients
+Provide common tasks for a repository by using [GNU Make](https://man7.org/linux/man-pages/man1/make.1p.html) even if the repository's preferred language choice includes common ways to run tasks (e.g. `npm run`, `go generate`, ...).
 
-From the server-side you should ensure that you are returning the common error json struct in case of an error as defined in the `metal-lib/httperrors`. Ensure you are using `go-restful >= v2.9.1` and `go-restful-openapi >= v0.13.1` (allows default responses with error codes other than 200).
+This creates a unified experience for using repositories in the metal-stack landscape. It is available on nearly all Linux distributions and provides newcomers with easy access to repositories.
 
-### Documentation
+Tasks that are usually contained in a `Makefile` are artifact builds, code generation, dev environment spinup, etc.
 
-We want to share knowledge and keep things simple. If things cannot kept simple we want to enable everybody to understand them by:
+Try to keep the `Makefile` as minimal as possible.
 
-- Document in short sentences[^4].
-- Do not explain the HOW (this is already documented by your code and documenting the obvious is considered a defect).
-- Explain the WHY. Add a "to" in your documentation line to force yourself to explain the reasonning (e.g. "`<THE WHAT> to <THE TO>`").
+### Go
 
-### Python
+Write clear, idiomatic Go code. Here are some useful links to look up what this means:
 
-Development follows the official guide to:
+- [Effective Go](https://go.dev/doc/effective_go)
+- [Code review comments](https://go.dev/wiki/CodeReviewComments)
+- [Package Names](https://go.dev/blog/package-names)
 
-- Style Guide for Python Code (PEP 8)[^5]
-  - The use of an IDE like [PyCharm](https://www.jetbrains.com/pycharm/) helps to write compliant code easily
-- Consider [setuptools](https://pythonhosted.org/an_example_pypi_project/setuptools.html) for packaging
-- If you want to add a Python microservice to the mix, consider [pyinstaller](https://github.com/pyinstaller/pyinstaller) on Alpine to achieve small image sizes
+In order to unify common behavior, there are some libraries to consider using:
 
-[^1]: [https://martinfowler.com/bliki/CodeOwnership.html](https://martinfowler.com/bliki/CodeOwnership.html)
+- [metal-lib](https://github.com/metal-stack/metal-lib): For common microservice behavior like auditing, health checks, test helpers, ...
+- [v](https://github.com/metal-stack/v): For version information of an application.
 
-[^2]: [https://go.dev/doc/effective_go](https://go.dev/doc/effective_go)
+### JavaScript
 
-[^3]: [https://github.com/golang/go/wiki/CodeReviewComments](https://github.com/golang/go/wiki/CodeReviewComments)
+Prefer [TypeScript](#typescript) over JavaScript.
 
-[^4]: [https://github.com/golang/go/wiki/CodeReviewComments#comment-sentences](https://github.com/golang/go/wiki/CodeReviewComments#comment-sentences)
+### TypeScript
 
-[^5]: [https://www.python.org/dev/peps/pep-0008/](https://www.python.org/dev/peps/pep-0008/)
+- The runtime and package manager of choice is [bun](https://bun.com/).
+- For code formatting use [prettier](https://prettier.io/) and add a `.prettierrc.json` to the repository.
+  - Activate automatic formatting on save.
+- Prefer [strict mode](https://www.typescriptlang.org/tsconfig/#strict).
+- Especially [keep your dependencies minimal](#dependencies).
+
+### Bash
+
+Try not to use bash scripts, especially not for bigger tasks. It turns out they are really hard to maintain and to understand. In sum, they must not be an integral part of a repository, meaning you should always be able to delete them without breaking substantial features of the project (including builds, prefer a [Makefile](#makefile)).
