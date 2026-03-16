@@ -6,22 +6,20 @@
 version: 2
 updates:
   - package-ecosystem: "bun"
-    open-pull-requests-limit: 0 # limit does not apply for security PRs
     directory: "/"
     schedule:
-      interval: daily
+      interval: "weekly"
     groups:
       security:
         applies-to: security-updates
         patterns:
           - "*"
+        labels:
+          - dependencies
+          - javascript
+          - triage
 
-  - package-ecosystem: "bun" # See documentation for possible values
-    directory: "/" # Location of package manifests
-    schedule:
-      interval: "weekly"
-    groups:
-      docusaurus-dependencies: # docusaurus and critical updates
+      docusaurus-dependencies:
         applies-to: version-updates
         patterns:
           - "@docusaurus*"
@@ -47,6 +45,15 @@ updates:
     schedule:
       interval: "monthly"
     groups:
+      security:
+        applies-to: security-updates
+        patterns:
+          - "*"
+        labels:
+          - dependencies
+          - triage
+
       actions:
+        applies-to: version-updates
         patterns:
           - "*"
