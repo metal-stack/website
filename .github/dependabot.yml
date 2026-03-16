@@ -5,7 +5,48 @@
 
 version: 2
 updates:
-  - package-ecosystem: "bun" # See documentation for possible values
-    directory: "/" # Location of package manifests
+  - package-ecosystem: "bun"
+    directory: "/"
     schedule:
       interval: "weekly"
+    groups:
+      security:
+        applies-to: security-updates
+        patterns:
+          - "*"
+
+      docusaurus-dependencies:
+        applies-to: version-updates
+        patterns:
+          - "@docusaurus*"
+          - "docusaurus-*"
+          - "react*"
+          - "@scalar/api-reference-react"
+
+      other-dependencies:
+        applies-to: version-updates
+        patterns:
+          - "*"
+        exclude-patterns:
+          - "@docusaurus*"
+          - "docusaurus-*"
+          - "react*"
+          - "@scalar/api-reference-react"
+        update-types:
+          - minor
+          - patch
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    groups:
+      security:
+        applies-to: security-updates
+        patterns:
+          - "*"
+
+      actions:
+        applies-to: version-updates
+        patterns:
+          - "*"
