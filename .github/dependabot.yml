@@ -9,3 +9,16 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
+    groups:
+      docusaurus-dependencies: # docusaurus and critical updates
+        patterns:
+          - "@docusaurus*"
+          - "docusaurus-*"
+          - "react*"
+          - "@scalar/api-reference-react"
+      other-dependencies:
+        exclude-patterns:
+          - "@docusaurus*"
+          - "docusaurus-*"
+          - "react*"
+          - "@scalar/api-reference-react"
