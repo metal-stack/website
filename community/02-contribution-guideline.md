@@ -19,28 +19,11 @@ If you want, feel free to propose changes to this document in a [pull request](h
 There are different approaches to suggest and contribute changes to metal-stack depending on their size.
 
 - **Tiny changes**: Directly create a pull request in the corresponding repository.
-- **Small changes**: Open a GitHub issue in the project you would like to contribute. Within the issue, your idea can be discussed.
-- **General feature requests**: Please suggest your thoughts on the [discussions page](https://github.com/metal-stack/releases/discussions).
-- **More technical, impactful change requests**: These would affect multiple repositories, propose bigger architectural changes or changes for end-users. In this case, consider writing a [Metal Enhancement Proposal (MEP)](./04-Proposals/index.md).
+- **Small to medium-sized changes**: Open a GitHub issue for the project to which you would like to contribute. Your idea can then be discussed within the issue. The pull request will reference and close this issue.
+- **Big changes**: These would affect multiple repositories and propose significant architectural changes or changes to the project. In this case, consider writing a [Metal Enhancement Proposal (MEP)](./04-Proposals/index.md).
+- **General feature requests**: Please suggest your thoughts and ideas on the [discussions page](https://github.com/metal-stack/releases/discussions).
 
-Please consider the following aspects when you open an issue or pull request:
-
-1. Create a meaningful description _why_ your contribution is needed.
-1. Try to set appropriate labels. For example, attach the `triage` label to your issue if you want it to be discussed in the next [planning meeting](./03-roadmap.mdx#planning-meetings). It might be useful to attend the meeting if you want to emphasize it being worked on.
-1. For pull requests: Read the template and fill out the requested fields.
-
-### Pull Requests
-
-Regarding pull requests there are some additional guidelines to follow:
-
-1. Create a repository fork within the context of that issue. Members of the organization may work on the repository directly without a fork, which allows building development artifacts more easily.
-1. Develop, document and test your contribution. Try not to solve more than one issue in a single pull request.
-1. Create a Draft Pull Request to the repository's main branch if you do not want to directly request a review from a code owner. It makes sense not to hold back your commits such that the community can notice there is progress going on.
-1. Create a meaningful description of the pull request and reference related issues if there are any. The pull request template explains what the content should include, please read it.
-1. Ask for merging your contribution by removing the draft marker. Repository maintainers (see [Code Ownership](#code-ownership)) are notified automatically, but you can also reach out to people directly if you want a review from a specific person. You can do so by mentioning them in a comment or reaching out to them on our Slack channel.
-1. In case you did not hear back from us within two weeks, add the `triage` label and participate in the next [planning meeting](./03-roadmap.mdx#planning-meetings).
-
-## Usage of Generative AI Tools
+### Usage of Generative AI Tools
 
 The metal-stack project generally accepts contributions that make use of generative AI tools. We believe that AI can increase productivity and improve quality when developers use it *consciously*. Using this technology unconsciously, however, comes with risks for the project and the community, which is why we expect contributors to respect the following aspects for AI-generated contents:
 
@@ -52,9 +35,21 @@ The metal-stack project generally accepts contributions that make use of generat
 - **Code Understanding**: We expect full understanding of the contributed code. The code must have been executed and tested in some way by the contributor. The contribution guideline's overall style and design choices must be followed.
 - **Quality over Quantity**: It is very easy to generate a lot of code with the help of AI in a very short amount of time. By contrast, reviewing large pull requests takes exponentially longer as they grow in size. Therefore, contributions are expected to be minimal. Large changes must be discussed in issues as usual and discussed in the community.
 
-## General Objectives
+### Pull Requests
 
-This section contains language-agnostic topics that all metal-stack projects are trying to follow.
+Please consider the following aspects when you open an issue or pull request:
+
+1. Create a meaningful description _why_ your contribution is needed.
+1. Try to set appropriate labels. For example, attach the `triage` label to your issue if you want it to be discussed in the next [planning meeting](./03-roadmap.mdx#planning-meetings). It might be useful to attend the meeting if you want to emphasize it being worked on.
+
+Regarding pull requests there are some additional guidelines to follow:
+
+1. Create a repository fork within the context of that issue. Members of the organization may work on the repository directly without a fork, which allows building development artifacts more easily.
+1. Develop, document and test your contribution. Try not to solve more than one issue in a single pull request.
+1. Create a Draft Pull Request to the repository's main branch if you do not want to directly request a review from a code owner. It makes sense not to hold back your commits such that the community can notice there is progress going on.
+1. Create a meaningful description of the pull request and reference related issues if there are any. The pull request template explains what the content should include, please read it.
+1. Ask for merging your contribution by removing the draft marker. Repository maintainers (see [Code Ownership](#code-ownership)) are notified automatically, but you can also reach out to people directly if you want a review from a specific person. You can do so by mentioning them in a comment or reaching out to them on our Slack channel.
+1. In case you did not hear back from us within two weeks, add the `triage` label and participate in the next [planning meeting](./03-roadmap.mdx#planning-meetings).
 
 ### Code Ownership
 
@@ -78,6 +73,10 @@ Code owners are expected to take care of the repository issues and pull requests
 In general, issues should not be older than two years as it is unlikely they will ever be implemented.
 
 There can always be exceptions like long-standing umbrella issues, but if an issue receives no activity after a reasonable period of time, it should be closed and instead be re-opened. Otherwise it pollutes the planning dashboard and prevents the community from finding relevant issues.
+
+## General Objectives
+
+This section contains language-agnostic topics that all metal-stack projects are trying to follow.
 
 ### Microservices
 
@@ -143,11 +142,11 @@ Dependencies have to be updated regularly.
 
 Provide common tasks for a repository by using [GNU Make](https://man7.org/linux/man-pages/man1/make.1p.html) even if the repository's preferred language choice includes common ways to run tasks (e.g. `npm run`, `go generate`, ...).
 
-This creates a unified to use repositories in the metal-stack landscape. It is available on almost all Linux distributions and makes the repository easier to access for new users.
+This creates a unified experience for using repositories in the metal-stack landscape. It is available on nearly all Linux distributions and provides newcomers with easy access to repositories.
 
-Usual tasks defined in a `Makefile` are artifact builds, code generation, dev environment spinup, etc.
+Tasks that are usually contained in a `Makefile` are artifact builds, code generation, dev environment spinup, etc.
 
-Try to keep them as minimal as possible.
+Try to keep the `Makefile` as minimal as possible.
 
 ### Go
 
@@ -168,7 +167,7 @@ Prefer [TypeScript](#typescript) over JavaScript.
 
 ### TypeScript
 
-- Runtime and package manager is [bun](https://bun.com/).
+- The runtime and package manager of choice is [bun](https://bun.com/).
 - For code formatting use [prettier](https://prettier.io/) and add a `.prettierrc.json` to the repository.
   - Activate automatic formatting on save.
 - Prefer [strict mode](https://www.typescriptlang.org/tsconfig/#strict).
