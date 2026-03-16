@@ -14,10 +14,6 @@ updates:
         applies-to: security-updates
         patterns:
           - "*"
-        labels:
-          - dependencies
-          - javascript
-          - triage
 
       docusaurus-dependencies:
         applies-to: version-updates
@@ -49,9 +45,6 @@ updates:
         applies-to: security-updates
         patterns:
           - "*"
-        labels:
-          - dependencies
-          - triage
 
       actions:
         applies-to: version-updates
