@@ -17,11 +17,16 @@ updates:
           - "react*"
           - "@scalar/api-reference-react"
       other-dependencies:
+        patterns:
+          - "*"
         exclude-patterns:
           - "@docusaurus*"
           - "docusaurus-*"
           - "react*"
           - "@scalar/api-reference-react"
+        update-types:
+          - minor
+          - patch
 
   - package-ecosystem: "github-actions"
     directory: "/"
