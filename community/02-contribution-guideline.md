@@ -21,7 +21,7 @@ There are different approaches to suggest and contribute changes to metal-stack 
 - **Tiny changes**: Directly create a pull request in the corresponding repository.
 - **Small to medium-sized changes**: Open a GitHub issue for the project to which you would like to contribute. Your idea can then be discussed within the issue. The pull request will reference and close this issue.
 - **Big changes**: These would affect multiple repositories and propose significant architectural changes or changes to the project. In this case, consider writing a [Metal Enhancement Proposal (MEP)](./04-Proposals/index.md).
-- **General feature requests**: Please suggest your thoughts and ideas on the [discussions page](https://github.com/metal-stack/releases/discussions).
+- **General feature requests**: Please suggest your thoughts and ideas on the [discussions page](https://github.com/orgs/metal-stack/discussions).
 
 ### Usage of Generative AI Tools
 
