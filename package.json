@@ -19,7 +19,7 @@
     "create-release-notes": "bun ./scripts/create-release-notes.js"
   },
   "dependencies": {
-    "@carbon/icons-react": "^11.76.0",
+    "@carbon/icons-react": "^11.77.0",
     "@docusaurus/core": "^3.9.2",
     "@docusaurus/plugin-content-blog": "^3.9.2",
     "@docusaurus/preset-classic": "^3.9.2",
@@ -47,7 +47,7 @@
     "lint-staged": "^16.4.0",
     "svgo": "^4.0.1",
     "typescript": "~5.9.3",
-    "yaml": "^2.8.2"
+    "yaml": "^2.8.3"
   },
   "browserslist": {
     "production": [">0.5%", "not dead", "not op_mini all"],
