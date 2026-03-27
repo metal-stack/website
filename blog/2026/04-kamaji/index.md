@@ -54,8 +54,8 @@ The final component is `CAPMS`, the Cluster API Provider for Metal Stack, which 
 ## Setup
 The setup fits in quite well with our existing [`capi-lab`](https://github.com/metal-stack/cluster-api-provider-metal-stack), since it already has a lot of the components in place that we need for _Kamaji_:
 - A [kind](https://kind.sigs.k8s.io/) cluster to run the _Kamaji_ control plane components on
-- A metal-stack partition with machines to provision **tenant clusters** on
-- `cluster-api-provider-metal-stack` with Cluster API Bootstrap Provider Kubeadm (CABPK) support to manage the lifecycle of **tenant clusters** on metal-stack
+- A metal-stack partition with machines, waiting to be used as **worker nodes** for the **tenant clusters**
+- `cluster-api-provider-metal-stack` to manage the provisioning of **tenant clusters** on metal-stack
 - Images with ignition support to join machines via `kubeadm` and `kubelet`
 
 Some rewiring was necessary to make the components work together:
@@ -65,11 +65,12 @@ The _Kamaji_ control plane components are deployed into the kind cluster with ad
 
 ### Kamaji as ControlPlaneProvider and CAPMS as InfrastructureProvider
 _Kamaji_ is deployed as a `ControlPlaneProvider` in the kind cluster, while `CAPMS` is deployed as an `InfrastructureProvider`.
-We set up the providers via `clusterctl init --control-plane kamaji --infrastructure metal-stack` and configured the necessary RBAC permissions for _Kamaji_ to be allowed to manage the **tenant clusters** via `CAPMS`.
+We set up the providers via `clusterctl init --control-plane kamaji --infrastructure metal-stack` and configured the necessary RBAC permissions for _Kamaji_ to be allowed to access the **tenant clusters** via `CAPMS`. As **metal-stack** is not a supported infrastructure provider in _Kamaji_ yet, we had to patch the _Kamaji_ provider components to allow for that. The RBAC permissions and patches will be included in an upcoming _Kamaji_ release, so that metal-stack can be used as an infrastructure provider out of the box.
+The `clusterctl init` installs the CAPI-provider, the CAPI kubeadm bootstrap provider, and the CAPI kubeadm control plane provider, which are all required for the **tenant cluster** provisioning.
 
 ### A cluster template for Kamaji tenant clusters
-Before we can spawn **tenant clusters** with _Kamaji_, we need to describe how they should look. This is done via a cluster template, which defines the configuration for the **tenant clusters**.
-The [official template](https://kamaji.clastix.io/cluster-api/control-plane-provider/) needs some adjustments to work with our setup, leading to a [custom template](https://github.com/metal-stack/cluster-api-provider-metal-stack/tree/main/config/clusterctl-templates/cluster-template-kamaji-tenant.yaml) in our [`capi-lab`](https://github.com/metal-stack/cluster-api-provider-metal-stack) repository.
+Before we can spawn **tenant clusters** with _Kamaji_, we need to define, how they should be configured. This is done with a cluster template:
+The [example template](https://kamaji.clastix.io/cluster-api/control-plane-provider/) needs some adjustments to work with our setup, leading to a [custom template](https://github.com/metal-stack/cluster-api-provider-metal-stack/tree/main/config/clusterctl-templates/cluster-template-kamaji-tenant.yaml) in our [`capi-lab`](https://github.com/metal-stack/cluster-api-provider-metal-stack) repository.
 
 ### Provisioning tenant clusters
 With the **management cluster** running and the template in place, we can now generate **tenant cluster** manifests with `clusterctl generate cluster` and apply them. _Kamaji_ will then take care of provisioning the **tenant clusters** on metal-stack via `CAPMS`.
