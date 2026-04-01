@@ -15,8 +15,8 @@ This MEP proposes a **Network Peering** feature for `metal-stack` to enable dire
 Private networks in `metal-stack` are isolated in **VRFs (Virtual Routing and Forwarding)**, ensuring multi-tenancy and security. Access to other networks is controlled by firewalls, which may introduce unnecessary overhead in certain scenarios:
 
 1. **Direct Storage Access**
-    - There is already the feature of **shared networks** that can be used in cases where traffic should only pass one firewall btw source and desination.
-    - With this new feature firewall traversal could be eliminated completly.
+    - There is already the feature of **shared networks** that can be used in cases where traffic should only pass one firewall btw source and destination.
+    - With this new feature firewall traversal could be eliminated completely.
 2. **Cluster-to-Cluster Communication**
     - Enable direct routing between private networks (e.g., Kubernetes clusters) without firewall intervention.
 3. **Zone-Aware Routing**
