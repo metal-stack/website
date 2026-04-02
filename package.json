@@ -19,7 +19,7 @@
     "create-release-notes": "bun ./scripts/create-release-notes.js"
   },
   "dependencies": {
-    "@carbon/icons-react": "^11.77.0",
+    "@carbon/icons-react": "^11.77.1",
     "@docusaurus/core": "^3.9.2",
     "@docusaurus/plugin-content-blog": "^3.9.2",
     "@docusaurus/preset-classic": "^3.9.2",
@@ -28,7 +28,7 @@
     "@scalar/api-reference-react": "^0.9.18",
     "@tailwindcss/postcss": "^4.2.2",
     "@types/semver": "^7.7.1",
-    "axios": "^1.13.6",
+    "axios": "^1.14.0",
     "clsx": "^2.0.0",
     "docusaurus-lunr-search": "^3.6.0",
     "postcss": "^8.5.8",
