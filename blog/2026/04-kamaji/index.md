@@ -2,7 +2,7 @@
 title: Kamaji flavor for the mini-lab
 shortDescription:
 watermark: "Blog"
-date: 2026-03-26T10:00:00+02:00
+date: 2026-04-02T10:00:00+02:00
 description: "A showcase of Kamaji on top of metal-stack using the mini-lab"
 authors: [mac641, ma-hartma]
 type: "blog"
