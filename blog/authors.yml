@@ -69,3 +69,21 @@ simcod:
   page: true
   socials:
     github: simcod
+
+mac641:
+  name: Marcel Arndt
+  title: Young Professional Cloud Native Consultant @ x-cellent technologies GmbH
+  url: https://github.com/mac641
+  image_url: https://github.com/mac641.png
+  page: true
+  socials:
+    github: mac641
+
+ma-hartma:
+  name: Matthias Hartmann
+  title: Junior Cloud Native Engineer @ x-cellent technologies GmbH
+  url: https://github.com/ma-hartma
+  image_url: https://github.com/ma-hartma.png
+  page: true
+  socials:
+    github: ma-hartma
