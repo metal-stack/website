@@ -40,6 +40,14 @@ const config: Config = {
 
   plugins: [
     [
+      "docusaurus-plugin-llms",
+      {
+        includeBlog: true,
+        generateLLMsTxt: true,
+        generateLLMsFullTxt: true,
+      },
+    ],
+    [
       require.resolve("./blogPluginEnhanced"),
       {
         showReadingTime: true,
