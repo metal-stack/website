@@ -42,9 +42,40 @@ const config: Config = {
     [
       "docusaurus-plugin-llms",
       {
+        id: "docs-llms-txt",
+        includeBlog: false,
+        generateLLMsTxt: true,
+        generateLLMsFullTxt: true,
+        docsDir: "docs",
+        llmsTxtFilename: "llms.txt",
+        llmsFullTxtFilename: "llms-full.txt",
+        rootContent: `This file does not contain Community resources, blog posts and metal-stack enhancement proposals (MEP). These can be found in the [Community](https://metal-stack.io/community) tab.
+
+For this, there are dedicated files following the llmstxt.org standard:
+- [llms-community.txt](https://metal-stack.io/llms-community.txt) contains links to community sections
+- [llms-community-full.txt](https://metal-stack.io/llms-community-full.txt) contains all community content in a single document
+        `,
+      },
+    ],
+    [
+      "docusaurus-plugin-llms",
+      {
+        id: "community-llms-txt",
+        title: "metal-stack Community Documentation",
+        description:
+          "Community resources and metal-stack enhancement proposals (MEP)",
         includeBlog: true,
         generateLLMsTxt: true,
         generateLLMsFullTxt: true,
+        docsDir: "community",
+        llmsTxtFilename: "llms-community.txt",
+        llmsFullTxtFilename: "llms-community-full.txt",
+        rootContent: `This file does not contain general documentation. This can be found in the [Documentation](https://metal-stack.io/docs) tab.
+
+For this, there are dedicated files following the llmstxt.org standard:
+- [llms.txt](https://metal-stack.io/llms.txt) contains links to documentation sections
+- [llms-full.txt](https://metal-stack.io/llms-full.txt) contains all documentation content in a single document
+        `,
       },
     ],
     [
