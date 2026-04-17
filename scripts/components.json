@@ -7,7 +7,7 @@
         "releasePath": "binaries.metal-stack.metalctl.version",
         "repo": "metal-stack/metalctl",
         "branch": "main",
-        "tag": "v0.18.7",
+        "tag": "v0.18.8",
         "position": 1,
         "withDocs": true
       }
@@ -235,7 +235,7 @@
         "releasePath": "docker-images.metal-stack.gardener.gardener-extension-audit.tag",
         "repo": "metal-stack/gardener-extension-audit",
         "branch": "main",
-        "tag": "v0.6.0",
+        "tag": "v0.6.1",
         "position": 1,
         "withDocs": false
       },
@@ -294,7 +294,7 @@
         "releasePath": "docker-images.metal-stack.kubernetes.duros-controller.tag",
         "repo": "metal-stack/duros-controller",
         "branch": "main",
-        "tag": "v0.12.0",
+        "tag": "v0.12.1",
         "position": 2,
         "withDocs": false
       }
