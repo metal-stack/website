@@ -10,6 +10,8 @@ const config: Config = {
     "Bring the cloud to your data center. metal-stack is an open source software that provides an API for provisioning and managing physical servers in the data center.",
   favicon: "img/favicon.ico",
 
+  staticDirectories: ['static'],
+
   // Set the production url of your site here
   url: "https://metal-stack.io",
   // Set the /<baseUrl>/ pathname under which your site is served

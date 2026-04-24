@@ -8,10 +8,7 @@ authors: [mac641, ma-hartma]
 type: "blog"
 tags:
   - architecture
-  - kamaji
-  - mini-lab
   - cluster-api
-  - cluster-api-provider-metal-stack
 ---
 
 We are happy to announce that
