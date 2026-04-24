@@ -59,6 +59,7 @@ Before adding a repository in the metal-stack org to the releases repository, it
     - When a repository is created, the metal-robot automatically creates a <repository-name>-maintainers team in our GitHub org.
     - The CODEOWNERS file should reference this team.
     - The team should contain at least two maintainers.
+    - It can also make sense to define sub-maintainer teams for specific parts of the repository. For this, teams need to be created manually by the org admin.
   - `LICENSE`
     - This usually should be MIT with "metal-stack" as authors.
   - `README.md`
@@ -70,6 +71,7 @@ Before adding a repository in the metal-stack org to the releases repository, it
   - A pull request should be required before merging (required by at least one code owner).
   - Status checks should be required to pass.
   - Force push should not be allowed on this branch.
+  - You can import [this rule template](./rule-template.json) to set the rules
 - One person from the releases maintainers has to add the repository to the metal-robot in order to pick up the releases, add them to the release vector and generate release notes.
 
 ### How-To Release a Project
