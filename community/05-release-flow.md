@@ -71,7 +71,7 @@ Before adding a repository in the metal-stack org to the releases repository, it
   - A pull request should be required before merging (required by at least one code owner).
   - Status checks should be required to pass.
   - Force push should not be allowed on this branch.
-  - You can import [this rule template](./rule-template.json) to set the rules
+  - You can import <a href="/files/ruleset-template.json" target="_blank" download="ruleset-template.json">this rule template</a> to set the rules
 - One person from the releases maintainers has to add the repository to the metal-robot in order to pick up the releases, add them to the release vector and generate release notes.
 
 ### How-To Release a Project
