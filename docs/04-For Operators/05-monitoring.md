@@ -13,7 +13,7 @@ sidebar_position: 5
 ## Logging
 
 Logs are being collected by
-[Promtail](https://grafana.com/docs/loki/latest/send-data/promtail/) and pushed
+[Grafana Alloy](https://grafana.com/docs/alloy/latest/) and pushed
 to a [Loki](https://grafana.com/docs/loki/latest/) instance running in the
 control plane. Loki is deployed in
 [monolithic mode](https://grafana.com/docs/loki/latest/setup/install/helm/install-monolithic/)
@@ -22,11 +22,21 @@ configuration parameters for the control plane in the control plane's
 [logging](https://github.com/metal-stack/metal-roles/blob/master/control-plane/roles/logging/README.md)
 role.
 
-In the partitions, Promtail is deployed inside a systemd-managed Docker
+In the partitions, Alloy is deployed inside a systemd-managed Docker
 container. Configuration parameters can be found in the partition's
-[promtail](https://github.com/metal-stack/metal-roles/blob/master/partition/roles/promtail/README.md)
-role. Which hosts Promtail collects from can be configured via the
-`prometheus_promtail_targets` variable.
+[alloy](https://github.com/metal-stack/metal-roles/blob/master/partition/roles/alloy/README.md)
+role. Which hosts Alloy collects from can be configured via the
+`prometheus_alloy_targets` variable.
+
+:::note Migrating from promtail
+
+The `promtail` role is deprecated and replaced by the `alloy` role. Refer to the
+[Migration from promtail](https://github.com/metal-stack/metal-roles/blob/master/partition/roles/alloy/README.md#migration-from-promtail)
+section of the partition alloy role's README and the
+[Migration from promtail](https://github.com/metal-stack/metal-roles/blob/master/control-plane/roles/logging/README.md#migration-from-promtail)
+section of the control-plane logging role's README for step-by-step instructions.
+
+:::
 
 ## Monitoring
 
