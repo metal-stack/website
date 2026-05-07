@@ -22,11 +22,33 @@ configuration parameters for the control plane in the control plane's
 [logging](https://github.com/metal-stack/metal-roles/blob/master/control-plane/roles/logging/README.md)
 role.
 
-In the partitions, Alloy is deployed inside a systemd-managed Docker
-container. Configuration parameters can be found in the partition's
+In the partitions, Alloy can be deployed inside a systemd-managed Docker
+container on management servers and switches. Configuration parameters can be found in the partition's
 [alloy](https://github.com/metal-stack/metal-roles/blob/master/partition/roles/alloy/README.md)
-role. Which hosts Alloy collects from can be configured via the
-`prometheus_alloy_targets` variable.
+role.
+
+### Partition Log Sources
+
+Alloy is configured through snippets that define what logs are collected. The following snippets are typically used:
+
+| Host type              | Snippet        | Description                                                                                                                           | Key labels                             |
+| ---------------------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| Leaves, spines, exits  | `journal`      | Collects logs from the systemd journal; auto-discovers both volatile (`/run/log/journal`) and persistent (`/var/log/journal`) storage | `job=systemd-journal`, `unit`, `level` |
+| Management servers     | `journal-file` | Collects logs from the persistent systemd journal at a configurable path; supports migrating cursor position from promtail            | `job=systemd-journal`, `unit`, `level` |
+| Hosts without journald | `syslog`       | Tails `/var/log/syslog`                                                                                                               | `job=syslog`                           |
+| Hosts running Docker   | `docker`       | Collects logs from all Docker containers via the Docker socket                                                                        | `job=docker`, `container`              |
+
+All log entries carry the `host` and `partition` labels regardless of snippet, which makes it easy to filter logs in Grafana Explore by host or partition.
+
+### Querying Logs in Grafana
+
+Logs can be explored in Grafana using the **Explore** view with the Loki data source. Useful label filters:
+
+- `{partition="<partition-id>"}` — all logs from a partition
+- `{host="<hostname>"}` — all logs from a specific host
+- `{job="docker", container="<name>"}` — logs from a specific Docker container
+- `{job="systemd-journal", unit="<unit>.service"}` — logs from a specific systemd unit
+- `{job="systemd-journal", level="error"}` — error-level journal entries across all units
 
 :::note Migrating from promtail
 
