@@ -81,7 +81,7 @@ export default function Header() {
                   metal-stack® is a set of microservices implementing Metal as a
                   Service (MaaS), turning a bunch of hardware into elastic cloud
                   infrastructure. It is built to manage the lifecycles for
-                  hundreds and thousands of servers inside your on-premise data
+                  hundreds and thousands of servers inside your on-premises data
                   center.
                 </p>
               </div>

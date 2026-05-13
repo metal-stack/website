@@ -11,6 +11,7 @@ tags:
   - gardener
   - vpn
   - hackathon
+  - events
 ---
 
 At the beginning of December we came together and started the 6th Hack the Garden event. With 22 participants from Germany and Bulgaria, this hackathon set a new record. Participating were [SAP](https://sap.com), [STACKIT](https://stackit.de), [x-cellent technologies GmbH](https://www.x-cellent.com) and [inovex](https://www.inovex.de/).

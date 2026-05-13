@@ -4,7 +4,7 @@ import { useColorMode } from "@docusaurus/theme-common";
 import { useDateTimeFormat } from '@docusaurus/theme-common/internal';
 
 export default function ArticleTeaser(props: ArticleTeaserProps) {
-  const { isDarkTheme } = useColorMode();
+  const isDarkTheme: boolean = useColorMode().colorMode === "dark"
 
   const dateTimeFormat = useDateTimeFormat({
     day: 'numeric',

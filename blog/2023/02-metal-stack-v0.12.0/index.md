@@ -100,7 +100,7 @@ The CSI driver [csi-driver-lvm](https://github.com/metal-stack/csi-driver-lvm) h
 - The helm chart was finally moved to helm.metal-stack.io and can now be directly consumed from our helm repository
 - Alternative FS types allowing file systems like for example `xfs` and `btrfs` instead of `ext4`
 
-Thanks for all external contributors and the general interest from the community that we see in this repository. Your effort was very much apppreciated by our core team! 😄
+Thanks for all external contributors and the general interest from the community that we see in this repository. Your effort was very much appreciated by our core team! 😄
 
 ## More Information
 

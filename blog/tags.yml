@@ -28,10 +28,10 @@ release:
   permalink: /release
   description: News about our latest releases
 
-conferences:
-  label: Conferences
-  permalink: /conferences
-  description: We participate on Conferences to stay in touch with the community
+events:
+  label: Events
+  permalink: /events
+  description: We participate in Events to stay in touch with the community
 
 infrastructure:
   label: Infrastructure

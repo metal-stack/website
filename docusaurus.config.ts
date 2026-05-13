@@ -6,8 +6,11 @@ import type * as Preset from "@docusaurus/preset-classic";
 
 const config: Config = {
   title: "metal-stack.io",
-  tagline: "Bring the cloud to your data center. metal-stack is an open source software that provides an API for provisioning and managing physical servers in the data center.",
+  tagline:
+    "Bring the cloud to your data center. metal-stack is an open source software that provides an API for provisioning and managing physical servers in the data center.",
   favicon: "img/favicon.ico",
+
+  staticDirectories: ['static'],
 
   // Set the production url of your site here
   url: "https://metal-stack.io",
@@ -21,7 +24,6 @@ const config: Config = {
   projectName: "website", // Usually your repo name.
 
   onBrokenLinks: "warn",
-  onBrokenMarkdownLinks: "warn",
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
@@ -33,9 +35,51 @@ const config: Config = {
 
   markdown: {
     format: "detect",
+    hooks: {
+      onBrokenMarkdownLinks: "warn",
+    },
   },
 
   plugins: [
+    [
+      "docusaurus-plugin-llms",
+      {
+        id: "docs-llms-txt",
+        includeBlog: false,
+        generateLLMsTxt: true,
+        generateLLMsFullTxt: true,
+        docsDir: "docs",
+        llmsTxtFilename: "llms.txt",
+        llmsFullTxtFilename: "llms-full.txt",
+        rootContent: `This file does not contain Community resources, blog posts and metal-stack enhancement proposals (MEP). These can be found in the [Community](https://metal-stack.io/community) tab.
+
+For this, there are dedicated files following the llmstxt.org standard:
+- [llms-community.txt](https://metal-stack.io/llms-community.txt) contains links to community sections
+- [llms-community-full.txt](https://metal-stack.io/llms-community-full.txt) contains all community content in a single document
+        `,
+      },
+    ],
+    [
+      "docusaurus-plugin-llms",
+      {
+        id: "community-llms-txt",
+        title: "metal-stack Community Documentation",
+        description:
+          "Community resources and metal-stack enhancement proposals (MEP)",
+        includeBlog: true,
+        generateLLMsTxt: true,
+        generateLLMsFullTxt: true,
+        docsDir: "community",
+        llmsTxtFilename: "llms-community.txt",
+        llmsFullTxtFilename: "llms-community-full.txt",
+        rootContent: `This file does not contain general documentation. This can be found in the [Documentation](https://metal-stack.io/docs) tab.
+
+For this, there are dedicated files following the llmstxt.org standard:
+- [llms.txt](https://metal-stack.io/llms.txt) contains links to documentation sections
+- [llms-full.txt](https://metal-stack.io/llms-full.txt) contains all documentation content in a single document
+        `,
+      },
+    ],
     [
       require.resolve("./blogPluginEnhanced"),
       {
@@ -71,6 +115,18 @@ const config: Config = {
         languages: ["en"],
       },
     ],
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "community",
+        path: "community",
+        routeBasePath: "community",
+        sidebarPath: "./sidebars-community.ts",
+        editUrl: "https://github.com/metal-stack/website/tree/main/",
+        includeCurrentVersion: true,
+        lastVersion: undefined, // intentionally no version
+      },
+    ],
   ],
 
   presets: [
@@ -78,7 +134,7 @@ const config: Config = {
       "classic",
       {
         docs: {
-          sidebarPath: "./sidebars.ts",
+          sidebarPath: "./sidebars-docs.ts",
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl: "https://github.com/metal-stack/website/tree/main/",
@@ -108,12 +164,11 @@ const config: Config = {
           type: "doc",
           label: "Docs",
           position: "left",
-          docId: "docs/home",
+          docId: "home",
         },
         {
-          label: "Contributing",
-          type: "doc",
-          docId: "contributing/contribution-guideline",
+          label: "Community",
+          to: "/community",
         },
         {
           to: "/blog",
@@ -142,7 +197,7 @@ const config: Config = {
           className: "header-github-link",
         },
         {
-          href: "https://metal-stack.slack.com",
+          href: "https://join.slack.com/t/metal-stack/shared_invite/zt-3eqheaymr-obQueWBLOMkhbEWTZZyDRg",
           "aria-label": "Slack link",
           position: "right",
           className: "header-slack-link",
@@ -190,8 +245,8 @@ const config: Config = {
           title: "Contribute",
           items: [
             {
-              label: "Connect on Slack",
-              href: "https://metal-stack.slack.com",
+              label: "Join our Slack Channel",
+              href: "https://join.slack.com/t/metal-stack/shared_invite/zt-3eqheaymr-obQueWBLOMkhbEWTZZyDRg",
             },
             {
               label: "Contribute on GitHub",
@@ -230,6 +285,7 @@ const config: Config = {
     prism: {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
+      additionalLanguages: ["bash"],
     },
   } satisfies Preset.ThemeConfig,
 };

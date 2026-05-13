@@ -16,7 +16,7 @@ let cloudFeatures = [
 ];
 
 export default function Offering() {
-  const { isDarkTheme } = useColorMode();
+  const isDarkTheme: boolean = useColorMode().colorMode === "dark"
   return (
     <Section id="cloud-offering" className="pb-0 sm:pb-20 dark:bg-neutral-900 ">
       <Row className=" overflow-clip">

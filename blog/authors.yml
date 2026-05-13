@@ -33,3 +33,57 @@ mwindower:
   page: true
   socials:
     github: mwindower
+
+philiphaas:
+  name: Philip Haas
+  title: Head of Marketing @ x-cellent technologies GmbH
+  url: https://github.com/philiphaas
+  image_url: https://github.com/philiphaas.png
+  page: true
+  socials:
+    github: philiphaas
+
+honigeintopf:
+  name: Ebubekir Ates
+  title: Maintainer
+  url: https://github.com/Honigeintopf
+  image_url: https://github.com/honigeintopf.png
+  page: true
+  socials:
+    github: Honigeintopf
+
+qrnvttrl:
+  name: Quirin Vetterl
+  title: Student @ Finanz Informatik Technologie Service
+  url: https://github.com/qrnvttrl
+  image_url: https://github.com/qrnvttrl.png
+  page: true
+  socials:
+    github: qrnvttrl
+
+simcod:
+  name: Simon Mayer
+  title: Junior Cloud Native Engineer @ x-cellent technologies GmbH
+  url: https://github.com/simcod
+  image_url: https://github.com/simcod.png
+  page: true
+  socials:
+    github: simcod
+
+mac641:
+  name: Marcel Arndt
+  title: Young Professional Cloud Native Consultant @ x-cellent technologies GmbH
+  url: https://github.com/mac641
+  image_url: https://github.com/mac641.png
+  page: true
+  socials:
+    github: mac641
+
+ma-hartma:
+  name: Matthias Hartmann
+  title: Junior Cloud Native Engineer @ x-cellent technologies GmbH
+  url: https://github.com/ma-hartma
+  image_url: https://github.com/ma-hartma.png
+  page: true
+  socials:
+    github: ma-hartma
