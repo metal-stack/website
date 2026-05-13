@@ -8,7 +8,7 @@ sidebar_position: 5
 
 To increase trust and integrity, metal-stack introduces artifact signing for its released components.
 
-The release vector is published as an [OCI artifact](/community/06-oci-artifacts.md) and signed using [cosign](https://github.com/sigstore/cosign).
+The release vector is published as an OCI artifact and signed using [cosign](https://github.com/sigstore/cosign).
 
 The images are signed using a public key that is always attached to a metal-stack release in the [releases repository](https://github.com/metal-stack/releases/blob/master/cosign.pub).
 
