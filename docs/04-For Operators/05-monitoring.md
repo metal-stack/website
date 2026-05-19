@@ -10,22 +10,41 @@ sidebar_position: 5
 
 ![Monitoring Stack](monitoring-stack.svg)
 
+The diagram above shows the full monitoring and logging stack: partition hosts ship logs to Loki and expose metrics for Prometheus scraping; control-plane and Gardener seed Alloy instances push both logs and self-metrics centrally; Grafana provides unified dashboards and alerting across all tiers.
+
 ## Logging
 
-Logs are being collected by
-[Grafana Alloy](https://grafana.com/docs/alloy/latest/) and pushed
-to a [Loki](https://grafana.com/docs/loki/latest/) instance running in the
-control plane. Loki is deployed in
-[monolithic mode](https://grafana.com/docs/loki/latest/setup/install/helm/install-monolithic/)
-and with storage type `'filesystem'`. You can find all logging related
-configuration parameters for the control plane in the control plane's
-[logging](https://github.com/metal-stack/metal-roles/blob/master/control-plane/roles/logging/README.md)
-role.
+[Grafana Alloy](https://grafana.com/docs/alloy/latest/) collects and pushes logs to a [Loki](https://grafana.com/docs/loki/latest/) instance
+running in the control plane.
 
-In the partitions, Alloy can be deployed inside a systemd-managed Docker
-container on management servers and switches. Configuration parameters can be found in the partition's
-[alloy](https://github.com/metal-stack/metal-roles/blob/master/partition/roles/alloy/README.md)
-role.
+Loki is deployed in [monolithic mode](https://grafana.com/docs/loki/latest/setup/install/helm/install-monolithic/) and with storage type `'filesystem'`.
+You can find all logging related configuration parameters for the control plane in the [logging](https://github.com/metal-stack/metal-roles/blob/master/control-plane/roles/logging/README.md) role.
+
+In the partitions, Alloy can be deployed inside a systemd-managed Docker container on management servers and switches.
+Configuration parameters can be found in the partition's [alloy](https://github.com/metal-stack/metal-roles/blob/master/partition/roles/alloy/README.md) role.
+
+### Control-Plane Log Sources
+
+In the control plane, Alloy runs as a Kubernetes DaemonSet and collects logs from two sources:
+
+| Source            | Description                                                                                  | Key labels                                                                                                |
+| ----------------- | -------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| Pod logs          | Collected from all pods via the Kubernetes API (`loki.source.kubernetes`)                    | `cluster`, `namespace`, `pod`, `container`, `pod_uid`, `node_name`, `app`, `instance`, `component`, `job` |
+| Kubernetes events | Collected natively via `loki.source.kubernetes_events` — no separate event-exporter required | `cluster`, `job=monitoring/event-exporter`, `namespace`                                                   |
+
+All control-plane log entries carry a `cluster` label (configured via `logging_alloy_cluster_label`) identifying the control-plane stage.
+
+#### Gardener
+
+The [gardener-logging](https://github.com/metal-stack/metal-roles/blob/master/control-plane/roles/gardener-logging/README.md) role deploys an additional Alloy instance into each Gardener shooted seed and optionally into the garden cluster itself. These instances collect pod logs from their respective clusters and forward them to the same Loki instance in the metal-stack control plane. Logs carry a `cluster` label set to the shooted seed name, enabling per-seed filtering in Grafana.
+
+### Control-Plane: Querying Logs in Grafana
+
+- `{cluster="<stage-name>"}` — all logs from a control-plane stage
+- `{namespace="<namespace>"}` — all logs from a specific namespace
+- `{job="<namespace>/<app>"}` — logs from a specific application
+- `{job="monitoring/event-exporter"}` — Kubernetes events
+- `{cluster="<seed-name>"}` — all logs from a specific Gardener shooted seed
 
 ### Partition Log Sources
 
@@ -38,11 +57,9 @@ Alloy is configured through snippets that define what logs are collected. The fo
 | Hosts without journald | `syslog`       | Tails `/var/log/syslog`                                                                                                               | `job=syslog`                           |
 | Hosts running Docker   | `docker`       | Collects logs from all Docker containers via the Docker socket                                                                        | `job=docker`, `container`              |
 
+### Partition: Querying Logs in Grafana
+
 All log entries carry the `host` and `partition` labels regardless of snippet, which makes it easy to filter logs in Grafana Explore by host or partition.
-
-### Querying Logs in Grafana
-
-Logs can be explored in Grafana using the **Explore** view with the Loki data source. Useful label filters:
 
 - `{partition="<partition-id>"}` — all logs from a partition
 - `{host="<hostname>"}` — all logs from a specific host
@@ -50,13 +67,13 @@ Logs can be explored in Grafana using the **Explore** view with the Loki data so
 - `{job="systemd-journal", unit="<unit>.service"}` — logs from a specific systemd unit
 - `{job="systemd-journal", level="error"}` — error-level journal entries across all units
 
-:::note Migrating from promtail
+:::note Migrating from Promtail
 
-The `promtail` role is deprecated and replaced by the `alloy` role. Refer to the
-[Migration from promtail](https://github.com/metal-stack/metal-roles/blob/master/partition/roles/alloy/README.md#migration-from-promtail)
-section of the partition alloy role's README and the
-[Migration from promtail](https://github.com/metal-stack/metal-roles/blob/master/control-plane/roles/logging/README.md#migration-from-promtail)
-section of the control-plane logging role's README for step-by-step instructions.
+The `promtail` role is deprecated and replaced by the `alloy` role. Refer to the respective migration guides for step-by-step instructions:
+
+- [Partition](https://github.com/metal-stack/metal-roles/blob/master/partition/roles/alloy/README.md#migration-from-promtail) — partition alloy role
+- [Control-plane](https://github.com/metal-stack/metal-roles/blob/master/control-plane/roles/logging/README.md#migration-from-promtail) — control-plane logging role
+- [Gardener](https://github.com/metal-stack/metal-roles/blob/master/control-plane/roles/gardener-logging/README.md#migration-from-promtail) — gardener-logging role
 
 :::
 
@@ -65,31 +82,20 @@ section of the control-plane logging role's README for step-by-step instructions
 For monitoring we deploy the
 [kube-prometheus-stack](https://github.com/prometheus-operator/kube-prometheus)
 and a [Thanos](https://thanos.io/tip/thanos/getting-started.md/) instance in the
-control plane. Metrics for the control plane are supplied by
+control plane.
+
+### Control-Plane Metrics
+
+In-cluster components are scraped by Prometheus via `ServiceMonitor` resources (pull model).
+Alloy self-metrics use a different approach: the control-plane Alloy DaemonSet and all Gardener seed Alloy instances push their metrics via `prometheus.remote_write` to Thanos Receive (`monitoring_thanos_receive_enabled: true`), removing the need for Prometheus to reach into each cluster.
+
+Metrics are supplied by
 
 - `metal-metrics-exporter`
-- `rethindb-exporter`
-- `event-exporter`
+- `rethinkdb-exporter`
 - `gardener-metrics-exporter`
 
-To query and visualize logs, metrics and alerts we deploy several grafana
-dashboards to the control plane:
-
-- `grafana-dashboard-alertmanager`
-- `grafana-dashboard-machine-capacity`
-- `grafana-dashboard-metal-api`
-- `grafana-dashboard-rethinkdb`
-- `grafana-dashboard-sonic-exporter`
-
-and also some gardener related dashboards:
-
-- `grafana-dashboard-gardener-overview`
-- `grafana-dashboard-shoot-cluster`
-- `grafana-dashboard-shoot-customizations`
-- `grafana-dashboard-shoot-details`
-- `grafana-dashboard-shoot-states`
-
-The following `ServiceMonitors` are also deployed:
+The following `ServiceMonitors` are deployed:
 
 - `gardener-metrics-exporter`
 - `ipam-db`
@@ -105,7 +111,9 @@ found in the control plane's
 [monitoring](https://github.com/metal-stack/metal-roles/blob/master/control-plane/roles/monitoring/README.md)
 role.
 
-Partition metrics are supplied by
+### Partition Metrics
+
+Partition metrics are collected via Prometheus scraping (pull model). Exporters running on partition hosts supply the metrics:
 
 - `node-exporter`
 - `blackbox-exporter`
@@ -113,16 +121,36 @@ Partition metrics are supplied by
 - `sonic-exporter`
 - `metal-core`
 - `frr-exporter`
+- `alloy`
 
-and scraped by Prometheus. For each of these exporters, the target hosts can be
-defined by
+Target hosts for each exporter are defined by
 
 - `prometheus_node_exporter_targets`
 - `prometheus_blackbox_exporter_targets`
-- `prometheus_frr_exporter_targets`
+- `prometheus_ipmi_exporter_targets`
 - `prometheus_sonic_exporter_targets`
 - `prometheus_metal_core_targets`
 - `prometheus_frr_exporter_targets`
+- `prometheus_alloy_targets`
+
+### Dashboards
+
+To query and visualize logs, metrics and alerts we deploy several grafana
+dashboards to the control plane:
+
+- `grafana-dashboard-alertmanager`
+- `grafana-dashboard-machine-capacity`
+- `grafana-dashboard-metal-api`
+- `grafana-dashboard-rethinkdb`
+- `grafana-dashboard-sonic-exporter`
+
+and also some Gardener related dashboards:
+
+- `grafana-dashboard-gardener-overview`
+- `grafana-dashboard-shoot-cluster`
+- `grafana-dashboard-shoot-customizations`
+- `grafana-dashboard-shoot-details`
+- `grafana-dashboard-shoot-states`
 
 ## Alerting
 
