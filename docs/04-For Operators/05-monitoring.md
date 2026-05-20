@@ -87,7 +87,10 @@ control plane.
 ### Control-Plane Metrics
 
 In-cluster components are scraped by Prometheus via `ServiceMonitor` resources (pull model).
-Alloy self-metrics use a different approach: the control-plane Alloy DaemonSet and all Gardener seed Alloy instances push their metrics via `prometheus.remote_write` to Thanos Receive (`monitoring_thanos_receive_enabled: true`), removing the need for Prometheus to reach into each cluster.
+Alloy self-metrics use a different approach — no ServiceMonitor required:
+
+- The **control-plane Alloy** DaemonSet pushes metrics via `prometheus.remote_write` to the in-cluster Thanos Receive. Wired automatically when `monitoring_thanos_receive_enabled: true`.
+- **Gardener seed Alloy** instances have no local Prometheus, so they push metrics to the control-plane Thanos Receive ingress instead. Wired automatically when `monitoring_thanos_receive_ingress_enabled: true`.
 
 Metrics are supplied by
 
