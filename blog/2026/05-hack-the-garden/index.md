@@ -21,7 +21,7 @@ After multiple large hackathons challenging the capacity of our location, we ret
 
 This time employees from [SAP](https://sap.com), [Schwarz Digits](https://digits.schwarz), [Inovex](https://inovex.de), [noris network](https://noris.de) and [x-cellent technologies](https://x-cellent.com) joined. Some even booked a flight from Bulgaria to Germany!
 
-Feel free to check out the [Gardener Hack The Garden 05/2026 Wrap Up](https://gardener.cloud/community/hackathons/2026-05/) for a more in-depth view across all topics we tackled. Demo
+Feel free to check out the [Gardener Hack The Garden 05/2026 Wrap Up](https://gardener.cloud/community/hackathons/2026-05/) for a more in-depth view across all topics we tackled.
 
 ## Getting Outside
 
