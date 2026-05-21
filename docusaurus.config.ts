@@ -10,7 +10,7 @@ const config: Config = {
     "Bring the cloud to your data center. metal-stack is an open source software that provides an API for provisioning and managing physical servers in the data center.",
   favicon: "img/favicon.ico",
 
-  staticDirectories: ['static'],
+  staticDirectories: ["static"],
 
   // Set the production url of your site here
   url: "https://metal-stack.io",
@@ -110,9 +110,10 @@ For this, there are dedicated files following the llmstxt.org standard:
     ],
     ["./src/plugins/tailwind-config.js", {}],
     [
-      require.resolve("docusaurus-lunr-search"),
+      require.resolve("@easyops-cn/docusaurus-search-local"),
       {
-        languages: ["en"],
+        language: ["en"],
+        hashed: true,
       },
     ],
     [
