@@ -7,7 +7,7 @@
         "releasePath": "binaries.metal-stack.metalctl.version",
         "repo": "metal-stack/metalctl",
         "branch": "main",
-        "tag": "v0.18.8",
+        "tag": "v0.18.9",
         "position": 1,
         "withDocs": true
       }
@@ -48,7 +48,7 @@
         "releasePath": "docker-images.metal-stack.control-plane.metal-api.tag",
         "repo": "metal-stack/metal-api",
         "branch": "main",
-        "tag": "v0.43.1",
+        "tag": "v0.43.3",
         "position": 4,
         "withDocs": false
       },
