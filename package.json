@@ -31,7 +31,7 @@
     "@types/semver": "^7.7.1",
     "axios": "^1.16.1",
     "clsx": "^2.0.0",
-    "docusaurus-lunr-search": "^3.6.0",
+    "@easyops-cn/docusaurus-search-local": "^0.55.1",
     "docusaurus-plugin-llms": "^0.4.0",
     "postcss": "^8.5.14",
     "prism-react-renderer": "^2.3.0",
