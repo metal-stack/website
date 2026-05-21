@@ -25,7 +25,7 @@ Feel free to check out the [Gardener Hack The Garden 05/2026 Wrap Up](https://ga
 
 ## Getting Outside
 
-Most of the time all of us were very productive and focused. Of course from time to time we took some breaks, played some volleyball, billard, table tennis or table football. Some participants also did a social run.
+Most of the time all of us were very productive and focused. Of course, from time to time we took some breaks, played some volleyball, billard, table tennis or table football. Some participants also did a social run.
 
 ![Attendees walking over a bridge](./hack-the-garden-hike.jpg)
 
@@ -37,7 +37,7 @@ Up the hill we were rewarded by a great view over the whole landscape nearby and
 
 ## Catering
 
-Besides the easy things like breakfast, a caterer provided lunch and once we went out for dinner on one day. Of course there were also some snacks.
+Besides the easy things like breakfast, a caterer provided lunch and once we went out for dinner on one day. In-between-snacks inclusive.
 
 But have you ever wondered how to prevent a hungry crowd of 20 people from starving with high quality and fresh food? How much ingredients do you need?
 
