@@ -52,6 +52,6 @@ And this was exactly the right amount!
 ## Conclusion
 
 What a week, huh? And we are already looking forward to the next hackathon in about half a year.
-If you are curios and would like to attend next time, hop over and join the [Gardener Slack](https://join.slack.com/t/gardener-cloud/shared_invite/zt-33c9daems-3oOorhnqOSnldZPWqGmIBw).
+If you are curious and would like to attend next time, hop over and join the [Gardener Slack](https://join.slack.com/t/gardener-cloud/shared_invite/zt-33c9daems-3oOorhnqOSnldZPWqGmIBw).
 
 A huge thanks to all participants: we enjoyed the time with you. Can't wait to meet all of you again!
