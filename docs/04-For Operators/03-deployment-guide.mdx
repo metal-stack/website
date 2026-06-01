@@ -45,19 +45,7 @@ At the end of this section we are gonna end up with the following files and fold
 
 ```
 .
-├── ansible.cfg
 ├── deploy_metal_control_plane.yaml
-├── files
-│   └── certs
-│       ├── ca-config.json
-│       ├── ca-csr.json
-│       ├── metal-api-grpc
-│       │   ├── client.json
-│       │   ├── server.json
-│       ├── masterdata-api
-│       │   ├── client.json
-│       │   ├── server.json
-│       └── roll_certs.sh
 ├── inventories
 │   ├── control-plane.yaml
 │   └── group_vars
@@ -66,7 +54,6 @@ At the end of this section we are gonna end up with the following files and fold
 │       └── control-plane
 │           ├── common.yaml
 │           └── metal.yml
-├── generate_role_requirements.yaml
 └── roles
     └── ingress-controller
         └── tasks
@@ -143,7 +130,7 @@ Next, we will define the actual deployment playbook in a file called `deploy_met
     - name: metal-roles/control-plane/roles/nsq
     - name: metal-roles/control-plane/roles/metal-db
     - name: metal-roles/control-plane/roles/ipam-db
-    - name: metal-roles/control-plane/roles/masterdata-db
+    - name: metal-roles/control-plane/roles/tenant-db
     - name: metal-roles/control-plane/roles/metal
 ```
 
@@ -153,10 +140,10 @@ Basically, this playbook does the following:
 - Deploys an ingress-controller into your cluster
 - Deploys the metal-stack by
   - Running preparation tasks
-  - Deploying NSQ
-  - Deploying the rethinkdb database for the metal-api (wrapped in a backup-restore-sidecar),
+  - Deploying valkey
+  - Deploying the rethinkdb database for the metal-apiserver (wrapped in a backup-restore-sidecar),
   - Deploying the postgres database for go-ipam (wrapped in a backup-restore-sidecar)
-  - Deploying the postgres database for the masterdata-api (wrapped in a backup-restore-sidecar)
+  - Deploying the postgres database for the tenant-apiserver (wrapped in a backup-restore-sidecar)
   - Applying the metal control plane helm chart
 
 ### Setup an ingress-controller
@@ -188,221 +175,6 @@ Now you can parametrize the referenced roles to fit your environment. The role p
 ---
 metal_control_plane_ingress_dns: <your-dns-domain> # if you do not have a DNS entry, you could also start with <ingress-ip>.nip.io
 ```
-
-### Providing Certificates
-
-We have several components in our stack that communicate over encrypted gRPC just like Kubernetes components do.
-
-For the very basic setup you will need to create self-signed certificates for the communication between the following components (see [architecture](../05-Concepts/01-architecture.mdx) document):
-
-- [metal-api](https://github.com/metal-stack/metal-api) and [masterdata-api](https://github.com/metal-stack/masterdata-api) (in-cluster traffic communication)
-- [metal-api](https://github.com/metal-stack/metal-api) and [metal-hammer](https://github.com/metal-stack/metal-hammer) (partition to control plane communication)
-
-Here is a snippet for `files/roll_certs.sh` that you can use for generating your certificates (requires [cfssl](https://github.com/cloudflare/cfssl)):
-
-```bash
-#!/usr/bin/env bash
-set -eo pipefail
-
-for i in "$@"
-do
-case $i in
-    -t=*|--target=*)
-    TARGET="${i#*=}"
-    shift
-    ;;
-    *)
-    echo "unknown parameter passed: $1"
-    exit 1
-    ;;
-esac
-done
-
-if [ -z "$TARGET" ]; then
-    echo "generating ca cert"
-    cfssl genkey -initca ca-csr.json | cfssljson -bare ca
-    rm *.csr
-fi
-
-if [ -z "$TARGET" ] || [ $TARGET == "grpc" ]; then
-    pushd metal-api-grpc
-    echo "generating grpc certs"
-    cfssl gencert -ca=../ca.pem -ca-key=../ca-key.pem -config=../ca-config.json -profile=server server.json | cfssljson -bare server
-    cfssl gencert -ca=../ca.pem -ca-key=../ca-key.pem -config=../ca-config.json -profile=client client.json | cfssljson -bare client
-    rm *.csr
-    popd
-fi
-
-if [ -z "$TARGET" ] || [ $TARGET == "masterdata-api" ]; then
-    pushd masterdata-api
-    echo "generating masterdata-api certs"
-    rm -f *.pem
-    cfssl gencert -ca=../ca.pem -ca-key=../ca-key.pem -config=../ca-config.json -profile=client-server server.json | cfssljson -bare server
-    cfssl gencert -ca=../ca.pem -ca-key=../ca-key.pem -config=../ca-config.json -profile=client client.json | cfssljson -bare client
-    rm *.csr
-    popd
-fi
-```
-
-Also define the following configurations for `cfssl`:
-
-- `files/certs/ca-config.json`
-  ```json
-  {
-    "signing": {
-      "default": {
-        "expiry": "43800h"
-      },
-      "profiles": {
-        "server": {
-          "expiry": "43800h",
-          "usages": ["signing", "key encipherment", "server auth"]
-        },
-        "client": {
-          "expiry": "43800h",
-          "usages": ["signing", "key encipherment", "client auth"]
-        },
-        "client-server": {
-          "expiry": "43800h",
-          "usages": [
-            "signing",
-            "key encipherment",
-            "client auth",
-            "server auth"
-          ]
-        }
-      }
-    }
-  }
-  ```
-- `files/certs/ca-csr.json`
-  ```json
-  {
-    "CN": "metal-control-plane",
-    "hosts": [],
-    "key": {
-      "algo": "rsa",
-      "size": 4096
-    },
-    "names": [
-      {
-        "C": "DE",
-        "L": "Munich",
-        "O": "Metal-Stack",
-        "OU": "DevOps",
-        "ST": "Bavaria"
-      }
-    ]
-  }
-  ```
-- `files/certs/masterdata-api/client.json`
-  ```json
-  {
-    "CN": "masterdata-client",
-    "hosts": [""],
-    "key": {
-      "algo": "ecdsa",
-      "size": 256
-    },
-    "names": [
-      {
-        "C": "DE",
-        "L": "Munich",
-        "O": "Metal-Stack",
-        "OU": "DevOps",
-        "ST": "Bavaria"
-      }
-    ]
-  }
-  ```
-- `files/certs/masterdata-api/server.json`
-  ```json
-  {
-    "CN": "masterdata-api",
-    "hosts": [
-      "localhost",
-      "masterdata-api",
-      "masterdata-api.metal-control-plane.svc",
-      "masterdata-api.metal-control-plane.svc.cluster.local"
-    ],
-    "key": {
-      "algo": "ecdsa",
-      "size": 256
-    },
-    "names": [
-      {
-        "C": "DE",
-        "L": "Munich",
-        "O": "Metal-Stack",
-        "OU": "DevOps",
-        "ST": "Bavaria"
-      }
-    ]
-  }
-  ```
-- `files/certs/metal-api-grpc/client.json`
-  ```json
-  {
-    "CN": "grpc-client",
-    "hosts": [""],
-    "key": {
-      "algo": "rsa",
-      "size": 4096
-    },
-    "names": [
-      {
-        "C": "DE",
-        "L": "Munich",
-        "O": "Metal-Stack",
-        "OU": "DevOps",
-        "ST": "Bavaria"
-      }
-    ]
-  }
-  ```
-- `files/certs/metal-api-grpc/server.json` (**Fill in your control plane ingress DNS here**)
-  ```json
-  {
-    "CN": "metal-api",
-    "hosts": ["<your-metal-api-dns-ingress-domain>"],
-    "key": {
-      "algo": "rsa",
-      "size": 4096
-    },
-    "names": [
-      {
-        "C": "DE",
-        "L": "Munich",
-        "O": "Metal-Stack",
-        "OU": "DevOps",
-        "ST": "Bavaria"
-      }
-    ]
-  }
-  ```
-
-Running the `roll_certs.sh` bash script without any arguments should generate you the required certificates.
-
-Now Provide the paths to these certificates in `group_vars/control-plane/metal.yaml`:
-
-```yaml
----
-metal_masterdata_api_tls_ca: "{{ lookup('file', 'certs/ca.pem') }}"
-metal_masterdata_api_tls_cert: "{{ lookup('file', 'certs/masterdata-api/server.pem') }}"
-metal_masterdata_api_tls_cert_key: "{{ lookup('file', 'certs/masterdata-api/server-key.pem') }}"
-metal_masterdata_api_tls_client_cert: "{{ lookup('file', 'certs/masterdata-api/client.pem') }}"
-metal_masterdata_api_tls_client_key: "{{ lookup('file', 'certs/masterdata-api/client-key.pem') }}"
-
-metal_api_grpc_certs_server_key: "{{ lookup('file', 'certs/metal-api-grpc/server-key.pem') }}"
-metal_api_grpc_certs_server_cert: "{{  lookup('file', 'certs/metal-api-grpc/server.pem') }}"
-metal_api_grpc_certs_client_key: "{{ lookup('file', 'certs/metal-api-grpc/client-key.pem') }}"
-metal_api_grpc_certs_client_cert: "{{  lookup('file', 'certs/metal-api-grpc/client.pem') }}"
-metal_api_grpc_certs_ca_cert: "{{ lookup('file', 'certs/ca.pem') }}"
-```
-
-:::tip
-For the actual communication between the metal-api and the user clients (REST API, runs over the ingress-controller you deployed before), you can simply deploy a tool like [cert-manager](https://github.com/cert-manager/cert-manager) into your Kubernetes cluster, which will automatically provide your ingress domains with Let's Encrypt certificates.
-:::
 
 ### Running the Deployment
 
@@ -441,20 +213,20 @@ If you are having issues regarding the deployment take a look at the [troublesho
 
 ### Providing Images
 
-After the deployment has finished (hopefully without any issues!), you should consider deploying some masterdata entities into your metal-api. For example, you can add your first machine sizes and operating system images. You can do this by further parametrizing the [metal role](https://github.com/metal-stack/metal-roles/tree/master/control-plane/roles/metal). We will just add an operating system for demonstration purposes. Add the following variable to your `inventories/group_vars/control-plane/common.yaml`:
+After the deployment has finished (hopefully without any issues!), you should consider deploying some provider-entities for metal-stack. For example, you can add your first machine sizes and operating system images. You can do this by further parametrizing the [metal role](https://github.com/metal-stack/metal-roles/tree/master/control-plane/roles/metal). We will just add an operating system for demonstration purposes. Add the following variable to your `inventories/group_vars/control-plane/common.yaml`:
 
 ```
 metal_api_images:
-- id: firewall-ubuntu-2.0.20201004
-  name: Firewall 2 Ubuntu 20201004
-  description: Firewall 2 Ubuntu 20201004
-  url: http://images.metal-stack.io/metal-os/master/firewall/2.0-ubuntu/20201004/img.tar.lz4
+- id: firewall-ubuntu-3.0.20260529
+  name: Firewall 3 Ubuntu 20260529
+  description: Firewall 3 Ubuntu 20260529
+  url: https://images.metal-stack.io/metal-os/20260529/firewall/3.0-ubuntu/img.tar.lz4
   features:
     - firewall
-- id: ubuntu-20.04.20201004
-  name: Ubuntu 20.04 20201004
-  description: Ubuntu 20.04 20201004
-  url: http://images.metal-stack.io/metal-os/master/ubuntu/20.04/20201004/img.tar.lz4
+- id: ubuntu-24.04.20260529
+  name: Ubuntu 24.04 20260529
+  description: Ubuntu 24.04 20260529
+  url: https://images.metal-stack.io/metal-os/20260529/ubuntu/24.04/img.tar.lz4
   features:
     - machine
 ```
@@ -467,34 +239,19 @@ Image versions should be regularly checked for updates.
 
 ### Setting up metalctl
 
-You can now verify the existence of the operating system images in the metal-api using our CLI client called [metalctl](https://github.com/metal-stack/metalctl). The configuration for `metalctl` should look like this:
-
-```yaml
-# ~/.metalctl/config.yaml
----
-current: test
-contexts:
-  test:
-    # the metal-api endpoint depends on your dns name specified before
-    # you can look up the url to the metal-api via the kubernetes ingress
-    # resource with:
-    # $ kubectl get ingress -n metal-control-plane
-    url: <metal-api-endpoint>
-    # in the future you have to change the HMAC to a strong, random string
-    # in order to protect against unauthorized api access
-    # the default hmac is "change-me"
-    hmac: change-me
-```
+You can now verify the existence of the operating system images in the metal-apiserver using our CLI client called [metalctl](https://github.com/metal-stack/metalctl).
 
 Issue the following command:
 
 ```bash
+$ metalctl ctx add prod --api-url api.<your-domain> --activate
+
 $ metalctl image ls
 ID                              	NAME                          	DESCRIPTION                   	FEATURES	EXPIRATION	STATUS
-ubuntu-19.10.20200331           	Ubuntu 19.10 20200331         	Ubuntu 19.10 20200331         	machine 	89d 23h   	preview
+ubuntu-24.04.20260529           	Ubuntu 24.04.20260529         	Ubuntu 24.04.20260529         	machine 	89d 23h   	preview
 ```
 
-The basic principles of how the metal control plane can be deployed should now be clear. It is now up to you to move the deployment execution into your CI and add things like certificates for the ingress-controller and NSQ.
+The basic principles of how the metal control plane can be deployed should now be clear. It is now up to you to move the deployment execution into your CI and further parametrize it.
 
 ### Setting Up the backup-restore-sidecar
 
@@ -506,32 +263,9 @@ Checkout the [role documentation](https://github.com/metal-stack/metal-roles/tre
 
 ### Auth
 
-metal-stack currently supports two authentication methods:
+metal-stack supports user authentication through [OpenID Connect](https://openid.net/developers/how-connect-works/) (OIDC).
 
-- user authentication through [OpenID Connect](https://openid.net/developers/how-connect-works/) (OIDC)
-- [HMAC](https://en.wikipedia.org/wiki/HMAC) auth, typically used for access by technical users (because we do not have service account tokens at the time being)
-
-If you decided to use OIDC, you can parametrize the [metal role](https://github.com/metal-stack/metal-roles/tree/master/control-plane/roles/metal) for this by defining the variable `metal_masterdata_api_tenants` with the following configuration:
-
-```yaml
----
-metal_masterdata_api_tenants:
-  - meta:
-      id: <id>
-      kind: Tenant
-      apiversion: v1
-      version: 0
-    name: <name>
-    iam_config:
-      issuer_config:
-        client_id: <client_id>
-        url: <oidc_url>
-      idm_config:
-        idm_type: <type> # "AD" | "UX"
-      group_config:
-        namespace_max_length: 20
-    description: <description>
-```
+To start up quickly, metal-stack provides [a role](https://github.com/metal-stack/metal-roles/tree/master/control-plane/roles/zitadel) to spin up [Zitadel](https://zitadel.com/) such that you do not need to set up an OIDC server on your own. It is possible to configure Zitadel to federate with existing company-internal OIDC providers if necessary.
 
 ## Bootstrapping a Partition
 
@@ -640,7 +374,7 @@ The following list assumes you have Gardener installed in a Kubernetes cluster a
        typha:
          enabled: false
    ```
-1. For your seed cluster you will need to provide the provider secret for metal-stack containing the key `metalAPIHMac`, which is the API HMAC to grant editor access to the metal-api
+1. For your seed cluster you will need to provide the provider secret for metal-stack containing the key `metalApiserverToken`, which is the API token to grant project access at the metal-apiserver
 1. Checkout our current provider configuration for [infrastructure](https://github.com/metal-stack/gardener-extension-provider-metal/blob/master/pkg/apis/metal/v1alpha1/types_infrastructure.go) and [control-plane](https://github.com/metal-stack/gardener-extension-provider-metal/blob/master/pkg/apis/metal/v1alpha1/types_controlplane.go) before deploying your shoot
 
 :::tip

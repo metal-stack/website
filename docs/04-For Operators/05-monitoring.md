@@ -61,8 +61,8 @@ The following `ServiceMonitors` are also deployed:
 
 - `gardener-metrics-exporter`
 - `ipam-db`
-- `masterdata-api`
-- `masterdata-db`
+- `tenant-api`
+- `tenant-db`
 - `metal-api`
 - `metal-db`
 - `rethinkdb-exporter`

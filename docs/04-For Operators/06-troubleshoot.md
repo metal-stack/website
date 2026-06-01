@@ -31,8 +31,8 @@ kube-system           kube-proxy-jz7kp                             1/1     Runni
 kube-system           kube-scheduler-kind-control-plane            1/1     Running     0          2m42s
 local-path-storage    local-path-provisioner-bd4bb6b75-cwfb7       1/1     Running     0          2m34s
 metal-control-plane   ipam-db-0                                    2/2     Running     0          2m31s
-metal-control-plane   masterdata-api-6dd4b54db5-rwk45              1/1     Running     0          33s
-metal-control-plane   masterdata-db-0                              2/2     Running     0          2m29s
+metal-control-plane   tenant-api-6dd4b54db5-rwk45                  1/1     Running     0          33s
+metal-control-plane   tenant-db-0                                  2/2     Running     0          2m29s
 metal-control-plane   metal-api-998cb46c4-jj2tt                    1/1     Running     0          33s
 metal-control-plane   metal-api-initdb-r9sc6                       0/1     Completed   0          2m24s
 metal-control-plane   metal-api-liveliness-1590479940-brhc7        0/1     Completed   0          6s
