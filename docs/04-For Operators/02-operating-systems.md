@@ -30,12 +30,14 @@ The supported images for firewalls are:
 
 ## Building Your Own Images
 
-It is fully possible to build your own operating system images and provide them through the metal-stack.
+It is fully possible to build your own operating system images and provision them through the metal-stack without any in-tree implementations.
 
-There are some conventions though that you need to follow in order to make your image installable through the metal-hammer. You should understand the [machine provisioning sequence](../05-Concepts/01-architecture.mdx#machine-provisioning-sequence) before starting to write your own images.
+There are some conventions though that you need to follow in order to make your image installable. You should understand the [machine provisioning sequence](../05-Concepts/01-architecture.mdx#machine-provisioning-sequence), the purpose of the [metal-hammer](https://github.com/metal-stack/metal-hammer) and the [os-installer](https://github.com/metal-stack/os-installer) before starting to write your own images.
 
-1. Images need to be compressed to a tarball using the [lz4](https://de.wikipedia.org/wiki/LZ4) compression algorithm.
-1. An `md5` checksum file with the same name as the image archive needs to be provided in the download path along with the actual os image.
+You can build own images as described in the following points:
+
+1. Images need to be compressed to a tarball using the [lz4](https://de.wikipedia.org/wiki/LZ4) compression algorithm. These are unpacked by the metal-hammer after machine allocation onto the root drive of the machine.
+1. An `md5` checksum file with the same name as the image archive needs to be provided in the download path along with the actual os image. This is used by the metal-hammer to check the integrity of the downloaded file.
 1. A `packages.txt` containing the packages contained in the OS image should be provided in the download path (not strictly required).
 1. Consider semantic image versioning, which we use in our algorithms to select latest images (e.g. `os-major.minor.patch` ➡️ `ubuntu-24.04.20191018`)
 1. We strongly suggest installing some essential packages used by the metal-stack infrastructure:
@@ -45,7 +47,8 @@ There are some conventions though that you need to follow in order to make your 
 1. The [os-installer](https://github.com/metal-stack/os-installer) repository will be invoked by the metal-hammer in the os image's chroot during machine provisioning. You can check if you can use the existing provisioning tasks of this component for your OS image.
    - If the os-installer does not do what you need, it is possible to specify parameters for it in `/etc/metal/os-installer.yaml`. In there, it is possible to either use only specific functionality of the os-installer or even invoke custom provisioning scripts (total freedom).
 1. For the time being, your image must be able to support [kexec](https://en.wikipedia.org/wiki/Kexec) into the new operating system kernel, the `kexec` command is issued by the metal-hammer after running the os-installer. We do this because `kexec` is _much_ faster than rebooting a machine.
-1. We recommend building images from Dockerfiles as it is done in [metal-images](https://github.com/metal-stack/metal-images) repository.
+
+We recommend building images from Dockerfiles as it is done in [metal-images](https://github.com/metal-stack/metal-images) repository.
 
 :::info
 Building own operating system images is an advanced topic. When you have just started with metal-stack, we recommend using the public operating system images first.
