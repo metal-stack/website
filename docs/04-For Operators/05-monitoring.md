@@ -25,7 +25,7 @@ Configuration parameters can be found in the partition's [alloy](https://github.
 
 ### Control-Plane Log Sources
 
-In the control plane, Alloy runs as a Kubernetes DaemonSet and collects logs from two sources:
+In the control plane, Alloy runs as a Kubernetes `DaemonSet` and collects logs from two sources:
 
 | Source            | Description                                                                                  | Key labels                                                                                                |
 | ----------------- | -------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
@@ -36,7 +36,9 @@ All control-plane log entries carry a `cluster` label (configured via `logging_a
 
 #### Gardener
 
-The [gardener-logging](https://github.com/metal-stack/metal-roles/blob/master/control-plane/roles/gardener-logging/README.md) role deploys an additional Alloy instance into each Gardener shooted seed and optionally into the garden cluster itself. These instances collect pod logs from their respective clusters and forward them to the same Loki instance in the metal-stack control plane. Logs carry a `cluster` label set to the shooted seed name, enabling per-seed filtering in Grafana.
+Gardener ships with a built-in logging stack (Vali + fluent-bit per seed). The metal-stack deployment disables this stack and instead uses Alloy to forward all logs centrally — giving platform operators a single place to query infrastructure logs across all Gardener clusters.
+
+The [gardener-logging](https://github.com/metal-stack/metal-roles/blob/master/control-plane/roles/gardener-logging/README.md) role deploys an Alloy instance into each Gardener shooted seed and optionally into the garden cluster itself. These instances collect pod logs and Kubernetes events from their respective clusters and forward them to the same Loki instance in the metal-stack control plane. Logs carry a `cluster` label set to the cluster name (garden name or shooted seed name), enabling per-cluster filtering in Grafana.
 
 ### Control-Plane: Querying Logs in Grafana
 
@@ -44,7 +46,7 @@ The [gardener-logging](https://github.com/metal-stack/metal-roles/blob/master/co
 - `{namespace="<namespace>"}` — all logs from a specific namespace
 - `{job="<namespace>/<app>"}` — logs from a specific application
 - `{job="monitoring/event-exporter"}` — Kubernetes events
-- `{cluster="<seed-name>"}` — all logs from a specific Gardener shooted seed
+- `{cluster="<garden-or-seed-name>"}` — all logs from the Gardener garden cluster or a specific shooted seed
 
 ### Partition Log Sources
 
@@ -87,16 +89,14 @@ control plane.
 ### Control-Plane Metrics
 
 In-cluster components are scraped by Prometheus via `ServiceMonitor` resources (pull model).
-Alloy self-metrics use a different approach — no ServiceMonitor required:
-
-- The **control-plane Alloy** DaemonSet pushes metrics via `prometheus.remote_write` to the in-cluster Thanos Receive. Wired automatically when `monitoring_thanos_receive_enabled: true`.
-- **Gardener seed Alloy** instances have no local Prometheus, so they push metrics to the control-plane Thanos Receive ingress instead. Wired automatically when `monitoring_thanos_receive_ingress_enabled: true`.
 
 Metrics are supplied by
 
 - `metal-metrics-exporter`
 - `rethinkdb-exporter`
 - `gardener-metrics-exporter`
+- `alloy` (control-plane) — self-metrics, disabled by default; see the [logging role](https://github.com/metal-stack/metal-roles/blob/master/control-plane/roles/logging/README.md#meta-monitoring) for configuration
+- `alloy` (gardens and seeds) — self-metrics, disabled by default; see the [gardener-logging role](https://github.com/metal-stack/metal-roles/blob/master/control-plane/roles/gardener-logging/README.md#meta-monitoring) for configuration
 
 The following `ServiceMonitors` are deployed:
 
