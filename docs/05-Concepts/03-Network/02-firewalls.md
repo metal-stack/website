@@ -38,7 +38,6 @@ SONiC can provide basic L3/L4 packet filtering capabilities using its ACLs, whic
 - Switch ASICs vary widely in supported maximum number of active rules and supported ACL features
 - We require NAT, which is not supported when offloading to ASICs
 - Going past stateless filtering to stateful tracking requires specialized DPU hardware, increasing cost and reducing accessibility
-
 - We offer Intrusion Detection as a feature, which is also not possible while utilizing offloading
 - Using dedicated machines allows us to give you the same great isolation guarantees as with regular machines. If you provision the Firewall, you do not share resources or access with other tenants.
 
