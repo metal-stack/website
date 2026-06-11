@@ -7,7 +7,7 @@ draft: true
 
 # Firewalls
 
-Firewalls in metal-stack are a kind of machine that connects networks to each other or the internet and allows traffic filtering.
+Firewalls in metal-stack are machines that connect networks to each other or the internet and allows traffic filtering.
 
 Only firewalls can have multiple networks attached. 
 
