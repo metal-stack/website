@@ -22,10 +22,12 @@ If you want more features, keep reading.
 
 [Gardener](https://gardener.cloud/) is an open-source managed Kubernetes service. It provides a good "batteries-included" developer experience and should be your first choice for a Kubernetes-as-a-service solution.
 
-We recommend using metal-stack with our [Gardener integration](../05-Concepts/04-Kubernetes/01-gardener.md), which allows to manage Kubernetes clusters at scale. This integration is production-hardened, well documented, used by many organizations in production and build on top of the open-source project [Gardener](https://gardener.cloud/).
+Gardener is vendor agnostic and can be used with a wide selection of infrastructure providers. One big advantage are its containerized control planes. These allow for control planes to not require three machines for each managed cluster, called `Shoot`. This makes operating many smaller clusters more economical, compared to bare-metal control planes. 
+
+We provide support to run Gardener on metal-stack via [Gardener extensions](../05-Concepts/04-Kubernetes/01-gardener.md). This integration is production-hardened, well documented, used by many organizations in production and build on top of the open-source project [Gardener](https://gardener.cloud/).
 
 ## Cluster API
 
-Our [Cluster API integration](https://github.com/metal-stack/cluster-api-provider-metal-stack) is a more experimental approach to provide Kubernetes clusters with metal-stack. It is based on the [Cluster API](https://cluster-api.sigs.k8s.io/) project.
+Our [Cluster API integration](../05-Concepts/04-Kubernetes/02-cluster-api.md) is a more verbose approach to provide Kubernetes clusters with metal-stack. Our implementation is still in early development. It is based on the [Cluster API](https://cluster-api.sigs.k8s.io/) project.
 
-Configuring Cluster API is more verbose then Gardener and will be basically unusable for end users. Cluster API will give you building blocks to build a Kubernetes-as-a-service platform on top of it, but no more. If you need KaaS, use Gardener.
+Configuring Cluster API is very verbose and will be basically unusable for end users. It requires additional tooling to provide a good developer experience. Cluster API will give you building blocks to build a Kubernetes-as-a-service platform on top of it, but no more. We do not recommend you use Cluster API, unless you already have a large platform engineering team, that is very experienced in bare-metal K8s operations and they agree that your specific requirements cannot be modelled with Gardener. In any other case, you will have more success with Gardener.
