@@ -31,7 +31,7 @@ We see limited benefit in using firewall appliances for the following reasons:
 - Appliances and bandwidth would be shared between tenants, increasing management complexity and reducing tenant isolation
 
 
-### Why not use the ToR Leaf switches?
+### Why not use Top-of-rack Leaf switches as firewalls?
 
 SONiC can provide basic L3/L4 packet filtering capabilities using its ACLs, which can be offloaded to the switching silicon. But unfortunately that is not enough for our requirements:
 
