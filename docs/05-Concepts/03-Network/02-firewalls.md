@@ -46,6 +46,12 @@ In short, to offer comparable features to our current solution, we would need to
 
 ## Creating a Firewall
 
+:::info
+TODO: metalctl/metalcli example
+
+TODO: Configuring firewalls via firewall-controller CRDs
+:::
+
 ## Firewall Controller
 
 The firewall-controller allows you to configure Firewalls using CRDs from inside of Kubernetes clusters. Firewall configuration provided by the firewall-controller is hot reloaded.
