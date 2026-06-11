@@ -8,9 +8,7 @@ sidebar_position: 4
 
 metal-stack bare metal provisioning offers machines, networks, firewalls and floating IPs. That`s it.
 
-You can consume it as-is... -> [Plain Flavor](#plain)
-
-... or use it as foundation for an orchestrator. We offer two K8s Flavors -> [Gardener](#gardener) and [Cluster API](#cluster-api)
+You can consume it as-is with our [Plain Flavor](#plain) or use it as foundation for an orchestrator. We offer two K8s Flavors [Gardener](#gardener) and [Cluster API](#cluster-api).
 
 ## Plain
 
