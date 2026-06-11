@@ -23,6 +23,8 @@ Nevertheless we encourage you to use metal-stack firewalls for north-south traff
 
 ## Why do we use Machines as Firewalls?
 
+Using machines as firewalls gives us a lot of advantages. Controlling the full software stack running on the firewall gives us a lot of flexibility and enables quicker feature development. Our default [firewall image](https://github.com/metal-stack/metal-images/tree/master/firewall) uses nftables for L4 filtering and [Suricata](https://suricata.io/) for network analysis and threat detection.
+
 ### Why not integrate existing firewall appliances?
 
 We see limited benefit in using firewall appliances for the following reasons:
