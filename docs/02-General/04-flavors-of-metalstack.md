@@ -16,7 +16,7 @@ You can consume it as-is... -> [Plain Flavor](#plain)
 
 All flavors start with this. This is what you get if you set up metal-stack and stop there.
 
-Using plain metal-stack without additional layer was not a focus in the past. Therefore firewall features and role management are quite basic. If  There is ongoing work on [improved RBAC in MEP-4](/community/MEP-4-multi-tenancy-for-the-metal-api) and [firewall configuration via metal-api in MEP-16](/community/MEP-16-metal-api-as-an-alternative-configuration-source-for-the-firewall-controller).
+Using plain metal-stack without additional layer was not a focus in the past. Therefore firewall features and role management are quite basic. There is ongoing work on [improved RBAC in MEP-4](/community/MEP-4-multi-tenancy-for-the-metal-api) and [firewall configuration via metal-api in MEP-16](/community/MEP-16-metal-api-as-an-alternative-configuration-source-for-the-firewall-controller).
 
 If you want more features, keep reading.
 
