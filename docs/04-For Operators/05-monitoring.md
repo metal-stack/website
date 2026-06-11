@@ -45,7 +45,7 @@ dashboards to the control plane:
 
 - `grafana-dashboard-alertmanager`
 - `grafana-dashboard-machine-capacity`
-- `grafana-dashboard-metal-api`
+- `grafana-dashboard-metal-apiserver`
 - `grafana-dashboard-rethinkdb`
 - `grafana-dashboard-sonic-exporter`
 
@@ -61,9 +61,9 @@ The following `ServiceMonitors` are also deployed:
 
 - `gardener-metrics-exporter`
 - `ipam-db`
-- `masterdata-api`
-- `masterdata-db`
-- `metal-api`
+- `tenant-api`
+- `tenant-db`
+- `metal-apiserver`
 - `metal-db`
 - `rethinkdb-exporter`
 - `metal-metrics-exporter`
