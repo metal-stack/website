@@ -27,7 +27,8 @@ Nevertheless we encourage you to use metal-stack firewalls for north-south traff
 
 We see limited benefit in using firewall appliances for the following reasons:
 
-- Firewall appliances are a fragmented product category without common APIs or common behaviour, which would bind development time supporting different vendor specific implementations
+- Firewall appliances are a fragmented product category without vendor-agnostic API or common behaviour
+- As a result of the fragmented landscape supporting the most common firewalls would bind development time
 - Appliances and bandwidth would be shared between tenants, increasing management complexity and reducing tenant isolation
 
 
