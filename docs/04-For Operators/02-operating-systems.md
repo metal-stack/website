@@ -28,6 +28,28 @@ The supported images for firewalls are:
 | :------- | :----------- | :------ | -------- |
 | Linux    | Ubuntu       | 3       | 24.04    |
 
+## Image Lifecycle
+
+The metal-stack project provides images are derived from the official Docker images of the respective distribution. We install components required by the metal-stack infrastructure, e.g. FRR for routing-to-the-host and automation tools like [cloud-init](https://docs.cloud-init.io/en/latest/index.html) and [ignition](https://github.com/coreos/ignition) to run user provided post-install tasks.
+
+Every image registered with the metal-api carries one of the following lifecycle classifications:
+
+| Classification | Meaning                                                                                  |
+| :------------- | :--------------------------------------------------------------------------------------- |
+| preview        | Recently introduced image, not yet recommended for production use                         |
+| supported      | Regularly updated and scanned image, recommended for production use                       |
+| deprecated     | Image will expire and be removed soon, users should switch to a newer image               |
+
+These classifications prevent breaking changes in new images from affecting production workloads.
+
+:::info
+Operating system images are provided by the operators of a metal-stack installation, not by its end-users. End-users can only choose from the images that have been registered with the metal-api. If you require an additional image in an installation, get in touch with your operators.
+:::
+
+:::info
+Official metal-stack images are validated for use as K8s Node OS. Results for the validation pipelines will be published later in 2026.
+:::
+
 ## Building Your Own Images
 
 It is fully possible to build your own operating system images and provision them through the metal-stack without any in-tree implementations.
