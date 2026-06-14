@@ -10,9 +10,9 @@ sidebar_position: 20
 This document is work in progress.
 :::
 
-When we started with metal-stack, we decided to go full layer-3 for the dataplane for workloads. But the inventarization and installation process is done in a layer-2 segment with a traditional DHCP/TFTP/PXE approach.
+When we started with metal-stack, we decided to go full layer-3 for the dataplane for workloads. But the inventorization and installation process is done in a layer-2 segment with a traditional DHCP/TFTP/PXE approach.
 
-This works well, does not require manual configuration steps on any of the components in the datacenter. New servers just need to be turned on and get the metal-hammer bootet via DHCP/TFTP/PXE and get registered and are ready to use.
+This works well, does not require manual configuration steps on any of the components in the datacenter. New servers just need to be turned on and get the metal-hammer booted via DHCP/TFTP/PXE and get registered and are ready to use.
 
 But there are downsides with this approach. Most notable:
 
@@ -32,7 +32,10 @@ The following requirements must be fulfilled with a L3 replacement solution:
 - token based authentication against metal-apiserver of the metal-hammer
 - Cache of metal-images accessible from metal-hammer inside a partition
 - Preserve all existing metal-hammer discovery, hardware detection, and provisioning logic
-- Secure network when machine reclaim goes wrong with ACLs on the switch which allows communication only to the control-plane and the boot helper
+- Secure network when machine reclaim goes wrong with ACLs on the switch which allows communication only to the control-plane and the `metal-boot`
+- Optional: make `metal-boot` a proxy to metal-apiserver to support IPv4 only control-plane deployments.
+- Optional: make `metal-boot` itself act as NTP and DNS server for the metal-hammer. Together with the proxy to the control-plane this would allow to restrict external access to the `metal-boot` source IP (even IPv4 and IPv6).
+- `metal-boot` is stateless and can be deployed multiple times and listens to the same anycast IPv6 address for redundancy.
 - TODO more
 
 ## High level Architecture
@@ -43,20 +46,22 @@ The main idea is based on three concepts.
 - Enable automated IPv6 address acquisition via SLAAC (RFC 4862) driven by Router Advertisements (RFC 4861) instead of DHCP
 - IPv6 in a dedicated Boot VRF instead of a Boot VLAN.
 
-This approach requires that metal-apiserver, metal-hammer, ipxe and a new component running in the partition and connected to the boot-vrf (boot helper for now) are IPv6 ready.
+This approach requires that metal-apiserver, metal-hammer, ipxe and a new component running in the partition and connected to the boot-vrf (`metal-boot` for now) are IPv6 ready.
 
 The L3 only boot and registration process can be described as follows:
 
 - Every server will be scanned on a regular basis from the metal-bmc if there is IPXE is configured as boot iso payload. This is a additional task on the metal-bmc. metal-bmc already scans all servers on a regular basis to gather power metrics etc.
-- If the boot iso is set to ipxe, the boot order must be set to CDROM instead of PXE from network and a reboot must be triggered (migration to this approach, not when a machine is allocated).
+- If the boot iso is set to ipxe, the boot source override must be set to CDROM instead of PXE from network and a reboot must be triggered (migration to this approach, not when a machine is allocated).
 - Once the server is powered on, ipxe is booted from the CDROM presented from the firmware.
-- The production interfaces will then get a IPv6 routable ip address from the switch which is configured to enable SLAAC and router advertisement. The configured routes must enable the machine to reach the metal-apiserver in the control plane and the boot helper in the partition.
+- The production interfaces will then get a IPv6 routable ip address from the switch which is configured to enable SLAAC and router advertisement. The configured routes must enable the machine to reach the metal-apiserver in the control plane and the `metal-boot` in the partition.
 - The IPXE iso must contain a boot configuration which chain loads from a known location a secondary boot configuration. To speed up the ipxe startup, the boot.ixpe should disable ipv4 completely as otherwise ipxe will try dhcp first.
     Sample:
+
     ```ipxe
     #!ipxe
     chain https://v2.metal-stack.dev/<partition>/boot.ipxe || shell
     ```
+
     The secondary boot.ipxe will then contain the same payload as actually delivered from pixiecore. This especially contains the configured linux kernel, metal-hammer version, command line and the url in the boot vrf of the boot-helper.
 - With this ipxe will boot into metal-hammer and will contact first the boot-helper on the given url and will get a token to access the metal-apiserver
 - metal-image-cache-sync address is also reachable in the boot vrf and works as before.
