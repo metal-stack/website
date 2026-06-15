@@ -50,7 +50,7 @@ The [gardener-logging](https://github.com/metal-stack/blob/master/control-plane/
 
 ### Partition Log Sources
 
-Alloy is configured through snippets that define what logs are collected. The following snippets are typically used:
+Alloy is configured through snippets that define what logs are collected. The following built-in snippets are available:
 
 | Host type              | Snippet        | Description                                                                                                                           | Key labels                             |
 | ---------------------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
@@ -58,6 +58,8 @@ Alloy is configured through snippets that define what logs are collected. The fo
 | Management servers     | `journal-file` | Collects logs from the persistent systemd journal at a configurable path; supports migrating cursor position from promtail            | `job=systemd-journal`, `unit`, `level` |
 | Hosts without journald | `syslog`       | Tails `/var/log/syslog`                                                                                                               | `job=syslog`                           |
 | Hosts running Docker   | `docker`       | Collects logs from all Docker containers via the Docker socket                                                                        | `job=docker`, `container`              |
+
+Custom log sources can be added without modifying the role by providing your own Jinja2 snippet templates and referencing them via `alloy_config_custom_snippets` in your inventory. See the [alloy role](https://github.com/metal-stack/metal-roles/blob/master/partition/roles/alloy/README.md#customizing-the-config) for details.
 
 ### Partition: Querying Logs in Grafana
 
