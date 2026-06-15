@@ -27,10 +27,10 @@ Configuration parameters can be found in the partition's [alloy](https://github.
 
 In the control plane, Alloy runs as a Kubernetes `DaemonSet` and collects logs from two sources:
 
-| Source            | Description                                                                                  | Key labels                                                                                                |
-| ----------------- | -------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| Pod logs          | Collected from all pods via the Kubernetes API (`loki.source.kubernetes`)                    | `cluster`, `namespace`, `pod`, `container`, `pod_uid`, `node_name`, `app`, `instance`, `component`, `job` |
-| Kubernetes events | Collected natively via `loki.source.kubernetes_events` — no separate event-exporter required | `cluster`, `job=monitoring/event-exporter`, `namespace`                                                   |
+| Source            | Description                                                                                                                           | Key labels                                                                                                |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| Pod logs          | Read from the node filesystem (`/var/log/pods`, `loki.source.file`). Each DaemonSet pod collects only pods scheduled on its own node. | `cluster`, `namespace`, `pod`, `container`, `pod_uid`, `node_name`, `app`, `instance`, `component`, `job` |
+| Kubernetes events | Collected natively via `loki.source.kubernetes_events` with clustering-based leader election — no separate event-exporter required    | `cluster`, `job=monitoring/event-exporter`, `namespace`                                                   |
 
 All control-plane log entries carry a `cluster` label (configured via `logging_alloy_cluster_label`) identifying the control-plane stage.
 
@@ -38,7 +38,7 @@ All control-plane log entries carry a `cluster` label (configured via `logging_a
 
 Gardener ships with a built-in logging stack (Vali + fluent-bit per seed). The metal-stack deployment disables this stack and instead uses Alloy to forward all logs centrally — giving platform operators a single place to query infrastructure logs across all Gardener clusters.
 
-The [gardener-logging](https://github.com/metal-stack/metal-roles/blob/master/control-plane/roles/gardener-logging/README.md) role deploys an Alloy instance into each Gardener shooted seed and optionally into the garden cluster itself. These instances collect pod logs and Kubernetes events from their respective clusters and forward them to the same Loki instance in the metal-stack control plane. Logs carry a `cluster` label set to the cluster name (garden name or shooted seed name), enabling per-cluster filtering in Grafana.
+The [gardener-logging](https://github.com/metal-stack/blob/master/control-plane/roles/gardener-logging/README.md) role deploys an Alloy instance into each Gardener shooted seed and optionally into the garden cluster itself. These instances read pod logs from the node filesystem and collect Kubernetes events, forwarding everything to the same Loki instance in the metal-stack control plane. Logs carry a `cluster` label set to the cluster name (garden name or shooted seed name), enabling per-cluster filtering in Grafana.
 
 ### Control-Plane: Querying Logs in Grafana
 
@@ -74,8 +74,7 @@ All log entries carry the `host` and `partition` labels regardless of snippet, w
 The `promtail` role is deprecated and replaced by the `alloy` role. Refer to the respective migration guides for step-by-step instructions:
 
 - [Partition](https://github.com/metal-stack/metal-roles/blob/master/partition/roles/alloy/README.md#migration-from-promtail) — partition alloy role
-- [Control-plane](https://github.com/metal-stack/metal-roles/blob/master/control-plane/roles/logging/README.md#migration-from-promtail) — control-plane logging role
-- [Gardener](https://github.com/metal-stack/metal-roles/blob/master/control-plane/roles/gardener-logging/README.md#migration-from-promtail) — gardener-logging role
+- [Control-plane and Gardener](https://github.com/metal-stack/metal-roles/blob/master/control-plane/roles/logging-common/README.md#migration-from-promtail) — logging-common migration guide (applies to both the logging and gardener-logging roles)
 
 :::
 
@@ -95,8 +94,8 @@ Metrics are supplied by
 - `metal-metrics-exporter`
 - `rethinkdb-exporter`
 - `gardener-metrics-exporter`
-- `alloy` (control-plane) — self-metrics, disabled by default; see the [logging role](https://github.com/metal-stack/metal-roles/blob/master/control-plane/roles/logging/README.md#meta-monitoring) for configuration
-- `alloy` (gardens and seeds) — self-metrics, disabled by default; see the [gardener-logging role](https://github.com/metal-stack/metal-roles/blob/master/control-plane/roles/gardener-logging/README.md#meta-monitoring) for configuration
+- `alloy` (control-plane) — self-metrics, disabled by default; see [logging-common](https://github.com/metal-stack/metal-roles/blob/master/control-plane/roles/logging-common/README.md#meta-monitoring) for configuration
+- `alloy` (gardens and seeds) — self-metrics, disabled by default, push-only (no ServiceMonitor); see [logging-common](https://github.com/metal-stack/metal-roles/blob/master/control-plane/roles/logging-common/README.md#meta-monitoring) for configuration
 
 The following `ServiceMonitors` are deployed:
 
