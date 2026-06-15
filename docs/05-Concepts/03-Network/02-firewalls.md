@@ -52,6 +52,8 @@ In short, to offer comparable features to our current solution, we would need to
 TODO: metalctl/metalcli example
 
 TODO: Configuring firewalls via firewall-controller CRDs
+
+https://github.com/metal-stack/website/issues/289
 :::
 
 ## Firewall Controller
@@ -63,4 +65,6 @@ The firewall-controller allows you to configure Firewalls using CRDs from inside
 
 Firewall Machines are managed by metal-stack. The local state of Firewall machines is ephemeral, as the authoritative configuration is stored in metal-api. Manual changes to the configuration are not supported and will be overridden. Use metalctl or Firewall CRDs to apply changes to firewall configuration.
 
-(fire-walling in metal-stack, firewall-controller and headscale integration)
+## Headscale integration
+
+TODO: https://github.com/metal-stack/website/issues/290
