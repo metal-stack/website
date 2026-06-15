@@ -8,7 +8,7 @@ sidebar_position: 5
 
 ## Overview
 
-![Monitoring Stack](monitoring-stack.svg)
+![Monitoring Stack](monitoring-stack.drawio.svg)
 
 The diagram above shows the full monitoring and logging stack: partition hosts ship logs to Loki and expose metrics for Prometheus scraping; control-plane and Gardener seed Alloy instances push both logs and self-metrics centrally; Grafana provides unified dashboards and alerting across all tiers.
 
@@ -36,7 +36,8 @@ All control-plane log entries carry a `cluster` label (configured via `logging_a
 
 #### Gardener
 
-Gardener ships with a built-in logging stack (Vali + fluent-bit per seed). The metal-stack deployment disables this stack and instead uses Alloy to forward all logs centrally — giving platform operators a single place to query infrastructure logs across all Gardener clusters.
+Gardener ships with a built-in logging stack (Vali + fluent-bit per seed), that can be used as-is or replaced/complemented by the metal-stack's Alloy + Loki solution.
+The metal-stack roles provide an own centralized logging stack based on Alloy and Loki — giving platform operators a single place to query infrastructure logs across all Gardener clusters.
 
 The [gardener-logging](https://github.com/metal-stack/blob/master/control-plane/roles/gardener-logging/README.md) role deploys an Alloy instance into each Gardener shooted seed and optionally into the garden cluster itself. These instances read pod logs from the node filesystem and collect Kubernetes events, forwarding everything to the same Loki instance in the metal-stack control plane. Logs carry a `cluster` label set to the cluster name (garden name or shooted seed name), enabling per-cluster filtering in Grafana.
 
@@ -91,7 +92,7 @@ control plane.
 
 In-cluster components are scraped by Prometheus via `ServiceMonitor` resources (pull model).
 
-Metrics are supplied by
+Additional metrics are supplied by
 
 - `metal-metrics-exporter`
 - `rethinkdb-exporter`
@@ -124,7 +125,6 @@ Partition metrics are collected via Prometheus scraping (pull model). Exporters 
 - `ipmi-exporter`
 - `sonic-exporter`
 - `metal-core`
-- `frr-exporter`
 - `alloy`
 
 Target hosts for each exporter are defined by
