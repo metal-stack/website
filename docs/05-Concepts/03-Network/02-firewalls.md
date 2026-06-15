@@ -11,7 +11,7 @@ Firewalls in metal-stack are machines that connect networks to each other or the
 
 Only firewalls can have multiple networks attached. 
 
-Firewalls do not require specialized hardware. For most scenarios any of your Machine SKUs can be used as a Firewall.
+Firewalls do not require specialized hardware. For most scenarios any of your Machine Sizes can be used as a Firewall.
 
 :::important
 metal-stack does not support using existing firewall appliances for east-west traffic within metal-stack.
