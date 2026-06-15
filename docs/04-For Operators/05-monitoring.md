@@ -30,7 +30,7 @@ In the control plane, Alloy runs as a Kubernetes `DaemonSet` and collects logs f
 | Source            | Description                                                                                                                           | Key labels                                                                                                |
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
 | Pod logs          | Read from the node filesystem (`/var/log/pods`, `loki.source.file`). Each DaemonSet pod collects only pods scheduled on its own node. | `cluster`, `namespace`, `pod`, `container`, `pod_uid`, `node_name`, `app`, `instance`, `component`, `job` |
-| Kubernetes events | Collected natively via `loki.source.kubernetes_events` with clustering-based leader election — no separate event-exporter required    | `cluster`, `job=monitoring/event-exporter`, `namespace`                                                   |
+| Kubernetes events | Collected natively via `loki.source.kubernetes_events` with clustering-based leader election — no separate event-exporter required    | `cluster`, `job=events`, `namespace`                                                                      |
 
 All control-plane log entries carry a `cluster` label (configured via `logging_alloy_cluster_label`) identifying the control-plane stage.
 
@@ -45,7 +45,7 @@ The [gardener-logging](https://github.com/metal-stack/blob/master/control-plane/
 - `{cluster="<stage-name>"}` — all logs from a control-plane stage
 - `{namespace="<namespace>"}` — all logs from a specific namespace
 - `{job="<namespace>/<app>"}` — logs from a specific application
-- `{job="monitoring/event-exporter"}` — Kubernetes events
+- `{job="events"}` — Kubernetes events _(recently renamed from `monitoring/event-exporter`)_
 - `{cluster="<garden-or-seed-name>"}` — all logs from the Gardener garden cluster or a specific shooted seed
 
 ### Partition Log Sources
