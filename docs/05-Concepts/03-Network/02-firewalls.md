@@ -33,7 +33,7 @@ We see limited benefit in using firewall appliances for the following reasons:
 - Appliances and bandwidth would be shared between tenants, increasing management complexity and reducing tenant isolation
 
 
-### Why not use Top-of-rack Leaf switches as firewalls?
+### Why not use Top-of-Rack Leaf switches as firewalls?
 
 SONiC can provide basic L3/L4 packet filtering capabilities using its ACLs, which can be offloaded to the switching silicon. But unfortunately that is not enough for our requirements:
 
@@ -64,6 +64,6 @@ The firewall-controller allows you to configure Firewalls using CRDs from inside
 
 Firewall Machines are managed by metal-stack. The local state of Firewall machines is ephemeral, as the authoritative configuration is stored in metal-api. Manual changes to the configuration are not supported and will be overridden. Use metalctl or Firewall CRDs to apply changes to firewall configuration.
 
-## Headscale integration
+## VPN integration
 
 TODO: https://github.com/metal-stack/website/issues/290
