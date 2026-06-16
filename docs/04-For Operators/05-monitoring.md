@@ -8,7 +8,7 @@ sidebar_position: 5
 
 ## Overview
 
-![Monitoring Stack](monitoring-stack.drawio.svg)
+![Monitoring Stack](monitoring-stack.svg)
 
 The diagram above shows the full monitoring and logging stack. metal-stack supports the deployment of a central monitoring control plane, with Grafana providing unified dashboards and alerting across all tiers.
 
