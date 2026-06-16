@@ -10,7 +10,11 @@ sidebar_position: 5
 
 ![Monitoring Stack](monitoring-stack.drawio.svg)
 
-The diagram above shows the full monitoring and logging stack: partition hosts ship logs to Loki and expose metrics for Prometheus scraping; control-plane and Gardener seed Alloy instances push both logs and self-metrics centrally; Grafana provides unified dashboards and alerting across all tiers.
+The diagram above shows the full monitoring and logging stack. metal-stack supports the deployment of a central monitoring control plane, with Grafana providing unified dashboards and alerting across all tiers.
+
+In a **partition**, hosts ship logs to Loki via Alloy. A partition-local Prometheus scrapes exporters in the switch plane and remote-writes the collected metrics to the centralized Thanos ingress, enabling long-term metric persistence and compaction.
+
+The **control-plane** and **Gardener** seed Alloy instances push both logs and self-metrics directly to the centralized monitoring control plane.
 
 ## Logging
 
