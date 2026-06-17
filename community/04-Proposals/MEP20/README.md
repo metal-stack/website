@@ -76,11 +76,55 @@ Before we start with the implementation or decision if this is the right approac
 
 This must be done in several steps:
 
-- [ ] ensure ipxe can be packed as ISO image stored in the firmware, booted with DHCP disabled and get a IP with routes from a SLAAC enable switch.
-- [ ] The initial boot.ipxe contains instruction to pull a secondary boot.ipxe which contains kernel, image and cmdline and ipxe chain boots this.
+- [x] ensure ipxe can be packed as ISO image stored in the firmware, booted with DHCP disabled and get a IP with routes from a SLAAC enable switch.
+- [x] The initial boot.ipxe contains instruction to pull a secondary boot.ipxe which contains kernel, image and cmdline and ipxe chain boots this.
 - [ ] can ipxe resolve hostnames to ipv6 addresses ?
 - [ ] Specify how the boot vrf must be configured on the SONiC Side
 - [ ] Specify how metal-hammer kernel must be configured to accept router advertisements
 - [ ] how do we configure the boot vrf on the switch, e.g. which address space will be set per port, is it stored in the metal-apiserver and configured by metal-core.
 
 After all these tasks are done, we can proceed and write a more detailed implementation roadmap and requirements with changes in the api and apiserver or other microservices.
+
+## Necessary Changes
+
+This section will summarize what changes are necessary to implement MEP-20 in metal-stack.
+
+## metal-hammer
+
+metal-hammer will need to bring up the physical Interface of the server it is running on. When using the boot option ip=dhcp the linux kernel fully configures the interface before loading the initrd. metal-hammer should execute the following steps.
+
+- bring up the physical machine interface
+- perform SLAAC
+- wait for duplicate address detection to complete
+
+metal-hammer can then proceed as before.
+
+## metal-api
+
+The metal-api will need the following changes.
+
+- metal-api currently models the booting state as PXEBooting. This should be updated and an additional boot event added for ISO Boot.
+- metal-api will need to store and assign the boot address space. There should be a boot supernet per partition from which per port /64 networks are assigned.
+- metal-api will need to assign the new boot vrf instead of the PXE VLAN
+
+## sonic-configdb-utils
+
+sonic-configdb-utils will need to support additional ACL configuration options for ipv6 to prevent east-west traffic between unprovisioned machines. The ruleset is static, so it can be built similarly to the existing CTRLPLANE tables. (permit metal-boot followed by deny all)
+
+## metal-core
+
+metal-core will need to support additional configuration templates for the boot vrf. 
+
+```
+suggested configuration TBD
+```
+
+metal-core will also need to dynamically bind the boot ACLs to each port. 
+
+## metal-bmc
+
+metal-bmc already scans targets periodically to gather information. In addition to gathering information, metal-bmc should enforce the inserted CDROM and boot mode override. 
+
+## go-hal
+
+go-hal currently does not support the insertion and removal of virtual media. 
