@@ -27,9 +27,9 @@
     "@headlessui/react": "^2.2.10",
     "@mdx-js/react": "^3.1.1",
     "@scalar/api-reference-react": "^0.9.47",
-    "@tailwindcss/postcss": "^4.3.0",
+    "@tailwindcss/postcss": "^4.3.1",
     "@types/semver": "^7.7.1",
-    "axios": "^1.17.0",
+    "axios": "^1.18.0",
     "clsx": "^2.1.1",
     "@easyops-cn/docusaurus-search-local": "^0.55.2",
     "docusaurus-plugin-llms": "^0.4.0",
@@ -39,7 +39,7 @@
     "react-dom": "^19.2.7",
     "semver": "^7.8.4",
     "tailwind-merge": "^3.6.0",
-    "tailwindcss": "^4.3.0"
+    "tailwindcss": "^4.3.1"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "^3.10.1",
