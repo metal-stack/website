@@ -12,7 +12,7 @@ sidebar_position: 2
 [![Build](https://github.com/metal-stack/metal-images/actions/workflows/docker.yaml/badge.svg?branch=master)](https://github.com/metal-stack/metal-images/actions)
 [![Slack](https://img.shields.io/badge/slack-metal--stack-brightgreen.svg?logo=slack)](https://metal-stack.slack.com/)
 
-This project builds operating system images that can be used for bare metal server deployments with [metal-stack](https://metal-stack.io).
+This project builds officially supported operating system images that can be used for bare metal server deployments with [metal-stack](https://metal-stack.io).
 Every OS image is built from a `Dockerfile`, exported to a `lz4` compressed tarball, and uploaded to [images.metal-stack.io](https://images.metal-stack.io/).
 
 More information about the image store is available in [IMAGE_STORE.md](./IMAGE_STORE.md).
@@ -24,8 +24,8 @@ Information about our initial architectural decisions can be found in [ARCHITECT
 Currently these images are supported:
 
 1. Debian 13
-1. Ubuntu 24.04
-1. Firewall 3.0-ubuntu (based on Ubuntu 24.04)
+1. Ubuntu 26.04
+1. Firewall 3.0-ubuntu (based on Ubuntu 26.04)
 1. Nvidia (based on Debian 13)
 
 ## Unsupported Images
@@ -33,6 +33,10 @@ Currently these images are supported:
 We also publish images that we need for special purposes but do not officially support. Use at your own risk.
 
 1. Almalinux 9
+
+## Building Custom Images (Out-Of-Tree)
+
+It is fully possible to build custom operating system images and provision them through the metal-stack without directly contributing them to this repository. Please find information [in the official docs](https://metal-stack.io/docs/next/operating-systems#building-your-own-images) and in the [image builder contract](./ARCHITECTURE.md).
 
 ### GPU Support
 
@@ -44,15 +48,15 @@ Images are synchronized to partitions using a service called [metal-image-cache-
 
 Released images are tagged with the release date and can be accessed using the following image URL pattern:
 
-`https://images.metal-stack.io/metal-os/20240913/debian/12/img.tar.lz4`
+`https://images.metal-stack.io/metal-os/20240913/debian/13/img.tar.lz4`
 
 Images built from the master branch are accessible at an image URL like this:
 
-`https://images.metal-stack.io/metal-os/stable/debian/12/img.tar.lz4`
+`https://images.metal-stack.io/metal-os/stable/debian/13/img.tar.lz4`
 
 For other branches, the URL pattern is as follows:
 
-`https://images.metal-stack.io/metal-os/pull_requests/${CI_COMMIT_REF_SLUG}/debian/12/img.tar.lz4`
+`https://images.metal-stack.io/metal-os/pull_requests/${CI_COMMIT_REF_SLUG}/debian/13/img.tar.lz4`
 
 These URLs can be used to define an image at the `metal-api`.
 
