@@ -10,7 +10,7 @@ metal-stack does not rely on external inventory files or an external IPAM. Physi
 
 ## Physical Inventory
 
-The physical inventory is the hardware in a partition, made up of the leaf switches, the machines, and the server BMCs. Almost all of it is discovered automatically, and only the leaf switches need a base configuration to bootstrap from.
+The physical inventory is the hardware in a partition. metal-stack discovers the leaf switches, the machines, and the server BMCs automatically. The spine and exit switches are provisioned as static underlay rather than discovered.
 
 ### Discovered
 
@@ -30,13 +30,20 @@ Each component reports its findings to metal-api:
 
 LLDP is the link between the machine inventory and the switch inventory. metal-hammer reports each NIC's neighbor, and metal-api correlates those against the registered switch ports to build the connection map between switch ports and machine ports. The physical cable layout is therefore discovered during the same boot, never maintained by hand, and it is what drives per-port VRF configuration when a machine is later allocated to a tenant network.
 
-### Manually configured
+### Ansible Configured
 
-Leaf switches are the exception to fully automatic discovery. Each needs a minimal base configuration to bootstrap, grouped here by purpose:
+Part of the partition is provisioned declaratively instead of being discovered. This configuration is maintained as version-controlled infrastructure-as-code (Ansible) and rolled out by CI, outside metal-stack's control plane.
+
+**Leaf switches**, although discovered and then dynamically managed, still need a minimal base configuration to bootstrap metal-core, grouped here by purpose:
 
   - **Identity**: PartitionID, RackID, Name / Description
   - **Network underlay**: ASN (unique per leaf), LoopbackIP, metal-core CIDR (the switch's address in the PXE/provisioning VLAN), SpineUplinks, ManagementGateway
   - **Auth / transport**: HMACKey, GrpcAddress
+
+**Spine and exit switches** are not represented in metal-api's inventory. metal-api tracks only the switches that machines attach to, namely the leaf pair of each rack. Because spines and exits carry no machine ports, they are never registered and never run metal-core. They are configured once as static underlay:
+
+  - **Spines** forward EVPN routes and transport VXLAN between the VTEPs (see [Spine setup](./01-theory.md#spine-setup)). They are not VTEPs themselves and hold no tenant state, so their configuration is uniform and rarely changes.
+  - **Exit switches** connect the partition to the outside: they terminate the external network VRF arriving from the firewalls and peer with upstream routers over numbered BGP (see [Exit Switch](./01-theory.md#exit-switch)). The base configuration is templated like the rest, but the upstream peerings are individual and effectively maintained by hand.
 
 ## Logical Inventory
 
