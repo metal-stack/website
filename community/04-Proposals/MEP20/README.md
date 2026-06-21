@@ -38,6 +38,10 @@ The following requirements must be fulfilled with a L3 replacement solution:
 - `metal-boot` is stateless and can be deployed multiple times and listens to the same anycast IPv6 address for redundancy.
 - TODO more
 
+## Out of scope
+
+- Per machine generation of boot isos
+
 ## High level Architecture
 
 The main idea is based on three concepts.
@@ -84,6 +88,20 @@ This must be done in several steps:
 - [ ] how do we configure the boot vrf on the switch, e.g. which address space will be set per port, is it stored in the metal-apiserver and configured by metal-core.
 
 After all these tasks are done, we can proceed and write a more detailed implementation roadmap and requirements with changes in the api and apiserver or other microservices.
+
+## Scope and Placement of the metal-boot service
+
+There are several ways to place the `metal-boot` service in a partition. The right choice depends heavily on how much traffic is expected to pass through it.
+
+A full boot consists of many small control steps and a few bulk transfers. The small steps such as obtaining a token, fetching the secondary `boot.ipxe`, and optionally resolving names or syncing time are only a handful of packets per booting machine. The bulk transfers are the kernel, initrd and operating system image and are orders of magnitude larger. In the current design these bulk files are served by `metal-image-cache-sync` on the management-server. That data is forwarded by the switch ASIC from port to port and never reaches a switch CPU.
+
+When placing the service on the switches, special attention must be paid to SONiC's Control Plane Policing (CoPP). Any packet addressed to an IP that is local to the switch is punted to the switch CPU and rate limited there. Traffic that does not match a more specific trap falls into the catch-all `ip2me` trap. By default this trap permits only 6000 incoming packets per second. This is plenty for the control traffic described above. It is a limiting factor for file transfers. Even when a file is served from the switch, the outgoing data stream produces a steady flow of incoming TCP ACKs. Those ACKs count against the `ip2me` budget. Traffic that is operationally important for the fabric such as BGP is classified into separate traps with their own buckets and higher priority CPU queues. Hitting the ceiling of `ip2me` therefore does not endanger routing convergence. The `ip2me` limit is adjustable, but raising it weakens the CPU denial of service protection of the switch for all catch-all traffic. That protection matters because the boot VRF carries reclaimed machines that are not yet trusted. CoPP also cannot be scoped to a single L4 port or host, because the traps are recognised in hardware. It is therefore not possible to grant only `metal-boot` a larger budget.
+
+This has a direct consequence for running `metal-boot` as a full proxy between a booting machine and the rest of the network. Proxying the operating system image through a switch resident `metal-boot` would turn traffic that is otherwise forwarded port to port in hardware into traffic terminated on the switch CPU. Both the incoming image stream from `metal-image-cache-sync` and the ACKs from the booting machine would then hit the `ip2me` trap. This is strictly worse than letting the machine pull the image directly from the cache.
+
+The placement therefore follows from the role given to `metal-boot`. If it only handles the lightweight control functions such as token issuance, `boot.ipxe`, DNS and NTP, placing a container on each leaf is acceptable. The small control steps stay well within the `ip2me` budget, and this also fits the suggestion from the design notes that `metal-boot` could be deployed on each switch with a shared anycast address for redundancy. The downside is that it exposes additional services on critical infrastructure, so the container still needs proper hardening. If `metal-boot` must instead act as a complete proxy that also carries bulk traffic, it should be placed on a fabric reachable host such as a management server. From there the proxied traffic is forwarded in hardware and never punted to a switch CPU, so CoPP does not apply.
+
+The metal-image-cache-sync is currently already placed on the management-servers. For native ipv6 connectivity, the management-server would have to support dual stack. This layout still requires a route from the production hardware to the management server. Ideally this would be realized through a firewall.
 
 ## Necessary Changes
 
