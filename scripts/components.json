@@ -48,7 +48,7 @@
         "releasePath": "docker-images.metal-stack.control-plane.metal-api.tag",
         "repo": "metal-stack/metal-api",
         "branch": "main",
-        "tag": "v0.43.3",
+        "tag": "v0.44.1",
         "position": 4,
         "withDocs": false
       },
@@ -89,7 +89,7 @@
         "releasePath": "docker-images.metal-stack.partition.metal-core.tag",
         "repo": "metal-stack/metal-core",
         "branch": "main",
-        "tag": "v0.16.0",
+        "tag": "v0.16.1",
         "position": 3,
         "withDocs": false
       },
