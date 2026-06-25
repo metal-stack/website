@@ -141,7 +141,9 @@ metal-core will also need to dynamically bind the boot ACLs to each port.
 
 ## metal-bmc
 
-metal-bmc already scans targets periodically to gather information. In addition to gathering information, metal-bmc should enforce the inserted CDROM and boot mode override. 
+metal-bmc already scans targets periodically to gather information. In addition to gathering information, metal-bmc should enforce the inserted CDROM and boot mode override.
+
+Sample redfish code to upload a boot media can be found at the gofish documentation [Mount Virtual Media](https://pkg.go.dev/github.com/stmcginnis/gofish?utm_source=godoc#example-package-MountVirtualMedia)
 
 ## go-hal
 
