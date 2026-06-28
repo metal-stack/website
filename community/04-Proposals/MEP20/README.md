@@ -41,6 +41,7 @@ The following requirements must be fulfilled with a L3 replacement solution:
 ## Out of scope
 
 - Per machine generation of boot isos
+- No migration path back to PXE Boot
 
 ## High level Architecture
 
@@ -66,7 +67,7 @@ The L3 only boot and registration process can be described as follows:
     chain https://v2.metal-stack.dev/<partition>/boot.ipxe || shell
     ```
 
-    The secondary boot.ipxe will then contain the same payload as actually delivered from pixiecore. This especially contains the configured linux kernel, metal-hammer version, command line and the url in the boot vrf of the boot-helper.
+The secondary boot.ipxe will then contain the same payload as actually delivered from pixiecore. This especially contains the configured linux kernel, metal-hammer version, command line and the url in the boot vrf of the boot-helper.
 - With this ipxe will boot into metal-hammer and will contact first the boot-helper on the given url and will get a token to access the metal-apiserver
 - metal-image-cache-sync address is also reachable in the boot vrf and works as before.
 
@@ -101,7 +102,24 @@ This has a direct consequence for running `metal-boot` as a full proxy between a
 
 The placement therefore follows from the role given to `metal-boot`. If it only handles the lightweight control functions such as token issuance, `boot.ipxe`, DNS and NTP, placing a container on each leaf is acceptable. The small control steps stay well within the `ip2me` budget, and this also fits the suggestion from the design notes that `metal-boot` could be deployed on each switch with a shared anycast address for redundancy. The downside is that it exposes additional services on critical infrastructure, so the container still needs proper hardening. If `metal-boot` must instead act as a complete proxy that also carries bulk traffic, it should be placed on a fabric reachable host such as a management server. From there the proxied traffic is forwarded in hardware and never punted to a switch CPU, so CoPP does not apply.
 
-The metal-image-cache-sync is currently already placed on the management-servers. For native ipv6 connectivity, the management-server would have to support dual stack. This layout still requires a route from the production hardware to the management server. Ideally this would be realized through a firewall.
+The metal-image-cache-sync is currently placed on the management-servers. One of the stated goals is to remove the need for connections between the production infrastructure and the management infrastrutcure. Since placing or proxying the image cache on the switches is not viable, the image cache has to move to a different location. The image cache can either be hosted on a metal-stack provisioned machine, or on a server outside of metal-stack's scope.
+
+## Services that must support ipv6
+
+|service| ipv6 | mandatory support | explanation |
+| --- | --- | --- | --- |
+| metal-boot             | yes | yes | `metal-boot` process must directly communicate with the ipv6 metal-hammer, so it must support ipv6|
+| metal-hammer           | yes | yes | `metal-hammer` must configure the it's own interface to use SLAAC |
+| metal-image-cache-sync | yes | yes | Because the images cannot be through the switch, the cache has to be made available to a booting machine with only an ipv6 address |
+| metal-api              | yes | no  | There is neglible traffic between the metal-api and a switch. The connection to the api could be proxied and thus could continue to run over ipv4 | 
+| metal-bmc              | no | no  | metal-bmc will continue to exist fully within the management network |
+| DNS Resolver           | yes | yes | The DNS resolver must be reachable by the booting machine for hostname resolution, requiring native IPv6 connectivity. |
+
+## Service that are replaced
+
+|service|explanation|
+| --- | --- |
+| pixiecore | PXE is no longer required and will be removed in a later release |
 
 ## Necessary Changes
 
@@ -147,4 +165,4 @@ Sample redfish code to upload a boot media can be found at the gofish documentat
 
 ## go-hal
 
-go-hal currently does not support the insertion and removal of virtual media. 
+go-hal currently does not support the insertion and removal of virtual media.
