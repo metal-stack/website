@@ -18,7 +18,7 @@ The physical inventory is the hardware in a partition. metal-stack discovers the
 
 **Machines**: Tenant machines are discovered automatically during PXE boot. pixiecore intercepts the DHCP broadcast and serves metal-hammer via iPXE, which collects the machine's hardware details.
 
-**Server BMCs**: metal-bmc discovers the chassis management controllers by scanning the DHCP leases of the management network and reaching each one over IPMI/Redfish. Many of the servers metal-stack supports are multi-node chassis (such as the Supermicro MicroCloud), so a single BMC can serve several machines rather than mapping one-to-one. Each node is identified when it PXE-boots.
+**Server BMCs**: metal-bmc discovers the chassis management controllers by scanning the DHCP leases of the management network and reaching each one over IPMI/Redfish. Many of the [server types supported by metal-stack](/hardware/) are multi-node chassis (such as the Supermicro MicroCloud), so a single BMC can serve several machines rather than mapping one-to-one. Each node is identified when it PXE-boots.
 
 Each component reports its findings to metal-api:
 
