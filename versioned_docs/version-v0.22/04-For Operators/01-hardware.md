@@ -62,9 +62,7 @@ The following switch types are officially supported and verified by the metal-st
 |:----------|:--------------|:------------|:---------------|:-------|
 | Edge-Core | AS4600 Series | AS4625-54T  | Edgecore SONiC | stable |
 | Edge-Core | AS4600 Series | AS4630-54TE | Edgecore SONiC | stable |
-| Edge-Core | AS7700 Series | AS7712-32X  | Cumulus 3.7.13 | stable |
 | Edge-Core | AS7700 Series | AS7726-32X  | Cumulus 3.7.13 | stable |
-| Edge-Core | AS7700 Series | AS7712-32X  | Edgecore SONiC | stable |
 | Edge-Core | AS7700 Series | AS7726-32X  | Edgecore SONiC | stable |
 
 Other switch series and models might work but were not reported to us.
