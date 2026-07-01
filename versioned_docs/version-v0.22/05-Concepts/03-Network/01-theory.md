@@ -716,7 +716,7 @@ INTERFACES="vlan4000"
 
 > Listing 13: DHCP server configuration of exit switches.
 
-As shown in listing 13, the PXE DHCP server is located on the exit switches and enforced to bind to interface `vlan4000`. This represents a layer-2 separation that allows only DHCP clients in the same VLAN to request IP addresses. Only unprovisionned bare metal servers are configured to be member of this VLAN. Thus unwanted or accidental provisioning is impossible.
+As shown in listing 13, the PXE DHCP server is located on the exit switches and enforced to bind to interface `vlan4000`. This represents a layer-2 separation that allows only DHCP clients in the same VLAN to request IP addresses. Only unprovisioned bare metal servers are configured to be member of this VLAN. Thus unwanted or accidental provisioning is impossible.
 
 To provide `vlan4000` on the leaves (that face the bare metal servers) the exit and leaf switches are configured as VTEPs and share an interface configuration that contains the required interfaces (Listing 13). Since no EVPN routing is in place `vni104000` is configured as an L2 VNI (there is no mapping for this VNI in `/etc/frr/frr.conf`).
 
