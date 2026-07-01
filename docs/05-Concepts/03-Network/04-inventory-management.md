@@ -32,7 +32,7 @@ LLDP is the link between the machine inventory and the switch inventory. metal-h
 
 ### Ansible Configured
 
-Part of the partition is provisioned declaratively instead of being discovered. This configuration is maintained as version-controlled infrastructure-as-code (Ansible) and rolled out by CI, outside metal-stack's control plane.
+Part of the partition is provisioned declaratively instead of being discovered. This configuration is maintained as version-controlled infrastructure-as-code using Ansible and rolled out by CI, outside metal-stack's control plane.
 
 **Leaf switches**, although discovered and then dynamically managed, still need a minimal base configuration to bootstrap metal-core, grouped here by purpose:
 
