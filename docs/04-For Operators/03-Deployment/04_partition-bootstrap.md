@@ -1,6 +1,6 @@
 ---
 slug: /deployment/partition-bootstrap
-title: Deployment - Bootstrapping a Partition
+title: Bootstrapping a Partition
 sidebar_position: 4
 ---
 

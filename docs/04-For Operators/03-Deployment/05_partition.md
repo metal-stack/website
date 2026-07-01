@@ -1,6 +1,6 @@
 ---
 slug: /deployment/partition
-title: Deployment - Partition
+title: Partition
 sidebar_position: 5
 ---
 

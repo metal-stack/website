@@ -1,6 +1,6 @@
 ---
 slug: /deployment/initial-cluster
-title: Deployment - Initial Cluster
+title: Initial Cluster
 sidebar_position: 2
 ---
 
