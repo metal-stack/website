@@ -1,6 +1,6 @@
 ---
 slug: /deployment-guide
-title: Deployment Guide
+title: Guide
 sidebar_position: 1
 ---
 
