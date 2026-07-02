@@ -68,6 +68,7 @@ The L3 only boot and registration process can be described as follows:
     ```
 
 The secondary boot.ipxe will then contain the same payload as actually delivered from pixiecore. This especially contains the configured linux kernel, metal-hammer version, command line and the url in the boot vrf of the boot-helper.
+
 - With this ipxe will boot into metal-hammer and will contact first the boot-helper on the given url and will get a token to access the metal-apiserver
 - metal-image-cache-sync address is also reachable in the boot vrf and works as before.
 
@@ -106,19 +107,19 @@ The metal-image-cache-sync is currently placed on the management-servers. One of
 
 ## Services that must support ipv6
 
-|service| ipv6 | mandatory support | explanation |
-| --- | --- | --- | --- |
-| metal-boot             | yes | yes | `metal-boot` process must directly communicate with the ipv6 metal-hammer, so it must support ipv6|
-| metal-hammer           | yes | yes | `metal-hammer` must configure the it's own interface to use SLAAC |
-| metal-image-cache-sync | yes | yes | Because the images cannot be through the switch, the cache has to be made available to a booting machine with only an ipv6 address |
-| metal-api              | yes | no  | There is neglible traffic between the metal-api and a switch. The connection to the api could be proxied and thus could continue to run over ipv4 | 
-| metal-bmc              | no | no  | metal-bmc will continue to exist fully within the management network |
-| DNS Resolver           | yes | yes | The DNS resolver must be reachable by the booting machine for hostname resolution, requiring native IPv6 connectivity. |
+| service                | ipv6 | mandatory support | explanation                                                                                                                                       |
+|------------------------|------|-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
+| metal-boot             | yes  | yes               | `metal-boot` process must directly communicate with the ipv6 metal-hammer, so it must support ipv6                                                |
+| metal-hammer           | yes  | yes               | `metal-hammer` must configure the it's own interface to use SLAAC                                                                                 |
+| metal-image-cache-sync | yes  | yes               | Because the images cannot be through the switch, the cache has to be made available to a booting machine with only an ipv6 address                |
+| metal-api              | yes  | no                | There is neglible traffic between the metal-api and a switch. The connection to the api could be proxied and thus could continue to run over ipv4 |
+| metal-bmc              | no   | no                | metal-bmc will continue to exist fully within the management network                                                                              |
+| DNS Resolver           | yes  | yes               | The DNS resolver must be reachable by the booting machine for hostname resolution, requiring native IPv6 connectivity.                            |
 
 ## Service that are replaced
 
-|service|explanation|
-| --- | --- |
+| service   | explanation                                                      |
+|-----------|------------------------------------------------------------------|
 | pixiecore | PXE is no longer required and will be removed in a later release |
 
 ## Necessary Changes
@@ -135,13 +136,14 @@ metal-hammer will need to bring up the physical Interface of the server it is ru
 
 metal-hammer can then proceed as before.
 
-## metal-api
+## metal-apiserver
 
-The metal-api will need the following changes.
+The metal-apiserver will need the following changes.
 
-- metal-api currently models the booting state as PXEBooting. This should be updated and an additional boot event added for ISO Boot.
-- metal-api will need to store and assign the boot address space. There should be a boot supernet per partition from which per port /64 networks are assigned.
-- metal-api will need to assign the new boot vrf instead of the PXE VLAN
+- metal-apiserver currently models the booting state as PXEBooting. This should be updated and an additional boot event added for ISO Boot.
+- metal-apiserver will need to store and assign the boot address space. There should be a boot supernet per partition from which per port /64 networks are assigned.
+- metal-apiserver will need to assign the new boot vrf instead of the PXE VLAN
+- *Important*: New servers will no longer be able to boot via PXE and let the metal-hammer set a `metal` and `root` password and store that in the metal-db, instead we must probably pick some of the ideas of the unfinished MEP-15 and allow to store BMC Passwords manually per machine.
 
 ## sonic-configdb-utils
 
@@ -149,13 +151,13 @@ sonic-configdb-utils will need to support additional ACL configuration options f
 
 ## metal-core
 
-metal-core will need to support additional configuration templates for the boot vrf. 
+metal-core will need to support additional configuration templates for the boot vrf.
 
-```
+```raw
 suggested configuration TBD
 ```
 
-metal-core will also need to dynamically bind the boot ACLs to each port. 
+metal-core will also need to dynamically bind the boot ACLs to each port.
 
 ## metal-bmc
 
