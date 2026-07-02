@@ -36,7 +36,7 @@ Probably you need to learn writing Ansible playbooks if you want to be able to d
 :::
 
 :::info
-If you do not want to use Ansible for deployment, you need to come up with a deployment mechanism by yourself. However, you will probably be able to re-use some of our contents from our [metal-roles](https://github.com/metal-stack/metal-roles) repository, e.g. the Helm chart for deploying the metal control plane.
+If you do not want to use Ansible for deployment, you need to come up with a deployment mechanism by yourself. You can still learn from our [metal-roles](https://github.com/metal-stack/metal-roles) repository and [Helm charts](https://github.com/metal-stack/helm-charts/) — but be aware that the Ansible roles tie everything together (variable management, dependency ordering, environment-specific configurations), so building an equivalent from scratch will require significant effort.
 :::
 
 :::tip
