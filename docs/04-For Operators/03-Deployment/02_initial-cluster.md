@@ -32,7 +32,7 @@ Gardener is the recommended solution for production environments. See the [Garde
 [Cluster-API](../../05-Concepts/04-Kubernetes/02-cluster-api.md) is a CNCF project maintained by a Kubernetes SIG that provides declarative cluster management through a management cluster. The metal-stack provider (CAPMS) is **under development** and not yet production-ready.
 
 :::warning
-Cluster-API with metal-stack is in early development and not advised for production use. Please use Gardener for production workloads.
+Cluster-API with metal-stack is in development and not advised for production use. Please use Gardener for production workloads.
 :::
 
 #### Kamaji
@@ -42,7 +42,7 @@ Kamaji therefore uses ClusterAPI to support different infrastructure- and contro
 However, Kamaji integrations with metal-stack **have not been evaluated in production-grade scenarios** by metal-stack.
 
 :::warning
-Kamaji with metal-stack is in early development and not advised for production use. Please use Gardener for production workloads.
+Kamaji with metal-stack is in development and not advised for production use. Please use Gardener for production workloads.
 :::
 
 ## Deployment Options

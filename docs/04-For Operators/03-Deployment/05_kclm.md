@@ -123,7 +123,7 @@ Once your GitOps pipeline is in place, Gardener provides the following day-2 ope
 The [cluster-api-provider-metal-stack (CAPMS)](https://github.com/metal-stack/cluster-api-provider-metal-stack/) infrastructure provider translates CAPI resources into metal-stack API calls for machine, firewall, and IP allocation. CAPMS is tested against the Kubeadm Bootstrap Provider (CABPK) and uses the Add-on Provider for Helm (CAAPH) for installing CNIs like Calico and the metal-ccm.
 
 :::warning
-Cluster-API with metal-stack is in early development and not advised for production use. Please use Gardener for production workloads. We are actively looking for exchange and adopters — if you are interested in using Cluster-API with metal-stack, please [join our community](/community) to help shape future integration efforts.
+Cluster-API with metal-stack is in development and not advised for production use. Please use Gardener for production workloads. We are actively looking for exchange and adopters — if you are interested in using Cluster-API with metal-stack, please [join our community](/community) to help shape future integration efforts.
 :::
 
 For more details on Cluster-API concepts, architecture, operational model, and control plane hosting, see the [Cluster-API concept doc](../../05-Concepts/04-Kubernetes/02-cluster-api.md).
