@@ -419,20 +419,26 @@ If you are having issues regarding the deployment take a look at the [troublesho
 
 ## Providing Images
 
-After the deployment has finished (hopefully without any issues!), you should consider deploying some masterdata entities into your metal-api. For example, you can add your first machine sizes and operating system images. You can do this by further parametrizing the [metal role](https://github.com/metal-stack/metal-roles/tree/master/control-plane/roles/metal). We will just add an operating system for demonstration purposes. Add the following variable to your `inventories/group_vars/control-plane/common.yaml`:
+After the deployment has finished, you should consider deploying some masterdata entities into your metal-api. For example, you can add your first machine sizes and operating system images. You can do this by further parametrizing the [metal role](https://github.com/metal-stack/metal-roles/tree/master/control-plane/roles/metal). We will just add an operating system for demonstration purposes. Add the following variable to your `inventories/group_vars/control-plane/common.yaml`:
 
 ```
 metal_api_images:
-- id: firewall-ubuntu-2.0.20201004
-  name: Firewall 2 Ubuntu 20201004
-  description: Firewall 2 Ubuntu 20201004
-  url: http://images.metal-stack.io/metal-os/master/firewall/2.0-ubuntu/20201004/img.tar.lz4
+- id: firewall-ubuntu-3.0
+  name: Firewall 3 Ubuntu
+  description: Firewall 3 Ubuntu Latest Release
+  url: https://images.metal-stack.io/metal-os/stable/firewall/3.0-ubuntu/img.tar.lz4
   features:
     - firewall
-- id: ubuntu-20.04.20201004
-  name: Ubuntu 20.04 20201004
-  description: Ubuntu 20.04 20201004
-  url: http://images.metal-stack.io/metal-os/master/ubuntu/20.04/20201004/img.tar.lz4
+- id: ubuntu-24.4
+  name: Ubuntu 24.04
+  description: Ubuntu 24.04 Latest Release
+  url: https://images.metal-stack.io/metal-os/stable/ubuntu/24.04/img.tar.lz4
+  features:
+    - machine
+- id: debian-13.0
+  name: Debian 13
+  description: Debian 13 Latest Release
+  url: https://images.metal-stack.io/metal-os/stable/debian/13/img.tar.lz4
   features:
     - machine
 ```
@@ -462,6 +468,8 @@ contexts:
     # in order to protect against unauthorized api access
     # the default hmac is "change-me"
     hmac: change-me
+    # Metal-Admin, Metal-Edit or Metal-View
+    hmac_auth_type: THE_AUTH_TYPE_OF_YOUR_HMAC
 ```
 
 Issue the following command:
