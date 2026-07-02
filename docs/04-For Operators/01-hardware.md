@@ -62,9 +62,7 @@ The following switch types are officially supported and verified by the metal-st
 |:----------|:--------------|:------------|:---------------|:-------|
 | Edge-Core | AS4600 Series | AS4625-54T  | Edgecore SONiC | stable |
 | Edge-Core | AS4600 Series | AS4630-54TE | Edgecore SONiC | stable |
-| Edge-Core | AS7700 Series | AS7712-32X  | Cumulus 3.7.13 | stable |
 | Edge-Core | AS7700 Series | AS7726-32X  | Cumulus 3.7.13 | stable |
-| Edge-Core | AS7700 Series | AS7712-32X  | Edgecore SONiC | stable |
 | Edge-Core | AS7700 Series | AS7726-32X  | Edgecore SONiC | stable |
 
 Other switch series and models might work but were not reported to us.
@@ -73,7 +71,7 @@ Other switch series and models might work but were not reported to us.
 
 On our switches we run [SONiC](https://sonicfoundation.dev). The metal-core writes network configuration specifically implemented for this operating system. Please also consider running SONiC on your switches if you do not want to run into any issues with networking.
 
-Our previous support for [Cumulus Linux](https://www.nvidia.com/en-us/networking/ethernet-switching/cumulus-linux/) will come to an end.
+[Cumulus Linux](https://www.nvidia.com/en-us/networking/ethernet-switching/cumulus-linux/) support in metal-stack is deprecated since Cumulus/Nvidia ended support for all of our currently supported switches.
 
 Of course, contributions for supporting other switch vendors and operating systems are highly appreciated.
 :::

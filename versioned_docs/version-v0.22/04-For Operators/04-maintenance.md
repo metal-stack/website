@@ -34,6 +34,30 @@ Because all outbound traffic passes through the firewall node, this results in a
 
 The worker nodes are rolled out one after the other and, if possible, the containers are redistributed to the machines that are still available. However, for unclustered stateful workloads like databases, temporary disruptions may occur during node restarts.
 
+## Firmware Updates
+
+Firmware updates are intentionally not part of the automated machine lifecycle, since firmware handling is too vendor-specific for stable automation. Updating server firmware is an administrative task that must be performed manually by operators. The corresponding API endpoints are restricted to admin users.
+
+## Repurposing Hardware
+
+metal-stack assumes a fully automated server landscape. Using servers managed by metal-stack for other purposes is not supported. To repurpose hardware, the machines have to be decommissioned, removed from the metal database and physically relocated out of the partition before they can be reused outside of metal-stack. When machines are decommissioned, metal-hammer wipes their disks to prevent data leakage.
+
 ## Rollback
 
 metal-stack employs forward-only database migrations (e.g., for RethinkDB), and each release undergoes thorough integration testing. However, rollback procedures are not included in test coverage. To maintain data integrity and system reliability, rolling back a full release is not supported and strongly discouraged. In the event of issues after an upgrade, it is possible to downgrade specific components rather than reverting the entire system.
+
+## Backup and Disaster Recovery
+
+The databases of the metal control plane are continuously backed up by the [backup-restore-sidecar](https://github.com/metal-stack/backup-restore-sidecar), which pushes the backups to S3-compatible object storage. When a database starts up with an empty state, the sidecar automatically restores the most recent backup. Restoring a specific backup point manually is also supported, see the [manual restore documentation](../08-References/Control%20Plane/backup-restore-sidecar/manual_restore.md).
+
+The following table summarizes the recovery approach for common disaster scenarios:
+
+| Scenario                    | Recovery Approach                                                                                  |
+|:----------------------------|:----------------------------------------------------------------------------------------------------|
+| Control plane database loss | Restore the databases from the backups on the object storage, redeploy the control plane via CI/CD   |
+| Partition loss              | Rebuild the partition using the partition Ansible playbooks                              |
+| Switch failure              | Mount a replacement switch and re-run the partition Ansible playbooks (the topology is redundant, so a single switch failure does not cause an outage) |
+
+During recovery, the metal-stack version referenced in the deployment Git repository is deployed — not the latest release. This ensures that the environment returns to its pre-outage state. Operators trigger this redeployment manually through the CI pipeline.
+
+Backup of local machine storage is not covered by metal-stack. Machine/Disk failure will lead to data loss. To mitigate this a clustered storage system can be used to replicate data across multiple machines in multiple failure domains (e.g. machines, racks, partitions). In addition, we recommend automated and monitored backups and regular restore drills.

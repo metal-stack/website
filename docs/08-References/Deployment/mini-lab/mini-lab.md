@@ -21,7 +21,8 @@ This project can also be used as a template for writing your own metal-stack dep
 - [Try it out](#try-it-out)
     - [Power management](#power-management)
 - [Flavors](#flavors)
-- [Network Topology](#network-topology)
+- [Network topology](#network-topology)
+- [V2 Quickstart](#v2-quickstart)
 
 <!-- /TOC -->
 
@@ -88,8 +89,9 @@ cd mini-lab
 Start the mini-lab with a kind cluster, a metal-api instance as well as two containers wrapping leaf switches and another container that hosts two user-allocatable machines:
 
 ```bash
-make
+make MONITORING_ENABLED=false
 # containerlab will ask you for root permissions (https://github.com/srl-labs/containerlab/issues/669)
+# if you explicitly want to see the monitoring stack you can also run "make" without passing any params
 ```
 
 Before the upcoming steps, you need to bind some environment variables using the following command. This ensures `metalctl` `kubectl` are able to communicate with your mini-lab.
@@ -194,13 +196,56 @@ There are make targets to handle the power state of a machine:
 make power-<on,reset,off>-<machine name>
 ```
 
+## Development
+If you want to contribute to the _metal-stack_ project, you can use the mini-lab as a local development environment. It allows you to quickly test changes to the _metal-stack_ components without needing any external clusters or hardware. 
+You can also use it to test changes to the Ansible roles and modules used by the _metal-stack_.
+
+### Release vector
+
+You can configure the `mini-lab` to deploy specific custom or unreleased images of components by adjusting the variables in [inventories/group_vars/all/release_vector.yaml](inventories/group_vars/all/release_vector.yaml).
+
+For example, to quickly deploy `metal-api` with a custom branch tag, you can add or uncomment specific release tags in that file:
+
+```yaml
+metal_api_image_tag: my-feat-branch
+# metal_core_image_tag: v1.2.3
+```
+
+Further overrides can be looked up in `metal-roles` where the mapping is defined in [common/roles/defaults/defaults/main.yaml](https://github.com/metal-stack/metal-roles/blob/master/common/roles/defaults/defaults/main.yaml).
+
+### Using local checkouts of dependencies
+
+By default, the `mini-lab` runs with pre-packaged Ansible roles and modules. 
+If you want to use local checkouts of dependencies for development, you must start the `mini-lab` with `DEV=true`:
+
+```bash
+DEV=true make up
+```
+
+When `DEV=true` is set, you can provide the following environment variables to map local directories into the containers. Each variable is independent — only the ones you set will be mounted (via a matching override file from `compose.dev/`):
+
+- `MINI_LAB_METAL_ROLES`: path to local `metal-roles` (includes `compose.dev/metal-roles.yaml`)
+- `MINI_LAB_ANSIBLE_COMMON`: path to local `ansible-common` (includes `compose.dev/ansible-common.yaml`)
+- `MINI_LAB_METAL_ANSIBLE_MODULES`: path to local `metal-ansible-modules` (includes `compose.dev/metal-ansible-modules.yaml`)
+- `MINI_LAB_HELM_CHARTS`: path to local `helm-charts` (includes `compose.dev/helm-charts.yaml`)
+
+Example:
+
+```bash
+export MINI_LAB_METAL_ROLES=${HOME}/src/github.com/metal-stack/metal-roles
+export DEV=true
+make up
+```
+
 ## Flavors
 
-There are two versions, or flavors, of the mini-lab environment which differ in regards to the NOS running on the leaves:
+All available mini-lab flavors are listed below:
 
-- `sonic`: runs 2 SONiC switches
-- `capms`: runs the SONiC flavor but with three instead of two machines (this is used for  [cluster-provider-metal-stack](https://github.com/metal-stack/cluster-api-provider-metal-stack) in order to have dedicated hosts for control plane / worker / firewall)
-- `gardener`: installs the [Gardener](https://gardener.cloud) in the mini-lab
+- `sonic`: runs two Community SONiC switches
+- `dell_sonic`: runs two Enterprise SONiC switches with a [locally built vrnetlab image](https://github.com/srl-labs/vrnetlab/tree/master/dell/dell_sonic)
+- `capms_dell_sonic`: runs the `dell_sonic` flavor but with four instead of two machines (this is used for [cluster-provider-metal-stack](https://github.com/metal-stack/cluster-api-provider-metal-stack) in order to have dedicated hosts for control plane / worker / firewall)
+- `kamaji`: runs a variation of the `sonic` flavor. The working example is available at the [cluster-provider-metal-stack](https://github.com/metal-stack/cluster-api-provider-metal-stack)'s `capi-lab`.
+- `gardener`: runs the `sonic` flavor and installs the [Gardener](https://gardener.cloud) in the mini-lab
 
 In order to start specific flavor, you can define the flavor as follows:
 
@@ -216,3 +261,22 @@ An Nginx is running inside of the www container to allow automatic testing of ou
 ![Network topology](./assets/network.svg)
 
 > Figure 2: mini-lab network topology illustration.
+
+## V2 Quickstart
+
+Login with [cli](https://github.com/metal-stack/cli):
+
+```bash
+$ metalctlv2 login --provider openid-connect
+```
+
+User: olli.owner@metal-stack.io
+Password: Olli.Owner123!
+
+User: gerrit.guest@metal-stack.io
+Password: Gerrit.Guest123!
+
+Zitadel Admin:
+
+User: admin@metal-stack.zitadel.172.17.0.1.nip.io
+Password: Password1!
