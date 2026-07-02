@@ -13,10 +13,6 @@ While it is theoretically possible to deploy metal-stack without Kubernetes (see
 
 The control plane deployment described here requires an initial Kubernetes cluster as bootstrap infrastructure, which is described in [Initial Cluster](./02_initial-cluster.md).
 
-:::tip
-For metal-stack it does not matter where your control plane Kubernetes cluster is located. You can of course use a cluster managed by a hyperscaler. This has the advantage of not having to setup Kubernetes by yourself and could even become beneficial in terms of fail-safe operation. However, we also describe a solution of how to setup metal-stack with a self-hosted, [Autonomous Control Plane](/community/MEP-18-autonomous-control-plane) cluster. The only requirement from metal-stack is that your partitions can establish network connections to the metal control plane. If you are interested, you can find a reasoning behind this deployment decision [here](../../05-Concepts/01-architecture.mdx#target-deployment-platforms).
-:::
-
 Let's start off with a fresh folder for your deployment:
 
 ```bash
