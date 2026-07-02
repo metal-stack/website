@@ -6,7 +6,13 @@ sidebar_position: 2
 
 # Initial Cluster
 
-Before deploying a **Kubernetes Cluster Lifecycle Management (KCLM)** solution, a base Kubernetes cluster needs to be in place. This initial cluster serves as the bootstrap infrastructure for the **metal-stack control plane**.
+An initial Kubernetes cluster is always required for metal-stack deployments using this guide, as the [metal control plane](../../05-Concepts/01-architecture.mdx#metal-control-plane) is deployed on Kubernetes.
+
+The initial cluster(s) serve as the bootstrap infrastructure for the **metal-stack control plane**.
+
+The number and placement of initial clusters depend on whether you use a KCLM solution, as well as your availability and autonomy requirements.
+
+If you only need **Bare-Metal as a Service** (allocating machines, managing networks, configuring firewalls via API) without KCLM, you need at least **one cluster** for the [Control Plane](./03_control-plane.mdx).
 
 ## KCLM Solutions
 
@@ -79,11 +85,3 @@ The k3s cluster serves as a minimal control plane whose sole purpose is to host 
 The k3s nodes can be either bare metal machines or virtual machines. For a minimal setup, a single node with 8–16 cores, 64GB RAM, and two NVMe drives of 1TB is a good starting point. For high availability, a clustered k3s configuration across multiple nodes is recommended, with ETCD replication and backup-restore mechanisms configured for metal-stack and KCLM components.
 
 See the [Autonomous Control Plane](/community/MEP-18-autonomous-control-plane) proposal for detailed architecture, failure scenarios, and implementation guidance.
-
-## Next Steps
-
-Once the initial cluster is in place, the deployment continues with:
-
-1. **[Metal Control Plane Deployment](./03_control-plane.mdx)** — Deploy the metal-stack control plane into the initial cluster.
-2. **[Partition Deployment](./04_partition.md)** — Set up a partition
-3. **[KCLM Setup](./05_kclm.md)** — Configure your Kubernetes Cluster Lifecycle Management solution (Gardener recommended) on its own dedicated cluster to use metal-stack as a provider.

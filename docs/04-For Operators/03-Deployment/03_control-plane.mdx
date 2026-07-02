@@ -6,7 +6,12 @@ sidebar_position: 3
 
 # Metal Control Plane Deployment
 
-The metal control plane is typically deployed in a Kubernetes cluster. Therefore, this document will assume that you have a Kubernetes cluster ready for getting deployed. Even though it is theoretically possible to deploy metal-stack without Kubernetes, we strongly advise you to use the described method because we believe that Kubernetes gives you a lot of benefits regarding the stability and maintainability of the application deployment.
+The metal control plane is the **minimum requirement** for running metal-stack as a Bare-Metal as a Service (MaaS) platform. 
+
+This guide assumes a **Kubernetes-based deployment** because our Ansible roles are designed around Kubernetes — it is significantly more comfortable to deploy and operate metal-stack on Kubernetes than on any other platform. 
+While it is theoretically possible to deploy metal-stack without Kubernetes (see [Target Deployment Platforms](../../05-Concepts/01-architecture.mdx#target-deployment-platforms) for the reasoning behind this design decision), doing so would require you to come up with your own deployment mechanism.
+
+The control plane deployment described here requires an initial Kubernetes cluster as bootstrap infrastructure, which is described in [Initial Cluster](./02_initial-cluster.md).
 
 :::tip
 For metal-stack it does not matter where your control plane Kubernetes cluster is located. You can of course use a cluster managed by a hyperscaler. This has the advantage of not having to setup Kubernetes by yourself and could even become beneficial in terms of fail-safe operation. However, we also describe a solution of how to setup metal-stack with a self-hosted, [Autonomous Control Plane](/community/MEP-18-autonomous-control-plane) cluster. The only requirement from metal-stack is that your partitions can establish network connections to the metal control plane. If you are interested, you can find a reasoning behind this deployment decision [here](../../05-Concepts/01-architecture.mdx#target-deployment-platforms).
@@ -156,47 +161,6 @@ This is how your `roles/ingress-controller/tasks/main.yaml` could look like:
 
 :::tip
 The [ansible-common](https://github.com/metal-stack/ansible-common) repository contains very general roles and modules that you can also use when extending your deployment further.
-:::
-
-## Alternative: Gateway API with Envoy Gateway
-
-As an alternative to nginx-ingress, metal-stack supports the [Kubernetes Gateway API](https://kubernetes.io/docs/concepts/services-networking/gateway/) via [Envoy Gateway](https://gateway.envoyproxy.io/).
-This is particularly useful when you need to expose TCP-based services (such as the metal-api gRPC endpoint or NSQ) alongside HTTP services.
-
-Gateway API support is added **in addition to** existing Ingress support and is disabled by default in the metal-roles, allowing operators to migrate gradually.
-Both can coexist during the transition period since some external dependencies (such as Thanos and MinIO) still rely on Ingress resources.
-
-A working reference implementation using Envoy Gateway on top of [cloud-provider-kind](https://github.com/kubernetes-sigs/cloud-provider-kind) can be found in the [mini-lab repository](https://github.com/metal-stack/mini-lab).
-It deploys Envoy Gateway via Helm and creates a `GatewayClass`, `Gateway`, and `EnvoyProxy` resource with HTTP, HTTPS, and TCP listeners.
-
-When using the Gateway API, define a separate DNS domain for Gateway API routes using `metal_control_plane_gateway_dns` and enable the respective route types on the metal roles. For example, in `group_vars/control-plane/metal.yml`:
-
-```yaml
----
-metal_deploy_ingress: false
-
-metal_api_httproute_enabled: true
-metal_api_httproute_parent_refs:
-  - name: metal-control-plane
-    namespace: "{{ metal_control_plane_namespace }}"
-    sectionName: http
-
-metal_api_tcproute_enabled: true
-metal_api_tcproute_parent_refs:
-  - name: metal-control-plane
-    namespace: "{{ metal_control_plane_namespace }}"
-    sectionName: metal-api-grpc
-
-nsq_tcproute_enabled: true
-nsq_tcproute_parent_refs:
-  - name: metal-control-plane
-    sectionName: nsq
-```
-
-The same `*_httproute_enabled` / `*_tcproute_enabled` variables are available for other services such as `metal_apiserver`, `headscale`, and `zitadel`. See the [metal-roles/control-plane documentation](https://github.com/metal-stack/metal-roles/tree/master/control-plane) for the full list of supported variables.
-
-:::note
-When using the Gateway API approach, you typically set `metal_deploy_ingress: false` to avoid deploying the nginx-ingress controller, since the Gateway API handles all traffic routing.
 :::
 
 ## Deployment Parametrization

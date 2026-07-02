@@ -6,6 +6,23 @@ sidebar_position: 1
 
 # Deployment Guide
 
+metal-stack is a Metal-as-a-Service (MaaS) platform that turns on-premises bare-metal servers into an elastic, self-managed cloud infrastructure. At its core, metal-stack consists of two components:
+
+- **Control Plane** — The central management layer (APIs, databases, scheduling)
+- **Partitions** — The data center infrastructure (servers, leaf switches, BMCs)
+
+These two components alone provide a fully functional **Bare-Metal as a Service (MaaS)** platform. You can allocate machines, manage networks, configure firewalls, and operate servers via REST/gRPC APIs and the `metalctl` CLI — without any Kubernetes cluster lifecycle management.
+
+## Kubernetes Cluster Lifecycle Management
+
+If you need to provision **Kubernetes clusters** on top of your bare-metal infrastructure, metal-stack integrates with KCLM solutions like [Gardener](../../05-Concepts/04-Kubernetes/01-gardener.md) or [Cluster-API](../../05-Concepts/04-Kubernetes/02-cluster-api.md). These are **optional layers** built on top of the MaaS foundation — not prerequisites.
+
+:::tip
+You can use metal-stack as a pure MaaS platform without any KCLM integration. The KCLM layer is only needed if you want to automate Kubernetes cluster provisioning on your bare-metal infrastructure.
+:::
+
+## Deployment Approaches
+
 We are bootstrapping the [metal control plane](../../05-Concepts/01-architecture.mdx#metal-control-plane) as well as our [partitions](../../05-Concepts/01-architecture.mdx#partitions) with [Ansible](https://www.ansible.com/) through CI.
 
 In order to build up your deployment, we recommend to make use of the same Ansible roles that we are using by ourselves in order to deploy the metal-stack. You can find them in the repository called [metal-roles](https://github.com/metal-stack/metal-roles).
