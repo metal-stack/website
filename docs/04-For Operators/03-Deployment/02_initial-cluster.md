@@ -26,7 +26,7 @@ metal-stack supports three Kubernetes Cluster Lifecycle Management solutions. Ea
 Gardener is the recommended solution for production environments. See the [Gardener concept doc](../../05-Concepts/04-Kubernetes/01-gardener.md) for terminology and architecture details.
 :::
 
-### Cluster-API (Alternative)
+### Cluster-API
 
 [Cluster-API](../../05-Concepts/04-Kubernetes/02-cluster-api.md) is a CNCF project maintained by a Kubernetes SIG that provides declarative cluster management through a management cluster. The metal-stack provider (CAPMS) is **under heavy development** and not yet production-ready.
 
@@ -34,7 +34,7 @@ Gardener is the recommended solution for production environments. See the [Garde
 Cluster-API with metal-stack is in early development and not advised for production use. Please use Gardener for production workloads.
 :::
 
-### Kamaji (Alternative)
+#### Kamaji
 
 [Kamaji](../../05-Concepts/04-Kubernetes/02-cluster-api.md#kamaji) allows a similar control plane hosting model as Gardener, where the control plane runs on dedicated infrastructure separate from worker nodes.
 Kamaji therefore uses ClusterAPI to support different infrastructure- and control-plane-providers.
@@ -54,15 +54,18 @@ It is possible to use a **single initial cluster** for both metal-stack and the 
 
 ### Option 2: Dedicated Clusters
 
-We recommend using **dedicated (initial) clusters** for metal-stack and the KCLM solution — one cluster for the metal-stack control plane and a separate cluster for the KCLM. This approach provides:
+We recommend using **dedicated (initial) clusters** for metal-stack and the KCLM solution — one cluster for the metal-stack control plane and a separate cluster for the KCLM.
 
-- **Clearer operational boundaries** — Separation of platform administrators and KCLM operators aligns with the role model described in the [Kubernetes Cluster Lifecycle Management](/Kubernetes%20Cluster%20Lifecycle%20Management) documentation
-- **Better isolation** — Physical separation of control planes follows best practices for critical infrastructure, where operator-managed control plane components are inaccessible to end-users
-- **Simplified failure boundaries** — Outages of the KCLM cluster only affect cluster provisioning, not the metal-stack infrastructure or existing workloads
+This approach provides clearer operational boundaries, better isolation and simplified failure boundaries.
 
-### Option 3: Autonomous Control Plane (Best for Digital Sovereignty and Critical Infrastructure)
+### Option 3: Autonomous Control Plane
 
-For self-hosted deployments, metal-stack can be set up with an [Autonomous Control Plane](/community/MEP-18-autonomous-control-plane) cluster. This approach is the best choice for organizations that require full digital sovereignty and autonomy over their entire infrastructure stack. The only requirement from metal-stack is that your partitions can establish network connections to the metal control plane.
+For self-hosted deployments, metal-stack can be set up with an [Autonomous Control Plane](/community/MEP-18-autonomous-control-plane) cluster. This approach is the best choice for organizations that require full digital sovereignty and autonomy over their entire infrastructure stack.
+
+The autonomous control-plane cluster serves as a minimal control plane whose sole purpose is to host the production control plane cluster (the "Matryoshka principle").
+This brings several advantages like failure isolation, separate operational responsibility, minimal resource requirements and full control and ownership.
+
+The only requirement from metal-stack is that your partitions can establish network connections to the metal control plane.
 
 ## Suggestions for the Initial Cluster
 
@@ -81,12 +84,6 @@ For metal-stack it does not matter where your control plane Kubernetes cluster i
 ### For Option 3: Autonomous Control Plane with k3s
 
 For the autonomous control plane approach, [MEP-18](/community/MEP-18-autonomous-control-plane) proposes using [k3s](https://k3s.io/) as the initial cluster. This is because KCLM solutions are not yet able to create an initial cluster themselves (though this may change with implementations like [GEP-28](https://github.com/gardener/gardener/blob/master/docs/proposals/28-autonomous-shoot-clusters.md) for Gardener).
-
-The k3s cluster serves as a minimal control plane whose sole purpose is to host the production control plane cluster (the "Matryoshka principle"). This brings several advantages:
-
-- **Failure isolation** — In the event of an interruption or loss of the initial k3s cluster, the production control plane remains unaffected, and end users can continue to manage their clusters as normal.
-- **Separate operational responsibility** — A dedicated operations team can take care of the Day-2 maintenance of the k3s installation, which uses different tools than the rest of the setup.
-- **Minimal resource requirements** — Since the number of shoot clusters to host is static, resource requirements are minimal and stable over time.
 
 The k3s nodes can be either bare metal machines or virtual machines. For a minimal setup, a single node with 8–16 cores, 64GB RAM, and two NVMe drives of 1TB is a good starting point. For high availability, a clustered k3s configuration across multiple nodes is recommended, with ETCD replication and backup-restore mechanisms configured for metal-stack and KCLM components.
 
