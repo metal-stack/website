@@ -158,6 +158,47 @@ This is how your `roles/ingress-controller/tasks/main.yaml` could look like:
 The [ansible-common](https://github.com/metal-stack/ansible-common) repository contains very general roles and modules that you can also use when extending your deployment further.
 :::
 
+## Alternative: Gateway API with Envoy Gateway
+
+As an alternative to nginx-ingress, metal-stack supports the [Kubernetes Gateway API](https://kubernetes.io/docs/concepts/services-networking/gateway/) via [Envoy Gateway](https://gateway.envoyproxy.io/).
+This is particularly useful when you need to expose TCP-based services (such as the metal-api gRPC endpoint or NSQ) alongside HTTP services.
+
+Gateway API support is added **in addition to** existing Ingress support and is disabled by default in the metal-roles, allowing operators to migrate gradually.
+Both can coexist during the transition period since some external dependencies (such as Thanos and MinIO) still rely on Ingress resources.
+
+A working reference implementation using Envoy Gateway on top of [cloud-provider-kind](https://github.com/kubernetes-sigs/cloud-provider-kind) can be found in the [mini-lab repository](https://github.com/metal-stack/mini-lab).
+It deploys Envoy Gateway via Helm and creates a `GatewayClass`, `Gateway`, and `EnvoyProxy` resource with HTTP, HTTPS, and TCP listeners.
+
+When using the Gateway API, define a separate DNS domain for Gateway API routes using `metal_control_plane_gateway_dns` and enable the respective route types on the metal roles. For example, in `group_vars/control-plane/metal.yml`:
+
+```yaml
+---
+metal_deploy_ingress: false
+
+metal_api_httproute_enabled: true
+metal_api_httproute_parent_refs:
+  - name: metal-control-plane
+    namespace: "{{ metal_control_plane_namespace }}"
+    sectionName: http
+
+metal_api_tcproute_enabled: true
+metal_api_tcproute_parent_refs:
+  - name: metal-control-plane
+    namespace: "{{ metal_control_plane_namespace }}"
+    sectionName: metal-api-grpc
+
+nsq_tcproute_enabled: true
+nsq_tcproute_parent_refs:
+  - name: metal-control-plane
+    sectionName: nsq
+```
+
+The same `*_httproute_enabled` / `*_tcproute_enabled` variables are available for other services such as `metal_apiserver`, `headscale`, and `zitadel`. See the [metal-roles/control-plane documentation](https://github.com/metal-stack/metal-roles/tree/master/control-plane) for the full list of supported variables.
+
+:::note
+When using the Gateway API approach, you typically set `metal_deploy_ingress: false` to avoid deploying the nginx-ingress controller, since the Gateway API handles all traffic routing.
+:::
+
 ## Deployment Parametrization
 
 Now you can parametrize the referenced roles to fit your environment. The role parametrization can be looked up in the role documentation on [metal-roles/control-plane](https://github.com/metal-stack/metal-roles/tree/master/control-plane). You should not need to define a lot of variables for the beginning as most values are reasonably defaulted. You can start with the following content for `group_vars/control-plane/common.yaml`:
@@ -442,6 +483,7 @@ metal_api_images:
   features:
     - machine
 ```
+
 See the [metal-images reference](https://metal-stack.io/docs/references/metal-images/#supported-images) for currently supported images.
 
 Then, re-run the deployment to apply your changes. Our playbooks are idempotent.
