@@ -36,7 +36,13 @@ Cluster-API with metal-stack is in early development and not advised for product
 
 ### Kamaji (Alternative)
 
-Kamaji allows a similar control plane hosting model as Gardener, where the control plane runs on dedicated infrastructure separate from worker nodes. However, Kamaji integrations with metal-stack **have not been evaluated in production-grade scenarios** by metal-stack.
+[Kamaji](../../05-Concepts/04-Kubernetes/02-cluster-api.md#kamaji) allows a similar control plane hosting model as Gardener, where the control plane runs on dedicated infrastructure separate from worker nodes.
+Kamaji therefore uses ClusterAPI to support different infrastructure- and control-plane-providers.
+However, Kamaji integrations with metal-stack **have not been evaluated in production-grade scenarios** by metal-stack.
+
+:::warning
+Kamaji with metal-stack is in early development and not advised for production use. Please use Gardener for production workloads.
+:::
 
 ## Deployment Options
 
