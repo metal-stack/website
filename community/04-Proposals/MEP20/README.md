@@ -107,14 +107,14 @@ The metal-image-cache-sync is currently placed on the management-servers. One of
 
 ## Services that must support ipv6
 
-| service                | ipv6 | mandatory support | explanation                                                                                                                                       |
-|------------------------|------|-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
-| metal-boot             | yes  | yes               | `metal-boot` process must directly communicate with the ipv6 metal-hammer, so it must support ipv6                                                |
-| metal-hammer           | yes  | yes               | `metal-hammer` must configure the it's own interface to use SLAAC                                                                                 |
-| metal-image-cache-sync | yes  | yes               | Because the images cannot be through the switch, the cache has to be made available to a booting machine with only an ipv6 address                |
-| metal-api              | yes  | no                | There is neglible traffic between the metal-api and a switch. The connection to the api could be proxied and thus could continue to run over ipv4 |
-| metal-bmc              | no   | no                | metal-bmc will continue to exist fully within the management network                                                                              |
-| DNS Resolver           | yes  | yes               | The DNS resolver must be reachable by the booting machine for hostname resolution, requiring native IPv6 connectivity.                            |
+| service                | ipv6 | mandatory support | explanation                                                                                                                                         |
+|------------------------|------|-------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
+| metal-boot             | yes  | yes               | `metal-boot` process must directly communicate with the ipv6 metal-hammer, so it must support ipv6                                                  |
+| metal-hammer           | yes  | yes               | `metal-hammer` must configure the it's own interface to use SLAAC                                                                                   |
+| metal-image-cache-sync | yes  | yes               | Because the images cannot be through the switch, the cache has to be made available to a booting machine with only an ipv6 address                  |
+| metal-api              | yes  | no                | There is negligible traffic between the metal-api and a switch. The connection to the api could be proxied and thus could continue to run over ipv4 |
+| metal-bmc              | no   | no                | metal-bmc will continue to exist fully within the management network                                                                                |
+| DNS Resolver           | yes  | yes               | The DNS resolver must be reachable by the booting machine for hostname resolution, requiring native IPv6 connectivity.                              |
 
 ## Service that are replaced
 
