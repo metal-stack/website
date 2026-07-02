@@ -25,11 +25,11 @@ You can use metal-stack as a pure MaaS platform without any KCLM integration. Th
 
 We are bootstrapping the [metal control plane](../../05-Concepts/01-architecture.mdx#metal-control-plane) as well as our [partitions](../../05-Concepts/01-architecture.mdx#partitions) with [Ansible](https://www.ansible.com/) through CI.
 
-In order to build up your deployment, we recommend to make use of the same Ansible roles that we are using by ourselves in order to deploy the metal-stack. You can find them in the repository called [metal-roles](https://github.com/metal-stack/metal-roles).
+We recommend using the same Ansible roles that we use to deploy metal-stack in our own environments. They are available in the [metal-roles](https://github.com/metal-stack/metal-roles) repository.
 
-In order to wrap up deployment dependencies there is a special [deployment base image](https://github.com/metal-stack/metal-deployment-base/pkgs/container/metal-deployment-base) hosted on GitHub that you can use for running the deployment. Using this Docker image eliminates a lot of moving parts in the deployment and should keep the footprints on your system fairly small and maintainable.
+To simplify dependency management, we provide a dedicated [deployment base image](https://github.com/metal-stack/metal-deployment-base/pkgs/container/metal-deployment-base) on GitHub Container Registry. This Docker image bundles all required tools and libraries, keeping your deployment environment lean and easy to maintain.
 
-This document will from now on assume that you want to use our Ansible deployment roles for setting up metal-stack. We will also use the deployment base image, so you should also have [Docker](https://docs.docker.com/get-started/get-docker/) installed. It is in the nature of software deployments to differ from site to site, company to company, user to user. Therefore, we can only describe how the deployment works for us. It is up to you to tweak the deployment described in this document to your requirements.
+The remainder of this guide assumes you are using our Ansible roles and the deployment base image. Make sure you have [Docker](https://docs.docker.com/get-started/get-docker/) installed. Every deployment environment is unique, so this guide describes how we set up metal-stack in our own infrastructure. You will need to adapt the steps to match your specific requirements.
 
 :::warning
 Probably you need to learn writing Ansible playbooks if you want to be able to deploy the metal-stack as presented in this documentation. However, even when starting without any knowledge about Ansible it should be possible to follow these docs. In case you need further explanations regarding Ansible please refer to [docs.ansible.com](https://docs.ansible.com/).

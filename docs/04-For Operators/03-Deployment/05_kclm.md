@@ -118,7 +118,7 @@ Once your GitOps pipeline is in place, Gardener provides the following day-2 ope
 
 ### Cluster-API (Alternative)
 
-[Cluster-API](../../05-Concepts/04-Kubernetes/02-cluster-api.md) is a CNCF project maintained by a Kubernetes SIG that provides declarative cluster management through a management cluster. The metal-stack provider (CAPMS) is **under heavy development** and not yet production-ready.
+[Cluster-API](../../05-Concepts/04-Kubernetes/02-cluster-api.md) is a CNCF project maintained by a Kubernetes SIG that provides declarative cluster management through a management cluster. The metal-stack provider (CAPMS) is **under development** and not yet production-ready.
 
 The [cluster-api-provider-metal-stack (CAPMS)](https://github.com/metal-stack/cluster-api-provider-metal-stack/) infrastructure provider translates CAPI resources into metal-stack API calls for machine, firewall, and IP allocation. CAPMS is tested against the Kubeadm Bootstrap Provider (CABPK) and uses the Add-on Provider for Helm (CAAPH) for installing CNIs like Calico and the metal-ccm.
 
