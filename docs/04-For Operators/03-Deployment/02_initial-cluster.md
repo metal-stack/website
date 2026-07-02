@@ -16,7 +16,8 @@ If you only need **Bare-Metal as a Service** (allocating machines, managing netw
 
 ## KCLM Solutions
 
-metal-stack supports three Kubernetes Cluster Lifecycle Management solutions. Each has different maturity levels and capabilities:
+metal-stack supports three Kubernetes Cluster Lifecycle Management solutions. Each has different maturity levels and capabilities.
+See the [Kubernetes Concepts Section](../../05-Concepts/04-Kubernetes/01-gardener.md) for a detailed view on the solutions.
 
 ### Gardener (Recommended)
 
