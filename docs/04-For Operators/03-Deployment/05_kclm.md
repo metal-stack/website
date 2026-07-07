@@ -15,7 +15,7 @@ This guide covers the deployment of a Kubernetes Cluster Lifecycle Management (K
 [Gardener](../../05-Concepts/04-Kubernetes/01-gardener.md) is the **recommended** KCLM solution for metal-stack. It is battle-tested in production for over seven years at financial-sector customers and bundles more day-2 capabilities natively (DNS, backup, audit). Gardener manages entire clusters as Kubernetes-native resources with a strong separation between platform operators and end-users.
 
 :::tip
-We recommend using a **dedicated cluster** for Gardener, separate from the metal-stack initial cluster. While it is technically possible to deploy both metal-stack and Gardener on the same initial cluster, dedicated clusters provide better isolation, clearer operational boundaries, and align with production best practices for critical infrastructure. For guidance on setting up the initial cluster, see the [Initial Cluster](./02_initial-cluster.md) documentation.
+We recommend using a **dedicated cluster** for Gardener, separate from the metal-stack initial cluster. While it is technically possible to deploy both metal-stack and Gardener on the same initial cluster, dedicated clusters provide better isolation, clearer operational boundaries, and align with production best practices for critical infrastructure. For guidance on setting up the initial cluster, see the [Bootstrap Infrastructure](./02_bootstrap-infrastructure.md) documentation.
 :::
 
 For more details on Gardener terminology, architecture, operational model, failure domains, and operational features, see the [Gardener concept doc](../../05-Concepts/04-Kubernetes/01-gardener.md).
@@ -128,20 +128,20 @@ Cluster-API with metal-stack is in development and not advised for production us
 
 For more details on Cluster-API concepts, architecture, operational model, and control plane hosting, see the [Cluster-API concept doc](../../05-Concepts/04-Kubernetes/02-cluster-api.md).
 
+Unlike Gardener, which provides a complete Kubernetes-as-a-Service platform with integrated day-2 operations (DNS, backup, certificate rotation, audit), Cluster-API is a declarative cluster management framework. Operators must assemble their own day-2 tooling — CNI, CCM, DNS, backup, and certificate management — and manage them through GitOps workflows.
+
 #### Deployment
 
-Cluster-API with metal-stack is deployed through the [cluster-api-provider-metal-stack (CAPMS)](https://github.com/metal-stack/cluster-api-provider-metal-stack/) infrastructure provider. The full deployment guide is available in the [CAPMS README](https://metal-stack.io/docs/next/references/cluster-api-provider-metal-stack).
+Cluster-API with metal-stack is deployed through the [cluster-api-provider-metal-stack (CAPMS)](https://github.com/metal-stack/cluster-api-provider-metal-stack/) infrastructure provider. The [CAPMS reference documentation](../../08-References/Kubernetes/cluster-api-provider-metal-stack/cluster-api-provider-metal-stack.md) covers the deployment in detail.
 
 **Deployment flow**
 
-1. **Prepare management cluster** — A Kubernetes cluster to host CAPI controllers and cluster state (e.g., a `kind` cluster)
-2. **Configure `clusterctl`** — Add the metal-stack provider URL to `~/.config/cluster-api/clusterctl.yaml`
-3. **Set environment variables** — `METAL_API_URL`, `METAL_API_HMAC`, `METAL_PROJECT_ID`, `METAL_PARTITION`, control plane/worker/firewall machine images and sizes, cluster name, namespace, and Kubernetes version
-4. **Install CAPMS** — Build and push the CAPMS image, then run `make install` and `make deploy` (or apply the released `infrastructure-components.yaml` directly)
-5. **Initialize clusterctl** — Run `clusterctl init --infrastructure metal-stack` on the management cluster
-6. **Generate and apply cluster manifest** — Use `clusterctl generate cluster` to produce a YAML with `Cluster`, `MetalStackCluster`, `KubeadmControlPlane`, `MachineDeployment`, and `MetalStackMachine` resources, then apply it
-7. **Deploy add-ons** — Install CNI (Calico) and `metal-ccm` into the workload cluster via `ClusterResourceSet` and CAAPH (Cluster API Add-on Provider for Helm)
-8. **Retrieve kubeconfig** — Use `clusterctl get kubeconfig` to access the provisioned cluster
+1. **Prepare management cluster** — A Kubernetes cluster to host CAPI and CAPMS providers and cluster state
+2. **Install CAPMS** — Deploy the CAPMS provider into the management cluster
+3. **Configure `clusterctl`** — Register the metal-stack provider URL and set environment variables (API credentials, project, partition, machine images and sizes, cluster name, Kubernetes version)
+4. **Generate and apply cluster manifest** — Use `clusterctl generate cluster` to produce a YAML with `Cluster`, `MetalStackCluster`, `KubeadmControlPlane`, `MachineDeployment`, and `MetalStackMachine` resources, then apply it
+5. **Deploy add-ons** — Install CNI (Calico) and `metal-ccm` via `ClusterResourceSet` and CAAPH
+6. **Retrieve kubeconfig** — Access the provisioned cluster
 
 **Network integration**
 
@@ -169,28 +169,30 @@ You must set up your own Git repository and GitOps operator to manage cluster de
 
 ### Kamaji (Alternative)
 
+[Kamaji](https://kamaji.clastix.io/) is a Control Plane Manager for Kubernetes that runs control planes as pods within a management cluster, reducing operational overhead and costs. It supports multi-tenancy, high availability, and integrates with Cluster API as a `ControlPlaneProvider`.
+
+Kamaji allows a similar control plane hosting model as Gardener, where the control plane runs on dedicated infrastructure separate from worker nodes.
+
 :::warning
 Kamaji integrations with metal-stack have not been evaluated in production-grade scenarios. We are actively looking for exchange and adopters — if you are interested in using Kamaji with metal-stack, please [join our community](/community) to help shape future integration efforts.
 :::
 
-[Kamaji](https://kamaji.clastix.io/) is a Control Plane Manager for Kubernetes that runs control planes as pods within a management cluster, cutting down on operational overhead and costs. It supports multi-tenancy, high availability, and integrates seamlessly with Cluster API.
-
-Kamaji allows a similar control plane hosting model as Gardener, where the control plane runs on dedicated infrastructure separate from worker nodes.
-
 #### Kamaji with metal-stack
 
-Kamaji acts as a `ControlPlaneProvider` with Cluster API, while CAPMS acts as the `InfrastructureProvider`. This setup manages **tenant clusters** on metal-stack infrastructure:
+Kamaji acts as a `ControlPlaneProvider` with Cluster API, while CAPMS acts as the `InfrastructureProvider`. This setup manages **tenant clusters** on metal-stack infrastructure, combining Kamaji's control plane management with metal-stack's bare-metal provisioning.
 
-1. **Deploy Kamaji** into a management cluster (e.g., a `kind` cluster) using the [Kamaji on kind](https://kamaji.clastix.io/getting-started/kamaji-kind/) tutorial
-2. **Install CAPMS** as the infrastructure provider into the same management cluster
-3. **Create a control plane VIP** — MetalLB assigns a virtual IP in the management cluster's network for the tenant API server
-4. **Create a tenant cluster** — Registers the VIP in MetalLB, applies the cluster template via `clusterctl`. Kamaji creates the control plane pods in the management cluster
-5. **Provision infrastructure** — CAPMS provisions firewall and worker machines on metal-stack via the metal-stack API
-6. **Join workers** — Machines join via CABPK and kubeadm
-7. **Deploy add-ons** — Install CNI (Calico) and `metal-ccm` into the tenant cluster
+Like Cluster-API, Kamaji is a framework rather than a complete platform — operators must assemble their own day-2 tooling (CNI, CCM, DNS, backup, certificate management) and manage them through GitOps workflows.
 
-A working showcase is available in the [`capi-lab`](https://github.com/metal-stack/cluster-api-provider-metal-stack/tree/main/capi-lab) setup, which extends the `mini-lab` with a Kamaji flavor. See our [blog post](/blog/2026/04-kamaji) for a detailed walkthrough of the architecture and setup.
+**Deployment**
+
+1. **Prepare management cluster** — A Kubernetes cluster to host Kamaji and CAPMS providers
+2. **Install Kamaji and CAPMS** — Deploy both providers into the management cluster
+3. **Create a control plane VIP** — MetalLB assigns a virtual IP for the tenant API server
+4. **Generate and apply tenant cluster manifest** — Use `clusterctl generate cluster` to produce a YAML with `Cluster`, `MetalStackCluster`, `KubeadmControlPlane`, `MachineDeployment`, and `MetalStackMachine` resources, then apply it
+5. **Deploy add-ons** — Install CNI (Calico) and `metal-ccm` into the tenant cluster
+
+A working showcase is available in the [`capi-lab`](https://github.com/metal-stack/cluster-api-provider-metal-stack/blob/main/DEVELOPMENT.md#running-the-kamaji-flavor) setup, which extends the `mini-lab` with a Kamaji flavor. See our [blog post](/blog/2026/04-kamaji) for a detailed walkthrough of the architecture and setup.
 
 **Fleet management and GitOps**
 
-Since Kamaji with metal-stack uses Cluster-API under the hood (Kamaji as `ControlPlaneProvider`, CAPMS as `InfrastructureProvider`), fleet management follows the same pattern as Cluster-API described above. Tenant cluster manifests are generated via `clusterctl`, stored in Git, and deployed through your CI/CD pipeline.
+Since Kamaji with metal-stack uses Cluster-API under the hood, fleet management follows the same pattern as Cluster-API. Tenant cluster manifests are generated via `clusterctl`, stored in Git, and deployed through your CI/CD pipeline.

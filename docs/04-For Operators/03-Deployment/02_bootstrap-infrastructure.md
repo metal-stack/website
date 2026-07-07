@@ -1,23 +1,30 @@
 ---
-slug: /deployment/initial-cluster
-title: Initial Cluster
+slug: /deployment/bootstrap-infrastructure
+title: Bootstrap Infrastructure
 sidebar_position: 2
 ---
 
-# Initial Cluster
+# Bootstrap Infrastructure
 
-An initial Kubernetes cluster is always required for metal-stack deployments using this guide, as the [metal control plane](../../05-Concepts/01-architecture.mdx#metal-control-plane) is deployed on Kubernetes.
+Every metal-stack deployment starts with one or more **initial clusters** — Kubernetes clusters that host the [metal control plane](../../05-Concepts/01-architecture.mdx#metal-control-plane). Collectively, these form the **bootstrap infrastructure** for your metal-stack platform.
 
-The initial cluster(s) serve as the bootstrap infrastructure for the **metal-stack control plane**.
+The initial cluster(s) serve two purposes:
 
-The number and placement of initial clusters depend on whether you use a KCLM solution, as well as your availability and autonomy requirements.
+1. **Host the metal-stack control plane** — the core platform components for bare-metal management.
+2. **Enable Kubernetes Cluster Lifecycle Management (KCLM)** — if you need to provision and manage downstream Kubernetes clusters on your bare-metal machines.
 
-If you only need **Bare-Metal as a Service** (allocating machines, managing networks, configuring firewalls via API) without KCLM, you need at least **one cluster** for the [Control Plane](./03_control-plane.mdx).
+The number and placement of initial clusters depends on your KCLM choice, availability requirements, and autonomy needs.
+
+If you only need **Bare-Metal as a Service** (allocating machines, managing networks, configuring firewalls via API) without KCLM, you need at least **one initial cluster** for the [Control Plane](./03_control-plane.mdx).
+
+:::tip
+Your control plane Kubernetes cluster can run anywhere — on a hyperscaler, in your own data center, or on [metalstack.cloud](https://metalstack.cloud). A managed cluster from a hyperscaler removes the operational burden of running Kubernetes yourself and can even strengthen fail-safe operation. Learn more about the [rationale for this approach](../../05-Concepts/01-architecture.mdx#target-deployment-platforms) and find concrete hosting suggestions below.
+:::
 
 ## KCLM Solutions
 
-metal-stack supports three Kubernetes Cluster Lifecycle Management solutions. Each has different maturity levels and capabilities.
-See the [Kubernetes Concepts Section](../../05-Concepts/04-Kubernetes/01-gardener.md) for a detailed view on the solutions.
+metal-stack supports three Kubernetes Cluster Lifecycle Management solutions, each with different maturity levels and capabilities.
+See the [Kubernetes Concepts Section](../../05-Concepts/04-Kubernetes/01-gardener.md) for a detailed comparison.
 
 ### Gardener (Recommended)
 
@@ -53,9 +60,9 @@ There are three supported approaches for hosting the initial cluster:
 
 It is possible to use a **single initial cluster** for both metal-stack and the KCLM solution. This approach is technically feasible but **not recommended** for production environments. Sharing a single cluster mixes platform infrastructure with lifecycle management, which can complicate operational boundaries and failure isolation.
 
-### Option 2: Dedicated Clusters
+### Option 2: Dedicated Initial Clusters
 
-We recommend using **dedicated (initial) clusters** for metal-stack and the KCLM solution — one cluster for the metal-stack control plane and a separate cluster for the KCLM.
+We recommend using **dedicated initial clusters** for metal-stack and the KCLM solution — one cluster for the metal-stack control plane and a separate cluster for the KCLM.
 
 This approach provides clearer operational boundaries, better isolation and simplified failure boundaries.
 
@@ -77,10 +84,6 @@ For the shared and dedicated cluster approaches, the initial cluster can be host
 - **metalstack.cloud** — A Kubernetes cluster can be created via [UI](https://metalstack.cloud/de/documentation/UserManual#creating-a-cluster), CLI, or Terraform.
 - **GCP/GKE** — A GCP account is required. The Ansible [gcp-auth role](https://github.com/metal-stack/ansible-common/tree/master/roles/gcp-auth) can be used for authentication, and the [gcp-create role](https://github.com/metal-stack/ansible-common/tree/master/roles/gcp-create) for creating a GKE cluster.
   - Suggested defaults: `gcp_machine_type`: e2-standard-8, `gcp_autoscaling_min_nodes`: 1, `gcp_autoscaling_max_nodes`: 3
-
-:::tip
-For metal-stack it does not matter where your control plane Kubernetes cluster is located. You can of course use a cluster managed by a hyperscaler. This has the advantage of not having to setup Kubernetes by yourself and could even become beneficial in terms of fail-safe operation. If you are interested, you can find a reasoning behind this deployment decision [here](../../05-Concepts/01-architecture.mdx#target-deployment-platforms).
-:::
 
 ### For Option 3: Autonomous Control Plane with k3s
 
