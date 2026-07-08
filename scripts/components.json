@@ -80,7 +80,7 @@
         "releasePath": "docker-images.metal-stack.partition.metal-bmc.tag",
         "repo": "metal-stack/metal-bmc",
         "branch": "main",
-        "tag": "v0.7.2",
+        "tag": "v0.7.3",
         "position": 2,
         "withDocs": false
       },
