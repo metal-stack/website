@@ -180,16 +180,6 @@ For this, there are dedicated files following the llmstxt.org standard:
           type: "docsVersionDropdown",
           id: "docs-version-dropdown",
           position: "right",
-          dropdownItemsAfter: [
-            {
-              type: "html",
-              value: '<hr class="dropdown-separator">',
-            },
-            {
-              label: "Archived: v0.1 - v0.21.8",
-              href: "https://docs.archive.metal-stack.io/",
-            },
-          ],
         },
         {
           href: "https://github.com/metal-stack",

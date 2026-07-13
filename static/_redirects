@@ -3,7 +3,7 @@
 # Source: https://docs.netlify.com/routing/redirects/
 
 # temporary redirects we have no better alternatives yet
-/:version/apidocs/apidocs https://docs.archive.metal-stack.io/:version/references/metal-api/index.html 302
+/:version/apidocs/apidocs /docs/references/api 302
 
 # non-migration related redirects
 https://docs.metal-stack.io https://metal-stack.io/docs/home 301!
@@ -157,59 +157,59 @@ https://docs.metal-stack.io/* https://metal-stack.io/:splat 301!
 /dev/* /docs/next/:splat 301
 
 # archived minor releases
-/v0.1/* https://docs.archive.metal-stack.io/v0.1/:splat
-/v0.2/* https://docs.archive.metal-stack.io/v0.2/:splat
-/v0.3/* https://docs.archive.metal-stack.io/v0.3/:splat
-/v0.4/* https://docs.archive.metal-stack.io/v0.4/:splat
-/v0.5/* https://docs.archive.metal-stack.io/v0.5/:splat
-/v0.6/* https://docs.archive.metal-stack.io/v0.6/:splat
-/v0.7/* https://docs.archive.metal-stack.io/v0.7/:splat
-/v0.8/* https://docs.archive.metal-stack.io/v0.8/:splat
-/v0.9/* https://docs.archive.metal-stack.io/v0.9/:splat
-/v0.10/* https://docs.archive.metal-stack.io/v0.10/:splat
-/v0.11/* https://docs.archive.metal-stack.io/v0.11/:splat
-/v0.12/* https://docs.archive.metal-stack.io/v0.12/:splat
-/v0.13/* https://docs.archive.metal-stack.io/v0.13/:splat
-/v0.14/* https://docs.archive.metal-stack.io/v0.14/:splat
-/v0.15/* https://docs.archive.metal-stack.io/v0.15/:splat
-/v0.16/* https://docs.archive.metal-stack.io/v0.16/:splat
-/v0.17/* https://docs.archive.metal-stack.io/v0.17/:splat
-/v0.18/* https://docs.archive.metal-stack.io/v0.18/:splat
-/v0.19/* https://docs.archive.metal-stack.io/v0.19/:splat
-/v0.20/* https://docs.archive.metal-stack.io/v0.20/:splat
+/v0.1/* https://github.com/releases/releases/tag/v0.1.0
+/v0.2/* https://github.com/releases/releases/tag/v0.2.0
+/v0.3/* https://github.com/releases/releases/tag/v0.3.0
+/v0.4/* https://github.com/releases/releases/tag/v0.4.0
+/v0.5/* https://github.com/releases/releases/tag/v0.5.0
+/v0.6/* https://github.com/releases/releases/tag/v0.6.0
+/v0.7/* https://github.com/releases/releases/tag/v0.7.0
+/v0.8/* https://github.com/releases/releases/tag/v0.8.0
+/v0.9/* https://github.com/releases/releases/tag/v0.9.0
+/v0.10/* https://github.com/releases/releases/tag/v0.10.0
+/v0.11/* https://github.com/releases/releases/tag/v0.11.0
+/v0.12/* https://github.com/releases/releases/tag/v0.12.0
+/v0.13/* https://github.com/releases/releases/tag/v0.13.0
+/v0.14/* https://github.com/releases/releases/tag/v0.14.0
+/v0.15/* https://github.com/releases/releases/tag/v0.15.0
+/v0.16/* https://github.com/releases/releases/tag/v0.16.0
+/v0.17/* https://github.com/releases/releases/tag/v0.17.0
+/v0.18/* https://github.com/releases/releases/tag/v0.18.0
+/v0.19/* https://github.com/releases/releases/tag/v0.19.0
+/v0.20/* https://github.com/releases/releases/tag/v0.20.0
 
 # mixed archived and current versions
-/v0.21.0/* https://docs.archive.metal-stack.io/v0.21.0/:splat
-/v0.21.1/* https://docs.archive.metal-stack.io/v0.21.1/:splat
-/v0.21.2/* https://docs.archive.metal-stack.io/v0.21.2/:splat
-/v0.21.3/* https://docs.archive.metal-stack.io/v0.21.3/:splat
-/v0.21.4/* https://docs.archive.metal-stack.io/v0.21.4/:splat
-/v0.21.5/* https://docs.archive.metal-stack.io/v0.21.5/:splat
-/v0.21.6/* https://docs.archive.metal-stack.io/v0.21.6/:splat
-/v0.21.7/* https://docs.archive.metal-stack.io/v0.21.7/:splat
-/v0.21.8/* https://docs.archive.metal-stack.io/v0.21.8/:splat
+/v0.21.0/* https://github.com/metal-stack/releases/releases/tag/v0.21.0
+/v0.21.1/* https://github.com/metal-stack/releases/releases/tag/v0.21.1
+/v0.21.2/* https://github.com/metal-stack/releases/releases/tag/v0.21.2
+/v0.21.3/* https://github.com/metal-stack/releases/releases/tag/v0.21.3
+/v0.21.4/* https://github.com/metal-stack/releases/releases/tag/v0.21.4
+/v0.21.5/* https://github.com/metal-stack/releases/releases/tag/v0.21.5
+/v0.21.6/* https://github.com/metal-stack/releases/releases/tag/v0.21.6
+/v0.21.7/* https://github.com/metal-stack/releases/releases/tag/v0.21.7
+/v0.21.8/* https://github.com/metal-stack/releases/releases/tag/v0.21.8
 
 # we redirect all v0.21 to stable, then it will again be redirected
 /v0.21/* /stable/:splat 302
 
 # archived patch releases
-/v0.1.:patch/* https://docs.archive.metal-stack.io/v0.1.:patch/:splat
-/v0.2.:patch/* https://docs.archive.metal-stack.io/v0.2.:patch/:splat
-/v0.3.:patch/* https://docs.archive.metal-stack.io/v0.3.:patch/:splat
-/v0.4.:patch/* https://docs.archive.metal-stack.io/v0.4.:patch/:splat
-/v0.5.:patch/* https://docs.archive.metal-stack.io/v0.5.:patch/:splat
-/v0.6.:patch/* https://docs.archive.metal-stack.io/v0.6.:patch/:splat
-/v0.7.:patch/* https://docs.archive.metal-stack.io/v0.7.:patch/:splat
-/v0.8.:patch/* https://docs.archive.metal-stack.io/v0.8.:patch/:splat
-/v0.9.:patch/* https://docs.archive.metal-stack.io/v0.9.:patch/:splat
-/v0.10.:patch/* https://docs.archive.metal-stack.io/v0.10.:patch/:splat
-/v0.11.:patch/* https://docs.archive.metal-stack.io/v0.11.:patch/:splat
-/v0.12.:patch/* https://docs.archive.metal-stack.io/v0.12.:patch/:splat
-/v0.13.:patch/* https://docs.archive.metal-stack.io/v0.13.:patch/:splat
-/v0.14.:patch/* https://docs.archive.metal-stack.io/v0.14.:patch/:splat
-/v0.15.:patch/* https://docs.archive.metal-stack.io/v0.15.:patch/:splat
-/v0.16.:patch/* https://docs.archive.metal-stack.io/v0.16.:patch/:splat
-/v0.17.:patch/* https://docs.archive.metal-stack.io/v0.17.:patch/:splat
-/v0.18.:patch/* https://docs.archive.metal-stack.io/v0.18.:patch/:splat
-/v0.19.:patch/* https://docs.archive.metal-stack.io/v0.19.:patch/:splat
-/v0.20.:patch/* https://docs.archive.metal-stack.io/v0.20.:patch/:splat
+/v0.1.:patch/* https://github.com/metal-stack/releases/releases/tag/v0.1.:patch
+/v0.2.:patch/* https://github.com/metal-stack/releases/releases/tag/v0.2.:patch
+/v0.3.:patch/* https://github.com/metal-stack/releases/releases/tag/v0.3.:patch
+/v0.4.:patch/* https://github.com/metal-stack/releases/releases/tag/v0.4.:patch
+/v0.5.:patch/* https://github.com/metal-stack/releases/releases/tag/v0.5.:patch
+/v0.6.:patch/* https://github.com/metal-stack/releases/releases/tag/v0.6.:patch
+/v0.7.:patch/* https://github.com/metal-stack/releases/releases/tag/v0.7.:patch
+/v0.8.:patch/* https://github.com/metal-stack/releases/releases/tag/v0.8.:patch
+/v0.9.:patch/* https://github.com/metal-stack/releases/releases/tag/v0.9.:patch
+/v0.10.:patch/* https://github.com/metal-stack/releases/releases/tag/v0.10.:patch
+/v0.11.:patch/* https://github.com/metal-stack/releases/releases/tag/v0.11.:patch
+/v0.12.:patch/* https://github.com/metal-stack/releases/releases/tag/v0.12.:patch
+/v0.13.:patch/* https://github.com/metal-stack/releases/releases/tag/v0.13.:patch
+/v0.14.:patch/* https://github.com/metal-stack/releases/releases/tag/v0.14.:patch
+/v0.15.:patch/* https://github.com/metal-stack/releases/releases/tag/v0.15.:patch
+/v0.16.:patch/* https://github.com/metal-stack/releases/releases/tag/v0.16.:patch
+/v0.17.:patch/* https://github.com/metal-stack/releases/releases/tag/v0.17.:patch
+/v0.18.:patch/* https://github.com/metal-stack/releases/releases/tag/v0.18.:patch
+/v0.19.:patch/* https://github.com/metal-stack/releases/releases/tag/v0.19.:patch
+/v0.20.:patch/* https://github.com/metal-stack/releases/releases/tag/v0.20.:patch
