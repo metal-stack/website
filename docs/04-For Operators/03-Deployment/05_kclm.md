@@ -10,7 +10,7 @@ This guide covers the deployment of a Kubernetes Cluster Lifecycle Management (K
 
 ## KCLM Solutions Overview
 
-### Gardener (Recommended)
+### Gardener
 
 [Gardener](../../05-Concepts/04-Kubernetes/01-gardener.md) is the **recommended** KCLM solution for metal-stack. It is battle-tested in production for over seven years at financial-sector customers and bundles more day-2 capabilities natively (DNS, backup, audit). Gardener manages entire clusters as Kubernetes-native resources with a strong separation between platform operators and end-users.
 
@@ -28,8 +28,8 @@ The following data center infrastructure dependencies are treated as given and m
 
 - **DNS** — For cluster domain resolution
 - **NTP** — Time synchronization across all nodes
-- **ACME** — Certificate authority (for shoot certificates via shoot-cert-service)
-- **S3-compatible object storage** — For etcd backups (gardener-extension-backup-s3)
+- **ACME** — Certificate authority (for shoot certificates via `shoot-cert-service`)
+- **S3-compatible object storage** — For etcd backups with `gardener-extension-backup-s3`
 - **Git-Hosting with CI/CD** — You must set up your own Git repository and CI/CD pipeline to manage cluster deployments (see [Fleet Management and GitOps](#fleet-management-and-gitops) below).
 
 The following dependencies are introduced:
@@ -72,7 +72,7 @@ Gardener's extensibility model allows provider-specific reconcilers to be deploy
 | `gardener-extension-provider-metal`    | IaaS integration — reconciles Infrastructure, ControlPlane, and Worker resources via the metal-stack API |
 | `os-metal-extension`                   | Translates Gardener's generic `OperatingSystemConfig` into cloud-init/ignition userdata                  |
 | `gardener-extension-networking-calico` | Calico CNI extension                                                                                     |
-| `gardener-extension-networking-cilium` | Cilium CNI extension (alternative to Calico)                                                             |
+| `gardener-extension-networking-cilium` | Cilium CNI extension as an alternative to Calico                                                         |
 | `gardener-extension-dns-powerdns`      | DNS management via PowerDNS                                                                              |
 | `shoot-dns-service`                    | DNS service for Shoot clusters                                                                           |
 | `gardener-extension-backup-s3`         | etcd backup to S3-compatible object storage                                                              |
@@ -116,7 +116,7 @@ Once your GitOps pipeline is in place, Gardener provides the following day-2 ope
 - **Emergency patching** — Administrators can apply fleet-wide changes via image vector overwrites in the Gardener deployment Git repository. Changes must be validated in a dedicated staging environment first.
 - **Accidental deletion protection** — Shoot deletion is guarded by specific annotations. ETCD backup retention timeouts are configurable, allowing cluster restoration after accidental deletion.
 
-### Cluster-API (Alternative)
+### Cluster-API
 
 [Cluster-API](../../05-Concepts/04-Kubernetes/02-cluster-api.md) is a CNCF project maintained by a Kubernetes SIG that provides declarative cluster management through a management cluster. The metal-stack provider (CAPMS) is **under development** and not yet production-ready.
 
@@ -126,7 +126,7 @@ The [cluster-api-provider-metal-stack (CAPMS)](https://github.com/metal-stack/cl
 Cluster-API with metal-stack is in development and not advised for production use. Please use Gardener for production workloads. We are actively looking for exchange and adopters — if you are interested in using Cluster-API with metal-stack, please [join our community](/community) to help shape future integration efforts.
 :::
 
-For more details on Cluster-API concepts, architecture, operational model, and control plane hosting, see the [Cluster-API concept doc](../../05-Concepts/04-Kubernetes/02-cluster-api.md).
+For more details on Cluster-API concepts, architecture, operational model, and control plane hosting, see the [Cluster-API concept section](../../05-Concepts/04-Kubernetes/02-cluster-api.md).
 
 Unlike Gardener, which provides a complete Kubernetes-as-a-Service platform with integrated day-2 operations (DNS, backup, certificate rotation, audit), Cluster-API is a declarative cluster management framework. Operators must assemble their own day-2 tooling — CNI, CCM, DNS, backup, and certificate management — and manage them through GitOps workflows.
 
@@ -167,7 +167,7 @@ You must set up your own Git repository and GitOps operator to manage cluster de
 
 - **Cluster migration** — `clusterctl move` enables moving workload cluster resources between management clusters, pausing controllers during the move to prevent worker node loss.
 
-### Kamaji (Alternative)
+### Kamaji
 
 [Kamaji](https://kamaji.clastix.io/) is a Control Plane Manager for Kubernetes that runs control planes as pods within a management cluster, reducing operational overhead and costs. It supports multi-tenancy, high availability, and integrates with Cluster API as a `ControlPlaneProvider`.
 

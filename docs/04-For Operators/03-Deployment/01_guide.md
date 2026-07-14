@@ -27,7 +27,7 @@ We are bootstrapping the [metal control plane](../../05-Concepts/01-architecture
 
 We recommend using the same Ansible roles that we use to deploy metal-stack in our own environments. They are available in the [metal-roles](https://github.com/metal-stack/metal-roles) repository.
 
-To simplify dependency management, we provide a dedicated [deployment base image](https://github.com/metal-stack/metal-deployment-base/pkgs/container/metal-deployment-base) on GitHub Container Registry. This Docker image bundles all required tools and libraries, keeping your deployment environment lean and easy to maintain.
+To simplify dependency management, we provide a dedicated [deployment base image](https://github.com/metal-stack/metal-deployment-base) on GitHub Container Registry. This Docker image bundles all required tools and libraries, keeping your deployment environment lean and easy to maintain.
 
 The remainder of this guide assumes you are using our Ansible roles and the deployment base image. Make sure you have [Docker](https://docs.docker.com/get-started/get-docker/) installed. Every deployment environment is unique, so this guide describes how we set up metal-stack in our own infrastructure. You will need to adapt the steps to match your specific requirements.
 
