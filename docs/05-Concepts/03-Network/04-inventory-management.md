@@ -53,7 +53,7 @@ How a network can be used follows from its type:
 
   - **Private** networks are child networks owned by a single project. A child prefix is allocated from the super network and assigned a unique VRF, which maps to a VNI in the EVPN/VXLAN overlay. IP addresses are allocated only within the owning project, and the VRF isolates the network from every other tenant.
   - **Shared** networks are private networks that have been marked as shared so that other projects may allocate IP addresses from them. They cover services that several projects in the partition need to reach while the traffic stays inside the cluster.
-  - **External** networks represent connectivity beyond the cluster, such as internet egress, a DMZ or storage. Their IP addresses can be allocated from different projects, they carry destination prefixes that are announced into the tenant VRFs, and traffic leaving through them is usually NATed behind the gateway (IPv4 masquerade).
+  - **External** networks represent connectivity beyond a metal-stack partition, such as internet egress, enterprise networks or storage systems. Their IP addresses can be allocated from different projects, they carry destination prefixes (routes) that are announced into the tenant VRFs, and traffic to external networks may be masqueraded at a firewall behind a dedicated IP address.
 
 Every private network, the IP addresses allocated within it, and its VRF belong to a project, which in turn belongs to a tenant. Each network routes in its own VRF (see [VRF](./01-theory.md#vrf)), so the same IP ranges can be reused across networks, and therefore across projects and tenants, without colliding.
 
