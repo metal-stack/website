@@ -2,14 +2,19 @@
 # The file is created to use the server-side-redirection of netlify
 # Source: https://docs.netlify.com/routing/redirects/
 
-# temporary redirects we have no better alternatives yet
-/:version/apidocs/apidocs /docs/references/api 302
-
-# non-migration related redirects
 https://docs.metal-stack.io https://metal-stack.io/docs/home 301!
 https://docs.metal-stack.io/* https://metal-stack.io/:splat 301!
-/blog/tags/conferences /blog/tags/events
 /docs /docs/home
+
+# migration from patch level docs to minor docs
+/docs/v0.21.:patch/* /docs/v0.21/:splat
+/docs/v0.22.:patch/* /docs/:splat
+
+# tags
+/blog/tags/conferences /blog/tags/events
+/blog/tags/cluster-api-provider-metal-stack /blog/tags/cluster-api
+/blog/tags/mini-lab /blog/tags/architecture
+/blog/tags/kamaji /blog/tags/cluster-api
 
 # redirect renamed sites
 /docs/deployment /docs/deployment-guide
@@ -29,102 +34,9 @@ https://docs.metal-stack.io/* https://metal-stack.io/:splat 301!
 /docs/enhancement-proposals /community/enhancement-proposals
 /docs/:v/enhancement-proposals /community/enhancement-proposals
 /docs/MEP-* /community/MEP-:splat
+/docs/mep-* /community/mep-:splat
 /docs/:v/MEP-* /community/MEP-:splat
-
-# migrate patch versions to minors
-/docs/v0.21.8/* /docs/v0.21/:splat
-/docs/v0.21.9/* /docs/v0.21/:splat
-/docs/v0.21.10/* /docs/v0.21/:splat
-/docs/v0.21.11/* /docs/v0.21/:splat
-/docs/v0.22.0/* /docs/v0.22/:splat
-/docs/v0.22.1/* /docs/v0.22/:splat
-/docs/v0.22.2/* /docs/v0.22/:splat
-/docs/v0.22.3/* /docs/v0.22/:splat
-/docs/v0.22.4/* /docs/v0.22/:splat
-
-# migrate archived paths to stable versions quickly
-/stable/overview/* /docs/:splat 301
-/stable/concepts/* /docs/:splat 301
-/stable/general/* /docs/:splat 301
-/stable/users/* /docs/:splat 301
-/stable/operators/* /docs/:splat 301
-/stable/installation/* /docs/:splat 301
-/stable/cisos/security/principles /docs/security-principles 301
-/stable/cisos/security/* /docs/:splat 301
-/stable/cisos/* /docs/:splat 301
-/stable/developers/proposals /docs/enhancement-proposals 301
-/stable/developers/* /docs/:splat 301
-/stable/development/client_libraries /docs/client-libraries 301
-/stable/development/roadmap /docs/planning-meetings#idea-backlog 301
-/stable/development/proposals /docs/enhancement-proposals 301
-/stable/development/contributing /docs/contribution-guideline  301
-/stable/development/* /docs/:splat  301
-/stable/external/mini-lab/roles/auth-dex/README https://github.com/metal-stack/mini-lab/tree/master/roles/auth-dex 301
-/stable/apidocs/metal-api/index.html /docs/references/metal-api 301
-/stable/concepts/network/theory /docs/networking 301
-/stable/concepts/network/firewalls /docs/firewalls 301
-/stable/concepts/kubernetes/* /docs/:splat 301
-/stable/concepts/kubernetes/cloud-controller-manager /docs/metal-cloud-controller-manager 301
-/stable/concepts/kubernetes/isolated-clusters /docs/isolated-kubernetes-clusters 301
-
-/dev/overview/* /docs/next/:splat 301
-/dev/concepts/* /docs/next/:splat 301
-/dev/general/* /docs/next/:splat 301
-/dev/users/* /docs/next/:splat 301
-/dev/operators/* /docs/next/:splat 301
-/dev/installation/* /docs/next/:splat 301
-/dev/cisos/security/principles /docs/next/security-principles 301
-/dev/cisos/security/* /docs/next/:splat 301
-/dev/cisos/* /docs/next/:splat 301
-/dev/developers/proposals /docs/next/enhancement-proposals 301
-/dev/developers/* /docs/next/:splat 301
-/dev/development/client_libraries /docs/next/client-libraries 301
-/dev/development/roadmap /docs/next/planning-meetings#idea-backlog 301
-/dev/development/proposals /docs/next/enhancement-proposals 301
-/dev/development/contributing /docs/next/contribution-guideline  301
-/dev/development/* /docs/next/:splat  301
-/dev/external/mini-lab/roles/auth-dex/README https://github.com/metal-stack/mini-lab/tree/master/roles/auth-dex 301
-/dev/apidocs/metal-api/index.html /docs/next/references/metal-api 301
-/dev/concepts/network/theory /docs/next/networking 301
-/dev/concepts/network/firewalls /docs/next/firewalls 301
-/dev/concepts/kubernetes/* /docs/next/:splat 301
-/dev/concepts/kubernetes/cloud-controller-manager /docs/next/metal-cloud-controller-manager 301
-/dev/concepts/kubernetes/isolated-clusters /docs/next/isolated-kubernetes-clusters 301
-
-# enhancement proposals
-/stable/development/proposals/MEP1/README /docs/MEP-1-distributed-metal-control-plane 301
-/stable/development/proposals/MEP1/README /docs/MEP-2-two-factor-authentication 301
-/stable/development/proposals/MEP1/README /docs/MEP-3-machine-re-installation 301
-/stable/development/proposals/MEP1/README /docs/MEP-4-multi-tenancy-for-the-metal-api 301
-/stable/development/proposals/MEP1/README /docs/MEP-5-shared-networks 301
-/stable/development/proposals/MEP1/README /docs/MEP-6-dmz-networks 301
-/stable/development/proposals/MEP1/README /docs/MEP-7-configurable-filesystem-layout-for-machine-allocation 301
-/stable/development/proposals/MEP1/README /docs/MEP-9-no-open-ports-to-the-data-center 301
-/stable/development/proposals/MEP1/README /docs/MEP-10-sonic-support 301
-/stable/development/proposals/MEP1/README /docs/MEP-11-auditing-of-metal-stack-resources 301
-/stable/development/proposals/MEP1/README /docs/MEP-12-rack-spreading 301
-/stable/development/proposals/MEP1/README /docs/MEP-13-dual-stack-support 301
-/stable/development/proposals/MEP1/README /docs/MEP-14-independence-from-external-sources 301
-/stable/development/proposals/MEP1/README /docs/MEP-16-metal-api-as-an-alternative-configuration-source-for-the-firewall-controller 301
-/stable/development/proposals/MEP1/README /docs/MEP-17-global-network-view 301
-/stable/development/proposals/MEP1/README /docs/MEP-18-autonomous-control-plane 301
-
-/dev/development/proposals/MEP1/README /docs/next/MEP-1-distributed-metal-control-plane 301
-/dev/development/proposals/MEP1/README /docs/next/MEP-2-two-factor-authentication 301
-/dev/development/proposals/MEP1/README /docs/next/MEP-3-machine-re-installation 301
-/dev/development/proposals/MEP1/README /docs/next/MEP-4-multi-tenancy-for-the-metal-api 301
-/dev/development/proposals/MEP1/README /docs/next/MEP-5-shared-networks 301
-/dev/development/proposals/MEP1/README /docs/next/MEP-6-dmz-networks 301
-/dev/development/proposals/MEP1/README /docs/next/MEP-7-configurable-filesystem-layout-for-machine-allocation 301
-/dev/development/proposals/MEP1/README /docs/next/MEP-9-no-open-ports-to-the-data-center 301
-/dev/development/proposals/MEP1/README /docs/next/MEP-10-sonic-support 301
-/dev/development/proposals/MEP1/README /docs/next/MEP-11-auditing-of-metal-stack-resources 301
-/dev/development/proposals/MEP1/README /docs/next/MEP-12-rack-spreading 301
-/dev/development/proposals/MEP1/README /docs/next/MEP-13-dual-stack-support 301
-/dev/development/proposals/MEP1/README /docs/next/MEP-14-independence-from-external-sources 301
-/dev/development/proposals/MEP1/README /docs/next/MEP-16-metal-api-as-an-alternative-configuration-source-for-the-firewall-controller 301
-/dev/development/proposals/MEP1/README /docs/next/MEP-17-global-network-view 301
-/dev/development/proposals/MEP1/README /docs/next/MEP-18-autonomous-control-plane 301
+/docs/:v/mep-* /community/mep-:splat
 
 # blog related stuff
 /blog/:year/:month/:slug /blog/:year/:month-:slug 301
@@ -134,82 +46,10 @@ https://docs.metal-stack.io/* https://metal-stack.io/:splat 301!
 /tags/:tag /blog/tags/:tag 301
 /tags/:tag/page/:page /blog/tags/:tag/page/:page 301
 /tags/:tag/index.html /blog/tags/:tag 301
-# previously there were categories - now there aren't
-/categories/:tag /blog/tags/:tag 301
-/categories/:tag/index.html /blog/tags/:tag 301
-/categories/:tag/page/:page /blog/tags/:tag/page/:page 301
 
-# external redirects
-/stable/references/external/tailscale/README /docs/tailscale-service-exposal 301
-/stable/references/external/metalctl/docs/* /docs/references/:splat 301
-/stable/references/external/firewall-controller/DEVELOP /docs/contribution-guideline 301
-/stable/references/external/:repo/CONTRIBUTING /docs/contribution-guideline 301
-/stable/references/external/:repo/README /docs/references/:repo 301
-
-/dev/references/external/tailscale/README /docs/next/tailscale-service-exposal 301
-/dev/references/external/metalctl/docs/* /docs/next/references/:splat 301
-/dev/references/external/firewall-controller/DEVELOP /docs/next/contribution-guideline 301
-/dev/references/external/:repo/CONTRIBUTING /docs/next/contribution-guideline 301
-/dev/references/external/:repo/README /docs/next/references/:repo 301
-
-# names versions
-/stable/* /docs/:splat 301
-/dev/* /docs/next/:splat 301
-
-# archived minor releases
-/v0.1/* https://github.com/releases/releases/tag/v0.1.0
-/v0.2/* https://github.com/releases/releases/tag/v0.2.0
-/v0.3/* https://github.com/releases/releases/tag/v0.3.0
-/v0.4/* https://github.com/releases/releases/tag/v0.4.0
-/v0.5/* https://github.com/releases/releases/tag/v0.5.0
-/v0.6/* https://github.com/releases/releases/tag/v0.6.0
-/v0.7/* https://github.com/releases/releases/tag/v0.7.0
-/v0.8/* https://github.com/releases/releases/tag/v0.8.0
-/v0.9/* https://github.com/releases/releases/tag/v0.9.0
-/v0.10/* https://github.com/releases/releases/tag/v0.10.0
-/v0.11/* https://github.com/releases/releases/tag/v0.11.0
-/v0.12/* https://github.com/releases/releases/tag/v0.12.0
-/v0.13/* https://github.com/releases/releases/tag/v0.13.0
-/v0.14/* https://github.com/releases/releases/tag/v0.14.0
-/v0.15/* https://github.com/releases/releases/tag/v0.15.0
-/v0.16/* https://github.com/releases/releases/tag/v0.16.0
-/v0.17/* https://github.com/releases/releases/tag/v0.17.0
-/v0.18/* https://github.com/releases/releases/tag/v0.18.0
-/v0.19/* https://github.com/releases/releases/tag/v0.19.0
-/v0.20/* https://github.com/releases/releases/tag/v0.20.0
-
-# mixed archived and current versions
-/v0.21.0/* https://github.com/metal-stack/releases/releases/tag/v0.21.0
-/v0.21.1/* https://github.com/metal-stack/releases/releases/tag/v0.21.1
-/v0.21.2/* https://github.com/metal-stack/releases/releases/tag/v0.21.2
-/v0.21.3/* https://github.com/metal-stack/releases/releases/tag/v0.21.3
-/v0.21.4/* https://github.com/metal-stack/releases/releases/tag/v0.21.4
-/v0.21.5/* https://github.com/metal-stack/releases/releases/tag/v0.21.5
-/v0.21.6/* https://github.com/metal-stack/releases/releases/tag/v0.21.6
-/v0.21.7/* https://github.com/metal-stack/releases/releases/tag/v0.21.7
-/v0.21.8/* https://github.com/metal-stack/releases/releases/tag/v0.21.8
-
-# we redirect all v0.21 to stable, then it will again be redirected
-/v0.21/* /stable/:splat 302
-
-# archived patch releases
-/v0.1.:patch/* https://github.com/metal-stack/releases/releases/tag/v0.1.:patch
-/v0.2.:patch/* https://github.com/metal-stack/releases/releases/tag/v0.2.:patch
-/v0.3.:patch/* https://github.com/metal-stack/releases/releases/tag/v0.3.:patch
-/v0.4.:patch/* https://github.com/metal-stack/releases/releases/tag/v0.4.:patch
-/v0.5.:patch/* https://github.com/metal-stack/releases/releases/tag/v0.5.:patch
-/v0.6.:patch/* https://github.com/metal-stack/releases/releases/tag/v0.6.:patch
-/v0.7.:patch/* https://github.com/metal-stack/releases/releases/tag/v0.7.:patch
-/v0.8.:patch/* https://github.com/metal-stack/releases/releases/tag/v0.8.:patch
-/v0.9.:patch/* https://github.com/metal-stack/releases/releases/tag/v0.9.:patch
-/v0.10.:patch/* https://github.com/metal-stack/releases/releases/tag/v0.10.:patch
-/v0.11.:patch/* https://github.com/metal-stack/releases/releases/tag/v0.11.:patch
-/v0.12.:patch/* https://github.com/metal-stack/releases/releases/tag/v0.12.:patch
-/v0.13.:patch/* https://github.com/metal-stack/releases/releases/tag/v0.13.:patch
-/v0.14.:patch/* https://github.com/metal-stack/releases/releases/tag/v0.14.:patch
-/v0.15.:patch/* https://github.com/metal-stack/releases/releases/tag/v0.15.:patch
-/v0.16.:patch/* https://github.com/metal-stack/releases/releases/tag/v0.16.:patch
-/v0.17.:patch/* https://github.com/metal-stack/releases/releases/tag/v0.17.:patch
-/v0.18.:patch/* https://github.com/metal-stack/releases/releases/tag/v0.18.:patch
-/v0.19.:patch/* https://github.com/metal-stack/releases/releases/tag/v0.19.:patch
-/v0.20.:patch/* https://github.com/metal-stack/releases/releases/tag/v0.20.:patch
+# for release notes we only link the last 3 major versions
+/docs/v:version/release-notes/v0.18.* /docs/v0.21/release-notes/v0.18.:splat
+/docs/v:version/release-notes/v0.19.* /docs/v0.21/release-notes/v0.19.:splat
+/docs/v:version/release-notes/v0.20.* /docs/v0.21/release-notes/v0.20.:splat
+/docs/v:version/release-notes/v0.21.* /docs/v0.21/release-notes/v0.21.:splat
+/docs/v:version/release-notes/* /docs/release-notes/:splat
