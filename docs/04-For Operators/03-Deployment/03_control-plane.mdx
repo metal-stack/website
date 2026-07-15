@@ -6,21 +6,21 @@ sidebar_position: 3
 
 # Metal Control Plane Deployment
 
-The metal control plane is the **minimum requirement** for running metal-stack as a Bare-Metal as a Service (MaaS) platform. 
+The metal control plane is the **minimum requirement** for running metal-stack as a Bare-Metal as a Service (MaaS) platform.
 
-This guide assumes a **Kubernetes-based deployment** because our Ansible roles are designed around Kubernetes — it is significantly more comfortable to deploy and operate metal-stack on Kubernetes than on any other platform. 
+This guide assumes a **Kubernetes-based deployment** because our Ansible roles are designed around Kubernetes — it is significantly more comfortable to deploy and operate metal-stack on Kubernetes than on any other platform.
 While it is theoretically possible to deploy metal-stack without Kubernetes (see [Target Deployment Platforms](../../05-Concepts/01-architecture.mdx#target-deployment-platforms) for the reasoning behind this design decision), doing so would require you to come up with your own deployment mechanism.
 
 The control plane deployment described here requires an initial Kubernetes cluster as bootstrap infrastructure, which is described in [Bootstrap Infrastructure](./02_bootstrap-infrastructure.md).
 
-Let's start off with a fresh folder for your deployment:
+Create the deployment folder and enter it — this is the root of your deployment repository as outlined in the [Deployment Guide](./01_guide.md):
 
 ```bash
 mkdir -p metal-stack-deployment
 cd metal-stack-deployment
 ```
 
-At the end of this section we are gonna end up with the following files and folder structures:
+By the end of this section, your repository will contain the following files and directories:
 
 ```
 .
@@ -65,21 +65,28 @@ In order to download the release vector and the referenced ansible-roles prior t
 
 The module picks up a magic variable called `metal_stack_release_vectors`, which can be defined in `inventories/group_vars/all/release_vector.yaml` like this:
 
-import CodeBlock from '@theme/CodeBlock';
-import latestRelease from '@site/src/version.json'
+import CodeBlock from "@theme/CodeBlock";
+import latestRelease from "@site/src/version.json";
 export function ImageReleaseConfig() {
-return <><CodeBlock language="yaml">
----{"\n"}
-metal_stack_release_vectors:{"\n"}
-{"  "}- url: oci://ghcr.io/metal-stack/releases:{latestRelease.version}{"\n"}
-{"  "}  variable_mapping_path: metal_stack_release.mapping{"\n"}
-{"  "}  include_role_defaults: metal-roles/common/roles/defaults{"\n"}
-{"  "}  oci_cosign_verify_key: |{"\n"}
-{"  "}    -----BEGIN PUBLIC KEY-----{"\n"}
-{"  "}    MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEdeAXd2namgVNDT0APmogKGwaV+Q4{"\n"}
-{"  "}    rfe4uVgmsyBbb6TrhX5Py6x1PsonDahTvdVpbSGC7QGEjxIHdi8HnJ4Okg=={"\n"}
-{"  "}    -----END PUBLIC KEY-----{"\n"}
-</CodeBlock></>
+  return (
+    <>
+      <CodeBlock language="yaml">
+        ---{"\n"}
+        metal_stack_release_vectors:{"\n"}
+        {"  "}- url: oci://ghcr.io/metal-stack/releases:{latestRelease.version}
+        {"\n"}
+        {"  "} variable_mapping_path: metal_stack_release.mapping{"\n"}
+        {"  "} include_role_defaults: metal-roles/common/roles/defaults{"\n"}
+        {"  "} oci_cosign_verify_key: |{"\n"}
+        {"  "} -----BEGIN PUBLIC KEY-----{"\n"}
+        {"  "} MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEdeAXd2namgVNDT0APmogKGwaV+Q4
+        {"\n"}
+        {"  "} rfe4uVgmsyBbb6TrhX5Py6x1PsonDahTvdVpbSGC7QGEjxIHdi8HnJ4Okg==
+        {"\n"}
+        {"  "} -----END PUBLIC KEY-----{"\n"}
+      </CodeBlock>
+    </>
+  );
 }
 
 <ImageReleaseConfig />
@@ -388,10 +395,15 @@ For the actual communication between the metal-api and the user clients (REST AP
 Finally, it should be possible to run the deployment through a Docker container. Make sure to have the [Kubeconfig file](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/) of your cluster and set the path in the following command accordingly:
 
 export function VariableConfig() {
-return <><CodeBlock language="bash">
-export KUBECONFIG={"\<"}path-to-your-cluster-kubeconfig{"\>"}{"\n"}
-export METAL_VERSION={latestRelease.version}
-</CodeBlock></>
+  return (
+    <>
+      <CodeBlock language="bash">
+        export KUBECONFIG={"\<"}path-to-your-cluster-kubeconfig{"\>"}
+        {"\n"}
+        export METAL_VERSION={latestRelease.version}
+      </CodeBlock>
+    </>
+  );
 }
 
 <VariableConfig />

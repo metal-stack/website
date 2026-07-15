@@ -33,9 +33,9 @@ The deployment has multiple phases, resulting in a Git repository containing Ans
 
 By the end of this guide, your deployment repository will look something like this:
 
-```
+```text
 my-metal-stack-deployment/
-├── deploy_metal_stack.yaml              # Control plane
+├── deploy_metal_control_plane.yaml      # Control plane
 ├── deploy_partition.yaml                # Partition
 ├── deploy_gardener.yaml                 # KCLM
 ├── inventory/
