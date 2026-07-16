@@ -12,6 +12,7 @@ This guide assumes a **Kubernetes-based deployment** because our Ansible roles a
 While it is theoretically possible to deploy metal-stack without Kubernetes (see [Target Deployment Platforms](../../05-Concepts/01-architecture.mdx#target-deployment-platforms) for the reasoning behind this design decision), doing so would require you to come up with your own deployment mechanism.
 
 The control plane deployment described here requires an initial Kubernetes cluster as bootstrap infrastructure, which is described in [Bootstrap Infrastructure](./02_bootstrap-infrastructure.md).
+We use the [metal-stack control-plane Ansible roles](https://github.com/metal-stack/metal-roles/tree/master/control-plane) to deploy all control-plane components.
 
 Create the deployment folder and enter it — this is the root of your deployment repository as outlined in the [Deployment Guide](./01_guide.md):
 
