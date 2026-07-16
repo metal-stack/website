@@ -108,7 +108,7 @@ After installation, a CI runner needs to be installed on each management server.
 - `metal-bmc` for bare-metal lifecycle management
 - Image cache and a simple webserver to serve OS images
 - [Onie Boot](https://opencomputeproject.github.io/onie/) and ZTP for switch provisioning
-- DHCP for worker IPMI interfaces and switch management interfaces
+- DHCP server for worker IPMI interfaces and switch management interfaces
 
 The [mgmt-server role](https://github.com/metal-stack/metal-roles/tree/master/partition/roles/mgmt-server) can be used as a template for the initial setup and also to install some of the required services.
 
@@ -140,6 +140,10 @@ In our reference setup, the management interfaces of the leaves connect to an en
 
 After the initial bootstrapping, the management interfaces of the leaves continue to be used for CLI access to the switches and for subsequent OS updates (reset → bootstrap → deploy).
 
+### Management Out-Of-Band Switches
+
+In larger deployments, a dedicated set of out-of-band switches (mgmtoobs) may be used to isolate BMC/IPMI traffic from the management network. These switches connect directly to server BMCs and provide a separate L2 domain for IPMI traffic, keeping it isolated from management server and switch management interfaces. They are deployed through the same SONiC automation as other partition switches.
+
 ---
 
 With the Out-Of-Band-Network fully bootstrapped, the partition is ready for the first metal-stack deployment via Ansible on the self-hosted runner.
@@ -149,7 +153,7 @@ The next step is to configure the Ansible inventory and playbooks that define yo
 
 The playbooks and directory structure shown in this document represent a **reference implementation** — one way to organize your deployment. The metal-stack partition roles are designed to be flexible, and you are free to organize playbooks, group hosts differently, or run services on different machines as long as the following architectural constraints are met:
 
-- **PXE boot requires DHCP in the same Layer-2 domain** as unprovisioned servers. The PXE VLAN (`vlan4000`) must reach all bare metal servers that need provisioning. In our reference setup, the management server runs a DHCP relay that forwards requests from the production network to the DHCP server on the exit switches. You may place the DHCP server and relay wherever your network topology allows, as long as the L2 domain is preserved. See the [networking documentation](../../05-Concepts/03-Network/01-theory.md#pxe-boot-mode) for the full PXE/DHCP theory.
+- **PXE boot requires DHCP in the same Layer-2 domain** as unprovisioned servers. The PXE VLAN (`vlan4000`) must reach all bare metal servers that need provisioning. In our reference setup, the management server runs the DHCP server, and exit switches run a DHCP relay (configured via the `sonic-config` role) that forwards requests from the production network back to the management server. You may place the DHCP server and relay wherever your network topology allows, as long as the L2 domain is preserved. See the [networking documentation](../../05-Concepts/03-Network/01-theory.md#pxe-boot-mode) for the full PXE/DHCP theory.
 - **`metal-core` must run on leaf switches** to dynamically configure them from the metal-api.
 - **Pixiecore must be reachable** by servers during PXE boot (TFTP/HTTP).
 - **`metal-bmc` must run on a host with BMC/IPMI network access** to manage bare-metal servers.
@@ -211,7 +215,9 @@ The HMAC keys and other sensitive values should be stored in an Ansible vault.
 
 ### Leaf and Spine Variables
 
-Switch variables define SONiC configuration, `metal-core` settings, and monitoring exporters. Management server variables define BMC access, DHCP relay configuration, and image cache settings.
+Switch variables define SONiC configuration, `metal-core` settings, and monitoring exporters. Management server variables define BMC access, DHCP configuration, and image cache settings.
+
+The `sonic-config` role handles FRR routing configuration, DHCP relay setup on switches, and generates the complete `config_db.json` for SONiC. For complex configurations such as port breakouts, VRFs, EVPN underlay, interconnects, and extended CACL rules, refer to the [sonic-config role](https://github.com/metal-stack/metal-roles/tree/master/partition/roles/sonic-config) documentation and the `sonic-config` role defaults.
 
 For the full variable reference, see the [metal-roles/partition](https://github.com/metal-stack/metal-roles/tree/master/partition) documentation.
 
@@ -221,7 +227,7 @@ The following sections show a reference playbook structure. Each service is depl
 
 ### Management Server (`deploy_mgmt_servers.yaml`)
 
-The management servers run the CI runners, image caches, DHCP relays, ZTP, `metal-bmc`, Pixiecore, and optional services like Tailscale. This is the central bootstrap host — once deployed, it enables automated provisioning of all other partition components.
+The management servers run the CI runners, image caches, DHCP server, ZTP, `metal-bmc`, and Pixiecore and optional services like Tailscale. This is the central bootstrap host — once deployed, it enables automated provisioning of all other partition components.
 
 ```yaml
 ---
@@ -241,7 +247,7 @@ The management servers run the CI runners, image caches, DHCP relays, ZTP, `meta
 
 ### Management Switches (`deploy_mgmt_switches.yaml`)
 
-Deploys SONiC on management leaves and management spines. These switches form the out-of-band management network and relay DHCP requests from production switches and worker servers to the management server.
+Deploys SONiC on management leaves and management spines. These switches form the out-of-band management network and relay DHCP requests from production switches and worker servers to the management server. The `sonic-config` is used to configure FRR routing, BGP peering, and the DHCP relay agent on these switches.
 
 ```yaml
 ---
@@ -255,7 +261,7 @@ Deploys SONiC on management leaves and management spines. These switches form th
 
 ### Production Spines and Exits (`deploy_spines_exits.yaml`)
 
-Deploys SONiC on spine and exit switches with serial (rolling) deployment to avoid disrupting the entire fabric at once. Exit switches also run the PXE DHCP server on `vlan4000` and configure route leaks for internet access during provisioning.
+Deploys SONiC on spine and exit switches with serial (rolling) deployment to avoid disrupting the entire fabric at once. The `sonic-config` is used to configure FRR routing, BGP underlay, and the DHCP relay agent on exit switches to forward PXE requests to the management server.
 
 ```yaml
 ---
@@ -346,22 +352,23 @@ The recommended deployment sequence respects service dependencies. Each phase ca
 1. Management Server    → deploy_mgmt_servers.yaml
    ├── CI runner (enables automated deployments)
    ├── Image cache (serves OS images to switches and servers)
-   ├── DHCP relay (forwards PXE requests to exit switches)
+   ├── DHCP server (on management server, relay configured on switches)
    ├── ZTP (provisions management switches)
    ├── metal-bmc (BMC/IPMI management)
    └── Pixiecore (PXE boot image serving)
 
 2. Management Switches  → deploy_mgmt_switches.yaml
-   ├── SONiC on mgmtleaves and mgmtspines
+   ├── SONiC on mgmtleaves and mgmtspains
+   ├── FRR routing and BGP peering
    └── Provides out-of-band network for all partition components
 
 3. Production Spines    → deploy_spines_exits.yaml
    ├── SONiC on spine and exit switches (rolling, serial: 1)
-   ├── PXE DHCP server on exit switches (vlan4000)
+   ├── FRR routing, BGP underlay, and DHCP relay on exits
    └── Route leaks for internet access during provisioning
 
 4. Production Leaves    → deploy_leaves.yaml
-   ├── SONiC configuration
+   ├── SONiC configuration and FRR routing
    └── metal-core (dynamic leaf switch configuration)
 
 ```
