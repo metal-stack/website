@@ -21,6 +21,7 @@ During this section, our repository will grow to look something like the followi
 ├── deploy_leaves.yaml              # leaf switch SONiC + metal-core
 ├── inventory
 │   ├── inventory.yaml              # all partition host groups
+│   ├── host_vars
 │   └── group_vars
 │       ├── all/
 │       │   ├── release_vector.yaml
@@ -67,7 +68,7 @@ The result should look something like the following image, but could vary for di
 ![Out-of-Band-Network](mgmt_net_layer3.png)
 
 The following subsections provide a suggestion, how the Out-Of-Band-Network could be deployed. Please note that this is only a suggestion — we cannot provide an out-of-the-box solution, as hardware setups and environments differ significantly between deployments.
-After bootstrapping the OOBN, we make use of the CI/CD workers to deploy as much of the required software via Ansible.
+After bootstrapping the OOB network, we make use of the CI/CD workers to deploy as much of the required software via Ansible.
 
 ### Management Firewalls
 
@@ -85,14 +86,14 @@ The firewalls (EdgeRouters) must fulfill the following requirements:
 
 - Provide and restrict access to the Out-Of-Band-Network from the internet via firewall rulesets
 - Provide destination NAT to the management server and its IPMI interface
-- Provide DHCP options for Onie Boot and ZTP of the management spine
+- Provide DHCP options for ONIE Boot and ZTP of the management spine
 - Provide DHCP management addresses for the management spine, management server, and IPMI interfaces
 - Perform Hairpin-NAT so the management server can access itself via its public IP (required by the CI runner to delegate jobs)
 - Propagate a default gateway via BGP
 
 ### Management Servers
 
-Management servers are the main bootstrapping components of the Out-Of-Band-Network and serve as jump hosts for all partition components. Once they are installed, every other component can be deployed automatically.
+Management servers are the main bootstrapping components of the Out-Of-Band-Network and serve as jump hosts for all partition components. Once they are installed, every other component can be deployed automatically. For our high-availability setup, there are again two of them, each connected to their management-firewall.
 
 Bootstrapping the management servers requires remote IPMI access and a way to perform an unattended OS installation with an Ansible user and SSH keys pre-configured. The exact approach depends on your hardware, existing infrastructure, and preferred automation tools. Below are two common examples, but any solultion is fine.
 
@@ -106,43 +107,53 @@ After installation, a CI runner needs to be installed on each management server.
 
 - CI runner for job delegation
 - `metal-bmc` for bare-metal lifecycle management
-- Image cache and a simple webserver to serve OS images
-- [Onie Boot](https://opencomputeproject.github.io/onie/) and ZTP for switch provisioning
+- Image cache and a simple webserver to serve OS images for `ONIE` and `ZTP` scripts
 - DHCP server for worker IPMI interfaces and switch management interfaces
 
 The [mgmt-server role](https://github.com/metal-stack/metal-roles/tree/master/partition/roles/mgmt-server) can be used as a template for the initial setup and also to install some of the required services.
 
-The runner on the bastion host needs:
+The runner on the management server needs:
 
-- An SSH key pair for Ansible authentication — private key and public key in each switch's `authorized_keys`
-- CI/CD secrets: `ANSIBLE_VAULT_PASSWORD` and `ANSIBLE_PRIVATE_KEY`
-- Ansible Vault for encrypting sensitive variables (BMC passwords, API keys)
+- An SSH key pair for Ansible authentication
+— The public key in each switch's `authorized_keys` (this can be achieved via the `ZTP` scripts)
+- CI/CD secrets or any kind of access to the Ansible Vault password and private key
 
-### Management Spines
+### Spine & Exit Management Switches (Management Spines)
 
-Management spines connect the management interfaces of all switches to the management servers.
-The spine's own management interface connects to the management firewall, which provides a DHCP address and options to trigger SONiC's [Zero Touch Provisioning](https://github.com/sonic-net/SONiC/blob/master/doc/ztp/ztp.md).
-Switch images are then downloaded from the management server, hosting the image-cache.
+Management spines connect the management interfaces of all spine and exit switches to the management servers to enable out-of-band management.
+The spine's own management interfaces connects to the according management firewall, which provides a DHCP address and options to trigger SONiC's [Zero Touch Provisioning](https://github.com/sonic-net/SONiC/blob/master/doc/ztp/ztp.md).
+Switch images are then downloaded from the management server's webserver.
 
 Each management leaf connects to both management spines for redundant connectivity. BGP is used as the routing protocol, so if a link fails traffic automatically switches to the alternate path.
 
-The management spine also relays DHCP requests from switch management interfaces (leaves, exits, and workers) to the management servers, enabling those switches to Onie Boot and receive their ZTP scripts.
+The management spine also relays DHCP requests from switch management interfaces (leaves, spines, exits, and workers) to the management servers, enabling those switches to ONIE Boot and receive their ZTP scripts - and later the workers to PXE boot.
 
 :::tip
-If you are using SONiC switches, you can make use of Zero Touch Provisioning and Onie Boot.
+If you are using SONiC switches, you can make use of Zero Touch Provisioning and ONIE Boot.
 :::
 
-### Management Leaves
+### Leaf & Worker Management Switches (Management Leaves)
 
-Management leaves connect worker servers via their IPMI/BMC interfaces, relaying DHCP requests from those interfaces to the management server so workers receive IP addresses for PXE boot.
+Management leaves connect the production network leaves and worker servers via their IPMI/BMC and management interfaces, to allow out of band management. They are handled in different vLANs.
 
-In our reference setup, the management interfaces of the leaves connect to an end-of-row switch that aggregates the traffic and links to the management spines via fiber. If copper cables can reach the spines directly, the end-of-row switch is not needed.
+In our reference setup, the management interfaces of the leaves connect to an end-of-row (EOR) switch that aggregates the traffic and links to the management spines via fiber. If copper cables can reach the spines directly, the end-of-row switch is not needed.
 
 After the initial bootstrapping, the management interfaces of the leaves continue to be used for CLI access to the switches and for subsequent OS updates (reset → bootstrap → deploy).
 
-### Management Out-Of-Band Switches
+### Management Out-Of-Band Switches (Management OOBS)
 
 In larger deployments, a dedicated set of out-of-band switches (mgmtoobs) may be used to isolate BMC/IPMI traffic from the management network. These switches connect directly to server BMCs and provide a separate L2 domain for IPMI traffic, keeping it isolated from management server and switch management interfaces. They are deployed through the same SONiC automation as other partition switches.
+
+### Leaves and Spines (Production Network)
+We have now reached the point where a lot of the configuration happens automatically via the official Ansible roles. 
+After the initial install via ONIE and ZTP, metal-core will take over the configuration of the leaves and spines.
+
+The general role of the leaves and spines is explained in the [CLOS](https://metal-stack.io/docs/next/networking#clos) concepts section.
+
+They also add the last piece of the puzzle for the bare-metal provisioning:
+As the workers are directly connected to the leaves, meaning PXE boot requests need to be handled by them.
+This is achieved by relaying  DHCP requests from those interfaces to the management server (via the management-spine) so workers receive IP addresses for PXE boot. 
+After that, they are able to pull the image for the automated install and setup.
 
 ---
 
@@ -153,17 +164,18 @@ The next step is to configure the Ansible inventory and playbooks that define yo
 
 The playbooks and directory structure shown in this document represent a **reference implementation** — one way to organize your deployment. The metal-stack partition roles are designed to be flexible, and you are free to organize playbooks, group hosts differently, or run services on different machines as long as the following architectural constraints are met:
 
-- **PXE boot requires DHCP in the same Layer-2 domain** as unprovisioned servers. The PXE VLAN (`vlan4000`) must reach all bare metal servers that need provisioning. In our reference setup, the management server runs the DHCP server, and exit switches run a DHCP relay (configured via the `sonic-config` role) that forwards requests from the production network back to the management server. You may place the DHCP server and relay wherever your network topology allows, as long as the L2 domain is preserved. See the [networking documentation](../../05-Concepts/03-Network/01-theory.md#pxe-boot-mode) for the full PXE/DHCP theory.
+- **PXE boot requires DHCP in the same Layer-2 domain** as unprovisioned servers. The PXE VLAN (`vlan4000`) must reach all bare metal servers that need provisioning. In our reference setup, the management server runs the DHCP server, and leaf switches run a DHCP relay (configured via the `sonic-config` role) that forwards requests from the production network back to the management server. You may place the DHCP server and relay wherever your network topology allows, as long as the L2 domain is preserved. See the [networking documentation](../../05-Concepts/03-Network/01-theory.md#pxe-boot-mode) for the full PXE/DHCP theory.
 - **`metal-core` must run on leaf switches** to dynamically configure them from the metal-api.
 - **Pixiecore must be reachable** by servers during PXE boot (TFTP/HTTP).
 - **`metal-bmc` must run on a host with BMC/IPMI network access** to manage bare-metal servers.
-- **Image cache must be reachable** by switches serving OS images via Onie Boot.
+- **Web-Server with switch images must be reachable** by switches during install
+- **Image cache must be reachable** by machines during provisioning
 
 You can split these services across multiple playbooks, combine them into fewer playbooks, or run them on different hosts — the roles are independent and can be mixed and matched. The key is ensuring the services are deployed and the network dependencies are satisfied.
 
 ### Host Inventory
 
-Add your networking infrastructure to the inventory and adapt the host names and group structure to match your physical topology.
+Add your networking infrastructure to the inventory and adapt the host names and group structure to match your physical topology. For production switches, use disjoint groups (e.g. odd/even) to enable rolling deployments without fabric disruption.
 
 ```yaml
 partition:
@@ -177,15 +189,20 @@ partition:
     mgmtspines:
       hosts:
         mgmtspine01:
-    spines:
+    odd_switches:
       hosts:
         spine01:
-    exits:
-      hosts:
         exit01:
-    leaves:
+    even_switches:
+      hosts:
+        spine02:
+        exit02:
+    odd_leaves:
       hosts:
         leaf01:
+    even_leaves:
+      hosts:
+        leaf02:
 ```
 
 ### Partition Connection
@@ -261,32 +278,60 @@ Deploys SONiC on management leaves and management spines. These switches form th
 
 ### Production Spines and Exits (`deploy_spines_exits.yaml`)
 
-Deploys SONiC on spine and exit switches with serial (rolling) deployment to avoid disrupting the entire fabric at once. The `sonic-config` is used to configure FRR routing, BGP underlay, and the DHCP relay agent on exit switches to forward PXE requests to the management server.
+Deploys SONiC on spine and exit switches in disjoint groups (e.g. odd/even) to avoid disrupting the entire fabric at once. The `sonic-config` is used to configure FRR routing, BGP underlay, and the DHCP relay agent on exit switches to forward PXE requests to the management server.
 
 ```yaml
 ---
-- name: deploy spines and exits
-  hosts: exits,spines
-  serial: 1
+- name: deploy odd spines and exits
+  hosts: odd_switches
+  roles:
+    - name: ansible-common
+    - name: metal-roles/common/roles/defaults
+    - name: metal-roles/partition/roles/sonic-config
+
+- name: deploy even spines and exits
+  hosts: even_switches
   roles:
     - name: ansible-common
     - name: metal-roles/common/roles/defaults
     - name: metal-roles/partition/roles/sonic-config
 ```
 
+The inventory defines the disjoint groups:
+
+```yaml
+odd_switches:
+  hosts:
+    spine01:
+    exit01:
+
+even_switches:
+  hosts:
+    spine02:
+    exit02:
+```
+
+Deploy the odd group first, verify the fabric is stable, then deploy the even group.
+
 ### Production Leaves (`deploy_leaves.yaml`)
 
-Deploys SONiC configuration and `metal-core` on leaf switches. `metal-core` dynamically configures the leaf from the metal-api and proxies requests from the metal-hammer (discovery image) during PXE provisioning.
+Deploys SONiC configuration and `metal-core` on leaf switches. `metal-core` dynamically configures the leaf from the metal-api and relays DHCP requests from the metal-hammer (discovery image) during PXE provisioning.
+
+Again, the same disjoint groups approach is used. Deploy one group, verify stability, then proceed with the next.
 
 ```yaml
 ---
-- name: deploy leaves
-  hosts: leaves
+- name: deploy even leaves
+  hosts: even_leaves
   roles:
     - name: ansible-common
     - name: metal-roles/common/roles/defaults
     - name: metal-roles/partition/roles/sonic-config
     - name: metal-roles/partition/roles/metal-core
+
+# - name: deploy odd leaves
+#   hosts: odd_leaves
+# ...
 ```
 
 ## CI/CD Workflow
@@ -346,11 +391,12 @@ Each phase is independent and can be deployed separately via workflow dispatch.
 
 ## Deployment Order
 
-The recommended deployment sequence respects service dependencies. Each phase can be deployed independently via workflow dispatch, but the order below ensures prerequisites are in place:
+The recommended deployment sequence respects service dependencies. Each phase can be deployed independently via workflow dispatch, but the order of this guide and below ensures prerequisites are in place:
 
 ```text
 1. Management Server    → deploy_mgmt_servers.yaml
    ├── CI runner (enables automated deployments)
+   │   └── *Note: the CI runner itself would have to be deployed by a non-self-hosted runner
    ├── Image cache (serves OS images to switches and servers)
    ├── DHCP server (on management server, relay configured on switches)
    ├── ZTP (provisions management switches)
@@ -358,18 +404,14 @@ The recommended deployment sequence respects service dependencies. Each phase ca
    └── Pixiecore (PXE boot image serving)
 
 2. Management Switches  → deploy_mgmt_switches.yaml
-   ├── SONiC on mgmtleaves and mgmtspains
-   ├── FRR routing and BGP peering
-   └── Provides out-of-band network for all partition components
+   └── SONiC (via sonic-config role)
 
 3. Production Spines    → deploy_spines_exits.yaml
-   ├── SONiC on spine and exit switches (rolling, serial: 1)
-   ├── FRR routing, BGP underlay, and DHCP relay on exits
-   └── Route leaks for internet access during provisioning
+   └── SONiC (via sonic-config role, disjoint groups)
 
 4. Production Leaves    → deploy_leaves.yaml
-   ├── SONiC configuration and FRR routing
-   └── metal-core (dynamic leaf switch configuration)
+   ├── SONiC (via sonic-config role)
+   └── metal-core
 
 ```
 
