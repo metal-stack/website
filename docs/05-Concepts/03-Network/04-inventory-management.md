@@ -30,7 +30,7 @@ Each component reports its findings to metal-api:
 
 LLDP is the link between the machine inventory and the switch inventory. metal-hammer reports each NIC's neighbor, and metal-api correlates those against the registered switch ports to build the connection map between switch ports and machine ports. The physical cable layout is therefore discovered during the same boot, never maintained by hand, and it is what drives per-port VRF configuration when a machine is later allocated to a tenant network.
 
-### Ansible Configured
+### Preconfigured
 
 Part of the partition is provisioned declaratively instead of being discovered. This configuration is maintained as version-controlled infrastructure-as-code using Ansible and rolled out by CI, outside metal-stack's control plane.
 
