@@ -1,0 +1,536 @@
+---
+slug: /deployment/control-plane
+title: Control Plane
+sidebar_position: 3
+---
+
+# Metal Control Plane Deployment
+
+The metal control plane is the **minimum requirement** for running metal-stack as a Bare-Metal as a Service (MaaS) platform.
+
+This guide assumes a **Kubernetes-based deployment** because our Ansible roles are designed around Kubernetes — it is significantly more comfortable to deploy and operate metal-stack on Kubernetes than on any other platform.
+While it is theoretically possible to deploy metal-stack without Kubernetes (see [Target Deployment Platforms](../../05-Concepts/01-architecture.mdx#target-deployment-platforms) for the reasoning behind this design decision), doing so would require you to come up with your own deployment mechanism.
+
+The control plane deployment described here requires an initial Kubernetes cluster as bootstrap infrastructure, which is described in [Bootstrap Infrastructure](./02_bootstrap-infrastructure.md).
+We use the [metal-stack control-plane Ansible roles](https://github.com/metal-stack/metal-roles/tree/master/control-plane) to deploy all control-plane components.
+
+Create the deployment folder and enter it — this is the root of your deployment repository as outlined in the [Deployment Guide](./01_guide.md):
+
+```bash
+mkdir -p metal-stack-deployment
+cd metal-stack-deployment
+```
+
+By the end of this section, your repository will contain the following files and directories:
+
+```
+.
+├── ansible.cfg
+├── deploy_metal_control_plane.yaml
+├── files
+│   └── certs
+│       ├── ca-config.json
+│       ├── ca-csr.json
+│       ├── metal-api-grpc
+│       │   ├── client.json
+│       │   ├── server.json
+│       ├── masterdata-api
+│       │   ├── client.json
+│       │   ├── server.json
+│       └── roll_certs.sh
+├── inventories
+│   ├── control-plane.yaml
+│   └── group_vars
+│       ├── all
+│       │   └── release_vector.yaml
+│       └── control-plane
+│           ├── common.yaml
+│           └── metal.yml
+├── generate_role_requirements.yaml
+└── roles
+    └── ingress-controller
+        └── tasks
+            └── main.yaml
+```
+
+## Releases and Ansible Role Dependencies
+
+As metal-stack consists of many microservices all having individual versions, we have come up with a [releases](https://github.com/metal-stack/releases) repository. It contains a YAML file (we often call it release vector) describing the fitting versions of all components for every release of metal-stack. Ansible role dependencies are also part of a metal-stack release. Both the metal-stack release vector and the metal-stack ansible-roles are shipped as OCI artifacts following a specific format that's described [here](/community/oci-artifacts). These artifacts are signed with the CI token of the metal-stack Github organization and can be verified using [cosign](https://github.com/sigstore/cosign).
+
+In order to download the release vector and the referenced ansible-roles prior to a deployment, we provide a small helper module called `metal_stack_release_vector` as part of the [metal-deployment-base](https://github.com/metal-stack/metal-deployment-base) deployment image. Its main tasks are:
+
+- Downloading the release vector OCI artifact.
+- Downloading the ansible-role OCI artifacts referenced in the release vector.
+- Validating the release vector and the ansible-role signatures.
+- Make information from the release vector available as ansible variables that can be used during the deployment.
+
+The module picks up a magic variable called `metal_stack_release_vectors`, which can be defined in `inventories/group_vars/all/release_vector.yaml` like this:
+
+import CodeBlock from "@theme/CodeBlock";
+import latestRelease from "@site/src/version.json";
+export function ImageReleaseConfig() {
+  return (
+    <>
+      <CodeBlock language="yaml">
+        ---{"\n"}
+        metal_stack_release_vectors:{"\n"}
+        {"  "}- url: oci://ghcr.io/metal-stack/releases:{latestRelease.version}
+        {"\n"}
+        {"  "} variable_mapping_path: metal_stack_release.mapping{"\n"}
+        {"  "} include_role_defaults: metal-roles/common/roles/defaults{"\n"}
+        {"  "} oci_cosign_verify_key: |{"\n"}
+        {"  "} -----BEGIN PUBLIC KEY-----{"\n"}
+        {"  "} MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEdeAXd2namgVNDT0APmogKGwaV+Q4
+        {"\n"}
+        {"  "} rfe4uVgmsyBbb6TrhX5Py6x1PsonDahTvdVpbSGC7QGEjxIHdi8HnJ4Okg==
+        {"\n"}
+        {"  "} -----END PUBLIC KEY-----{"\n"}
+      </CodeBlock>
+    </>
+  );
+}
+
+<ImageReleaseConfig />
+
+The public key for the validation is attached to each metal-stack release.
+
+Optional further parametrization for this module can be found in its [module documentation](https://github.com/metal-stack/ansible-common/blob/a5977fc618cd34a6cebda262602b8cbc0632500d/library/metal_stack_release_vector.py).
+
+## Inventory
+
+Then, there will be an inventory for the control plane deployment in `inventories/control-plane.yaml` that adds `localhost` to the `control-plane` host group:
+
+```yaml
+---
+control-plane:
+  hosts:
+    localhost:
+      ansible_python_interpreter: "{{ ansible_playbook_python }}"
+```
+
+We do this since we are deploying to Kubernetes and do not need to SSH-connect to any hosts for the deployment (which is what Ansible typically does). This inventory is also necessary to pick up the variables inside `inventories/group_vars/control-plane` during the deployment.
+
+Most of the properties in there are up to taste, but make sure you enable the [Jinja2 native environment](https://jinja.palletsprojects.com/en/2.11.x/nativetypes/) as this is needed for some of our roles in certain cases.
+
+## Control Plane Playbook
+
+Next, we will define the actual deployment playbook in a file called `deploy_metal_control_plane.yaml`. You can start with the following lines:
+
+```yaml
+---
+- name: Deploy Control Plane
+  hosts: control-plane
+  connection: local
+  gather_facts: no
+  roles:
+    - name: ansible-common
+      tags: always
+    - name: ingress-controller
+    - name: metal-roles/control-plane/roles/prepare
+    - name: metal-roles/control-plane/roles/nsq
+    - name: metal-roles/control-plane/roles/metal-db
+    - name: metal-roles/control-plane/roles/ipam-db
+    - name: metal-roles/control-plane/roles/masterdata-db
+    - name: metal-roles/control-plane/roles/metal
+```
+
+Basically, this playbook does the following:
+
+- Include all the modules, filter plugins, etc. of [ansible-common](https://github.com/metal-stack/ansible-common) into the play
+- Deploys an ingress-controller into your cluster
+- Deploys the metal-stack by
+  - Running preparation tasks
+  - Deploying NSQ
+  - Deploying the rethinkdb database for the metal-api (wrapped in a backup-restore-sidecar),
+  - Deploying the postgres database for go-ipam (wrapped in a backup-restore-sidecar)
+  - Deploying the postgres database for the masterdata-api (wrapped in a backup-restore-sidecar)
+  - Applying the metal control plane helm chart
+
+## Setup an ingress-controller
+
+As a next step we write the `ingress-controller` role for deploying an ingress-controller into the cluster. [nginx-ingress](https://kubernetes.github.io/ingress-nginx/) is what we use. If you want to use another ingress-controller, you need to parametrize the metal roles carefully. When you just use ingress-nginx, make sure to also deploy it to the default namespace ingress-nginx.
+
+This is how your `roles/ingress-controller/tasks/main.yaml` could look like:
+
+```yaml
+- name: Deploy ingress-controller
+  include_role:
+    name: ansible-common/roles/helm-chart
+  vars:
+    helm_repo: "https://helm.nginx.com/stable"
+    helm_chart: nginx-ingress
+    helm_release_name: nginx-ingress
+    helm_target_namespace: ingress-nginx
+```
+
+:::tip
+The [ansible-common](https://github.com/metal-stack/ansible-common) repository contains very general roles and modules that you can also use when extending your deployment further.
+:::
+
+## Deployment Parametrization
+
+Now you can parametrize the referenced roles to fit your environment. The role parametrization can be looked up in the role documentation on [metal-roles/control-plane](https://github.com/metal-stack/metal-roles/tree/master/control-plane). You should not need to define a lot of variables for the beginning as most values are reasonably defaulted. You can start with the following content for `group_vars/control-plane/common.yaml`:
+
+```yaml
+---
+metal_control_plane_ingress_dns: <your-dns-domain> # if you do not have a DNS entry, you could also start with <ingress-ip>.nip.io
+```
+
+## Providing Certificates
+
+We have several components in our stack that communicate over encrypted gRPC just like Kubernetes components do.
+
+For the very basic setup you will need to create self-signed certificates for the communication between the following components (see [architecture](../../05-Concepts/01-architecture.mdx) document):
+
+- [metal-api](https://github.com/metal-stack/metal-api) and [masterdata-api](https://github.com/metal-stack/masterdata-api) (in-cluster traffic communication)
+- [metal-api](https://github.com/metal-stack/metal-api) and [metal-hammer](https://github.com/metal-stack/metal-hammer) (partition to control plane communication)
+
+Here is a snippet for `files/roll_certs.sh` that you can use for generating your certificates (requires [cfssl](https://github.com/cloudflare/cfssl)):
+
+```bash
+#!/usr/bin/env bash
+set -eo pipefail
+
+for i in "$@"
+do
+case $i in
+    -t=*|--target=*)
+    TARGET="${i#*=}"
+    shift
+    ;;
+    *)
+    echo "unknown parameter passed: $1"
+    exit 1
+    ;;
+esac
+done
+
+if [ -z "$TARGET" ]; then
+    echo "generating ca cert"
+    cfssl genkey -initca ca-csr.json | cfssljson -bare ca
+    rm *.csr
+fi
+
+if [ -z "$TARGET" ] || [ $TARGET == "grpc" ]; then
+    pushd metal-api-grpc
+    echo "generating grpc certs"
+    cfssl gencert -ca=../ca.pem -ca-key=../ca-key.pem -config=../ca-config.json -profile=server server.json | cfssljson -bare server
+    cfssl gencert -ca=../ca.pem -ca-key=../ca-key.pem -config=../ca-config.json -profile=client client.json | cfssljson -bare client
+    rm *.csr
+    popd
+fi
+
+if [ -z "$TARGET" ] || [ $TARGET == "masterdata-api" ]; then
+    pushd masterdata-api
+    echo "generating masterdata-api certs"
+    rm -f *.pem
+    cfssl gencert -ca=../ca.pem -ca-key=../ca-key.pem -config=../ca-config.json -profile=client-server server.json | cfssljson -bare server
+    cfssl gencert -ca=../ca.pem -ca-key=../ca-key.pem -config=../ca-config.json -profile=client client.json | cfssljson -bare client
+    rm *.csr
+    popd
+fi
+```
+
+Also define the following configurations for `cfssl`:
+
+- `files/certs/ca-config.json`
+  ```json
+  {
+    "signing": {
+      "default": {
+        "expiry": "43800h"
+      },
+      "profiles": {
+        "server": {
+          "expiry": "43800h",
+          "usages": ["signing", "key encipherment", "server auth"]
+        },
+        "client": {
+          "expiry": "43800h",
+          "usages": ["signing", "key encipherment", "client auth"]
+        },
+        "client-server": {
+          "expiry": "43800h",
+          "usages": [
+            "signing",
+            "key encipherment",
+            "client auth",
+            "server auth"
+          ]
+        }
+      }
+    }
+  }
+  ```
+- `files/certs/ca-csr.json`
+  ```json
+  {
+    "CN": "metal-control-plane",
+    "hosts": [],
+    "key": {
+      "algo": "rsa",
+      "size": 4096
+    },
+    "names": [
+      {
+        "C": "DE",
+        "L": "Munich",
+        "O": "Metal-Stack",
+        "OU": "DevOps",
+        "ST": "Bavaria"
+      }
+    ]
+  }
+  ```
+- `files/certs/masterdata-api/client.json`
+  ```json
+  {
+    "CN": "masterdata-client",
+    "hosts": [""],
+    "key": {
+      "algo": "ecdsa",
+      "size": 256
+    },
+    "names": [
+      {
+        "C": "DE",
+        "L": "Munich",
+        "O": "Metal-Stack",
+        "OU": "DevOps",
+        "ST": "Bavaria"
+      }
+    ]
+  }
+  ```
+- `files/certs/masterdata-api/server.json`
+  ```json
+  {
+    "CN": "masterdata-api",
+    "hosts": [
+      "localhost",
+      "masterdata-api",
+      "masterdata-api.metal-control-plane.svc",
+      "masterdata-api.metal-control-plane.svc.cluster.local"
+    ],
+    "key": {
+      "algo": "ecdsa",
+      "size": 256
+    },
+    "names": [
+      {
+        "C": "DE",
+        "L": "Munich",
+        "O": "Metal-Stack",
+        "OU": "DevOps",
+        "ST": "Bavaria"
+      }
+    ]
+  }
+  ```
+- `files/certs/metal-api-grpc/client.json`
+  ```json
+  {
+    "CN": "grpc-client",
+    "hosts": [""],
+    "key": {
+      "algo": "rsa",
+      "size": 4096
+    },
+    "names": [
+      {
+        "C": "DE",
+        "L": "Munich",
+        "O": "Metal-Stack",
+        "OU": "DevOps",
+        "ST": "Bavaria"
+      }
+    ]
+  }
+  ```
+- `files/certs/metal-api-grpc/server.json` (**Fill in your control plane ingress DNS here**)
+  ```json
+  {
+    "CN": "metal-api",
+    "hosts": ["<your-metal-api-dns-ingress-domain>"],
+    "key": {
+      "algo": "rsa",
+      "size": 4096
+    },
+    "names": [
+      {
+        "C": "DE",
+        "L": "Munich",
+        "O": "Metal-Stack",
+        "OU": "DevOps",
+        "ST": "Bavaria"
+      }
+    ]
+  }
+  ```
+
+Running the `roll_certs.sh` bash script without any arguments should generate you the required certificates.
+
+Now Provide the paths to these certificates in `group_vars/control-plane/metal.yaml`:
+
+```yaml
+---
+metal_masterdata_api_tls_ca: "{{ lookup('file', 'certs/ca.pem') }}"
+metal_masterdata_api_tls_cert: "{{ lookup('file', 'certs/masterdata-api/server.pem') }}"
+metal_masterdata_api_tls_cert_key: "{{ lookup('file', 'certs/masterdata-api/server-key.pem') }}"
+metal_masterdata_api_tls_client_cert: "{{ lookup('file', 'certs/masterdata-api/client.pem') }}"
+metal_masterdata_api_tls_client_key: "{{ lookup('file', 'certs/masterdata-api/client-key.pem') }}"
+
+metal_api_grpc_certs_server_key: "{{ lookup('file', 'certs/metal-api-grpc/server-key.pem') }}"
+metal_api_grpc_certs_server_cert: "{{  lookup('file', 'certs/metal-api-grpc/server.pem') }}"
+metal_api_grpc_certs_client_key: "{{ lookup('file', 'certs/metal-api-grpc/client-key.pem') }}"
+metal_api_grpc_certs_client_cert: "{{  lookup('file', 'certs/metal-api-grpc/client.pem') }}"
+metal_api_grpc_certs_ca_cert: "{{ lookup('file', 'certs/ca.pem') }}"
+```
+
+:::tip
+For the actual communication between the metal-api and the user clients (REST API, runs over the ingress-controller you deployed before), you can simply deploy a tool like [cert-manager](https://github.com/cert-manager/cert-manager) into your Kubernetes cluster, which will automatically provide your ingress domains with Let's Encrypt certificates.
+:::
+
+## Running the Deployment
+
+Finally, it should be possible to run the deployment through a Docker container. Make sure to have the [Kubeconfig file](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/) of your cluster and set the path in the following command accordingly:
+
+export function VariableConfig() {
+  return (
+    <>
+      <CodeBlock language="bash">
+        export KUBECONFIG={"\<"}path-to-your-cluster-kubeconfig{"\>"}
+        {"\n"}
+        export METAL_VERSION={latestRelease.version}
+      </CodeBlock>
+    </>
+  );
+}
+
+<VariableConfig />
+
+Then you can spin up the deployment with docker:
+
+```bash
+# ideally, validate the signature of the deployment image with cosign before running it:
+cosign verify ghcr.io/metal-stack/metal-deployment-base:${METAL_VERSION} --certificate-oidc-issuer https://accounts.google.com --certificate-identity keyless@metal-stack.iam.gserviceaccount.com
+# then run the deployment:
+docker run --rm -it \
+  -v $(pwd):/workdir \
+  --workdir /workdir \
+  -e KUBECONFIG="${KUBECONFIG}" \
+  -e K8S_AUTH_KUBECONFIG="${KUBECONFIG}" \
+  -e ANSIBLE_INVENTORY=inventories/control-plane.yaml \
+  ghcr.io/metal-stack/metal-deployment-base:${METAL_VERSION} \
+  /bin/bash -ce \
+    "ansible -m metalstack.base.metal_stack_release_vector localhost
+     ansible-playbook deploy_metal_control_plane.yaml"
+```
+
+:::tip
+If you are having issues regarding the deployment take a look at the [troubleshoot document](../06-troubleshoot.md). Please give feedback such that we can make the deployment of the metal-stack easier for you and for others!
+:::
+
+## Providing Images
+
+After the deployment has finished, you should consider deploying some masterdata entities into your metal-api. For example, you can add your first machine sizes and operating system images. You can do this by further parametrizing the [metal role](https://github.com/metal-stack/metal-roles/tree/master/control-plane/roles/metal). We will just add an operating system for demonstration purposes. Add the following variable to your `inventories/group_vars/control-plane/common.yaml`:
+
+```
+metal_api_images:
+- id: firewall-ubuntu-3.0
+  name: Firewall 3 Ubuntu
+  description: Firewall 3 Ubuntu Latest Release
+  url: https://images.metal-stack.io/metal-os/stable/firewall/3.0-ubuntu/img.tar.lz4
+  features:
+    - firewall
+- id: ubuntu-26.4
+  name: Ubuntu 26.04
+  description: Ubuntu 26.04 Latest Release
+  url: https://images.metal-stack.io/metal-os/stable/ubuntu/26.04/img.tar.lz4
+  features:
+    - machine
+- id: debian-13.0
+  name: Debian 13
+  description: Debian 13 Latest Release
+  url: https://images.metal-stack.io/metal-os/stable/debian/13/img.tar.lz4
+  features:
+    - machine
+```
+
+See the [metal-images reference](https://metal-stack.io/docs/references/metal-images/#supported-images) for currently supported images.
+
+Then, re-run the deployment to apply your changes. Our playbooks are idempotent.
+
+:::info
+Image versions should be regularly checked for updates.
+:::
+
+## Setting up metalctl
+
+You can now verify the existence of the operating system images in the metal-api using our CLI client called [metalctl](https://github.com/metal-stack/metalctl). The configuration for `metalctl` should look like this:
+
+```yaml
+# ~/.metalctl/config.yaml
+---
+current: test
+contexts:
+  test:
+    # the metal-api endpoint depends on your dns name specified before
+    # you can look up the url to the metal-api via the kubernetes ingress
+    # resource with:
+    # $ kubectl get ingress -n metal-control-plane
+    url: <metal-api-endpoint>
+    # in the future you have to change the HMAC to a strong, random string
+    # in order to protect against unauthorized api access
+    # the default hmac is "change-me"
+    hmac: change-me
+    # Metal-Admin, Metal-Edit or Metal-View
+    hmac_auth_type: THE_AUTH_TYPE_OF_YOUR_HMAC
+```
+
+Issue the following command:
+
+```bash
+$ metalctl image ls
+ID                              	NAME                          	DESCRIPTION                   	FEATURES	EXPIRATION	STATUS
+ubuntu-19.10.20200331           	Ubuntu 19.10 20200331         	Ubuntu 19.10 20200331         	machine 	89d 23h   	preview
+```
+
+The basic principles of how the metal control plane can be deployed should now be clear. It is now up to you to move the deployment execution into your CI and add things like certificates for the ingress-controller and NSQ.
+
+## Setting Up the backup-restore-sidecar
+
+The backup-restore-sidecar can come in very handy when you want to add another layer of security to the metal-stack databases in your Kubernetes cluster. The sidecar takes backups of the metal databases in small time intervals and stores them in a blobstore of a cloud provider. For each database that will be backed up, a lifecycle rule is established. The backup mechanism is deactivated by default and must be activated by the operator. This way your metal-stack setup can even survive the deletion of your Kubernetes control plane cluster (including all volumes getting lost). After re-deploying metal-stack to another Kubernetes clusters, the databases come up with the latest backup data in a matter of seconds.
+
+Encryption can be enabled for the backups by providing an AES-256 encryption key.
+
+Checkout the [role documentation](https://github.com/metal-stack/metal-roles/tree/master/control-plane) of the individual databases to find out how to configure the sidecar properly. You can also try out the mechanism from the [backup-restore-sidecar](https://github.com/metal-stack/backup-restore-sidecar) repository.
+
+## Auth
+
+metal-stack currently supports two authentication methods:
+
+- user authentication through [OpenID Connect](https://openid.net/developers/how-connect-works/) (OIDC)
+- [HMAC](https://en.wikipedia.org/wiki/HMAC) auth, typically used for access by technical users (because we do not have service account tokens at the time being)
+
+If you decided to use OIDC, you can parametrize the [metal role](https://github.com/metal-stack/metal-roles/tree/master/control-plane/roles/metal) for this by defining the variable `metal_masterdata_api_tenants` with the following configuration:
+
+```yaml
+---
+metal_masterdata_api_tenants:
+  - meta:
+      id: <id>
+      kind: Tenant
+      apiversion: v1
+      version: 0
+    name: <name>
+    iam_config:
+      issuer_config:
+        client_id: <client_id>
+        url: <oidc_url>
+      idm_config:
+        idm_type: <type> # "AD" | "UX"
+      group_config:
+        namespace_max_length: 20
+    description: <description>
+```

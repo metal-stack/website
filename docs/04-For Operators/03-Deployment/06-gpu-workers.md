@@ -1,5 +1,5 @@
 ---
-slug: /gpu-workers
+slug: /deployment/gpu-workers
 title: GPU Workers
 sidebar_position: 6
 ---
