@@ -12,7 +12,7 @@ The records themselves are not maintained by hand. As described under [Inventory
 
 ## Segmentation Model
 
-A tenant owns one or more projects, and a project owns one or more private networks. Every [private network](./04-inventory-management.md#logical-inventory) is allocated its own VRF, which maps 1:1 to a VNI in the EVPN/VXLAN overlay. Because each network routes in its own VRF (see [VRF](./01-theory.md#vrf)), no two networks share a routing table, which isolates projects and tenants from one another and lets the same IP ranges be reused across networks without colliding. [Picture 6](./01-theory.md#physical-wiring) illustrates this separation and the VRF termination that happens on the firewall.
+A tenant owns one or more projects, and a project owns one or more private networks. Each [private network](./04-inventory-management.md#logical-inventory) maps to its own VRF, which corresponds 1:1 to a VNI in the EVPN/VXLAN overlay. Because each network routes in its own VRF (see [VRF](./01-theory.md#vrf)), no two networks share a routing table, which isolates projects and tenants from one another and lets the same IP ranges be reused across networks without colliding. [Picture 6](./01-theory.md#physical-wiring) illustrates this separation and the VRF termination that happens on the firewall.
 
 From this model metal-stack draws and enforces the following boundaries:
 
@@ -27,11 +27,11 @@ The partition edge is the one boundary metal-stack deliberately does not own end
 
 ## Defense in Depth
 
-A packet from a tenant machine crosses several independent enforcement layers before it can reach anything, and because each layer is rendered from the same metal-api state they cannot drift out of agreement. Any one of them is sufficient to deny the traffic.
+A packet from a tenant machine crosses several independent enforcement layers before it can reach anything, implementing the [defense in depth](../../06-For%20CISOs/Security/01-principles.md#defense-in-depth) principle, and because each layer is rendered from the same metal-api state they cannot drift out of agreement. Any one of them is sufficient to deny the traffic.
 
 ### Routing Isolation (VRFs)
 
-VRFs provide hard layer-3 isolation. A packet in `vrf5417` has no route to a destination in another VRF. Route-leaking between VRFs happens only where it is explicitly configured, and even then it is constrained. On a tenant firewall, `import vrf` installs routes from a foreign VRF, but an `import vrf route-map` plus a prefix-list decide exactly which prefixes may cross (see [Tenant Firewalls](./01-theory.md#tenant-firewalls-evpn-to-the-host) and Listing 9). The default posture is no reachability, and every leak is a named, prefix-scoped exception.
+VRFs provide hard layer-3 isolation. The routing table of `vrf5417` contains no routes to destinations in other VRFs, so traffic cannot cross from one VRF to another. Route-leaking between VRFs happens only where it is explicitly configured, and even then it is constrained. On a tenant firewall, `import vrf` installs routes from a foreign VRF, but an `import vrf route-map` plus a prefix-list decide exactly which prefixes may cross (see [Tenant Firewalls](./01-theory.md#tenant-firewalls-evpn-to-the-host) and Listing 9). The default posture is no reachability, and every leak is a named, prefix-scoped exception.
 
 ### Route Filtering
 
