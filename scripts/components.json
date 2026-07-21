@@ -44,13 +44,31 @@
         "withDocs": false
       },
       {
+        "name": "tenant-apiserver",
+        "releasePath": "docker-images.metal-stack.control-plane.tenant-apiserver.tag",
+        "repo": "metal-stack/tenant-apiserver",
+        "branch": "main",
+        "tag": "v0.1.0",
+        "position": 4,
+        "withDocs": false
+      },
+      {
         "name": "metal-api",
         "releasePath": "docker-images.metal-stack.control-plane.metal-api.tag",
         "repo": "metal-stack/metal-api",
         "branch": "main",
         "tag": "v0.44.1",
-        "position": 4,
+        "position": 5,
         "withDocs": false
+      },
+      {
+        "name": "metal-apiserver",
+        "releasePath": "docker-images.metal-stack.control-plane.metal-apiserver.tag",
+        "repo": "metal-stack/metal-apiserver",
+        "branch": "main",
+        "tag": "v0.6.3",
+        "position": 6,
+        "withDocs": true
       },
       {
         "name": "metal-console",
@@ -58,7 +76,7 @@
         "repo": "metal-stack/metal-console",
         "branch": "main",
         "tag": "v0.7.5",
-        "position": 5,
+        "position": 7,
         "withDocs": false
       }
     ]
@@ -223,6 +241,15 @@
         "branch": "main",
         "tag": "v0.9.10",
         "position": 5,
+        "withDocs": false
+      },
+      {
+        "name": "metal-token-refresher",
+        "releasePath": "docker-images.metal-stack.kubernetes.metal-token-refresher.tag",
+        "repo": "metal-stack/metal-token-refresher",
+        "branch": "better-readme",
+        "tag": "v0.0.1",
+        "position": 6,
         "withDocs": false
       }
     ]
