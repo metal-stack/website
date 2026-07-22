@@ -1,7 +1,7 @@
 ---
 slug: /references/metal-console
 title: metal-console
-sidebar_position: 5
+sidebar_position: 7
 ---
 
 # metal-console

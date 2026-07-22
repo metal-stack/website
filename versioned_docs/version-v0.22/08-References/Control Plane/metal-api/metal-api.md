@@ -1,7 +1,7 @@
 ---
 slug: /references/metal-api
 title: metal-api
-sidebar_position: 4
+sidebar_position: 5
 ---
 
 # metal-api
