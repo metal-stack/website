@@ -10,22 +10,6 @@ The metal-stack is a compound of microservices predominantly written in [Golang]
 
 This page gives you an overview over which microservices exist, how they communicate with each other and where they are deployed.
 
-## Target Deployment Platforms
-
-For our environments, we chose to deploy the metal-stack into a Kubernetes cluster. This means that also our entire installation was developed for metal-stack being run on Kubernetes. Running applications on Kubernetes gives you a lot of benefits regarding ease-of-deployment, scalability, reliability and so on.
-
-However, very early we decided that we do not want to depend on technical Kubernetes functionality with our software (i.e. we did not implement the stack "kube-native" by using controllers and Kubernetes CRDs and things like that). With the following paragraph we want to point out the reasoning behind this "philosophical" decision that may sound conservative at first glance. But not relying on Kubernetes technology:
-
-- Makes deployments of the stack without Kubernetes theoretically possible.
-  - We believe that cloud providers should be able to act beneath Kubernetes
-  - This way it is possible to use metal-stack for providing your own Kubernetes offering without relying on Kubernetes yourself (breaks the chicken-egg problem)
-- Follows an important claim in microservice development: "Be agnostic to your choice of technology"
-  - For applications that are purely made for being run on Kubernetes, it does not matter to rely on this technology (we even do the same a lot with our applications that integrate the metal-stack with Gardener) but as soon as you start using things like the underlying reconciliation abilities (which admittedly are fanstatic) you are locking your code into a certain technology
-  - We don't know what comes after Kubernetes but we believe that a cloud offering should have the potential to survive a choice of technology
-  - By this decision we ensured that we can migrate the stack to another future technology and survive the change
-
-One more word towards determining the location for your metal control plane: It is not strictly required to run the control plane inside the same data center as your servers. It even makes sense not to do so because this way you can place your control plane and your servers into a different failure domains, which makes your installation more robust to data center meltdown. Externally hosting the control plane brings you up and running quickly plus having the advantage of higher security through geo-distribution.
-
 ## Metal Control Plane
 
 The foundation of the metal-stack is what we call the _metal control plane_.
@@ -53,6 +37,23 @@ Some notes on this picture:
 - You can programmatically access the metal-api with [client libraries](../03-For%20Users/01-client_libraries.md) (e.g. [metal-go](https://github.com/metal-stack/metal-go)).
 - Our databases are wrapped in a specially built [backup-restore-sidecar](https://github.com/metal-stack/backup-restore-sidecar), which is consistently backing up the databases in external blob storage.
 - The metal-api can be scaled out using replicas when being deployed in Kubernetes.
+
+### Target Deployment Platforms
+
+For our environments, we chose to deploy the metal-stack control-plane into a Kubernetes cluster. This means that also our entire installation was developed for metal-stack being run on Kubernetes. Running applications on Kubernetes gives you a lot of benefits regarding ease-of-deployment, scalability, reliability and so on.
+
+However, very early we decided that we do not want to depend on technical Kubernetes functionality with our software (i.e. we did not implement the stack "kube-native" by using controllers and Kubernetes CRDs and things like that). With the following paragraph we want to point out the reasoning behind this "philosophical" decision that may sound conservative at first glance. But not relying on Kubernetes technology:
+
+- Makes deployments of the stack without Kubernetes theoretically possible.
+  - We believe that cloud providers should be able to act beneath Kubernetes
+  - This way it is possible to use metal-stack for providing your own Kubernetes offering without relying on Kubernetes yourself (breaks the chicken-egg problem)
+- Follows an important claim in microservice development: "Be agnostic to your choice of technology"
+  - For applications that are purely made for being run on Kubernetes, it does not matter to rely on this technology (we even do the same a lot with our applications that integrate the metal-stack with Gardener) but as soon as you start using things like the underlying reconciliation abilities (which admittedly are fanstatic) you are locking your code into a certain technology
+  - We don't know what comes after Kubernetes but we believe that a cloud offering should have the potential to survive a choice of technology
+  - By this decision we ensured that we can migrate the stack to another future technology and survive the change
+
+One more word towards determining the location for your metal control plane: It is not strictly required to run the control plane inside the same data center as your servers. It even makes sense not to do so because this way you can place your control plane and your servers into a different failure domains, which makes your installation more robust to data center meltdown. Externally hosting the control plane brings you up and running quickly plus having the advantage of higher security through geo-distribution.
+
 
 ## Partitions
 
@@ -126,30 +127,3 @@ export function MachineAllocationYT(){
 }
 
 <MachineAllocationYT />
-
-## Offline Resilience
-
-It is possible to use metal-stack without any external network dependencies by integrating your own DNS and NTP configuration into the stack. This feature is great for workloads requiring strong independence and reliability. Even in case of an internet connection failure, your infrastructure remains operational. Existing machines do not encounter any downtime as well as new machines can be provisioned. All you need to have in place is a DNS and NTP server configured and accessible for metal-stack.
-
-NTP servers need to be configured on the pixiecore and the metal-hammer microservices. This can be achieved by providing a list of NTP servers with the following Ansible variable through metal-roles:
-
-```yaml
-pixiecore_metal_hammer_ntp_servers: []
-```
-
-In the background, the pixiecore is taking the NTP servers and passing it via the `MetalConfig` to the metal-hammer. When booting bare-metal servers, the metal-hammer needs to configure NTP servers. It recognises the ones from the `MetalConfig` and configures itself accordingly.
-If no NTP servers are passed along, the following standard servers are used:
-
-- 0.de.pool.ntp.org
-- 1.de.pool.ntp.org
-- 2.de.pool.ntp.org
-
-Moreover, machine and firewall images need to be configured with your custom DNS and NTP servers. The customisation can be made via the fields `ntp_servers` an `dns_servers` and specifying a list of servers in the creation request for the machine or firewall.
-
-Within a partition default values for DNS and NTP servers can be configured. They are applied to all machines and firewalls within this partition, but can be replaced by specifying different ones inside the machine allocation request.
-
-Thus, for creating a partition as well as a machine or a firewall, the flags `dnsservers` and `ntpservers` can be provided within the `metalctl` command.
-
-In order to be fully offline resilient, make sure to check out `metal-image-cache-sync`. This component provides copies of `metal-images`, `metal-kernel` and `metal-hammer`.
-
-This feature is related to [MEP14](/community/MEP-14-independence-from-external-sources).

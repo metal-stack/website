@@ -8,7 +8,7 @@ sidebar_position: 1
 
 [Gardener](https://gardener.cloud/) is an open source project for orchestrated Kubernetes cluster provisioning. It supports many different cloud providers, metal-stack being one of them. Using the Gardener project, metal-stack can act as a machine provider for Kubernetes worker nodes.
 
-The idea behind the Gardener project is to start with a dedicated set of Kubernetes clusters (this can be a single cluster, too), which are used to host Kubernetes control planes for new Kubernetes clusters. The new Kubernetes control planes reside in dedicated namespaces of the initial clusters ("Kubernetes in Kubernetes" or "underlay / overlay Kubernetes"). Where initial clusters come from is the subject of a larger debate, with suggestions made in a later section of this document.
+The idea behind the Gardener project is to start with a dedicated set of Kubernetes clusters (this can be a single cluster, too), which are used to host Kubernetes control planes for new Kubernetes clusters. The new Kubernetes control planes reside in dedicated namespaces of the initial clusters ("Kubernetes in Kubernetes" or "underlay / overlay Kubernetes"). For suggestions on how to set up the initial cluster, see the [Bootstrap Infrastructure](../../04-For%20Operators/03-Deployment/02_bootstrap-infrastructure.md) section in the Deployment Guide.
 
 Gardener's architecture is designed for multi-tenant environments, with a strong distinction between the operator and the end users. In Gardener, Kubernetes control planes for different tenants may reside in the same operator cluster. This approach makes it very suitable for being used with bare metal because it allows taking full advantage of the server resources. Another implication is that end users do not have access to their control plane components, such as the kube-apiserver or the ETCD. These are managed by the operator and in case of metal-stack even physically divided from the end user's workload.
 
@@ -59,7 +59,7 @@ Every Kubernetes cluster that is fully provisioned and managed by Gardener is ca
 
 During the provisioning flow of a cluster, Gardener emits resources that are expected to be reconciled by controllers of a cloud provider. This section briefly describes the controllers implemented by metal-stack to allow the creation of a Kubernetes cluster on metal-stack infrastructure.
 
-If you want to learn how to deploy metal-stack with Gardener, please check out the corresponding [deployment-guide section](../../04-For%20Operators/03-deployment-guide.mdx#gardener-with-metal-stack).
+If you want to learn how to deploy metal-stack with Gardener, please check out the corresponding [deployment-guide section](../../04-For%20Operators/03-Deployment/05_kclm.md).
 
 ### gardener-extension-provider-metal
 
@@ -76,55 +76,3 @@ Due to the reason metal-stack initially used ignition to provision operating sys
 ### machine-controller-manager-provider-metal
 
 Worker nodes are managed through Gardener's [machine-controller-manager](https://github.com/gardener/machine-controller-manager) (MCM). The MCM allows out-of-tree provider implementation via sidecar, which is what we implemented in the [machine-controller-manager-provider-metal](https://github.com/metal-stack/machine-controller-manager-provider-metal) repository.
-
-## Initial Cluster Setup
-
-Before creating the `garden cluster`, a base K8s cluster needs to be in place.
-Some suggestions for the initial K8s cluster are:
-
-- GCP/GKE
-- metalstack.cloud
-
-### Initial Cluster on GCP
-
-- A GCP account needs to be in place.
-- The Ansible [gcp-auth role](https://github.com/metal-stack/ansible-common/tree/master/roles/gcp-auth) can be used for authenticating against GCP.
-- The Ansible [gcp-create role](https://github.com/metal-stack/ansible-common/tree/master/roles/gcp-create) can be used for creating a GKE cluster.
-
-Suggestions for default values are:
-
-- `gcp_machine_type`: e2-standard-8
-- `gcp_autoscaling_min_nodes`: 1
-- `gcp_autoscaling_max_nodes`: 3
-
-### Initial Cluster on metalstack.cloud
-
-- A Kubernetes cluster can be created on [metalstack.cloud](https://metalstack.cloud/de/documentation/UserManual#creating-a-cluster) via UI, CLI or Terraform.
-
-## metal-stack Setup
-
-> **Attention:** Bootstrapping a metal-stack partition is out of scope and need to be done before focusing on the relationship between metal-stack and Gardener. This guide assumes a metal-stack partition (servers, switches, network, ...) is already in place.
-
-Start by deploying:
-
-- `ingress-nginx-controller`
-- `cert-manager`
-
-This guide assumes, that metal-stack gets deployed on the same initial cluster as Gardener. On the initial cluster, the metal-stack control plane need to be deployed. This can be done as described in the metal-stack [documentation](https://docs.metal-stack.io/stable/installation/deployment/#Metal-Control-Plane-Deployment).
-
-### Garden Cluster Setup
-
-After setting up the initial K8s cluster and metal-stack, Gardener can be deployed with the [Gardener Ansible role](https://github.com/metal-stack/metal-roles/tree/master/control-plane/roles/gardener).
-
-This deploys the following components:
-
-- virtual garden
-- Gardener control plane components
-- soil cluster
-- managed seed cluster (into the metal-stack partition)
-
-In summary, this results in the following:
-
-- `Garden cluster` created in the initial cluster
-- `soil cluster` created in the initial cluster. This will be the `initial seed` used for spinning up `shooted seeds` in the metal-stack partition
-- `shooted seed` inside the metal-stack partition, where all `shoots` are derived from
