@@ -34,6 +34,8 @@ No EVPN or VXLAN overlay is stretched between zones. Each partition operates a s
 
 Partitions share no network state. Failure isolation is strict, and even the complete loss of one partition leaves the remaining zones unaffected. In return, cross-zone redundancy must be implemented at the application layer. Stateless services can be announced from multiple zones via anycast addresses, while stateful services require replication or state persistence outside a single zone.
 
+![Independent partitions with one self-contained fabric per zone](multi-site-independent-partitions.svg)
+
 ### Design 2 - Metro Setup (Stretched EVPN)
 
 The EVPN fabric is stretched across multiple data-center locations, forming a single partition.
@@ -42,11 +44,15 @@ A single VXLAN overlay spans all zones, which share one VRF and VNI space. Each 
 
 The metro forms one partition and therefore one failure domain. A single set of exit switches and one metal-stack control plane govern the entire setup, and overlay state is shared across all zones. In return, services see a single partition and require no application-level awareness of zones. Stateful workloads can span zones without replication at the application layer.
 
+![Metro setup with one EVPN fabric stretched across three data centers](multi-site-metro-stretched-evpn.svg)
+
 ### Design 3 - Zone Aware Setup (Roadmap)
 
 This design targets a middle ground between independent partitions and the metro setup. Multiple independent partitions exist in different locations and EVPN is not stretched between them. Instead, the exit switches interconnect selected VNIs across partition boundaries, for example via EVPN Multi-Site DCI or SRv6. A private network in one partition thereby becomes reachable from another partition without traversing external networks.
 
 Fabric and control-plane failure isolation remain as strict as with independent partitions, because no overlay state is shared between the fabrics. Stateful workloads gain cross-zone connectivity within their private networks, without the latency requirements of a stretched metro. This design is on the roadmap and not yet implemented.
+
+![Zone aware setup with selected VNIs interconnected at the exit switches](multi-site-zone-aware.svg)
 
 ### Transport Assumptions
 
