@@ -1,6 +1,6 @@
 ---
 slug: /network-designs-and-topologies
-title: Multi-Site Network Designs
+title: Multi Partition Network Designs
 sidebar_position: 4
 ---
 
