@@ -44,6 +44,7 @@ Once a proposal was accepted, an issue should be raised and the implementation s
 | [MEP-17](MEP17/README.md)                                      | Global Network View                            | `In Discussion` |                                                                    |
 | [MEP-18](MEP18/README.md)                                      | Autonomous Control Plane                       | `In Discussion` |                                                                    |
 | [MEP-19](MEP19/README.md)                                      | Zone Awareness in metal-stack.io               | `In Discussion` |                                                                    |
+| [MEP-22](MEP22/README.md)                                      | Rail-Optimized Backend Fabrics for GPU Workloads | `In Discussion` |                                                                    |
 
 ## Proposal Process
 
