@@ -4,7 +4,7 @@ title: Multi-Site Network Designs
 sidebar_position: 4
 ---
 
-# Multi-Site Network Designs
+# Multi Partition Network Designs
 
 metal-stack supports a set of proven network designs, ranging from single partitions to an EVPN fabric stretched across data centers. This page walks through these designs and explains the reasoning behind them.
 
