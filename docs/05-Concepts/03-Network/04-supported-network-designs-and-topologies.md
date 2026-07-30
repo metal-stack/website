@@ -6,7 +6,7 @@ sidebar_position: 4
 
 # Multi Partition Network Designs
 
-metal-stack supports a set of proven network designs, ranging from single partitions to an EVPN fabric stretched across data centers. This page walks through these designs and explains the reasoning behind them.
+metal-stack supports a set of proven network designs for multi partition network designs, ranging from independent partitions to a metro design stretched across partitions (stretched EVPN fabric). This page walks through these designs and explains the reasoning behind them.
 
 The fabric fundamentals, including the CLOS underlay, the EVPN/VXLAN overlay, BGP unnumbered, VRF isolation, and MTU handling, are described in detail in the [Networking](./01-theory.md) document. This page builds on that foundation and focuses on the supported multi-partition designs.
 
