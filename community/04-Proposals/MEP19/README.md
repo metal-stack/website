@@ -56,7 +56,7 @@ To support explicit region and zone concepts in metal-stack, several functional 
 - Machines of one project must be placeable in several partitions of the same region, explicitly and not on a best-effort basis.
 - Machines that belong to the same project must have the configurable capability to communicate directly with each other, even if they are located in different partitions.
 - A project's private networks must be able to use a different node CIDR per partition, which requires the `metal-api` to model that one project has private networks in more than one partition.
-- A zone aware setup consits of multiple partitions with separate failure domains (e.g. a failure in the EVPN control-plane of one partition must not affect the other to avoid EVPN fate-sharing).
+- A zone aware setup consists of multiple partitions with separate failure domains (e.g. a failure in the EVPN control-plane of one partition must not affect the other to avoid EVPN fate-sharing).
 
 ## Evaluation Criteria
 
