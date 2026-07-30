@@ -10,6 +10,7 @@ tags:
   - hackathon
   - kubernetes
   - gardener
+  - events
 ---
 
 At the start of June 2025, the Gardener community met again for the 7th Gardener Hackathon. By now it's a tradition that brings together multiple companies, minds and topics for a week of coding, documentation and community building. This time, the event took place in Schelklingen, Germany, from June 2nd to 6th, and it was a week filled with innovation, collaboration, and a shared passion for enhancing the Gardener ecosystem.

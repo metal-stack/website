@@ -65,7 +65,7 @@ async function getReleaseVectorYaml(version: string) {
       releaseVectorPath += `tags/${getLatestRelease()}/release.yaml`;
       break;
     default:
-      releaseVectorPath += `tags/${version}/release.yaml`;
+      releaseVectorPath += `tags/${normalizedVersion(version)}/release.yaml`;
   }
 
   const response = await fetch(releaseVectorPath);
@@ -76,7 +76,17 @@ async function getReleaseVectorYaml(version: string) {
 function getLatestRelease(): string {
   let latest = "0.0.0";
   for (let version of versions) {
-    if (semver.gt(version, latest)) latest = version;
+    const v = normalizedVersion(version);
+    if (semver.gt(v, latest)) latest = v;
   }
-  return latest;
+  return normalizedVersion(latest);
+}
+
+function normalizedVersion(version: string): string {
+    const match = version.match(/^v?\d+\.\d+$/g);
+    if (match != null) {
+      return version + ".0";
+    }
+
+    return version;
 }

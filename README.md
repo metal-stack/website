@@ -17,9 +17,9 @@ The used framework to generate docs is [docusaurus](https://docusaurus.io).
 │   ├── 2024
 │   └── 2025
 ├── docs                    # docs folder split by different scopes
-│   ├── contributing        # guidelines for contributors
-│   ├── docs                # documentation pages
-│   ├── references          # auto-generated references of components and apis
+│   ├── 08-References       # auto-generated references of components and apis
+├── community               # guidelines for contributors and information about the community
+│   ├── 04-Proposals        # metal-stack enhancement proposals
 ├── scripts                 # custom scripts (e.g: resolving component documentation)
 ├── src                     # custom routes and react
 │   ├── components
@@ -55,7 +55,7 @@ The used framework to generate docs is [docusaurus](https://docusaurus.io).
 In order to not break links of posts, blog articles and shared documents we want to provide full backwards-compatibility.
 This means we need to ensure existing links still work with the new documentation.
 
-The file /static/_redirects contains a list of all paths of the old docs-sites. The file is formatted to create server-side-redirects on netlify, following the documentation here: https://docs.netlify.com/routing/redirects/
+The file /static/\_redirects contains a list of all paths of the old docs-sites. The file is formatted to create server-side-redirects on netlify, following the documentation here: https://docs.netlify.com/routing/redirects/
 
 ## Docs
 
@@ -71,7 +71,6 @@ slug: /your-doc-url
 title: Title of document
 position: <Position in sidebar as number>
 ---
-
 <HERE YOUR DOCS>
 ```
 
@@ -87,7 +86,11 @@ This file is used to generate the sidebar.
 }
 ```
 
-## Embedding drawio images
+## Images and svgs
+
+When adding images, SVGs, or similar assets, ensure they remain readable in both dark and light mode. For images containing text, consider adding a background to improve contrast and overall readability.
+
+### Embedding drawio images
 
 > ⚠️ referenced `.drawio.svg` images throw **warnings** because of unsupported file-types. We save `.drawio` files separately and export them as `svg`. Issue is also known in [docusaurus](https://github.com/facebook/docusaurus/issues/9715)
 
@@ -113,10 +116,9 @@ type: "blog"
 categories:
   - "Conferences"
 tags:
-  - 'News'
-  - 'Conferences'
+  - "News"
+  - "Conferences"
 ---
-
 <SOME PREVIEW TEXT FOR BLOG LIST VIEW>
 
 <!-- truncate -->
@@ -154,13 +156,13 @@ All components are referenced in the `/scripts/components.json` file. Use this m
 
 ```jsonc
 {
-        "name": "metalctl", // name of the component, will appear in the navigation
-        "releasePath": "binaries.metal-stack.metalctl.version", // json-path of the version or tag in the release-vector
-        "branch": "main", // branch name. Some old repositories use 'master'
-        "repo": "metal-stack/metalctl", // component repository,
-        "tag": "v0.18.1", // latest release tag of the component repository
-        "position": 1, // use this property to sort the navigation subdirectories
-        "withDocs": true // set to true to retrieve further .md files from a /docs folder. With false, only the README.md will be retrieved.
+  "name": "metalctl", // name of the component, will appear in the navigation
+  "releasePath": "binaries.metal-stack.metalctl.version", // json-path of the version or tag in the release-vector
+  "branch": "main", // branch name. Some old repositories use 'master'
+  "repo": "metal-stack/metalctl", // component repository,
+  "tag": "v0.18.1", // latest release tag of the component repository
+  "position": 1, // use this property to sort the navigation subdirectories
+  "withDocs": true // set to true to retrieve further .md files from a /docs folder. With false, only the README.md will be retrieved.
 }
 ```
 
@@ -171,7 +173,7 @@ The `tag` property will be updated automatically from the release-vector file.
 You create a new version with:
 
 ```bash
-bun run docusaurus docs:version v0.21.6
+bun run docusaurus docs:version v0.22
 ```
 
 Now, the new version will be create and the latest files will be copied to the "`versioned`" folders.
@@ -187,4 +189,5 @@ To run the synchronization, run the following command:
 ```bash
 bun run create-release-notes
 ```
+
 If you run this before the build step, also the release notes get indexed.

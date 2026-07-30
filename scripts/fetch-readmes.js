@@ -4,7 +4,7 @@ const axios = require("axios");
 
 import YAML from 'yaml'
 
-const outputBase = path.resolve(__dirname, "../docs/docs/08-References");
+const outputBase = path.resolve(__dirname, "../docs/08-References");
 
 function isValidVersion(version) {
   const regex = /^v\d{1,3}\.\d{1,3}\.\d{1,3}$/;
