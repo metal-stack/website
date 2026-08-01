@@ -10,6 +10,7 @@ A partition is the data center infrastructure layer — the physical servers, sw
 
 This section continues from the [Control Plane](./03_control-plane.mdx) deployment and covers how to deploy the required infrastructure services and how to connect your partition to the control plane, using the [metal-stack partition Ansible roles](https://github.com/metal-stack/metal-roles/tree/master/partition).
 It is assumed that all cabling is done.
+Before you try to deploy the partition, you should have had a look at the [architecture](../../05-Concepts/01-architecture.mdx) and [networking](../../05-Concepts/03-Network/) concepts sections.
 
 During this section, our repository will grow to look something like the following:
 
@@ -145,7 +146,7 @@ After the initial bootstrapping, the management interfaces of the leaves continu
 In larger deployments, a dedicated set of out-of-band switches (mgmtoobs) may be used to isolate BMC/IPMI traffic from the management network. These switches connect directly to server BMCs and provide a separate L2 domain for IPMI traffic, keeping it isolated from management server and switch management interfaces. They are deployed through the same SONiC automation as other partition switches.
 
 ### Leaves and Spines (Production Network)
-We have now reached the point where a lot of the configuration happens automatically via the official Ansible roles. 
+We have now reached the point where a lot of the configuration happens automatically via the official Ansible roles.
 After the initial install via ONIE and ZTP, metal-core will take over the configuration of the leaves and spines.
 
 The general role of the leaves and spines is explained in the [CLOS](https://metal-stack.io/docs/next/networking#clos) concepts section.

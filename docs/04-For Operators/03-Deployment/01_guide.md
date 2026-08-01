@@ -29,7 +29,7 @@ The deployment has multiple phases, resulting in a Git repository containing Ans
 
 1. **[Control Plane](./03_control-plane.mdx)** — Deploy the metal-stack API, databases, and ingress on a bootstrap Kubernetes cluster. This alone gives you a functional MaaS platform.
 2. **[Partition](./04_partition.md)** — Configure the network fabric (leaf switches, management spine, DHCP, PXE) and connect your bare-metal servers to the control plane.
-3. **[KCLM with Gardener](./05_kclm.md)** — Add Gardener to manage Kubernetes cluster lifecycle on your bare-metal infrastructure.
+3. **[KCLM with Gardener](./05_gardener.md)** — Add Gardener to manage Kubernetes cluster lifecycle on your bare-metal infrastructure.
 
 By the end of this guide, your deployment repository will look something like this:
 

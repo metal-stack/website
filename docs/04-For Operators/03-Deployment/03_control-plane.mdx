@@ -14,6 +14,8 @@ While it is theoretically possible to deploy metal-stack without Kubernetes (see
 The control plane deployment described here requires an initial Kubernetes cluster as bootstrap infrastructure, which is described in [Bootstrap Infrastructure](./02_bootstrap-infrastructure.md).
 We use the [metal-stack control-plane Ansible roles](https://github.com/metal-stack/metal-roles/tree/master/control-plane) to deploy all control-plane components.
 
+Before you try to deploy the control-plane, you should have had a look at the [architecture](../../05-Concepts/01-architecture.mdx) concepts section.
+
 Create the deployment folder and enter it — this is the root of your deployment repository as outlined in the [Deployment Guide](./01_guide.md):
 
 ```bash
@@ -429,6 +431,67 @@ docker run --rm -it \
 
 :::tip
 If you are having issues regarding the deployment take a look at the [troubleshoot document](../06-troubleshoot.md). Please give feedback such that we can make the deployment of the metal-stack easier for you and for others!
+:::
+
+## GitHub Action
+
+You can also automate the control plane deployment through a GitHub Action workflow. Here is an example `.github/workflows/deploy-control-plane.yaml`:
+
+```yaml
+---
+name: Deploy control plane
+
+on:
+  workflow_dispatch:
+    inputs:
+      deploy-control-plane:
+        description: 'Which control-plane target to deploy'
+        required: true
+        type: choice
+        options:
+        - metal-stack
+
+env:
+  ANSIBLE_INVENTORY: inventory/inventory.yaml
+  ANSIBLE_FORCE_COLOR: "1"
+  ANSIBLE_JINJA2_NATIVE: "True"
+
+  # Update these with your actual values
+  CLUSTER_ID: <your-cluster-id>
+  DEFAULT_PROJECT_ID: <your-default-project-id>
+
+  KUBECONFIG: /tmp/.kubeconfig
+
+jobs:
+  metal-stack:
+    name: Deploy metal-stack control plane
+    if: ${{ inputs.deploy-control-plane == 'metal-stack' }}
+
+    runs-on: ubuntu-latest
+    container: ghcr.io/metal-stack/metal-deployment-base:v0.9.2
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - run: |
+          metal ctx add demo --api-token ${METALSTACKCLOUD_API_TOKEN} --default-project ${DEFAULT_PROJECT_ID} --activate
+          metal cluster kubeconfig ${CLUSTER_ID}
+
+          echo ${ANSIBLE_VAULT_PASSWORD} > ${ANSIBLE_VAULT_PASSWORD_FILE}
+
+          ansible localhost -m metalstack.base.metal_stack_release_vector
+          ansible-playbook deploy_metal_stack.yaml
+        env:
+          METALSTACKCLOUD_API_TOKEN: ${{ secrets.METALSTACKCLOUD_API_TOKEN }}
+          ANSIBLE_VAULT_PASSWORD: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
+          ANSIBLE_VAULT_PASSWORD_FILE: .vault.txt
+```
+
+:::tip
+The example uses GitHub Actions with `ubuntu-latest` runners (not self-hosted) and a runtime cluster hosted on [metal-stack cloud](https://metalstack.cloud/en).
+As mentioned in [Bootstrap Infrastructure](./02_bootstrap-infrastructure.md), any Kubernetes cluster can serve as the runtime — you can adapt the workflow to use self-hosted runners or a different cluster provider as needed.
+The `metal` CLI is used to fetch the kubeconfig from the metal-stack API. Update the `CLUSTER_ID` and `DEFAULT_PROJECT_ID` environment variables with your actual values.
 :::
 
 ## Providing Images
