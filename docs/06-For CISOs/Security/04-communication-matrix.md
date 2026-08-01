@@ -116,7 +116,7 @@ Please note that every [networking setup](../../05-Concepts/03-Network/01-theory
 | VLAN       | Switches, Firewalls         | Layer 2 traffic segmentation.                                                                  |
 | VXLAN      | Switches, Firewalls         | Encapsulate Layer 2 frames in Layer 3 packets for network virtualization.                      |
 | EVPN       | Switches, Firewalls         | Overlay network technology for scalable and flexible network architectures.                    |
-| VPN        | Firewalls                   | Management access [without open SSH ports](/community/MEP-9-no-open-ports-to-the-data-center).    |
+| VPN        | Firewalls                   | Management access [without open SSH ports](/community/MEP-9-no-open-ports-to-the-data-center). |
 | BGP        | Multiple                    | Routing protocol for dynamic routing and network management.                                   |
 | SSH        | Management Server, Switches | Secure shell access for management and configuration.                                          |
 | LLDP       | Switches, Machines          | Link Layer Discovery Protocol for network device discovery.                                    |
@@ -124,7 +124,7 @@ Please note that every [networking setup](../../05-Concepts/03-Network/01-theory
 
 ## With Gardener
 
-When using metal-stack in [conjunction with Gardener](../../05-Concepts/04-Kubernetes/01-gardener.md), the following communication is required by metal-stack components.
+When using metal-stack in [conjunction with Gardener](../../05-Concepts/04-Kubernetes/02-gardener.md), the following communication is required by metal-stack components.
 
 :::info
 The following table might not be displayed in completeness. Scroll to the right to see all entries.
@@ -154,7 +154,7 @@ The following table might not be displayed in completeness. Scroll to the right 
 
 ## With Cluster API
 
-By using the [Cluster API provider for metal-stack](../../05-Concepts/04-Kubernetes/02-cluster-api.md), the following communictations are required by metal-stack components.
+By using the [Cluster API provider for metal-stack](../../05-Concepts/04-Kubernetes/03-cluster-api.md), the following communications are required by metal-stack components.
 
 :::info
 The following table might not be displayed in completeness. Scroll to the right to see all entries.
