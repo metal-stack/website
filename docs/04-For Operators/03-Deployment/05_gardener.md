@@ -8,12 +8,18 @@ sidebar_position: 5
 
 This guide shows how to deploy [Gardener](https://gardener.cloud/) on top of your metal-stack infrastructure using the [`gardener-*` Ansible roles](https://github.com/metal-stack/metal-roles/tree/master/control-plane) from the [metal-roles](https://github.com/metal-stack/metal-roles) repository. Gardener with metal-stack turns your bare-metal servers into a Kubernetes-as-a-Service platform where teams can self-serve clusters.
 
-This guide assumes you are already familiar with Gardener's core concepts — [Garden](https://gardener.cloud/docs/gardener/concepts/operator/), [Seed](https://gardener.cloud/docs/gardener/concepts/gardenlet/), [Shoot](https://gardener.cloud/docs/gardener/concepts/apiserver/) and [CloudProfile](https://gardener.cloud/docs/gardener/concepts/apiserver/#cloudprofiles) — and have already completed the [Control Plane](./03_control-plane.mdx) and [Partition](./04_partition.md) deployment guides. For an overview of how Gardener integrates with metal-stack at a conceptual level, see the [Gardener concepts guide](../../05-Concepts/04-Kubernetes/02-gardener.md).
+This guide assumes you are already familiar with Gardener's core concepts — [Garden](https://gardener.cloud/docs/gardener/concepts/operator/), [Seed](https://gardener.cloud/docs/gardener/concepts/gardenlet/), [Shoot](https://gardener.cloud/docs/gardener/concepts/apiserver/) and [CloudProfile](https://gardener.cloud/docs/gardener/concepts/apiserver/#cloudprofiles) — and have already completed the [Control Plane](./03_control-plane.mdx) and [Partition](./04_partition.md) deployment guides. For an overview of how Gardener integrates with metal-stack at a conceptual level, see the [Gardener concepts guide](../../05-Concepts/04-Kubernetes/02-gardener.md); for the reasoning behind choosing Gardener over Cluster API, see the [KCLM comparison](../../05-Concepts/04-Kubernetes/01-kclm.md#two-approaches-one-infrastructure).
+
+:::warning
+A partition with registered, allocatable machines is a hard prerequisite. Gardener will happily accept a `Shoot`, but the `provider-metal` extension can only reconcile it if the metal-api can allocate machines and firewalls of the requested sizes and images in the requested partition. Verify with `metalctl machine ls` before you start.
+:::
 
 The upstream [Gardener landscape setup guide](https://gardener.cloud/docs/gardener/deployment/setup_gardener/) describes the same building blocks — operator, `Garden`, extensions, `CloudProfile`, DNS secrets, `Gardenlet`, `ManagedSeed` — but expects you to render and apply the manifests yourself. The `gardener-*` roles are a thin, opinionated automation layer over exactly those building blocks, pre-wired for metal-stack: each role owns one resource and pulls all container images and Helm chart references from the metal-stack [release vector](./03_control-plane.mdx#releases-and-ansible-role-dependencies).
 
 :::tip
-The [mini-lab](https://github.com/metal-stack/mini-lab) contains a working, minimal Gardener deployment (`deploy_gardener.yaml` plus `inventories/group_vars`) that uses the very same roles. It is a **development environment**, not a production reference, but it is the fastest way to see a complete, runnable parametrization.
+The [mini-lab](https://github.com/metal-stack/mini-lab) contains a working, minimal Gardener deployment (`deploy_gardener.yaml` plus `inventories/group_vars`) that uses the very same roles. It is the fastest way to see a complete, runnable parametrization.
+
+It is **not** a production reference: it runs on a single kind cluster, fakes the `kube-system/shoot-info` ConfigMap, patches the Istio load balancer status by hand, deploys MinIO and PowerDNS as in-cluster stand-ins for object storage and DNS, and skips managed seeds entirely. Use it to understand _how_ the roles interact, not _what_ to configure.
 :::
 
 ## Repository structure after this section
@@ -46,7 +52,7 @@ The following files are added to the repository structure from the previous sect
 
 ## Architecture Overview
 
-The metal-roles deploy Gardener in the **virtual Garden** pattern described upstream: the `gardener-operator` runs on your *runtime cluster* and reconciles a `Garden` resource, which spins up a nodeless *virtual Garden* cluster hosting the Gardener API (`Shoot`, `Seed`, `Project`, `CloudProfile`, …). The gardenlet also runs on the runtime cluster and registers it as the first, unmanaged `Seed` (a "soil").
+The metal-roles deploy Gardener in the **virtual Garden** pattern described upstream: the `gardener-operator` runs on your _runtime cluster_ and reconciles a `Garden` resource, which spins up a nodeless _virtual Garden_ cluster hosting the Gardener API (`Shoot`, `Seed`, `Project`, `CloudProfile`, …). The gardenlet also runs on the runtime cluster and registers it as the first, unmanaged `Seed` (a "soil").
 
 ```mermaid
 graph TD
@@ -76,20 +82,20 @@ graph TD
     SEED --> USH
 ```
 
-The soil is reserved for *infrastructure* shoots. Those shoots are turned into Gardener-managed Seeds via `ManagedSeed`, and end-user shoot control planes are hosted there. This is the recommended upstream pattern and the one the roles are built for.
+The soil is reserved for _infrastructure_ shoots. Those shoots are turned into Gardener-managed Seeds via `ManagedSeed`, and end-user shoot control planes are hosted there. This is the recommended upstream pattern and the one the roles are built for.
 
 **Order matters.** Every role except `gardener-operator` and `gardener-extensions` obtains a kubeconfig for the virtual Garden through the `virtual_garden_kubeconfig` module, which only works once the operator has created the `Garden` and `gardener-virtual-garden-access` has deployed the token-requestor secret:
 
-| Role | Applies to | Deploys | Requires |
-| ---- | ---------- | ------- | -------- |
-| `gardener-operator` | runtime cluster | `garden` namespace, backup + DNS provider secrets, operator Helm chart, `Garden` resource | Runtime cluster; cert-manager only if the dashboard is enabled |
-| `gardener-extensions` | runtime cluster | one `operator.gardener.cloud/v1alpha1` `Extension` per enabled extension | `gardener-operator` |
-| `gardener-virtual-garden-access` | both | `ManagedResource` + token-requestor secret that yields a rotating virtual-Garden kubeconfig | `Garden` reconciled |
-| `gardener-cloud-profile` | virtual Garden | `CloudProfile` named `metal` | virtual-garden-access |
-| `gardener-projects` | virtual Garden | `Project` resources | virtual-garden-access |
-| `gardener-gardenlet` | virtual Garden | internal/default domain secrets, backup secret, `Gardenlet` resource (first Seed) | virtual-garden-access, extensions |
-| `gardener-shoots` | virtual Garden | provider `Secret` + `CredentialsBinding` + `Shoot` per entry | `CloudProfile`, `Project`, a ready `Seed` |
-| `gardener-managed-seeds` | virtual Garden | backup secret + `ManagedSeed` per entry | a reconciled shooted seed |
+| Role                             | Applies to      | Deploys                                                                                                                                        | Requires                                                       |
+| -------------------------------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| `gardener-operator`              | runtime cluster | `garden` namespace, backup + DNS provider secrets, operator Helm chart, `Garden` resource                                                      | Runtime cluster; cert-manager only if the dashboard is enabled |
+| `gardener-extensions`            | runtime cluster | one `operator.gardener.cloud/v1alpha1` `Extension` per enabled extension                                                                       | `gardener-operator`                                            |
+| `gardener-virtual-garden-access` | runtime cluster | `ManagedResource` + token-requestor secret that yields a rotating virtual-Garden kubeconfig, plus optional `ClusterRoleBinding`s for OIDC auth | `Garden` reconciled                                            |
+| `gardener-cloud-profile`         | virtual Garden  | `CloudProfile` named `metal`                                                                                                                   | virtual-garden-access                                          |
+| `gardener-projects`              | virtual Garden  | `Project` resources                                                                                                                            | virtual-garden-access                                          |
+| `gardener-gardenlet`             | virtual Garden  | internal/default domain secrets, backup secret, `Gardenlet` resource (first Seed)                                                              | virtual-garden-access, extensions                              |
+| `gardener-shoots`                | virtual Garden  | provider `Secret` + `CredentialsBinding` + `Shoot` per entry                                                                                   | `CloudProfile`, `Project`, a ready `Seed`                      |
+| `gardener-managed-seeds`         | virtual Garden  | backup secret + `ManagedSeed` per entry                                                                                                        | a reconciled shooted seed                                      |
 
 Two optional roles are not part of the minimal setup but are worth knowing about: `gardener-monitoring-certs` (wildcard monitoring certificates for soil and seeds, requires reachable seed API servers) and `gardener-logging` (ships seed logs to the central metal-stack Loki, requires the `logging` role).
 
@@ -143,16 +149,16 @@ Deploy in two passes on a green field: first everything up to `gardener-gardenle
 To inspect the landscape afterwards, obtain a kubeconfig for the virtual Garden the same way the roles do:
 
 ```yaml
-  post_tasks:
-    - name: Get kubeconfig for virtual garden access
-      virtual_garden_kubeconfig:
-        garden_name: "{{ gardener_defaults_garden_name }}"
+post_tasks:
+  - name: Get kubeconfig for virtual garden access
+    virtual_garden_kubeconfig:
+      garden_name: "{{ gardener_defaults_garden_name }}"
 
-    - name: Write it out for manual inspection
-      ansible.builtin.copy:
-        content: "{{ virtual_garden_kubeconfig }}"
-        dest: .virtual-garden-kubeconfig
-        mode: "0600"
+  - name: Write it out for manual inspection
+    ansible.builtin.copy:
+      content: "{{ virtual_garden_kubeconfig }}"
+      dest: .virtual-garden-kubeconfig
+      mode: "0600"
 ```
 
 ## Step 2: Configure Group Variables
@@ -162,12 +168,13 @@ All Gardener configuration lives under `inventories/group_vars/control-plane/gar
 Two shared variables must be set in `inventories/group_vars/control-plane/common.yaml`:
 
 ```yaml
-# Names the Gardener landscape; also becomes the Garden resource name and the
-# metalControlPlanes key in the CloudProfile. Defaults to metal_control_plane_stage_name.
+# Names the Gardener landscape. gardener_defaults_garden_name defaults to this
+# value, so it also becomes the Garden resource name and the metalControlPlanes
+# key in the CloudProfile. You already set this in the control plane guide.
 metal_control_plane_stage_name: demo
 
 # Mandatory and asserted: "metal" or "gcp". Determines how the runtime cluster
-# CIDRs are discovered and becomes the Seed's provider type.
+# CIDRs are discovered and is rendered as the Seed's provider type.
 metal_control_plane_host_provider: metal
 ```
 
@@ -188,6 +195,7 @@ gardener_operator_virtual_garden_public_dns: gardener-kube-apiserver.{{ metal_co
 gardener_operator_ingress_dns_domain: k8s.<your-ingress-dns>
 
 # Storage class for the virtual Garden etcd volumes (20Gi main, 10Gi events).
+# If unset, the cluster's default storage class is used.
 gardener_operator_virtual_garden_etcd_storage_class: csi-lvm
 
 # Renders spec.runtimeCluster.provider.region in the Garden resource.
@@ -226,7 +234,7 @@ gardener_operator_dashboard_enabled: false
 - The `Garden` template only renders `spec.runtimeCluster.ingress` and `spec.virtualCluster.dns` **if `gardener_operator_dns_providers` is non-empty**, and always uses `gardener_operator_dns_providers[0].type` as the provider for both. Put your primary provider first.
 - The virtual Garden service CIDR is fixed to `100.64.0.0/13` and the maintenance window to `220000+0100`–`230000+0100` by the template. Make sure `100.64.0.0/13` does not overlap with your runtime cluster or partition networks.
 - Enabling the dashboard additionally requires `gardener_operator_wildcard_ingress_certificate_cluster_issuer` plus a cert-manager `ClusterIssuer`; the role then blocks until the wildcard certificate secret exists (up to 10 minutes). For OIDC login set `gardener_operator_dashboard_oidc_issuer_url`, `..._client_id`, `..._client_id_public` and `..._client_secret`.
-- If automatic DNS creation is not available, create the A record for `gardener_operator_virtual_garden_public_dns` manually, pointing at the external address of the `istio-ingressgateway` service in the `virtual-garden-istio-ingress` namespace.
+- If automatic DNS creation is not available, create the A record for `gardener_operator_virtual_garden_public_dns` manually, pointing at the external address of the `istio-ingressgateway` service that the operator deploys. For purely local setups the role offers `gardener_operator_expose_virtual_garden_through_ingress_nginx: true` as an alternative — that is what the mini-lab uses, and it is not meant for production.
 
 ### extensions.yaml — Provider and shoot extensions
 
@@ -252,7 +260,8 @@ gardener_extension_provider_metal_admission_default_pods_cidr: 10.248.64.0/18
 gardener_extension_provider_metal_admission_default_services_cidr: 10.248.192.0/18
 
 # --- Operating system -----------------------------------------------------
-# One OperatingSystemConfig resource is registered per type.
+# One OperatingSystemConfig type is registered per entry.
+# Default: [ubuntu, debian, nvidia]. Trim it to what your CloudProfile offers.
 gardener_extension_os_metal_types:
   - ubuntu
   - debian
@@ -365,7 +374,7 @@ gardener_project_defaults:
   members: []
 
 gardener_projects:
-  - name: infrastructure       # holds the shooted seeds
+  - name: infrastructure # holds the shooted seeds
     description: Infrastructure clusters
   - name: prod
     owner: alice@example.com
@@ -451,7 +460,7 @@ gardener_shoot_rollout_wait_delay: 10
 
 gardener_shoots:
   - name: seed-a
-    seed_name: "{{ gardener_defaults_garden_name }}"   # scheduled onto the soil
+    seed_name: "{{ gardener_defaults_garden_name }}" # scheduled onto the soil
     project_id: <infrastructure-project-uuid>
     purpose: infrastructure
     region: "{{ metal_region }}"
@@ -519,9 +528,9 @@ gardener_managed_seed_defaults:
   external_traffic_policy: Local
 
 gardener_managed_seeds:
-  - name: seed-a                       # must match a shoot from shoots.yaml
+  - name: seed-a # must match a shoot from shoots.yaml
     region: "{{ metal_region }}"
-    pod_cidr: 10.240.0.0/13            # must match the shoot's networking
+    pod_cidr: 10.240.0.0/13 # must match the shoot's networking
     service_cidr: 10.248.0.0/18
     ingress_domain: ingress.seed-a.k8s.<your-ingress-dns>
     logging_enabled: false
@@ -599,12 +608,15 @@ on:
   workflow_dispatch:
     inputs:
       deploy-control-plane:
-        description: 'Which control-plane target to deploy'
+        description: "Which control-plane target to deploy"
         required: true
         type: choice
         options:
-        - metal-stack
-        - gardener
+          - metal-stack
+          - gardener
+
+permissions:
+  contents: read
 
 env:
   ANSIBLE_INVENTORY: inventories/control-plane.yaml
@@ -623,7 +635,7 @@ jobs:
     if: ${{ inputs.deploy-control-plane == 'gardener' }}
 
     runs-on: ubuntu-latest
-    container: ghcr.io/metal-stack/metal-deployment-base:v0.9.2
+    container: ghcr.io/metal-stack/metal-deployment-base:v0.22.18
 
     steps:
       - name: Checkout
@@ -633,19 +645,17 @@ jobs:
           metal ctx add demo --api-token ${METALSTACKCLOUD_API_TOKEN} --default-project ${DEFAULT_PROJECT_ID} --activate
           metal cluster kubeconfig ${CLUSTER_ID}
 
-          echo ${ANSIBLE_VAULT_PASSWORD} > ${ANSIBLE_VAULT_PASSWORD_FILE}
+          printf '%s' "${ANSIBLE_VAULT_PASSWORD}" > ${ANSIBLE_VAULT_PASSWORD_FILE}
 
           ansible localhost -m metalstack.base.metal_stack_release_vector
-          ansible-playbook deploy_gardener.yaml
+          ansible-playbook deploy_gardener.yaml --diff
         env:
           METALSTACKCLOUD_API_TOKEN: ${{ secrets.METALSTACKCLOUD_API_TOKEN }}
           ANSIBLE_VAULT_PASSWORD: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
           ANSIBLE_VAULT_PASSWORD_FILE: .vault.txt
 ```
 
-:::tip
-The example uses GitHub Actions with `ubuntu-latest` runners (not self-hosted) and a runtime cluster hosted on [metal-stack cloud](https://metalstack.cloud/en). As mentioned in [Bootstrap Infrastructure](./02_bootstrap-infrastructure.md), any Kubernetes cluster can serve as the runtime — you can adapt the workflow to use self-hosted runners or a different cluster provider as needed. The `metal` CLI is used to fetch the kubeconfig from the metal-stack API. Update the `CLUSTER_ID` and `DEFAULT_PROJECT_ID` environment variables with your actual values.
-:::
+The job follows the same pattern as the [control-plane workflow](./03_control-plane.mdx#github-action) — only the playbook differs. If you host Gardener on a **dedicated** runtime cluster (the recommended [Option 2](./02_bootstrap-infrastructure.md#option-2-dedicated-initial-clusters)), point `CLUSTER_ID` at that cluster instead of the metal-stack control plane cluster.
 
 ## How the Pieces Connect
 
@@ -662,34 +672,27 @@ graph LR
     MA -->|machines, networks, IPs, firewalls| PART["Partition"]
 ```
 
-| Connection | Configuration Variable | Purpose |
-| ---------- | ---------------------- | ------- |
-| metal-api URL | `gardener_cloud_profile_metal_api_url` | Endpoint the provider extension calls to provision resources |
-| Control plane key | `gardener_cloud_profile_stage_name` | Key under `metalControlPlanes` that shoots resolve to the metal-api |
-| Machine images | `metal_api_images` → `gardener_cloud_profile_machine_images` / `gardener_extension_provider_metal_machine_images` | Keeps CloudProfile and extension in sync |
-| HMAC secret | `gardener_shoot_default_metal_api_hmac` | Shoot-to-metal-api authentication via the per-shoot provider secret |
-| Machine types | `gardener_cloud_profile_machine_types` | Machine sizes selectable for workers and firewalls |
-| Regions/zones | `gardener_cloud_profile_regions` | Region and zone (= partition) placement |
-| Partition config | `gardener_cloud_profile_partitions` | Firewall types and network isolation per partition |
-| Shoot networks | `gardener_shoots[].networks` | metal-stack network IDs the firewall attaches to |
-| Shoot partition | `gardener_shoots[].partition` | Which metal-stack partition hosts the workers |
+| Connection        | Configuration Variable                                                                                            | Purpose                                                             |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| metal-api URL     | `gardener_cloud_profile_metal_api_url`                                                                            | Endpoint the provider extension calls to provision resources        |
+| Control plane key | `gardener_cloud_profile_stage_name`                                                                               | Key under `metalControlPlanes` that shoots resolve to the metal-api |
+| Machine images    | `metal_api_images` → `gardener_cloud_profile_machine_images` / `gardener_extension_provider_metal_machine_images` | Keeps CloudProfile and extension in sync                            |
+| HMAC secret       | `gardener_shoot_default_metal_api_hmac`                                                                           | Shoot-to-metal-api authentication via the per-shoot provider secret |
+| Machine types     | `gardener_cloud_profile_machine_types`                                                                            | Machine sizes selectable for workers and firewalls                  |
+| Regions/zones     | `gardener_cloud_profile_regions`                                                                                  | Region and zone (= partition) placement                             |
+| Partition config  | `gardener_cloud_profile_partitions`                                                                               | Firewall types and network isolation per partition                  |
+| Shoot networks    | `gardener_shoots[].networks`                                                                                      | metal-stack network IDs the firewall attaches to                    |
+| Shoot partition   | `gardener_shoots[].partition`                                                                                     | Which metal-stack partition hosts the workers                       |
 
 ## Troubleshooting
 
-| Symptom | Likely cause |
-| ------- | ------------ |
+| Symptom                                                       | Likely cause                                                                                                                                                                                                                                                                                                                                                                                              |
+| ------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `not all mandatory variables given, check role documentation` | An asserted variable is unset. Check `metal_control_plane_host_provider`, `gardener_operator_backup_infrastructure.provider`, `gardener_operator_ingress_dns_domain`, `gardener_cloud_profile_kubernetes`, `gardener_cloud_profile_regions`, the three `gardener_gardenlet_default_dns_*` variables, `gardener_managed_seed_default_dns_domain` and `gardener_extension_shoot_cert_service_issuer_email`. |
-| The role fails with `the variable ... was renamed to ...` | You are using a deprecated variable name; rename it as instructed and remove the old one. |
-| `virtual_garden_kubeconfig` times out (120 retries) | The `Garden` is not healthy yet, or `gardener-virtual-garden-access` has not run. Check `kubectl get garden` and the operator logs in the `garden` namespace. |
-| `KeyError: 'nodeNetwork'` in the operator role | The runtime cluster has no `kube-system/shoot-info` ConfigMap. Either set `metal_control_plane_host_provider: gcp` or provide the ConfigMap yourself. |
-| etcd of the virtual Garden does not reconcile | Add the `druid.gardener.cloud/etcd-druid` finalizer on the `ETCD` resource manually, as noted in the role README. |
-| Shoots stay pending | No Seed tolerates them. Check the Seed taints, `visible` setting, and the project's `protected_toleration`. |
+| The role fails with `the variable ... was renamed to ...`     | You are using a deprecated variable name; rename it as instructed and remove the old one.                                                                                                                                                                                                                                                                                                                 |
+| `virtual_garden_kubeconfig` times out (120 retries)           | The `Garden` is not healthy yet, or `gardener-virtual-garden-access` has not run. Check `kubectl get garden` and the operator logs in the `garden` namespace.                                                                                                                                                                                                                                             |
+| `KeyError: 'nodeNetwork'` in the operator role                | The runtime cluster has no `kube-system/shoot-info` ConfigMap. Either set `metal_control_plane_host_provider: gcp` or provide the ConfigMap yourself.                                                                                                                                                                                                                                                     |
+| etcd of the virtual Garden does not reconcile                 | Add the `druid.gardener.cloud/etcd-druid` finalizer on the `ETCD` resource manually, as noted in the role README.                                                                                                                                                                                                                                                                                         |
+| Shoots stay pending                                           | No Seed tolerates them. Check the Seed taints, `visible` setting, and the project's `protected_toleration`.                                                                                                                                                                                                                                                                                               |
 
 For general deployment issues, see the [troubleshooting guide](../06-troubleshoot.md).
-
-## Next Steps
-
-- **[GPU Workers](./07-gpu-workers.md)** — Offer GPU worker groups in shoots
-- **[Offline Resilience](./08_offline-resilience.md)** — Operating the landscape without upstream connectivity
-- **[Gardener Concepts](../../05-Concepts/04-Kubernetes/02-gardener.md)** — Architecture, operational model and failure domains
-- **[Upstream Gardener docs](https://gardener.cloud/docs/)** — API reference and component documentation

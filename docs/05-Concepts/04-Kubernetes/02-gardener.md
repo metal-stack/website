@@ -10,7 +10,7 @@ sidebar_position: 2
 
 Gardener is the **recommended** Kubernetes Cluster Lifecycle Management (KCLM) solution for metal-stack. It is battle-tested in production for over seven years at financial-sector customers and bundles more day-2 capabilities natively (DNS, backup, audit). Gardener manages entire clusters as Kubernetes-native resources with a strong separation between platform operators and end-users.
 
-For deployment instructions, see the [Gardener deployment guide](../04-For%20Operators/03-Deployment/05_gardener.md).
+This page describes **what** Gardener with metal-stack does and why. For **how** to deploy it, see the [Gardener deployment guide](../04-For%20Operators/03-Deployment/05_gardener.md); for the comparison with the alternative, see the [KCLM overview](./01-kclm.md#two-approaches-one-infrastructure).
 
 ## Outcomes
 
@@ -32,43 +32,43 @@ The diagram below shows the full deployment architecture — from the bootstrap 
 
 ### Core Components
 
-| Component | Responsibility |
-|-----------|---------------|
-| **Garden cluster** | The top-level cluster that runs the Gardener control plane (API server, controller manager, scheduler, admission controller). Deployed via the `gardener-operator`. |
+| Component          | Responsibility                                                                                                                                                                                                                                                                         |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Garden cluster** | The top-level cluster that runs the Gardener control plane (API server, controller manager, scheduler, admission controller). Deployed via the `gardener-operator`.                                                                                                                    |
 | **Virtual Garden** | A recommended deployment pattern where Gardener runs inside a virtual cluster on the Garden cluster. This provides a dedicated ETCD for Gardener resources and an independent update lifecycle from the Garden cluster itself. End users get project namespaces in the virtual garden. |
-| **Seed cluster** | A cluster where a `gardenlet` agent runs. The gardenlet connects to the Gardener control plane and orchestrates provisioning of new clusters within that Seed. Typically one Seed per data-center site. A Seed that has been manually deployed (not by Gardener) is called a **soil**. |
-| **Shoot cluster** | Every fully provisioned and managed Kubernetes cluster. The Shoot's control plane (kube-apiserver, etcd, controller-manager, scheduler) runs as pods in a dedicated namespace on a Seed, while worker nodes run on bare-metal machines provisioned via the metal-stack API. |
+| **Seed cluster**   | A cluster where a `gardenlet` agent runs. The gardenlet connects to the Gardener control plane and orchestrates provisioning of new clusters within that Seed. Typically one Seed per data-center site. A Seed that has been manually deployed (not by Gardener) is called a **soil**. |
+| **Shoot cluster**  | Every fully provisioned and managed Kubernetes cluster. The Shoot's control plane (kube-apiserver, etcd, controller-manager, scheduler) runs as pods in a dedicated namespace on a Seed, while worker nodes run on bare-metal machines provisioned via the metal-stack API.            |
 
 ### Core Controllers
 
-| Controller | Purpose |
-|------------|---------|
-| `gardener-operator` | Deploys Gardener components, gardenlets, and extensions; manages platform updates |
-| `gardener-apiserver` | Extends the kube-apiserver with Gardener-specific resources (Shoot, Seed, Project, etc.) |
-| `gardener-scheduler` | Decides where clusters are placed across the Gardener landscape (Seeds) |
-| `gardener-controller-manager` | Reconciles common Gardener resources (projects, controller installations, etc.) |
-| `gardenlet` | Agent running on each Seed; orchestrates provisioning of new clusters within that Seed |
-| `gardener-resource-manager` | Runs inside Shoots; reconciles desired resources and checks their health |
-| `etcd-druid` | etcd cluster operator with built-in backup-restore functionality |
-| `machine-controller-manager` | Manages worker node lifecycle (rolling updates, health recreation, scaling) |
+| Controller                    | Purpose                                                                                  |
+| ----------------------------- | ---------------------------------------------------------------------------------------- |
+| `gardener-operator`           | Deploys Gardener components, gardenlets, and extensions; manages platform updates        |
+| `gardener-apiserver`          | Extends the kube-apiserver with Gardener-specific resources (Shoot, Seed, Project, etc.) |
+| `gardener-scheduler`          | Decides where clusters are placed across the Gardener landscape (Seeds)                  |
+| `gardener-controller-manager` | Reconciles common Gardener resources (projects, controller installations, etc.)          |
+| `gardenlet`                   | Agent running on each Seed; orchestrates provisioning of new clusters within that Seed   |
+| `gardener-resource-manager`   | Runs inside Shoots; reconciles desired resources and checks their health                 |
+| `etcd-druid`                  | etcd cluster operator with built-in backup-restore functionality                         |
+| `machine-controller-manager`  | Manages worker node lifecycle (rolling updates, health recreation, scaling)              |
 
 ### Provider Extensions
 
-| Extension | Purpose |
-|-----------|---------|  
-| `gardener-extension-provider-metal` | Integrates metal-stack API with Gardener (machines, networks, firewalls, IPs). See also [Cloud Controller Manager](./04-cloud-controller-manager.md) and [Firewall Controller Manager](./05-firewall-controller-manager.md) for integration details. |
-| `gardener-extension-audit` | Configures buffered forwarders to audit sinks (e.g., Splunk, S3) |
-| `gardener-extension-networking-calico` | Provides Calico CNI in shoot clusters |
-| `gardener-extension-networking-cilium` | Provides Cilium CNI in shoot clusters |
-| `gardener-extension-shoot-dns-service` | Provides DNS records for the Kubernetes API server; allows shoot owners to create DNS records within their project domain |
-| `gardener-extension-shoot-cert-service` | Provides certificates for services exposed in shoot clusters |
+| Extension                               | Purpose                                                                                                                                                                                                                                              |
+| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `gardener-extension-provider-metal`     | Integrates metal-stack API with Gardener (machines, networks, firewalls, IPs). See also [Cloud Controller Manager](./04-cloud-controller-manager.md) and [Firewall Controller Manager](./05-firewall-controller-manager.md) for integration details. |
+| `gardener-extension-audit`              | Configures buffered forwarders to audit sinks (e.g., Splunk, S3)                                                                                                                                                                                     |
+| `gardener-extension-networking-calico`  | Provides Calico CNI in shoot clusters                                                                                                                                                                                                                |
+| `gardener-extension-networking-cilium`  | Provides Cilium CNI in shoot clusters                                                                                                                                                                                                                |
+| `gardener-extension-shoot-dns-service`  | Provides DNS records for the Kubernetes API server; allows shoot owners to create DNS records within their project domain                                                                                                                            |
+| `gardener-extension-shoot-cert-service` | Provides certificates for services exposed in shoot clusters                                                                                                                                                                                         |
 
 ### Integration Extensions
 
-| Extension | Purpose |
-|-----------|---------|  
-| `os-metal-extension` | Translates Gardener's generic `OperatingSystemConfig` format into cloud-init (or ignition) userdata for metal-stack nodes |
-| `machine-controller-manager-provider-metal` | Integrates metal-stack machine provisioning API with Gardener's MCM as an out-of-tree sidecar |
+| Extension                                   | Purpose                                                                                                                   |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `os-metal-extension`                        | Translates Gardener's generic `OperatingSystemConfig` format into cloud-init (or ignition) userdata for metal-stack nodes |
+| `machine-controller-manager-provider-metal` | Integrates metal-stack machine provisioning API with Gardener's MCM as an out-of-tree sidecar                             |
 
 For a complete architecture overview with diagrams, see the [Gardener documentation](https://gardener.cloud/docs/getting-started/architecture/).
 
@@ -83,7 +83,7 @@ sequenceDiagram
     participant MCM as machine-controller-<br/>manager-provider-metal
     participant MS as metal-stack API
     participant NODE as Bare Metal Node
-    
+
     G->>EXT: Creates Infrastructure<br/>ControlPlane Worker resources
     EXT->>MS: Allocate machines, networks,<br/>firewalls, IPs
     MS-->>EXT: Returns machine IDs, IPs
@@ -117,9 +117,9 @@ The MCM handles the full worker node lifecycle: creating new machines, draining 
 
 Gardener differentiates between **end-users** (shoot owners) and **platform administrators** (seed owners), similar to how hyperscalers offer Kubernetes as a Service:
 
-| Role | Responsibilities |
-|------|-----------------|
-| **End-Users** | Create/manage clusters via API (limited to whitelisted machine types), manage worker groups, trigger cluster updates, configure maintenance windows and auto-updates |
+| Role               | Responsibilities                                                                                                                                                         |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **End-Users**      | Create/manage clusters via API (limited to whitelisted machine types), manage worker groups, trigger cluster updates, configure maintenance windows and auto-updates     |
 | **Administrators** | Set up Seed clusters in data centers, whitelist machine types, provide Kubernetes versions and OS images, define lifecycle policies, fleet-wide GitOps-driven operations |
 
 End-users access the Virtual Garden through a feature-rich Kubernetes API with OIDC-based authorization. Resources like `ShootQuota` and custom webhooks can further restrict what end-users can do and ensure that they operate only within their specific, operational boundaries. As the API of Gardener is provided by Kubernetes itself, it is also an option to further narrow down the end-user scope by hiding the Gardener API behind a custom API. Platform administrators manage the entire platform through GitOps-driven processes with approval workflows.
@@ -137,7 +137,7 @@ From a Kubernetes Cluster Lifecycle Management perspective, managing multiple fa
 
 While metal-stack distributes cluster worker nodes across racks automatically using a rack-spreading algorithm, information like region and zone comes from the end-user's requirements. With this information, Kubernetes features like Topology Spread and PodAntiAffinity can be configured easily by end-users. With MEP-19 (metal-stack Enhancement Proposal 19), routing across data center partitions will also be supported, allowing worker nodes to reside in separate metal-stack partitions while maintaining a single Kubernetes cluster — provided the partitions are geographically close enough for stable low-latency connectivity.
 
-The KCLM is designed so that every failure domain can function without the KCLM itself — meaning the absence of the KCLM does not impact the availability of the Kubernetes clusters or the network traffic. Outages of the Gardener cluster only cause cluster provisioning to become unavailable, without interrupting workloads or preventing end-users from interacting with the Kubernetes API of their clusters. With MEP-19, worker nodes can also be spread across separate data center partitions while maintaining a single Kubernetes cluster, provided the partitions are geographically close enough for stable low-latency connectivity.
+The KCLM is designed so that every failure domain can function without the KCLM itself — meaning the absence of the KCLM does not impact the availability of the Kubernetes clusters or the network traffic. Outages of the Gardener cluster only cause cluster provisioning to become unavailable, without interrupting workloads or preventing end-users from interacting with the Kubernetes API of their clusters.
 
 ## Control Plane Hosting
 
@@ -149,12 +149,12 @@ There is a clear distinction between administrators, who are responsible for the
 
 Gardener supports multiple control plane topologies for on-prem failure domains:
 
-| Topology | Description | Use Case |
-|----------|-------------|----------|
-| **Single-seed HA** | Multiple control plane nodes (kube-apiserver, controller-manager, scheduler) across machines in the same Seed with etcd spread across machines for quorum. Default production-confirmed choice. | Single-site deployments, standard production |
-| **Multi-rack** | Shoot control plane nodes spread across multiple racks within one Seed with etcd spread across racks. Rack-level failure isolation via MachineDeployment topology spread constraints. | Rack-level failure isolation within a single data center |
-| **Multi-site** | Shoot control planes replicated across Seeds corresponding to different sites or data centers. MachineDeployments use zone constraints to distribute workers across regions. Higher latency for cross-seed communication requires multi-seed configuration. | Disaster recovery across geographically separated sites |
-| **Dedicated Seed** | A Shoot gets its own dedicated Seed cluster with no shared control plane with other tenants. Highest compliance level for critical infrastructure at highest resource cost. | Strictest compliance requirements for critical infrastructure |
+| Topology           | Description                                                                                                                                                                                                                                                 | Use Case                                                      |
+| ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| **Single-seed HA** | Multiple control plane nodes (kube-apiserver, controller-manager, scheduler) across machines in the same Seed with etcd spread across machines for quorum. Default production-confirmed choice.                                                             | Single-site deployments, standard production                  |
+| **Multi-rack**     | Shoot control plane nodes spread across multiple racks within one Seed with etcd spread across racks. Rack-level failure isolation via MachineDeployment topology spread constraints.                                                                       | Rack-level failure isolation within a single data center      |
+| **Multi-site**     | Shoot control planes replicated across Seeds corresponding to different sites or data centers. MachineDeployments use zone constraints to distribute workers across regions. Higher latency for cross-seed communication requires multi-seed configuration. | Disaster recovery across geographically separated sites       |
+| **Dedicated Seed** | A Shoot gets its own dedicated Seed cluster with no shared control plane with other tenants. Highest compliance level for critical infrastructure at highest resource cost.                                                                                 | Strictest compliance requirements for critical infrastructure |
 
 All topologies are natively supported. Multi-site requires additional multi-seed configuration but no special extensions.
 
@@ -234,9 +234,3 @@ Kubernetes API audit policies are configurable per cluster, with logs forwarded 
 - **Garden cluster** — The same audit extension can be configured for the gardener-apiserver and virtual kube-apiserver.
 
 For configuration examples, see the [Gardener deployment guide](../04-For%20Operators/03-Deployment/05_gardener.md).
-
-## Next Steps
-
-- **[KCLM Overview](./01-kclm.md)** — Introduction to Kubernetes Cluster Lifecycle Management with metal-stack
-- **[Gardener Deployment Guide](../04-For%20Operators/03-Deployment/05_gardener.md)** — Step-by-step deployment instructions
-- **[Gardener Documentation](https://gardener.cloud/docs/)** — Official Gardener documentation and API reference

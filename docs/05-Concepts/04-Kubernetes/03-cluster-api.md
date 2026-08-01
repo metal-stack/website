@@ -14,7 +14,7 @@ We provide the [Cluster API provider for metal-stack (CAPMS)](https://github.com
 Cluster API with metal-stack is in beta and not yet recommended for production workloads. Please use [Gardener](./02-gardener.md) for production deployments. We are actively looking for exchange and adopters — if you are interested in using Cluster API with metal-stack, please [join our community](/community) to help shape future integration efforts.
 :::
 
-For deployment instructions, see the [KCLM deployment guide](../04-For%20Operators/03-Deployment/05_kclm.md).
+For deployment instructions, see the [Cluster API deployment guide](../04-For%20Operators/03-Deployment/06_cluster-api.md).
 
 ## Architecture
 
@@ -28,18 +28,18 @@ graph TB
         CABPK["CABPK<br/>Bootstrap provider"]
         CAAPH["CAAPH<br/>Add-on Provider for Helm"]
     end
-    
+
     subgraph "Workload Cluster"
         CP["KubeadmControlPlane<br/>Control plane nodes"]
         MD["MachineDeployment<br/>Worker nodes"]
         CRS["ClusterResourceSet<br/>CNI + CCM add-ons"]
     end
-    
+
     subgraph "metal-stack Infrastructure"
         MS["metal-stack API<br/>Machines, networks, firewalls"]
         FW["Firewall nodes"]
     end
-    
+
     CAPI --> CAPMS
     CAPI --> CABPK
     CAPI --> CAAPH
@@ -50,7 +50,7 @@ graph TB
     MS -.->|provisions| CP
     MS -.->|provisions| MD
     MS -.->|provisions| FW
-    
+
     style CAPI fill:#bbdefb
     style CAPMS fill:#c8e6c9
     style CABPK fill:#fff9c4
@@ -60,15 +60,15 @@ graph TB
 
 ### Core Components
 
-| Component | Responsibility |
-|-----------|---------------|
-| **Management Cluster** | A Kubernetes cluster that hosts the Cluster API controllers and the desired cluster state (as custom resources). It is the central control plane from which new workload clusters are declared and reconciled. |
-| **Workload Cluster** | A Kubernetes cluster whose lifecycle is managed by the Management Cluster via CAPI resources. Its control plane and worker nodes are provisioned according to the declarative spec. |
+| Component                   | Responsibility                                                                                                                                                                                                                                                                                |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Management Cluster**      | A Kubernetes cluster that hosts the Cluster API controllers and the desired cluster state (as custom resources). It is the central control plane from which new workload clusters are declared and reconciled.                                                                                |
+| **Workload Cluster**        | A Kubernetes cluster whose lifecycle is managed by the Management Cluster via CAPI resources. Its control plane and worker nodes are provisioned according to the declarative spec.                                                                                                           |
 | **Infrastructure Provider** | A set of controllers that translate CAPI's generic infrastructure resources (Cluster, Machine) into provider-specific resources. metal-stack is an officially listed infrastructure provider for Cluster API. The provider implementation is called cluster-api-provider-metal-stack (CAPMS). |
-| **Bootstrap Provider** | Generates bootstrap data (e.g., cloud-init or ignition userdata) for joining new nodes. CAPMS is tested against the Kubeadm Bootstrap Provider (CABPK). |
-| **ClusterResourceSet** | A CAPI feature for applying add-on resources (CNI, CCM, etc.) to newly created workload clusters automatically. CAPMS uses this with the Add-on Provider for Helm (CAAPH) for its calico flavor, to install calico as CNI and the [metal-ccm](./04-cloud-controller-manager.md). |
-| **ClusterClass** | Defines reusable templates with parameterized variable schemas for tenant customization, enabling standardized cluster templates across the fleet. |
-| **MachineHealthCheck** | Checks machine healthiness and takes remediation steps — unhealthy machines are automatically replaced by adding and deleting them on the infrastructure provider side, with safeguards in place (e.g., for not losing etcd quorum). |
+| **Bootstrap Provider**      | Generates bootstrap data (e.g., cloud-init or ignition userdata) for joining new nodes. CAPMS is tested against the Kubeadm Bootstrap Provider (CABPK).                                                                                                                                       |
+| **ClusterResourceSet**      | A CAPI feature for applying add-on resources (CNI, CCM, etc.) to newly created workload clusters automatically. CAPMS uses this with the Add-on Provider for Helm (CAAPH) for its calico flavor, to install calico as CNI and the [metal-ccm](./04-cloud-controller-manager.md).              |
+| **ClusterClass**            | Defines reusable templates with parameterized variable schemas for tenant customization, enabling standardized cluster templates across the fleet.                                                                                                                                            |
+| **MachineHealthCheck**      | Checks machine healthiness and takes remediation steps — unhealthy machines are automatically replaced by adding and deleting them on the infrastructure provider side, with safeguards in place (e.g., for not losing etcd quorum).                                                          |
 
 For a complete architecture overview with diagrams, see the [Cluster API documentation](https://cluster-api.sigs.k8s.io/user/concepts#concepts).
 
@@ -76,13 +76,13 @@ For a complete architecture overview with diagrams, see the [Cluster API documen
 
 CAPMS implements the CAPI infrastructure provider contract for bare metal via metal-stack. The following CRDs are provided by CAPMS:
 
-| CRD | Purpose |
-|-----|---------|
-| `MetalStackCluster` | Infrastructure cluster resource — allocates a control plane virtual IP (VIP) |
-| `MetalStackMachine` | Bridges CAPI infrastructure machines to metal-stack machines (bare metal servers) |
-| `MetalStackMachineTemplate` | Defines reusable machine specs (image, size, etc.) for MetalStackMachine resources |
-| `MetalStackFirewallDeployment` | Declares firewall deployments protecting a cluster's network perimeter |
-| `MetalStackFirewallTemplate` | Provides the configuration template for deployed firewalls |
+| CRD                            | Purpose                                                                            |
+| ------------------------------ | ---------------------------------------------------------------------------------- |
+| `MetalStackCluster`            | Infrastructure cluster resource — allocates a control plane virtual IP (VIP)       |
+| `MetalStackMachine`            | Bridges CAPI infrastructure machines to metal-stack machines (bare metal servers)  |
+| `MetalStackMachineTemplate`    | Defines reusable machine specs (image, size, etc.) for MetalStackMachine resources |
+| `MetalStackFirewallDeployment` | Declares firewall deployments protecting a cluster's network perimeter             |
+| `MetalStackFirewallTemplate`   | Provides the configuration template for deployed firewalls                         |
 
 ## Operational Model
 
@@ -102,12 +102,12 @@ There are other providers from the CABPK ecosystem (e.g. [Kamaji](https://kamaji
 
 Cluster API supports multiple control plane topologies for on-prem failure domains:
 
-| Topology | Description | Use Case |
-|----------|-------------|----------|
-| **Single-site HA** | Multiple control plane Machines within a single partition with etcd replicas on separate Machines. Natively supported. | Single-site deployments, standard production |
-| **Multi-failure-domain** | Control plane Machines distributed across multiple zones or regions with etcd spread accordingly. Natively supported through ClusterClass topology definitions. | Rack/zone-level failure isolation |
-| **Multi-site** | Control plane Machines deployed across multiple CAPI management clusters or across widely separated MetalPools with cross-site etcd replication. Requires additional operator effort for cross-site networking. | Disaster recovery across geographically separated sites |
-| **Dedicated isolation** | A dedicated Cluster with its own isolated MetalPool and exclusive use of MetalPools. Same isolation level as Gardener's dedicated Seed for critical infrastructure. | Strictest compliance requirements for critical infrastructure |
+| Topology                 | Description                                                                                                                                                                                                     | Use Case                                                      |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| **Single-site HA**       | Multiple control plane Machines within a single partition with etcd replicas on separate Machines. Natively supported.                                                                                          | Single-site deployments, standard production                  |
+| **Multi-failure-domain** | Control plane Machines distributed across multiple zones or regions with etcd spread accordingly. Natively supported through ClusterClass topology definitions.                                                 | Rack/zone-level failure isolation                             |
+| **Multi-site**           | Control plane Machines deployed across multiple CAPI management clusters or across widely separated MetalPools with cross-site etcd replication. Requires additional operator effort for cross-site networking. | Disaster recovery across geographically separated sites       |
+| **Dedicated isolation**  | A dedicated Cluster with its own isolated MetalPool and exclusive use of MetalPools. Same isolation level as Gardener's dedicated Seed for critical infrastructure.                                             | Strictest compliance requirements for critical infrastructure |
 
 All topologies are natively supported. Multi-site requires additional multi-pool configuration and cross-site networking setup.
 
@@ -123,21 +123,9 @@ Kamaji integrations with metal-stack have not been evaluated in production-grade
 
 Kamaji acts as a `ControlPlaneProvider` with Cluster API, while CAPMS acts as the `InfrastructureProvider`. This setup manages **tenant clusters** on metal-stack infrastructure, combining Kamaji's control plane management with metal-stack's bare-metal provisioning.
 
-Like Cluster-API, Kamaji is a framework rather than a complete platform — operators must assemble their own day-2 tooling (CNI, CCM, DNS, backup, certificate management) and manage them through GitOps workflows.
+Like Cluster API itself, Kamaji is a framework rather than a complete platform — operators must assemble their own day-2 tooling (CNI, CCM, DNS, backup, certificate management) and manage it through GitOps workflows. What Kamaji changes is _where the control plane runs_, not _how much you have to build_.
 
-**Deployment**
-
-1. **Prepare management cluster** — A Kubernetes cluster to host Kamaji and CAPMS providers
-2. **Install Kamaji and CAPMS** — Deploy both providers into the management cluster
-3. **Create a control plane VIP** — MetalLB assigns a virtual IP for the tenant API server
-4. **Generate and apply tenant cluster manifest** — Use `clusterctl generate cluster` to produce a YAML with `Cluster`, `MetalStackCluster`, `KubeadmControlPlane`, `MachineDeployment`, and `MetalStackMachine` resources, then apply it
-5. **Deploy add-ons** — Install CNI (Calico) and `metal-ccm` into the tenant cluster
-
-A working showcase is available in the [`capi-lab`](https://github.com/metal-stack/cluster-api-provider-metal-stack/blob/main/DEVELOPMENT.md#running-the-kamaji-flavor) setup, which extends the `mini-lab` with a Kamaji flavor. See our [blog post](/blog/2026/04-kamaji) for a detailed walkthrough of the architecture and setup.
-
-**Fleet management and GitOps**
-
-Since Kamaji with metal-stack uses Cluster-API under the hood, fleet management follows the same pattern as Cluster API. Tenant cluster manifests are generated via `clusterctl`, stored in Git, and deployed through your CI/CD pipeline.
+A working showcase is available in the [`capi-lab`](https://github.com/metal-stack/cluster-api-provider-metal-stack/blob/main/DEVELOPMENT.md#running-the-kamaji-flavor) setup, which extends the `mini-lab` with a Kamaji flavor. See our [blog post](/blog/2026/04-kamaji) for a detailed walkthrough of the architecture and setup, and the [Cluster API deployment guide](../04-For%20Operators/03-Deployment/06_cluster-api.md#kamaji-as-control-plane-provider) for the deployment steps.
 
 ## Domain Model
 
@@ -181,7 +169,7 @@ You must set up your own Git repository and GitOps operator to manage cluster de
 - **Cluster migration** — `clusterctl move` enables moving workload cluster resources between management clusters, pausing controllers during the move to prevent worker node loss
 - **Emergency patching** — Achieved through editing resources in the management cluster, e.g., update of machine OS image in the `MachineTemplate` or update of `ClusterResourceSet`. Unlike Gardener, this change is not rolled out fleet-wide automatically and should be staged through the Git repository with standard approval processes
 - **Certificate rotation** — No direct workflow is described for certificate rotation at the landscape level; this is to be defined by platform administrators using manual/custom processes based on standard tooling (e.g., `kubeadm` certificate renewal)
-- **Shoot deletion protection** — Special labels safeguard against accidental shoot deletion; configurable backup retention allows emergency access to cluster resources before cleanup
+- **Deletion protection** — Cluster API offers no equivalent to Gardener's deletion-confirmation annotations. Protection has to come from the GitOps layer (branch protection, approval gates) and from Kubernetes finalizers
 - **Cluster Autoscaler** — Automatic scaling of worker groups based on requested pod resources, configured per `MachineDeployment`
 
 **Audit configuration** — Audit configuration can be passed to the kube-apiserver via the `kubeadmConfigSpec` of the `KubeadmControlPlane` resource before cluster creation. Each cluster can have its own audit policy. The management cluster's kube-apiserver audit also needs to be configured separately. Cluster API does not provide a centralized audit management toolset and relies on cloud-native standards to be set up by the operator.
@@ -198,7 +186,7 @@ The following data center infrastructure dependencies are treated as given and m
 
 ## Scale & Testing
 
-For Cluster API, the integration test environment covers a management cluster with three worker nodes. The biggest test clusters have included 8 cluster nodes. As both CAPI and Gardener share the same metal-stack control plane, from the metal-stack perspective it is guaranteed to work with the numbers mentioned for Gardener (200+ clusters, 5 data centers, 1,800 physical servers). Validations in CAPI are not as thoroughly implemented as in Gardener, but all usual management workflows for metal-stack clusters (creation, move, and deletion) are integration tested within a matrix of Kubernetes version, CNI, and OS version.
+For Cluster API, the integration test environment covers a management cluster with three worker nodes. The biggest test clusters have included 8 cluster nodes. As both CAPI and Gardener share the same metal-stack control plane, from the metal-stack perspective the [numbers mentioned for Gardener](./02-gardener.md#scalability) (280 clusters, 5 data centers, 1,800 physical servers) also apply here. Validations in CAPI are not as thoroughly implemented as in Gardener, but all usual management workflows for metal-stack clusters (creation, move, and deletion) are integration tested within a matrix of Kubernetes version, CNI, and OS version.
 
 ## Fleet Operations
 
@@ -234,10 +222,3 @@ Unlike Gardener, Cluster API with metal-stack requires you to assemble your own 
 - **Cluster migration** — Available via `clusterctl move` between management clusters
 - **Multi-tenant self-service** — Not available; build custom API layer on top of Cluster API
 - **Access control lists** — No built-in firewall controller; firewall rules are currently static
-
-## Next Steps
-
-- **[KCLM Overview](./01-kclm.md)** — Introduction to Kubernetes Cluster Lifecycle Management with metal-stack
-- **[Gardener](./02-gardener.md)** — metal-stack's recommended, production-ready KCLM solution
-- **[KCLM Deployment Guide](../04-For%20Operators/03-Deployment/05_kclm.md)** — Step-by-step deployment instructions
-- **[Cluster API Documentation](https://cluster-api.sigs.k8s.io/)** — Official Cluster API documentation

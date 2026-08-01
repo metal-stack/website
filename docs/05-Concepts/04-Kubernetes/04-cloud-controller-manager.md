@@ -40,10 +40,3 @@ These labels enable end-users to configure Pod topology spread constraints and a
 For Gardener deployments, metal-ccm is deployed as part of the Shoot cluster provisioning flow via the `gardener-extension-provider-metal`. For Cluster API deployments, it is installed through `ClusterResourceSet` objects alongside the CNI (Calico).
 
 For detailed build and deployment instructions, see the [metal-ccm reference guide](../../08-References/Kubernetes/metal-ccm/metal-ccm.md).
-
-## Next Steps
-
-- **[KCLM Overview](./01-kclm.md)** — Introduction to Kubernetes Cluster Lifecycle Management
-- **[Gardener](./02-gardener.md)** — Gardener integration
-- **[Cluster API](./03-cluster-api.md)** — Cluster API integration
-- **[metal-ccm Reference](../../08-References/Kubernetes/metal-ccm/metal-ccm.md)** — Build and deployment instructions

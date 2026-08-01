@@ -14,7 +14,19 @@ While it is theoretically possible to deploy metal-stack without Kubernetes (see
 The control plane deployment described here requires an initial Kubernetes cluster as bootstrap infrastructure, which is described in [Bootstrap Infrastructure](./02_bootstrap-infrastructure.md).
 We use the [metal-stack control-plane Ansible roles](https://github.com/metal-stack/metal-roles/tree/master/control-plane) to deploy all control-plane components.
 
-Before you try to deploy the control-plane, you should have had a look at the [architecture](../../05-Concepts/01-architecture.mdx) concepts section.
+Before you try to deploy the control-plane, you should have had a look at the [architecture](../../05-Concepts/01-architecture.mdx) concepts section, which explains what each of the components you are about to deploy actually does.
+
+:::info Layer-4 exposure
+Besides the HTTP(S) ingress, the control plane also has to expose three **layer-4** services so that a [partition](./04_partition.md) can reach them. Plan this together with your ingress controller — for example through [TCP/UDP service exposure of ingress-nginx](https://kubernetes.github.io/ingress-nginx/user-guide/exposing-tcp-udp-services/) or a dedicated `Service` of type `LoadBalancer`:
+
+| Port  | Protocol | Service         | Purpose                          |
+| ----- | -------- | --------------- | -------------------------------- |
+| 4150  | TCP      | `nsqd`          | NSQ daemon (TLS)                 |
+| 5222  | TCP      | `metal-console` | Machine console forwarding (SSH) |
+| 50051 | TCP      | `metal-api`     | metal-api gRPC API (protobuf)    |
+
+The [mini-lab](https://github.com/metal-stack/mini-lab) shows a minimal variant of this exposure.
+:::
 
 Create the deployment folder and enter it — this is the root of your deployment repository as outlined in the [Deployment Guide](./01_guide.md):
 
@@ -47,8 +59,7 @@ By the end of this section, your repository will contain the following files and
 │       │   └── release_vector.yaml
 │       └── control-plane
 │           ├── common.yaml
-│           └── metal.yml
-├── generate_role_requirements.yaml
+│           └── metal.yaml
 └── roles
     └── ingress-controller
         └── tasks
@@ -112,7 +123,19 @@ control-plane:
 
 We do this since we are deploying to Kubernetes and do not need to SSH-connect to any hosts for the deployment (which is what Ansible typically does). This inventory is also necessary to pick up the variables inside `inventories/group_vars/control-plane` during the deployment.
 
-Most of the properties in there are up to taste, but make sure you enable the [Jinja2 native environment](https://jinja.palletsprojects.com/en/2.11.x/nativetypes/) as this is needed for some of our roles in certain cases.
+## Ansible Configuration
+
+Most Ansible settings are up to taste, but you **must** enable the [Jinja2 native environment](https://jinja.palletsprojects.com/en/stable/nativetypes/). Several of our roles rely on Jinja2 returning native Python types (lists, dicts, booleans) instead of strings. A minimal `ansible.cfg` looks like this:
+
+```ini
+[defaults]
+jinja2_native = True
+inventory = inventories/control-plane.yaml
+roles_path = ~/.ansible/roles
+force_color = True
+```
+
+The same effect can be achieved with the `ANSIBLE_JINJA2_NATIVE=True` environment variable, which is what the CI examples in this guide use.
 
 ## Control Plane Playbook
 
@@ -141,12 +164,18 @@ Basically, this playbook does the following:
 - Include all the modules, filter plugins, etc. of [ansible-common](https://github.com/metal-stack/ansible-common) into the play
 - Deploys an ingress-controller into your cluster
 - Deploys the metal-stack by
-  - Running preparation tasks
-  - Deploying NSQ
-  - Deploying the rethinkdb database for the metal-api (wrapped in a backup-restore-sidecar),
-  - Deploying the postgres database for go-ipam (wrapped in a backup-restore-sidecar)
-  - Deploying the postgres database for the masterdata-api (wrapped in a backup-restore-sidecar)
-  - Applying the metal control plane helm chart
+  - Running preparation tasks (namespace, image pull secrets, common resources)
+  - Deploying [NSQ](https://nsq.io/) — the message queue that connects metal-api and metal-core
+  - Deploying the RethinkDB database for the metal-api (wrapped in a backup-restore-sidecar)
+  - Deploying the PostgreSQL database for [go-ipam](https://github.com/metal-stack/go-ipam) (wrapped in a backup-restore-sidecar)
+  - Deploying the PostgreSQL database for the masterdata-api (wrapped in a backup-restore-sidecar)
+  - Applying the metal control plane Helm chart
+
+The role order matters: `prepare` creates the namespace all other roles deploy into, and the `metal` role expects the message queue and all three databases to be present.
+
+:::tip
+The control-plane roles are additive. Once the basic deployment works, you can extend the same playbook with optional roles such as `monitoring`, `logging`, `auditing-timescaledb` (audit backend), `headscale` (firewall VPN), `zitadel`/`zitadel-db` (identity provider) or `isolated-clusters`. See the [control-plane role overview](https://github.com/metal-stack/metal-roles/tree/master/control-plane) for the complete list, and the [mini-lab playbook](https://github.com/metal-stack/mini-lab/blob/master/deploy_control_plane.yaml) for an example that enables most of them.
+:::
 
 ## Setup an ingress-controller
 
@@ -171,12 +200,24 @@ The [ansible-common](https://github.com/metal-stack/ansible-common) repository c
 
 ## Deployment Parametrization
 
-Now you can parametrize the referenced roles to fit your environment. The role parametrization can be looked up in the role documentation on [metal-roles/control-plane](https://github.com/metal-stack/metal-roles/tree/master/control-plane). You should not need to define a lot of variables for the beginning as most values are reasonably defaulted. You can start with the following content for `group_vars/control-plane/common.yaml`:
+Now you can parametrize the referenced roles to fit your environment. The role parametrization can be looked up in the role documentation on [metal-roles/control-plane](https://github.com/metal-stack/metal-roles/tree/master/control-plane). You should not need to define a lot of variables for the beginning as most values are reasonably defaulted. You can start with the following content for `inventories/group_vars/control-plane/common.yaml`:
 
 ```yaml
 ---
-metal_control_plane_ingress_dns: <your-dns-domain> # if you do not have a DNS entry, you could also start with <ingress-ip>.nip.io
+# The DNS domain under which all control-plane services are exposed via ingress.
+# If you do not have a DNS entry yet, you can start with <ingress-ip>.nip.io.
+metal_control_plane_ingress_dns: <your-dns-domain>
+
+# Optional but recommended: a name for this stage/landscape. It is used for
+# prefixing and is inherited by the Gardener roles as the Garden name.
+metal_control_plane_stage_name: demo
 ```
+
+:::warning Secrets
+Any variable holding a credential — HMAC keys, database passwords, backup credentials, OIDC client secrets — belongs into an [Ansible Vault](https://docs.ansible.com/ansible/latest/vault_guide/index.html) encrypted file, never into a plain group_vars file. The examples in this guide reference vaulted variables (for example `metal_api_admin_key`) instead of inlining values.
+
+metal-stack ships with the default HMAC key `change-me`. Replace it with strong random values before the control plane becomes reachable from anywhere but your laptop.
+:::
 
 ## Providing Certificates
 
@@ -372,7 +413,7 @@ Also define the following configurations for `cfssl`:
 
 Running the `roll_certs.sh` bash script without any arguments should generate you the required certificates.
 
-Now Provide the paths to these certificates in `group_vars/control-plane/metal.yaml`:
+Now provide the paths to these certificates in `inventories/group_vars/control-plane/metal.yaml`:
 
 ```yaml
 ---
@@ -451,8 +492,11 @@ on:
         options:
         - metal-stack
 
+permissions:
+  contents: read
+
 env:
-  ANSIBLE_INVENTORY: inventory/inventory.yaml
+  ANSIBLE_INVENTORY: inventories/control-plane.yaml
   ANSIBLE_FORCE_COLOR: "1"
   ANSIBLE_JINJA2_NATIVE: "True"
 
@@ -468,7 +512,7 @@ jobs:
     if: ${{ inputs.deploy-control-plane == 'metal-stack' }}
 
     runs-on: ubuntu-latest
-    container: ghcr.io/metal-stack/metal-deployment-base:v0.9.2
+    container: ghcr.io/metal-stack/metal-deployment-base:v0.22.18
 
     steps:
       - name: Checkout
@@ -478,10 +522,10 @@ jobs:
           metal ctx add demo --api-token ${METALSTACKCLOUD_API_TOKEN} --default-project ${DEFAULT_PROJECT_ID} --activate
           metal cluster kubeconfig ${CLUSTER_ID}
 
-          echo ${ANSIBLE_VAULT_PASSWORD} > ${ANSIBLE_VAULT_PASSWORD_FILE}
+          printf '%s' "${ANSIBLE_VAULT_PASSWORD}" > ${ANSIBLE_VAULT_PASSWORD_FILE}
 
           ansible localhost -m metalstack.base.metal_stack_release_vector
-          ansible-playbook deploy_metal_stack.yaml
+          ansible-playbook deploy_metal_control_plane.yaml --diff
         env:
           METALSTACKCLOUD_API_TOKEN: ${{ secrets.METALSTACKCLOUD_API_TOKEN }}
           ANSIBLE_VAULT_PASSWORD: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
@@ -498,7 +542,7 @@ The `metal` CLI is used to fetch the kubeconfig from the metal-stack API. Update
 
 After the deployment has finished, you should consider deploying some masterdata entities into your metal-api. For example, you can add your first machine sizes and operating system images. You can do this by further parametrizing the [metal role](https://github.com/metal-stack/metal-roles/tree/master/control-plane/roles/metal). We will just add an operating system for demonstration purposes. Add the following variable to your `inventories/group_vars/control-plane/common.yaml`:
 
-```
+```yaml
 metal_api_images:
 - id: firewall-ubuntu-3.0
   name: Firewall 3 Ubuntu
@@ -520,17 +564,19 @@ metal_api_images:
     - machine
 ```
 
-See the [metal-images reference](https://metal-stack.io/docs/references/metal-images/#supported-images) for currently supported images.
+See the [metal-images reference](../../08-References/Deployment/metal-images/metal-images.md) for currently supported images and the [operating systems](../02-operating-systems.md) chapter for the image contract if you want to build your own.
 
 Then, re-run the deployment to apply your changes. Our playbooks are idempotent.
 
 :::info
-Image versions should be regularly checked for updates.
+`metal_api_images` is more than a convenience: the Gardener roles default both the `CloudProfile` machine images and the `provider-metal` extension configuration to this very list. Keeping it as the single source of truth is what makes CloudProfile and extension agree — see the [Gardener deployment guide](./05_gardener.md#how-the-pieces-connect).
+
+Image versions should be checked for updates regularly; expired images can no longer be used for new allocations.
 :::
 
 ## Setting up metalctl
 
-You can now verify the existence of the operating system images in the metal-api using our CLI client called [metalctl](https://github.com/metal-stack/metalctl). The configuration for `metalctl` should look like this:
+You can now verify the existence of the operating system images in the metal-api using our CLI client called [metalctl](https://github.com/metal-stack/metalctl). See the [metalctl reference](../../08-References/Clients/metalctl/metalctl.md) for the full command set. The configuration for `metalctl` should look like this:
 
 ```yaml
 # ~/.metalctl/config.yaml
@@ -555,11 +601,15 @@ Issue the following command:
 
 ```bash
 $ metalctl image ls
-ID                              	NAME                          	DESCRIPTION                   	FEATURES	EXPIRATION	STATUS
-ubuntu-19.10.20200331           	Ubuntu 19.10 20200331         	Ubuntu 19.10 20200331         	machine 	89d 23h   	preview
+ID                    NAME              DESCRIPTION                  FEATURES  EXPIRATION  STATUS
+debian-13.0           Debian 13         Debian 13 Latest Release     machine   89d 23h     supported
+firewall-ubuntu-3.0   Firewall 3 Ubuntu Firewall 3 Ubuntu Latest     firewall  89d 23h     supported
+ubuntu-26.4           Ubuntu 26.04      Ubuntu 26.04 Latest Release  machine   89d 23h     supported
 ```
 
 The basic principles of how the metal control plane can be deployed should now be clear. It is now up to you to move the deployment execution into your CI and add things like certificates for the ingress-controller and NSQ.
+
+At this point you have a working **MaaS platform**: you can create projects and networks, register machines and allocate them through the metal-api. What is still missing is a [partition](./04_partition.md) with actual hardware — without it, there are no machines to allocate.
 
 ## Setting Up the backup-restore-sidecar
 
@@ -575,6 +625,8 @@ metal-stack currently supports two authentication methods:
 
 - user authentication through [OpenID Connect](https://openid.net/developers/how-connect-works/) (OIDC)
 - [HMAC](https://en.wikipedia.org/wiki/HMAC) auth, typically used for access by technical users (because we do not have service account tokens at the time being)
+
+There are three HMAC authentication types — `Metal-View`, `Metal-Edit` and `Metal-Admin` — which map to the corresponding roles. Partitions authenticate with the view and edit keys (see [Partition Connection](./04_partition.md#partition-connection)), and Gardener shoots use an admin or edit key (see [Gardener](./05_gardener.md#shootsyaml--shoot-clusters-and-shooted-seeds)). For the authorization model behind these roles, see [User Management](../../05-Concepts/02-user-management.md).
 
 If you decided to use OIDC, you can parametrize the [metal role](https://github.com/metal-stack/metal-roles/tree/master/control-plane/roles/metal) for this by defining the variable `metal_masterdata_api_tenants` with the following configuration:
 

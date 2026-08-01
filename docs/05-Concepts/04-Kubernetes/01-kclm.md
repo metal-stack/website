@@ -68,18 +68,18 @@ Platform administrators, meanwhile, focus on **providing the platform** — mana
 
 metal-stack provides KCLM through two integration paths, both consuming the same metal-stack API for bare-metal node provisioning:
 
-| Aspect                          | [Gardener](./02-gardener.md)                                           | [Cluster API](./03-cluster-api.md)                                          |
-| ------------------------------- | ---------------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| **Status**                      | Recommended, production-ready                                          | Beta, under active development                                              |
-| **Governance**                  | NeoNephos Foundation                                                   | CNCF (Kubernetes SIG)                                                       |
-| **Experience**                  | 7+ years in financial-sector production                                | CNCF project, metal-stack integration in development                        |
-| **Day-2 capabilities**          | Native (DNS, backup, audit, certificate rotation, maintenance windows) | Assembled through GitOps and add-on providers                               |
-| **Control plane hosting**       | Dedicated namespaces on Seed clusters (physically isolated)            | On worker nodes (CABPK) or dedicated (Kamaji, unevaluated)                  |
-| **Operational model**           | End-user self-service via Virtual Garden API                           | Administrator-managed GitOps workflows                                      |
-| **Complexity**                  | More opinionated, higher initial setup                                 | Less opinionated, lower initial setup but higher ongoing administration     |
-| **Maintenance windows**         | Built-in, per-cluster configurable                                     | Continuous reconciliation, no built-in windows                              |
-| **Control plane resource cost** | Shared on Seed clusters (efficient)                                    | 3 dedicated nodes per cluster (wasteful) or shared via Kamaji (unevaluated) |
-| **Use case**                    | Production fleets, regulated environments, multi-tenant platforms      | Simple deployments, teams willing to build day-2 operations                 |
+| Aspect                          | [Gardener](./02-gardener.md)                                           | [Cluster API](./03-cluster-api.md)                                                      |
+| ------------------------------- | ---------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| **Status**                      | Recommended, production-ready                                          | Beta, under active development                                                          |
+| **Governance**                  | NeoNephos Foundation                                                   | CNCF (Kubernetes SIG)                                                                   |
+| **Experience**                  | 7+ years in financial-sector production                                | CNCF project, metal-stack integration in development                                    |
+| **Day-2 capabilities**          | Native (DNS, backup, audit, certificate rotation, maintenance windows) | Assembled through GitOps and add-on providers                                           |
+| **Control plane hosting**       | Dedicated namespaces on Seed clusters (physically isolated)            | On worker nodes (CABPK) or dedicated (Kamaji, integration unevaluated)                  |
+| **Operational model**           | End-user self-service via Virtual Garden API                           | Administrator-managed GitOps workflows                                                  |
+| **Complexity**                  | More opinionated, higher initial setup                                 | Less opinionated, lower initial setup but higher ongoing administration                 |
+| **Maintenance windows**         | Built-in, per-cluster configurable                                     | Continuous reconciliation, no built-in windows                                          |
+| **Control plane resource cost** | Shared on Seed clusters (efficient)                                    | 3 dedicated nodes per cluster (wasteful) or shared via Kamaji (integration unevaluated) |
+| **Use case**                    | Production fleets, regulated environments, multi-tenant platforms      | Simple deployments, teams willing to build day-2 operations                             |
 
 Both converge on vanilla Kubernetes and metal-stack infrastructure, ensuring replaceability and vendor independence.
 
@@ -151,7 +151,7 @@ Kamaji acts as a Control Plane Manager for Cluster API, running tenant control p
 
 **Administration burden**: Still high ongoing administration — Kamaji solves the control plane hosting problem but not the day-2 operations problem. You still assemble and maintain all day-2 tooling through GitOps workflows.
 
-**Status**: Kamaji with metal-stack has not been evaluated in production-grade scenarios. It is a promising approach for resource efficiency but carries higher risk for production workloads.
+**Status**: Kamaji integrations with metal-stack have not been evaluated in production-grade scenarios by metal-stack. Kamaji itself is used in production elsewhere; it is the metal-stack integration that lacks our validation. It is a promising approach for resource efficiency but carries higher risk for production workloads.
 
 ### Decision Matrix
 
@@ -176,7 +176,7 @@ Kamaji acts as a Control Plane Manager for Cluster API, running tenant control p
 :::tip[Recommendation]
 For production workloads, regulated environments, or any scenario where you need multi-tenant self-service with minimal ongoing administration, **Gardener is the clear choice**. The platform approach eliminates the need to build and maintain day-2 operations tooling, enforces version skew policies, and provides physical isolation between control planes and workloads.
 
-Cluster API with CABPK is only recommended for simple, single-cluster deployments where you accept the resource waste of dedicated control plane nodes and the ongoing administration burden of building your own day-2 operations. Cluster API with Kamaji offers better resource efficiency but carries higher risk as an unevaluated integration.
+Cluster API with CABPK is only recommended for simple, single-cluster deployments where you accept the resource waste of dedicated control plane nodes and the ongoing administration burden of building your own day-2 operations. Cluster API with Kamaji offers better resource efficiency but carries higher risk, as we have not evaluated that integration in production-grade scenarios.
 :::
 
 ## Core Concepts
@@ -282,7 +282,7 @@ KCLM supports multiple control plane topologies for on-prem failure domains. The
 | **Single-site HA**      | Multiple control plane nodes across machines in the same Seed with etcd spread for quorum. Default production-confirmed choice.                                                                                                                             | Multiple control plane Machines within a single partition with etcd replicas on separate Machines. Natively supported.                                                                                          |
 | **Multi-rack**          | Shoot control plane nodes spread across multiple racks within one Seed with etcd spread across racks. Rack-level failure isolation via MachineDeployment topology spread constraints.                                                                       | Multi-failure-domain topology distributes control plane Machines across multiple zones or regions with etcd spread accordingly. Natively supported through ClusterClass topology definitions.                   |
 | **Multi-site**          | Shoot control planes replicated across Seeds corresponding to different sites or data centers. MachineDeployments use zone constraints to distribute workers across regions. Higher latency for cross-seed communication requires multi-seed configuration. | Control plane Machines deployed across multiple CAPI management clusters or across widely separated MetalPools with cross-site etcd replication. Requires additional operator effort for cross-site networking. |
-| **Dedicated isolation** | A Shoot gets its own dedicated Seed cluster with no shared control plane with other tenants. Highest compliance level for critical infrastructure at highest resource cost.                                                                                              | A dedicated Cluster with its own isolated MetalPool and exclusive use of MetalPools. Same isolation level as Gardener's dedicated Seed for critical infrastructure.                                                                  |
+| **Dedicated isolation** | A Shoot gets its own dedicated Seed cluster with no shared control plane with other tenants. Highest compliance level for critical infrastructure at highest resource cost.                                                                                 | A dedicated Cluster with its own isolated MetalPool and exclusive use of MetalPools. Same isolation level as Gardener's dedicated Seed for critical infrastructure.                                             |
 
 Worker nodes are automatically distributed across racks using a rack-spreading algorithm, and well-known Kubernetes topology labels (`machine.metal-stack.io/rack`, `machine.metal-stack.io/chassis`, `topology.kubernetes.io/region`, `topology.kubernetes.io/zone`) are provided on nodes — enabling end-users to configure Pod topology spread and anti-affinity rules. With MEP-19 (metal-stack Enhancement Proposal 19), routing across data center partitions will also be supported, allowing worker nodes to reside in separate metal-stack partitions while maintaining a single Kubernetes cluster — provided the partitions are geographically close enough for stable low-latency connectivity.
 
@@ -317,22 +317,16 @@ Kubernetes API audit policies are configurable per cluster, with logs forwarded 
 
 ## Day-2 Operations, HA, and Advanced Topics
 
-The following topics are covered in detail on the individual solution pages, as their implementation differs significantly between Gardener and Cluster API:
+The following topics differ significantly between the two solutions and are therefore covered on the individual solution pages:
 
-- **[Day-2 Operations](./02-gardener.md#operational-features)** — Configuration changes, certificate rotation, component upgrades, emergency patching, and audit & traceability (Gardener: built-in; Cluster API: assembled through GitOps)
-- **[High Availability & Failure Domains](./02-gardener.md#failure-domains)** — Control plane topologies (single-site HA, multi-rack, multi-site, dedicated isolation), worker node distribution, rack-spreading, and failure recovery automation
-- **[Add-on Lifecycle Management](./02-gardener.md#operational-features)** — CNI, CSI, CCM, DNS, and audit component management with compatibility matrices and fleet-wide consistency (Gardener: fleet-wide; Cluster API: per-cluster via ClusterResourceSet)
-- **[Version Policy & Safe Transitions](./02-gardener.md#version-skew-policy)** — Kubernetes version skew enforcement, staged upgrades, and emergency patching workflows (Gardener: enforced by API server; Cluster API: risk management via approval gates)
-- **[Blue-Green Update Strategy](./01-kclm.md#what-kclm-automates)** — Zero-downtime upgrade patterns using BGP Anycast or worker groups with taints and tolerations
-- **[Cluster API Deep Dive](./03-cluster-api.md)** — Lifecycle coverage, add-on management, compatibility matrix, and platform capabilities
-
-:::note[MEP-19 — Cross-Partition Clusters]
-With metal-stack Enhancement Proposal 19 (MEP-19), routing across data center partitions will be supported, allowing worker nodes to reside in separate metal-stack partitions while maintaining a single Kubernetes cluster. This requires partitions to be geographically close enough for stable low-latency connectivity.
-:::
-
-:::note[Solution-Specific Details]
-HA topologies, add-on management, and version policies differ significantly between Gardener and Cluster API. See the individual solution pages for implementation-specific details.
-:::
+| Topic                | Gardener                                                                                 | Cluster API                                                                                                |
+| -------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| Day-2 operations     | [Operational features](./02-gardener.md#operational-features) — built-in                 | [What to build yourself](./03-cluster-api.md#what-to-build-yourself) — assembled through GitOps            |
+| HA & failure domains | [Control plane topologies](./02-gardener.md#control-plane-topologies)                    | [Control plane topologies](./03-cluster-api.md#control-plane-topologies)                                   |
+| Add-on lifecycle     | [Operational features](./02-gardener.md#operational-features) — fleet-wide               | [Fleet management](./03-cluster-api.md#fleet-management-and-gitops) — per cluster via `ClusterResourceSet` |
+| Version policy       | [Version skew policy](./02-gardener.md#version-skew-policy) — enforced by the API server | [Operational model](./03-cluster-api.md#operational-model) — risk management via approval gates            |
+| Upgrades & rollback  | [Upgrade & rollback](./02-gardener.md#upgrade--rollback)                                 | [Upgrade & rollback](./03-cluster-api.md#upgrade--rollback)                                                |
+| Audit & traceability | [Audit & traceability](./02-gardener.md#audit--traceability)                             | [Fleet management](./03-cluster-api.md#fleet-management-and-gitops)                                        |
 
 ## Network Integration
 
@@ -368,12 +362,4 @@ The KCLM management layer is designed so that its absence does not impact cluste
 
 ### Proven at Scale
 
-metal-stack with Gardener operates environments with **200+ Kubernetes clusters** across **5 data centers** and **1,800 physical servers** (including 200 servers in a metro environment across disjunct locations). Maximum nodes per cluster: 64 (up to 1,024 in metal-stack OnPrem). Proven Gardener installations manage **10,000+ clusters** — demonstrating that consistent, automated lifecycle management is the key to scaling bare-metal Kubernetes fleets. For Cluster API, the integration test environment covers a management cluster with three worker nodes, with the biggest test clusters including 8 cluster nodes.
-
-## Next Steps
-
-- **[Gardener](./02-gardener.md)** — Detailed concept documentation for metal-stack's recommended KCLM solution
-- **[Cluster API](./03-cluster-api.md)** — Concept documentation for the CNCF-based alternative
-- **[Cloud Controller Manager](./04-cloud-controller-manager.md)** — How metal-ccm bridges Kubernetes and bare-metal networking
-- **[Firewall Controller Manager](./05-firewall-controller-manager.md)** — Firewall rule management via Kubernetes CRDs
-- **[Deployment Guide](../04-For%20Operators/03-Deployment/01_guide.md)** — Deployment guide
+metal-stack with Gardener operates environments with **280 Kubernetes clusters** across **5 data centers** and **1,800 physical servers** (including 200 servers in a metro environment across disjunct locations). The largest observed clusters hold 64 nodes; metal-stack itself supports up to 1,024 nodes per cluster. Proven Gardener installations elsewhere manage **10,000+ clusters** — demonstrating that consistent, automated lifecycle management is the key to scaling bare-metal Kubernetes fleets. For Cluster API, the integration test environment covers a management cluster with three worker nodes, with the biggest test clusters including 8 cluster nodes.
