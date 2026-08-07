@@ -10,6 +10,7 @@ tags:
   - kubernetes
   - infrastructure
   - network
+  - gpu
 ---
 
 Every few weeks somebody asks us a variation of the same question: can we run our AI workloads on metal-stack, and how far does it actually get us? Sometimes that means serving a large language model to an internal chat frontend. Sometimes it means fine-tuning a model on data that must not leave the building, or a nightly batch job that scores a few million records, or simply giving a data science team notebooks with a real GPU behind them.
@@ -67,56 +68,6 @@ Once `nvidia.com/gpu` shows up as a schedulable resource, the platform is worklo
 
 One thing worth planning before you start: model weights and datasets are large and read repeatedly, so budget for fast local NVMe on the GPU nodes or a network filesystem that can keep the cards fed. A starved GPU is an expensive idle GPU.
 
-## One example end to end: LLM inference
-
-To make it concrete, here is the stack we get asked about most. [vLLM](https://github.com/vllm-project/vllm) serves models behind an OpenAI-compatible HTTP API and brings continuous batching and PagedAttention, which is what you want when several people hit the same model at once:
-
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: llm-inference
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: llm-inference
-  template:
-    metadata:
-      labels:
-        app: llm-inference
-    spec:
-      containers:
-        - name: vllm
-          image: vllm/vllm-openai:latest
-          args:
-            - --model
-            - meta-llama/Llama-3.1-8B-Instruct
-            - --served-model-name
-            - llama-3.1-8b
-            - --max-model-len
-            - "8192"
-          ports:
-            - containerPort: 8000
-          resources:
-            limits:
-              nvidia.com/gpu: "1"
-            requests:
-              nvidia.com/gpu: "1"
-          volumeMounts:
-            - name: shm
-              mountPath: /dev/shm
-      volumes:
-        - name: shm
-          emptyDir:
-            medium: Memory
-            sizeLimit: 8Gi
-```
-
-The GPU resource request is what makes Kubernetes place the pod on a node that actually has a card - the same mechanism a training job or a batch worker uses. For larger models such as Mixtral or Llama 70B you either need an H100 or H200 with enough VRAM, or tensor parallelism across several GPUs inside one node, which is precisely what a size with a `min: 4` / `max: 4` GPU constraint gets you.
-
-[OpenWebUI](https://github.com/open-webui/open-webui) then gives your users something to talk to. Point it at the vLLM service and your team has a chat interface over a model that runs entirely on your own hardware.
-
 ## Sharing one GPU
 
 With the basic operator installation there is a caveat worth knowing about: only one pod can access a given GPU. That is fine for a training run that wants the whole card anyway, and wasteful for a dozen notebooks that sit idle most of the day. If you want to serve several smaller models, or simply have more workloads than cards, you need to configure sharing.
@@ -143,11 +94,27 @@ Finally, topology. The metal-api reports GPU vendor and model, not the PCIe swit
 
 ## Where we go from here
 
-AI-ready infrastructure patterns are firmly on our longer-term radar, and our [roadmap](https://metal-stack.io/community/roadmap) is public if you want to follow along. None of the gaps above mean metal-stack is inadequate for what it set out to do - they are what happens when a platform that grew up around networking and bare-metal provisioning meets a new class of workload.
+AI-ready infrastructure patterns are on our longer-term radar, and our [roadmap](https://metal-stack.io/community/roadmap) is public if you want to follow along. Two areas come up often enough in our own discussions to be worth naming. Neither is a commitment - this is the shape of each problem as we see it today.
+
+### GPU firmware
+
+Today the metal-api knows a card's vendor and model, and nothing beyond that. Firmware is the obvious next field: it decides which driver versions work and how features like MIG behave, and answering "what is running on the cards in this partition" currently means logging into every node one at a time. Reported back at registration, it would become a single query.
+
+Managing firmware is the step after. Provisioning is the natural moment for it, because the machine is already booted into a controlled environment with nothing scheduled on the cards, and metal-hammer does this for network cards and RAID controllers already. Extending that to GPUs is a smaller step than it sounds - the harder question is where firmware images come from and how a desired version gets expressed.
+
+### Additional fabrics and rail-optimized topologies
+
+We said above that an RDMA-capable fabric is not something you bolt on at the application layer. What would it take? Less than you might expect at the bottom of the stack: metal-stack already tracks which server port is connected to which switch port, and a rail-optimized topology - where each GPU in a node reaches the cluster over its own dedicated switch, so traffic between matching GPUs never has to cross the spine - is largely a constraint on that wiring.
+
+The gap sits above it. metal-stack assumes a single fabric per partition that it owns end to end, whereas a GPU backend network is a second, separate one with its own rules. It would also have to know which network card belongs to which GPU inside a machine - the same blind spot as before, seen from the network side. And InfiniBand, should it ever come into scope, is a different control plane rather than a variation of what we run today.
+
+This is the larger of the two by some margin, and the one where we would most like to hear from people running distributed training in anger.
+
+None of the gaps above mean metal-stack is inadequate for what it set out to do - they are what happens when a platform that grew up around networking and bare-metal provisioning meets a new class of workload.
 
 If you want to try this today, start small: one GPU node with the `debian-nvidia` image, the GPU Operator, and whichever framework your team already uses. Validate the workload, measure its VRAM and throughput behaviour, and then decide what scaling out should look like for your case.
 
-We would love to hear from anyone experimenting with GPU workloads on metal-stack, or with opinions on what we should prioritise next. Join us in the [metal-stack Slack](https://join.slack.com/t/metal-stack/shared_invite/zt-3eqheaymr-obQueWBLOMkhbEWTZZyDRg) - your experience might well shape what is possible tomorrow.
+We would love to hear from anyone experimenting with GPU workloads on metal-stack, or with opinions on what we should prioritise next. Join us in the [metal-stack Slack](https://slack.metal-stack.io) - your experience might well shape what is possible tomorrow.
 
 ## References
 
