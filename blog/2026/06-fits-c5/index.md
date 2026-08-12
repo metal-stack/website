@@ -1,5 +1,5 @@
 ---
-title: C5 Attestation Highlights metal-stack’s Maturity for Regulated Environments
+title: metal-stack meets C5 standards
 shortDescription: Recent C5 attestation achieved by FI-TS for cloud services built on metal-stack.
 description: A recent C5 attestation achieved by FI-TS for cloud services built on metal-stack is another strong signal that open-source infrastructure is ready for highly regulated workloads.
 watermark: "Blog"
