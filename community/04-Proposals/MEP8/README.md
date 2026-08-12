@@ -1,7 +1,7 @@
 ---
-slug: /MEP-7-configurable-filesystem-layout-for-machine-allocation
-title: MEP-7
-sidebar_position: 7
+slug: /MEP-8-configurable-filesystem-layout-for-machine-allocation
+title: MEP-8
+sidebar_position: 8
 ---
 
 # Configurable Filesystem layout for Machine Allocation
