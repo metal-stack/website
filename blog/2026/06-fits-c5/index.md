@@ -13,6 +13,8 @@ tags:
 ---
 A recent C5 attestation achieved by FI-TS for cloud services built on metal-stack is another strong signal that open-source infrastructure is ready for highly regulated workloads.
 
+C5 (Cloud Computing Compliance Criteria Catalogue) is a catalogue of security criteria developed by Germany’s Federal Office for Information Security (BSI) to assess the security of cloud services.
+
 The assessment confirms that the operational and security controls required by the BSI's C5 framework can be successfully implemented on top of metal-stack-based environments.
 
 For the metal-stack community, this is an important milestone. It demonstrates that transparency, open collaboration, and vendor-independent infrastructure can go hand in hand with demanding compliance requirements.
