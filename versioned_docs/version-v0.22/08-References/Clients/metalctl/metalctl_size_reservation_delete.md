@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_size_reservation_delete
 title: metalctl_size_reservation_delete
-sidebar_position: 132
+sidebar_position: 3
 ---
 
 ## metalctl size reservation delete

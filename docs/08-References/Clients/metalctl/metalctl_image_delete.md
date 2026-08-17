@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_image_delete
 title: metalctl_image_delete
-sidebar_position: 36
+sidebar_position: 3
 ---
 
 ## metalctl image delete

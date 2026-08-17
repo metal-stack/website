@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_network_allocate
 title: metalctl_network_allocate
-sidebar_position: 78
+sidebar_position: 1
 ---
 
 ## metalctl network allocate

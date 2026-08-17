@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_size_reservation_update
 title: metalctl_size_reservation_update
-sidebar_position: 136
+sidebar_position: 7
 ---
 
 ## metalctl size reservation update

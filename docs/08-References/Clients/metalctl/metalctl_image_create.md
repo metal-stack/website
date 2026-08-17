@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_image_create
 title: metalctl_image_create
-sidebar_position: 35
+sidebar_position: 2
 ---
 
 ## metalctl image create

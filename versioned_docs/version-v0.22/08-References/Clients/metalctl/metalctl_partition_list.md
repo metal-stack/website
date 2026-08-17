@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_partition_list
 title: metalctl_partition_list
-sidebar_position: 103
+sidebar_position: 7
 ---
 
 ## metalctl partition list

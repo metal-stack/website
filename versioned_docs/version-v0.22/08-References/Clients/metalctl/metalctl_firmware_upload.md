@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_firmware_upload
 title: metalctl_firmware_upload
-sidebar_position: 29
+sidebar_position: 3
 ---
 
 ## metalctl firmware upload

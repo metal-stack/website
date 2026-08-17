@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_machine_consolepassword
 title: metalctl_machine_consolepassword
-sidebar_position: 46
+sidebar_position: 3
 ---
 
 ## metalctl machine consolepassword

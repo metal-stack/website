@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_network_edit
 title: metalctl_network_edit
-sidebar_position: 83
+sidebar_position: 6
 ---
 
 ## metalctl network edit

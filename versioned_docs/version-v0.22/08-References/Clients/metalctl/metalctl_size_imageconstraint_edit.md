@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_size_imageconstraint_edit
 title: metalctl_size_imageconstraint_edit
-sidebar_position: 124
+sidebar_position: 5
 ---
 
 ## metalctl size imageconstraint edit

@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_network_delete
 title: metalctl_network_delete
-sidebar_position: 81
+sidebar_position: 4
 ---
 
 ## metalctl network delete
