@@ -19,14 +19,14 @@
     "create-release-notes": "bun ./scripts/create-release-notes.js"
   },
   "dependencies": {
-    "@carbon/icons-react": "^11.85.0",
+    "@carbon/icons-react": "^11.86.0",
     "@docusaurus/core": "^3.10.2",
     "@docusaurus/plugin-content-blog": "^3.10.2",
     "@docusaurus/plugin-content-docs": "^3.10.2",
     "@docusaurus/preset-classic": "^3.10.2",
     "@headlessui/react": "^2.2.10",
     "@mdx-js/react": "^3.1.1",
-    "@scalar/api-reference-react": "^0.9.59",
+    "@scalar/api-reference-react": "^0.9.63",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/semver": "^7.8.0",
     "axios": "^1.19.0",
