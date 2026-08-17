@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_machine_identify_on
 title: metalctl_machine_identify_on
-sidebar_position: 2
+sidebar_position: 53
 ---
 
 ## metalctl machine identify on

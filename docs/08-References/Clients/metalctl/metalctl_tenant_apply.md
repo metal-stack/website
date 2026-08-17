@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_tenant_apply
 title: metalctl_tenant_apply
-sidebar_position: 1
+sidebar_position: 157
 ---
 
 ## metalctl tenant apply

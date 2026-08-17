@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_context
 title: metalctl_context
-sidebar_position: 2
+sidebar_position: 9
 ---
 
 ## metalctl context

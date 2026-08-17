@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_completion_powershell
 title: metalctl_completion_powershell
-sidebar_position: 3
+sidebar_position: 7
 ---
 
 ## metalctl completion powershell

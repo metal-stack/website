@@ -107,7 +107,7 @@
         "releasePath": "docker-images.metal-stack.partition.metal-core.tag",
         "repo": "metal-stack/metal-core",
         "branch": "main",
-        "tag": "v0.17.0",
+        "tag": "v0.18.0",
         "position": 3,
         "withDocs": false
       },

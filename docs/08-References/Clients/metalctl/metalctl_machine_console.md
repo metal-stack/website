@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_machine_console
 title: metalctl_machine_console
-sidebar_position: 2
+sidebar_position: 45
 ---
 
 ## metalctl machine console

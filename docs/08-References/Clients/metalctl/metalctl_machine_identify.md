@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_machine_identify
 title: metalctl_machine_identify
-sidebar_position: 8
+sidebar_position: 51
 ---
 
 ## metalctl machine identify

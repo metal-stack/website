@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_machine_ipmi_chassis-list
 title: metalctl_machine_ipmi_chassis-list
-sidebar_position: 1
+sidebar_position: 55
 ---
 
 ## metalctl machine ipmi chassis-list
