@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_firewall_list
 title: metalctl_firewall_list
-sidebar_position: 24
+sidebar_position: 3
 ---
 
 ## metalctl firewall list

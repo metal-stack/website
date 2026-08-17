@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_machine_ipmi
 title: metalctl_machine_ipmi
-sidebar_position: 54
+sidebar_position: 9
 ---
 
 ## metalctl machine ipmi

@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_size_imageconstraint_delete
 title: metalctl_size_imageconstraint_delete
-sidebar_position: 122
+sidebar_position: 3
 ---
 
 ## metalctl size imageconstraint delete

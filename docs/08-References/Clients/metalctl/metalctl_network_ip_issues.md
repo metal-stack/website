@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_network_ip_issues
 title: metalctl_network_ip_issues
-sidebar_position: 91
+sidebar_position: 6
 ---
 
 ## metalctl network ip issues

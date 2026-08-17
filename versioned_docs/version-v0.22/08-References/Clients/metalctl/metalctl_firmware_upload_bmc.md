@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_firmware_upload_bmc
 title: metalctl_firmware_upload_bmc
-sidebar_position: 31
+sidebar_position: 2
 ---
 
 ## metalctl firmware upload bmc

@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_firewall_ssh
 title: metalctl_firewall_ssh
-sidebar_position: 25
+sidebar_position: 4
 ---
 
 ## metalctl firewall ssh

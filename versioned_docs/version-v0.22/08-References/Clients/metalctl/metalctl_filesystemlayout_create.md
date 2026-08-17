@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_filesystemlayout_create
 title: metalctl_filesystemlayout_create
-sidebar_position: 13
+sidebar_position: 2
 ---
 
 ## metalctl filesystemlayout create

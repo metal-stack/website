@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_tenant_create
 title: metalctl_tenant_create
-sidebar_position: 158
+sidebar_position: 2
 ---
 
 ## metalctl tenant create

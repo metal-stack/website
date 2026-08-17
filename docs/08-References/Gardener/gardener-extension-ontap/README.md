@@ -49,7 +49,7 @@ These pages supplement the concise project overview and development instructions
 
 ## System Overview
 
-![Provisioning and data paths from cluster creation to an ONTAP volume](images/ontap-provisioning-and-data-paths.png)
+![Provisioning and data paths from cluster creation to an ONTAP volume](./assets/ontap-provisioning-and-data-paths.png)
 
 The components have distinct responsibilities:
 

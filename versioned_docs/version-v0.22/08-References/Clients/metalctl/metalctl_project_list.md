@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_project_list
 title: metalctl_project_list
-sidebar_position: 111
+sidebar_position: 6
 ---
 
 ## metalctl project list

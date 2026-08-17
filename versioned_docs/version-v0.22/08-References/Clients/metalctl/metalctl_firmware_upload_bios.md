@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_firmware_upload_bios
 title: metalctl_firmware_upload_bios
-sidebar_position: 30
+sidebar_position: 1
 ---
 
 ## metalctl firmware upload bios

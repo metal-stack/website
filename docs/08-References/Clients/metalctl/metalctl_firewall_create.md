@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_firewall_create
 title: metalctl_firewall_create
-sidebar_position: 22
+sidebar_position: 1
 ---
 
 ## metalctl firewall create

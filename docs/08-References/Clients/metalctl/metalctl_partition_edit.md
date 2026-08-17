@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_partition_edit
 title: metalctl_partition_edit
-sidebar_position: 102
+sidebar_position: 6
 ---
 
 ## metalctl partition edit

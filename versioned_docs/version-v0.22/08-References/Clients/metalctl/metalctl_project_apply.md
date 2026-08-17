@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_project_apply
 title: metalctl_project_apply
-sidebar_position: 106
+sidebar_position: 1
 ---
 
 ## metalctl project apply
