@@ -18,7 +18,7 @@
     "components": [
       {
         "name": "backup-restore-sidecar",
-        "releasePath": "",
+        "releasePath": "docker-images.metal-stack.generic.backup-restore-sidecar",
         "repo": "metal-stack/backup-restore-sidecar",
         "branch": "master",
         "tag": "",
@@ -68,7 +68,7 @@
         "branch": "main",
         "tag": "v0.9.1",
         "position": 6,
-        "withDocs": true
+        "withDocs": false
       },
       {
         "name": "metal-console",
@@ -295,7 +295,7 @@
       },
       {
         "name": "os-metal-extension",
-        "releasePath": "",
+        "releasePath": "docker-images.metal-stack.gardener.os-metal-extension",
         "repo": "metal-stack/os-metal-extension",
         "branch": "master",
         "tag": "",
