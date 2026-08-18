@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_completion_fish
 title: metalctl_completion_fish
-sidebar_position: 2
+sidebar_position: 6
 ---
 
 ## metalctl completion fish

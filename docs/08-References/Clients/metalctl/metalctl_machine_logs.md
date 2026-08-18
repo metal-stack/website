@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_machine_logs
 title: metalctl_machine_logs
-sidebar_position: 13
+sidebar_position: 61
 ---
 
 ## metalctl machine logs

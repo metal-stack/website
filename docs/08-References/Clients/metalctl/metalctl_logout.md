@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_logout
 title: metalctl_logout
-sidebar_position: 9
+sidebar_position: 42
 ---
 
 ## metalctl logout

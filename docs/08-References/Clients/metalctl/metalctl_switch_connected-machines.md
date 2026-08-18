@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_switch_connected-machines
 title: metalctl_switch_connected-machines
-sidebar_position: 1
+sidebar_position: 141
 ---
 
 ## metalctl switch connected-machines

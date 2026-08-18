@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_partition_create
 title: metalctl_partition_create
-sidebar_position: 3
+sidebar_position: 99
 ---
 
 ## metalctl partition create

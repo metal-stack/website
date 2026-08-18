@@ -1,7 +1,7 @@
 ---
 slug: /references/metalctl_switch_delete
 title: metalctl_switch_delete
-sidebar_position: 3
+sidebar_position: 143
 ---
 
 ## metalctl switch delete
