@@ -174,7 +174,7 @@ For some metal-stack dependencies you will still require an ingress controller:
 
 Check your endpoints are still reachable on their expected host names/IP addresses. The easiest way to do that is to check with metalctl(metal-api)/metalctlv2(metal-apiserver).
 
-It is also recommended to check if the DNS records really resolve the new Gateway and are not accessed via the old ingress infrastructure. Use `nslookup`/`dig` to check your hostname and make sure they resolve to the same IP address as the Gateway
+It is also recommended to check if the DNS records really resolve the new Gateway and are not accessed via the old ingress infrastructure. Use `nslookup`/`dig` to check your hostname and make sure they resolve to the same IP address as the Gateway.
 
 ## Rollback
 
