@@ -40,7 +40,7 @@ For some vendor dependencies you will still require an ingress controller. Examp
 
 ### Familiarize yourself with Gateway API
 
-Gateway API is more complex than Ingress and consists of multiple different resources and operator personas. The rest of the guide assumes a basic understanding of the `HTTPRoute`, `TCPRoute`, `Gateway`, `GatewayClass`. An introduction can be found [here](https://gateway-api.sigs.k8s.io/docs/introduction/)
+Gateway API is more complex than Ingress and consists of multiple different resources and operator personas. The rest of the guide assumes a basic understanding of the `HTTPRoute`, `TCPRoute`, `Gateway`, `GatewayClass`. An introduction can be found [here](https://gateway-api.sigs.k8s.io/docs/introduction/).
 
 ### Gateway API implementation requirements
 
