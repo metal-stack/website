@@ -66,7 +66,7 @@
         "releasePath": "docker-images.metal-stack.control-plane.metal-apiserver.tag",
         "repo": "metal-stack/metal-apiserver",
         "branch": "main",
-        "tag": "v0.9.1",
+        "tag": "v0.10.0",
         "position": 6,
         "withDocs": false
       },
@@ -248,7 +248,7 @@
         "releasePath": "docker-images.metal-stack.kubernetes.metal-token-refresher.tag",
         "repo": "metal-stack/metal-token-refresher",
         "branch": "better-readme",
-        "tag": "v0.0.1",
+        "tag": "v0.1.0",
         "position": 6,
         "withDocs": false
       }
