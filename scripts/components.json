@@ -48,7 +48,7 @@
         "releasePath": "docker-images.metal-stack.control-plane.tenant-apiserver.tag",
         "repo": "metal-stack/tenant-apiserver",
         "branch": "main",
-        "tag": "v0.1.1",
+        "tag": "v0.2.1",
         "position": 4,
         "withDocs": false
       },
@@ -66,7 +66,7 @@
         "releasePath": "docker-images.metal-stack.control-plane.metal-apiserver.tag",
         "repo": "metal-stack/metal-apiserver",
         "branch": "main",
-        "tag": "v0.10.0",
+        "tag": "v0.11.1",
         "position": 6,
         "withDocs": false
       },
@@ -107,7 +107,7 @@
         "releasePath": "docker-images.metal-stack.partition.metal-core.tag",
         "repo": "metal-stack/metal-core",
         "branch": "main",
-        "tag": "v0.18.0",
+        "tag": "v0.19.0",
         "position": 3,
         "withDocs": false
       },
