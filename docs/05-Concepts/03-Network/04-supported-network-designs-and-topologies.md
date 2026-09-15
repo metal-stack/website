@@ -32,7 +32,7 @@ This is the default and most common pattern. Each zone hosts its own metal-stack
 
 No EVPN or VXLAN overlay is stretched between zones. Each partition operates a self-contained CLOS fabric with its own VNI space, BGP underlay, and exit switches. Private networks are allocated within exactly one partition, so a project that spans multiple zones receives a distinct private network per zone. All inter-zone communication is routed at Layer 3 across the exit switches, which exchange routes with external routing domains.
 
-Partitions share no network state. Failure isolation is strict, and even the complete loss of one partition leaves the remaining zones unaffected. In return, cross-zone redundancy must be implemented at the application layer. Stateless services can be announced from multiple zones via anycast addresses, while stateful services require replication or state persistence outside a single zone.
+Partitions share no network state, and each partition runs its own storage system. Failure isolation is strict, and even the complete loss of one partition leaves the remaining zones unaffected. In return, cross-zone redundancy must be implemented at the application layer. Stateless services can be announced from multiple zones via anycast addresses, while stateful services require replication or state persistence outside a single zone.
 
 ![Independent partitions with one self-contained fabric per zone](multi-site-independent-partitions.svg)
 
@@ -42,13 +42,13 @@ The EVPN fabric is stretched across multiple data-center locations, forming a si
 
 A single VXLAN overlay spans all zones, which share one VRF and VNI space. Each zone hosts its own leaf switches, and the zones are interconnected at the spine or exit-switch level. The validated design covers three data centers whose interconnect forms a ring, which for three sites is equivalent to a full mesh. Interconnect topologies for more than three data centers are not defined. All data centers must lie within 20 km of each other, with latency below 1 ms, and all transport links must carry jumbo frames (MTU 9216) for VXLAN encapsulation.
 
-The metro forms one partition and therefore one failure domain. A single set of exit switches and one metal-stack control plane govern the entire setup, and overlay state is shared across all zones. In return, services see a single partition and require no application-level awareness of zones. Stateful workloads can span zones without replication at the application layer.
+The metro forms one partition and therefore one failure domain. A single set of exit switches and one metal-stack control plane govern the entire setup, and overlay state is shared across all zones. The storage system is distributed across the data-center locations. In return, services see a single partition and require no application-level awareness of zones. Stateful workloads can span zones without replication at the application layer.
 
 ![Metro setup with one EVPN fabric stretched across three data centers](multi-site-metro-stretched-evpn.svg)
 
 ### Design 3 - Zone Aware Setup (Roadmap)
 
-This design targets a middle ground between independent partitions and the metro setup. Multiple independent partitions exist in different locations and EVPN is not stretched between them. Instead, the exit switches interconnect selected VNIs across partition boundaries, for example via EVPN Multi-Site DCI or SRv6. A private network in one partition thereby becomes reachable from another partition without traversing external networks.
+This design targets a middle ground between independent partitions and the metro setup. Multiple independent partitions exist in different locations and EVPN is not stretched between them. Instead, the exit switches interconnect selected VNIs across partition boundaries, for example via EVPN Multi-Site DCI, SRv6, or route leaking through a dedicated DCI VRF. A private network in one partition thereby becomes reachable from another partition without traversing external networks.
 
 Fabric and control-plane failure isolation remain as strict as with independent partitions, because no overlay state is shared between the fabrics. Stateful workloads gain cross-zone connectivity within their private networks, without the latency requirements of a stretched metro. This design is on the roadmap and not yet implemented.
 
