@@ -10,13 +10,13 @@ sidebar_position: 7
 Gateway API support in metal-stack is still in development. Changes are expected, especially around certificate management.
 :::
 
-From version `x.y.z` <!-- TODO: fill in the first metal-stack release that ships Gateway API support --> metal-stack supports [Gateway API](https://gateway-api.sigs.k8s.io/) as a replacement for Kubernetes `Ingress` resources.
+From version [v0.22.21](https://github.com/metal-stack/releases/releases/tag/v0.22.21) the metal-stack control plane supports [Gateway API](https://gateway-api.sigs.k8s.io/) as a replacement for Kubernetes `Ingress` resources. With [v0.22.23](https://github.com/metal-stack/releases/releases/tag/v0.22.23) the monitoring components can also be migrated to Gateway API such that there are no required dependencies on `Ingress` resources in metal-stack anymore.
 
-This guide explains why we are moving to Gateway API, what changes for you as an operator, and how to migrate an existing metal-stack installation.
+This guide explains why we moved to Gateway API, what changes for you as an operator, and how to migrate an existing metal-stack installation.
 
 ## Motivation
 
-`ingress-nginx` has been deprecated and we currently depend on it. metal-stack
+`ingress-nginx` has been deprecated and the metal-stack control plane depended on it. metal-stack
 has control-plane components that are not served via HTTP/GRPC. Those are
 exposed as TCP Services via `ingress-nginx`. As a result we are going to move
 all metal-stack components to Gateway API.
@@ -30,11 +30,7 @@ Certificate provisioning and TLS termination will move into the Gateway resource
 Exceptions for TLS termination:
 
 - NSQ will for now still terminate its own certificates
-- The GRPC endpoint of metal-api will stay a TCPRoute and TLS termination will stay in the application. As metal-api will be superseded by metal-apiserver in the near future, we do not see the value in migrating it fully
-
-### Continued need for an Ingress Controller
-
-For some vendor dependencies you will still require an ingress controller. Examples of services still relying on Ingress are Gardener and Thanos. As ingress-nginx is EoL we recommend switching to a different Ingress Controller implementation.
+- The GRPC endpoint of metal-api will stay a `TCPRoute` and TLS termination will stay in the application. As metal-api will be superseded by metal-apiserver in the near future, we do not see the value in migrating it fully
 
 ## Before you begin
 
@@ -54,15 +50,24 @@ In our [mini-lab](https://github.com/metal-stack/mini-lab/pull/299) demo environ
 
 ### Migration Path decisions
 
+Most importantly: If something goes wrong please note that the downtime of the metal-stack API is usually no big issue. All provisioned machines and the network will just continue to work. It is just that no entities can be added or removed during the outage (e.g. no new machine allocations can take place), which is usually tolerable for small time windows.
+
+First you will need to:
+
 - Select a Gateway API implementation, e.g. [Envoy Gateway](https://gateway.envoyproxy.io/docs/)
-- Certificate management: Gateway API now requires the Gateway to know
+- Check your certificate management: Gateway API now requires the Gateway to know
+
+Then decide the migration strategy:
+
+1. Deploy ingress-nginx and the Gateway in parallel and then switch over the DNS entry (minimum amount of downtime, recommended for production environments)
+2. Remove ingress-nginx and deploy Gateway (less time-consuming, for testing environments)
 
 ## Migration preparation
 
 ### Gateway deployment
 
 As we require `TCPRoute`s you will have to make changes to your existing Gateways, if applicable.
-Still, we suggest you create a dedicated metal-stack gateway, like we do for [mini-lab](https://github.com/metal-stack/mini-lab/roles/gateway).
+Still, we suggest you create a dedicated metal-stack gateway, like we do for [mini-lab](https://github.com/metal-stack/mini-lab/tree/master/roles/gateway).
 
 We recommend provisioning a metal-stack Gateway resource as metal-stack requires multiple TCP endpoints.
 
@@ -125,12 +130,12 @@ Exposed components with TLS terminated at the Gateway:
 - zitadel
 - headscale
 
-Exposed components terminating TLS in the application Pod:
+For using public CAs with cert-manager, just annotate your Gateway resource with `cert-manager.io/cluster-issuer: <your-cluster-issuer>`. This will create the certificates as defined by your `ClusterIssuer`, which can of course also use Gateway API. For private CAs, you can generate them as usual and deploy them accordingly through your deployment automation.
+
+Exposed components terminating TLS in the application Pod (currently always self-signed certificates):
 
 - metal-api GRPC endpoint
 - nsq
-
-<!-- TODO: scaffold — describe how certificates are wired to the Gateway listeners (Certificate / Issuer resources, secret references), and the recommended setup for private vs. public CAs -->
 
 ### Migrating Components
 
@@ -138,7 +143,25 @@ Exposed components terminating TLS in the application Pod:
 The old Ingress Controller and new Gateway are going to have different IP addresses.
 :::
 
-Deploy the `HTTPRoutes` and `TCPRoutes` for each component using metal-role. *routes and Ingress resources can be deployed at the same time. To switch over a service to the Gateway, change the DNS record of that service from pointing to the Ingress Controller to the Gateway.
+If you decide for the hard cutover route (only recommended for test environments), just disable the ingress deployment parameters and enable `HTTPRoute`s and `TCPRoute`s for each component using metal-roles. However, the less intrusive way for the migration without downtime allows the deployment of *routes and Ingress resources at the same time*. For the `metal` role this can be achieved using the following parametrization:
+
+```yaml
+metal_deploy_ingress: true
+metal_api_httproute_enabled: true
+
+metal_deploy_ingress_api_v1_rules: true
+metal_deploy_ingress_api_v2_rules: false
+```
+
+With this setup, you will be able to check the availability through Gateway while the existing `Ingress` continues serving workload traffic. You can check the service availability of the metal-api for instance with:
+
+```bash
+curl https://<your-metal-api-domain>/v1/health --resolve '<your-metal-api-domain>:443:<new-gw-ip>'
+```
+
+In case you use cert-manager and the `Certificate`s cannot be issued before you switch over the DNS entry with the configuration you use, it is possible to temporarily copy over the existing `Secret`s. If you need this strtegy, make sure that after completing the migration cert-manager can issue new certificates.
+
+To switch over a service to the Gateway, change the DNS record of that service from pointing to the Ingress Controller to the Gateway.
 
 Example for zitadel, nsq and metal_apiserver. For full documentation of all services please consult the [metal-roles repository](https://github.com/metal-stack/metal-roles).
 
@@ -161,14 +184,6 @@ metal_apiserver_httproute_parent_refs:
 - name: metal-control-plane
   sectionName: https
 ```
-
-
-#### Remaining ingress controller dependencies
-
-For some metal-stack dependencies you will still require an ingress controller:
-
-- Gardener
-- Thanos
 
 ## Verification
 
