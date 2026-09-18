@@ -1,10 +1,12 @@
 const fs = require("fs");
 const path = require("path");
 const axios = require("axios");
+const nodeurl = require("url");
 
 import YAML from 'yaml'
 
 const outputBase = path.resolve(__dirname, "../docs/08-References");
+let visitedDocs = new Set();
 
 function isValidVersion(version) {
   const regex = /^v\d{1,3}\.\d{1,3}\.\d{1,3}$/;
@@ -14,8 +16,8 @@ function isValidVersion(version) {
 async function getReleaseVectorYaml(version) {
   let releaseVectorPath = "https://raw.githubusercontent.com/metal-stack/releases/refs/heads/master/release.yaml"
 
-  if (version !== "" && version !== undefined ) {
-    if(isValidVersion(version)) {
+  if (version !== "" && version !== undefined) {
+    if (isValidVersion(version)) {
       releaseVectorPath = "https://raw.githubusercontent.com/metal-stack/releases/refs/tags/" + version + "/release.yaml"
     }
     else {
@@ -46,6 +48,14 @@ async function downloadFile(url, destPath) {
 }
 
 async function downloadDoc(url, baseurl, outputDir, component, name, index) {
+  const normalizedUrl = new nodeurl.URL(url);
+  url = normalizedUrl.toString();
+  if (visitedDocs.has(url)) {
+    return;
+  }
+
+  visitedDocs = visitedDocs.add(url);
+
   try {
     const res = await axios.get(url);
     let content = res.data;
@@ -57,31 +67,37 @@ async function downloadDoc(url, baseurl, outputDir, component, name, index) {
 
     for (const relPath of assetPaths) {
       const filename = path.basename(relPath);
-      const rawAssetUrl = `${baseurl}/${relPath}`;
+      const rawAssetUrl = new nodeurl.URL(`${path.dirname(url)}/${relPath}`).toString();
       const localAssetDir = path.join(outputDir, "assets");
       if (!fs.existsSync(localAssetDir)) {
         fs.mkdirSync(localAssetDir, { recursive: true });
       }
       const localAssetPath = path.join(localAssetDir, filename);
 
+      if (visitedDocs.has(rawAssetUrl)) {
+        continue;
+      }
+
+      visitedDocs = visitedDocs.add(rawAssetUrl);
+
       try {
         await downloadFile(rawAssetUrl, localAssetPath);
         content = content.replace(relPath, `./assets/${filename}`);
         console.log(`🖼️  Fetched asset: ${relPath}`);
       } catch (error) {
-        console.warn(`⚠️  Failed to fetch asset: ${relPath}`);
+        console.warn(`⚠️  Failed to fetch asset: ${relPath}`, error.message);
       }
     }
 
     // This Regex finds all relative references to files in .md style like "(../deploy/postgres_manual_restore.yaml)", removing the braces
     const isRelativeReferenceRegex = /\((?:(?:\.\.?\/)+|\.?\/|\/)(?:[\w.-]+\/)*[\w.-]+\.[\w.-]+\)/g;
-    const relativeReferences = [...content.matchAll(isRelativeReferenceRegex)].map((m) => m[0].substr(1,m[0].length -2))
+    const relativeReferences = [...content.matchAll(isRelativeReferenceRegex)].map((m) => m[0].substr(1, m[0].length - 2))
 
     for (const ref of relativeReferences) {
       let fileExtension = ref.split('.').pop().toLowerCase();
 
-      if(fileExtension !== "md" && !imageExtensions.includes(fileExtension)) {
-        console.log("Replacing link " + ref + " with "  + webURL(component) + "/" + ref)
+      if (fileExtension !== "md" && !imageExtensions.includes(fileExtension)) {
+        console.log("Replacing link " + ref + " with " + webURL(component) + "/" + ref)
         content = content.replace(ref, webURL(component) + "/" + ref);
       }
     }
@@ -93,12 +109,12 @@ async function downloadDoc(url, baseurl, outputDir, component, name, index) {
     }));
 
     for (const link of mdLinks) {
-      
+
       const mdFileName = path.basename(link.href);
       const linkedFilePath = path.join(outputDir, mdFileName);
 
       if (!fs.existsSync(linkedFilePath)) {
-        const linkedFileUrl = `${baseurl}/${link.href}`;
+        const linkedFileUrl = `${path.dirname(url)}/${link.href}`;
         try {
           await downloadDoc(
             linkedFileUrl,
@@ -127,7 +143,6 @@ sidebar_position: ${index}
 `;
 
     const finalContent = frontmatter + content;
-
     const filePath = path.join(outputDir, name);
     fs.writeFileSync(filePath, finalContent, "utf8");
 
@@ -140,10 +155,10 @@ sidebar_position: ${index}
 async function resolveDocs(baseurl, outputDir, component) {
 
   let apiUrl = `https://api.github.com/repos/${component.repo}/contents/docs`
-  if(component.tag !== "") {
+  if (component.tag !== "") {
     apiUrl = `https://api.github.com/repos/${component.repo}/contents/docs?ref=${component.tag}`
   }
-  
+
   const docsOutputDir = outputDir
 
   try {
@@ -183,17 +198,17 @@ async function resolveDocs(baseurl, outputDir, component) {
 }
 
 const findPath = (object, path) => {
-    const keys = path.split('.');
-    let temp = object;
-    for (let i = 0; i < keys.length; i++) {
-        try {
-            if(!temp.hasOwnProperty(keys[i])) { return undefined; } 
-            temp = temp[keys[i]];
-        } catch {
-            return undefined;
-        }
+  const keys = path.split('.');
+  let temp = object;
+  for (let i = 0; i < keys.length; i++) {
+    try {
+      if (!temp.hasOwnProperty(keys[i])) { return undefined; }
+      temp = temp[keys[i]];
+    } catch {
+      return undefined;
     }
-    return temp;
+  }
+  return temp;
 };
 
 async function fetchComponentDocs() {
@@ -211,7 +226,7 @@ async function fetchComponentDocs() {
 
   for (const section of componentDocs) {
     for (const component of section.components) {
-      if(component.tag === "" || component.releasePath === "") {
+      if (component.tag === "" || component.releasePath === "") {
         console.warn("Tag or path for " + component.name + " is empty. Skip Version Update.")
         continue
       }
@@ -219,19 +234,19 @@ async function fetchComponentDocs() {
       let docsVersion = component.tag
       let releaseVersion = findPath(releaseVector, component.releasePath)
 
-      if(releaseVersion === undefined) {
+      if (releaseVersion === undefined) {
         console.warn("Path for release version for component " + component.name + " empty, not found or incorrect.")
         continue
       }
 
-      if(docsVersion !== releaseVersion) {
+      if (docsVersion !== releaseVersion) {
         component.tag = releaseVersion
         console.log("Update Component " + component.name + " from " + docsVersion + " to " + releaseVersion)
       }
     }
   }
 
-  fs.writeFileSync('./scripts/components.json', JSON.stringify(componentDocs,null,2));
+  fs.writeFileSync('./scripts/components.json', JSON.stringify(componentDocs, null, 2));
 
   for (const section of componentDocs) {
     for (const component of section.components) {
@@ -241,7 +256,7 @@ async function fetchComponentDocs() {
       }
 
       let baseurl = `https://raw.githubusercontent.com/${component.repo}/refs/heads/${component.branch}`;
-      if(component.tag !== "") {
+      if (component.tag !== "") {
         baseurl = `https://raw.githubusercontent.com/${component.repo}/${component.tag}`;
       }
       const url = `${baseurl}/README.md`;

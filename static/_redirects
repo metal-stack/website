@@ -17,6 +17,7 @@ https://docs.metal-stack.io/* https://metal-stack.io/:splat 301!
 /blog/tags/kamaji /blog/tags/cluster-api
 
 # redirect renamed sites
+/community/MEP-7-configurable-filesystem-layout-for-machine-allocation /community/MEP-8-configurable-filesystem-layout-for-machine-allocation
 /docs/deployment /docs/deployment-guide
 /docs/:version/deployment /docs/:version/deployment-guide
 /docs/isolated-kubernetes /docs/isolated-kubernetes-clusters
