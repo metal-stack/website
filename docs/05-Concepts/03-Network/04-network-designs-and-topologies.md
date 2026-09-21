@@ -1,10 +1,10 @@
 ---
 slug: /network-designs-and-topologies
-title: Multi-Zone Network Designs
+title: Multi-Zone Setups
 sidebar_position: 4
 ---
 
-# Multi-Zone Network Designs
+# Multi-Zone Setups
 
 metal-stack supports a set of proven network designs for multi-zone setups, ranging from independent partitions to a metro design stretched across zones (stretched EVPN fabric). This page walks through these designs and explains the reasoning behind them.
 
