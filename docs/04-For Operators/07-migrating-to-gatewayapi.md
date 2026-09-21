@@ -12,10 +12,9 @@ This guide explains why we moved to Gateway API, what changes for you as an oper
 
 ## Motivation
 
-`ingress-nginx` has been deprecated and the metal-stack control plane depended on it. metal-stack
-has control-plane components that are not served via HTTP/GRPC. Those are
-exposed as TCP Services via `ingress-nginx`. As a result we are going to move
-all metal-stack components to Gateway API.
+`ingress-nginx` has been deprecated and the metal-stack control plane depended on it.
+metal-stack has control-plane components that are not served via HTTP/GRPC.
+Those are exposed as TCP Services via `ingress-nginx`. As a result we are going to move all metal-stack components to Gateway API.
 
 ## What will change
 
@@ -109,9 +108,8 @@ metal-stack.io does not require any specific certificate management process. It 
 
 :::tip
 Use automated certificate management.
-[cert-manager](https://cert-manager.io/docs/usage/gateway/) can handle your
-certificate renewal and supports Gateway API. You can use Let's Encrypt for valid
-public certificates or use a private CA.
+[cert-manager](https://cert-manager.io/docs/usage/gateway/) can handle your certificate renewal and supports Gateway API.
+You can use Let's Encrypt for valid public certificates or use a private CA.
 
 You can issue valid public TLS certs using [Let's Encrypt](https://letsencrypt.org/2026/01/15/6day-and-ip-general-availability) against an IP address if no DNS record is available.
 :::
@@ -183,7 +181,7 @@ metal_apiserver_httproute_parent_refs:
 
 ## Verification
 
-Check your endpoints are still reachable on their expected host names/IP addresses. The easiest way to do that is to check with metalctl(metal-api)/metalctlv2(metal-apiserver).
+Check your endpoints are still reachable on their expected host names/IP addresses. The easiest way to do that is to check with metalctl for metal-api or metalctlv2 for metal-apiserver.
 
 It is also recommended to check if the DNS records really resolve the new Gateway and are not accessed via the old ingress infrastructure. Use `nslookup`/`dig` to check your hostname and make sure they resolve to the same IP address as the Gateway.
 
