@@ -42,7 +42,7 @@ During PXE boot, [metal-hammer](https://github.com/metal-stack/metal-hammer) sca
 
 Three GPU types are [officially supported and verified](https://metal-stack.io/docs/hardware#gpus) by the project: NVIDIA RTX 6000 Ada, H100 and H200. Other models might work perfectly well - they simply have not been reported back to us yet.
 
-For the operating system we ship a dedicated `debian-nvidia` image. It is based on Debian 13 and already contains the kernel driver - since v0.22.7 the open kernel module rather than the proprietary one - plus the containerd shim and the containerd configuration a GPU worker needs. No reboot and no driver-provisioning dance after the machine comes up.
+For the operating system we ship a dedicated `debian-nvidia` image. It is based on Debian 13 and already contains the kernel driver - since the metal-images release [`20260413`](https://github.com/metal-stack/metal-images/releases/tag/20260413) the open kernel module rather than the proprietary one - plus the containerd shim and the containerd configuration a GPU worker needs. No reboot and no driver-provisioning dance after the machine comes up.
 
 That is where metal-stack stops. Exposing the GPUs to pods is the job of the NVIDIA GPU Operator, which the cluster owner installs once the cluster is running:
 
@@ -127,6 +127,7 @@ We would love to hear from anyone experimenting with GPU workloads on metal-stac
 
 - [metal-stack hardware support: GPUs](https://metal-stack.io/docs/hardware#gpus)
 - [metal-stack GPU workers documentation](https://metal-stack.io/docs/gpu-workers)
+- [metal-images releases](https://github.com/metal-stack/metal-images/releases)
 - [NVIDIA GPU Operator](https://github.com/NVIDIA/gpu-operator)
 - [NVIDIA GPU Operator: GPU sharing](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/gpu-sharing.html)
 - [NVIDIA GPU Operator: MIG](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/gpu-operator-mig.html)
