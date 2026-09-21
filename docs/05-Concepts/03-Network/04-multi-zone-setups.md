@@ -1,5 +1,5 @@
 ---
-slug: /network-designs-and-topologies
+slug: /multi-zone-setups
 title: Multi-Zone Setups
 sidebar_position: 4
 ---
