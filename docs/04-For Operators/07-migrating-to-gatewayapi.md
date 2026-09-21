@@ -6,10 +6,6 @@ sidebar_position: 7
 
 # Migrating to Gateway API
 
-:::warning
-Gateway API support in metal-stack is still in development. Changes are expected, especially around certificate management.
-:::
-
 From version [v0.22.21](https://github.com/metal-stack/releases/releases/tag/v0.22.21) the metal-stack control plane supports [Gateway API](https://gateway-api.sigs.k8s.io/) as a replacement for Kubernetes `Ingress` resources. With [v0.22.23](https://github.com/metal-stack/releases/releases/tag/v0.22.23) the monitoring components can also be migrated to Gateway API such that there are no required dependencies on `Ingress` resources in metal-stack anymore.
 
 This guide explains why we moved to Gateway API, what changes for you as an operator, and how to migrate an existing metal-stack installation.
