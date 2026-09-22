@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="450" viewBox="35 35 750 450" style="background:0 0;background-color:transparent" color-scheme="light dark">
+<defs><marker id="oarrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="light-dark(#d79b00, #ffb570)"/></marker></defs>
+<rect x="40" y="40" width="340" height="370" fill="none" stroke="light-dark(#666666, #999999)" stroke-dasharray="3 3" pointer-events="all"/>
+<text x="210.0" y="58" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="12" text-anchor="middle" font-weight="bold">Partition 1 (Zone A)</text>
+<rect x="440" y="40" width="340" height="370" fill="none" stroke="light-dark(#666666, #999999)" stroke-dasharray="3 3" pointer-events="all"/>
+<text x="610.0" y="58" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="12" text-anchor="middle" font-weight="bold">Partition 2 (Zone B)</text>
+<path d="M 150 106 L 150 150" fill="none" stroke="light-dark(#000000, #ffffff)" stroke-width="1" stroke-miterlimit="10" pointer-events="stroke"/>
+<path d="M 150 186 L 150 240" fill="none" stroke="light-dark(#000000, #ffffff)" stroke-width="1" stroke-miterlimit="10" pointer-events="stroke"/>
+<path d="M 125 276 L 125 303 L 105 303 L 105 330" fill="none" stroke="light-dark(#000000, #ffffff)" stroke-width="1" stroke-miterlimit="10" pointer-events="stroke"/>
+<path d="M 670 106 L 670 150" fill="none" stroke="light-dark(#000000, #ffffff)" stroke-width="1" stroke-miterlimit="10" pointer-events="stroke"/>
+<path d="M 670 186 L 670 240" fill="none" stroke="light-dark(#000000, #ffffff)" stroke-width="1" stroke-miterlimit="10" pointer-events="stroke"/>
+<path d="M 695 276 L 695 303 L 715 303 L 715 330" fill="none" stroke="light-dark(#000000, #ffffff)" stroke-width="1" stroke-miterlimit="10" pointer-events="stroke"/>
+<path d="M 175 276 L 175 303 L 205 303 L 205 330" fill="none" stroke="light-dark(#d79b00, #ffb570)" stroke-width="2" stroke-dasharray="6 6" stroke-miterlimit="10" pointer-events="stroke"/>
+<path d="M 645 276 L 645 303 L 620 303 L 620 330" fill="none" stroke="light-dark(#d79b00, #ffb570)" stroke-width="2" stroke-dasharray="6 6" stroke-miterlimit="10" pointer-events="stroke"/>
+<path d="M 205 258 L 270 258" fill="none" stroke="light-dark(#82b366, #97d078)" stroke-width="2" stroke-miterlimit="10" pointer-events="stroke"/>
+<path d="M 550 258 L 615 258" fill="none" stroke="light-dark(#82b366, #97d078)" stroke-width="2" stroke-miterlimit="10" pointer-events="stroke"/>
+<path d="M 350 258 L 470 258" fill="none" stroke="light-dark(#82b366, #97d078)" stroke-width="2" stroke-miterlimit="10" pointer-events="stroke"/>
+<rect x="95" y="70" width="110" height="36" rx="6" ry="6" fill="light-dark(#e1d5e7, #4a3a52)" stroke="light-dark(#9673a6, #b899c4)" pointer-events="all"/>
+<text x="150.0" y="91.85" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="11" text-anchor="middle">Internet</text>
+<rect x="95" y="150" width="110" height="36" rx="6" ry="6" fill="light-dark(#f8cecc, #5c3a38)" stroke="light-dark(#b85450, #ea6b66)" pointer-events="all"/>
+<text x="150.0" y="171.85" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="11" text-anchor="middle">Firewall</text>
+<rect x="95" y="240" width="110" height="36" rx="6" ry="6" fill="light-dark(#dae8fc, #2f4562)" stroke="light-dark(#6c8ebf, #8ab0e0)" pointer-events="all"/>
+<text x="150.0" y="261.85" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="11" text-anchor="middle">Leaf</text>
+<rect x="270" y="240" width="80" height="36" rx="6" ry="6" fill="light-dark(#dae8fc, #2f4562)" stroke="light-dark(#6c8ebf, #8ab0e0)" pointer-events="all"/>
+<text x="310.0" y="261.85" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="11" text-anchor="middle">Exit</text>
+<rect x="60" y="330" width="90" height="36" rx="6" ry="6" fill="light-dark(#d5e8d4, #3a5136)" stroke="light-dark(#82b366, #97d078)" pointer-events="all"/>
+<text x="105.0" y="351.85" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="11" text-anchor="middle">Worker</text>
+<path d="M 175 367.0 L 175 337.0 C 175 333.1339 188.431 330 205.0 330 C 221.569 330 235 333.1339 235 337.0 L 235 367.0 C 235 370.8661 221.569 374 205.0 374 C 188.431 374 175 370.8661 175 367.0 Z" fill="light-dark(#ffe6cc, #5c4520)" stroke="light-dark(#d79b00, #ffb570)" pointer-events="all"/>
+<path d="M 175 337.0 C 175 340.8661 188.431 344.0 205.0 344.0 C 221.569 344.0 235 340.8661 235 337.0" fill="none" stroke="light-dark(#d79b00, #ffb570)" pointer-events="stroke"/>
+<text x="205.0" y="358.0" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="10" text-anchor="middle">Storage</text>
+<rect x="615" y="70" width="110" height="36" rx="6" ry="6" fill="light-dark(#e1d5e7, #4a3a52)" stroke="light-dark(#9673a6, #b899c4)" pointer-events="all"/>
+<text x="670.0" y="91.85" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="11" text-anchor="middle">Internet</text>
+<rect x="615" y="150" width="110" height="36" rx="6" ry="6" fill="light-dark(#f8cecc, #5c3a38)" stroke="light-dark(#b85450, #ea6b66)" pointer-events="all"/>
+<text x="670.0" y="171.85" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="11" text-anchor="middle">Firewall</text>
+<rect x="615" y="240" width="110" height="36" rx="6" ry="6" fill="light-dark(#dae8fc, #2f4562)" stroke="light-dark(#6c8ebf, #8ab0e0)" pointer-events="all"/>
+<text x="670.0" y="261.85" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="11" text-anchor="middle">Leaf</text>
+<rect x="470" y="240" width="80" height="36" rx="6" ry="6" fill="light-dark(#dae8fc, #2f4562)" stroke="light-dark(#6c8ebf, #8ab0e0)" pointer-events="all"/>
+<text x="510.0" y="261.85" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="11" text-anchor="middle">Exit</text>
+<rect x="670" y="330" width="90" height="36" rx="6" ry="6" fill="light-dark(#d5e8d4, #3a5136)" stroke="light-dark(#82b366, #97d078)" pointer-events="all"/>
+<text x="715.0" y="351.85" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="11" text-anchor="middle">Worker</text>
+<path d="M 590 367.0 L 590 337.0 C 590 333.1339 603.431 330 620.0 330 C 636.569 330 650 333.1339 650 337.0 L 650 367.0 C 650 370.8661 636.569 374 620.0 374 C 603.431 374 590 370.8661 590 367.0 Z" fill="light-dark(#ffe6cc, #5c4520)" stroke="light-dark(#d79b00, #ffb570)" pointer-events="all"/>
+<path d="M 590 337.0 C 590 340.8661 603.431 344.0 620.0 344.0 C 636.569 344.0 650 340.8661 650 337.0" fill="none" stroke="light-dark(#d79b00, #ffb570)" pointer-events="stroke"/>
+<text x="620.0" y="358.0" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="10" text-anchor="middle">Storage</text>
+<text x="240" y="156" fill="light-dark(#b85450, #ea6b66)" font-family="&quot;Helvetica&quot;" font-size="9" text-anchor="middle">north-south</text>
+<text x="240" y="167" fill="light-dark(#b85450, #ea6b66)" font-family="&quot;Helvetica&quot;" font-size="9" text-anchor="middle">only</text>
+<text x="572" y="156" fill="light-dark(#b85450, #ea6b66)" font-family="&quot;Helvetica&quot;" font-size="9" text-anchor="middle">north-south</text>
+<text x="572" y="167" fill="light-dark(#b85450, #ea6b66)" font-family="&quot;Helvetica&quot;" font-size="9" text-anchor="middle">only</text>
+<rect x="85.6" y="208" width="52.800000000000004" height="14" fill="light-dark(#ffffff, var(--ge-dark-color, #121212))" stroke="none"/>
+<text x="112" y="218" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="9" text-anchor="middle">Tenant VRF</text>
+<rect x="681.6" y="208" width="52.800000000000004" height="14" fill="light-dark(#ffffff, var(--ge-dark-color, #121212))" stroke="none"/>
+<text x="708" y="218" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="9" text-anchor="middle">Tenant VRF</text>
+<rect x="399.2" y="240" width="21.6" height="15" fill="light-dark(#ffffff, var(--ge-dark-color, #121212))" stroke="none"/>
+<text x="410.0" y="251" fill="light-dark(#82b366, #97d078)" font-family="&quot;Helvetica&quot;" font-size="10" text-anchor="middle">DCI</text>
+<text x="233" y="232" fill="light-dark(#d79b00, #ffb570)" font-family="&quot;Helvetica&quot;" font-size="9" text-anchor="middle">route-map</text>
+<text x="587" y="232" fill="light-dark(#d79b00, #ffb570)" font-family="&quot;Helvetica&quot;" font-size="9" text-anchor="middle">route-map</text>
+<path d="M 60 442 L 100 442" fill="none" stroke="light-dark(#82b366, #97d078)" stroke-width="2" stroke-miterlimit="10" pointer-events="stroke"/>
+<text x="108" y="446" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="10" text-anchor="start">east-west between private networks: routed in the fabric, no firewall in the path</text>
+<path d="M 60 467 L 100 467" fill="none" stroke="light-dark(#d79b00, #ffb570)" stroke-width="2" stroke-dasharray="6 6" stroke-miterlimit="10" pointer-events="stroke"/>
+<text x="108" y="471" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="10" text-anchor="start">storage access: direct via route-map on the leaf (Tenant VRF ↔ Storage VRF), never leaked to the DCI</text>
+</svg>
