@@ -7,7 +7,7 @@
         "releasePath": "binaries.metal-stack.metalctl.version",
         "repo": "metal-stack/metalctl",
         "branch": "main",
-        "tag": "v0.19.0",
+        "tag": "v0.19.1",
         "position": 1,
         "withDocs": true
       }
@@ -66,7 +66,7 @@
         "releasePath": "docker-images.metal-stack.control-plane.metal-apiserver.tag",
         "repo": "metal-stack/metal-apiserver",
         "branch": "main",
-        "tag": "v0.11.1",
+        "tag": "v0.11.2",
         "position": 6,
         "withDocs": false
       },
@@ -75,7 +75,7 @@
         "releasePath": "docker-images.metal-stack.control-plane.metal-console.tag",
         "repo": "metal-stack/metal-console",
         "branch": "main",
-        "tag": "v0.7.6",
+        "tag": "v0.8.1",
         "position": 7,
         "withDocs": false
       }
@@ -107,7 +107,7 @@
         "releasePath": "docker-images.metal-stack.partition.metal-core.tag",
         "repo": "metal-stack/metal-core",
         "branch": "main",
-        "tag": "v0.19.0",
+        "tag": "v0.20.0",
         "position": 3,
         "withDocs": false
       },
