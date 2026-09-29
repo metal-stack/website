@@ -67,13 +67,17 @@ $ metalctlv2 project join <invite-secret>
 
 Memberships can also be removed again, however, a default tenant user cannot leave his own tenant namespace and a tenant must always have at least one owner (to prevent orphanage).
 
-### Tokens
+### Tokens Types and Validation
 
 Tokens authenticate requests to the API. There are two distinct kinds of tokens: **user** tokens and **API** tokens.
 
 User tokens are created automatically after a successful login. A user token contains no explicit permissions or roles. Instead, the `metal-apiserver` expands its effective permissions on every request from the user's current project and tenant memberships in the database. As a consequence, removing a membership takes effect immediately, even for tokens that were issued earlier.
 
 Scoped API tokens are created by users or services for CI/CD and other technical use cases. An API token references explicit project and tenant roles, optional admin, infra and machine roles, and individual method permissions. For access checks, the roles and individual permissions are flattened into a set of method permissions. The server refuses to create or update a token that would grant more than the calling token and the user's memberships already allow, so a token cannot be used to elevate privileges. API tokens are always validated against the effective user permission, too, such that requests are declined in case the token holds more permissions than the user has at the point of the request.
+
+:::info
+Note that roles internally are flattened to method permissions for request validation. In other words, roles are grouping method permissions. The current API defines roles statically directly in the API. It is currently not possible to dynamically create own roles. Dynamically composable roles could be implemented in the future if there is demand for this functionality.
+:::
 
 The API server validates the token's signature and expiration against its signing keys, and then looks the token up in the token store by subject and JWT id. If the token is no longer present, it has been revoked or deleted and the request is rejected as unauthenticated. This way a token can be revoked at any time and stops working immediately, regardless of its remaining JWT lifetime.
 
@@ -107,7 +111,7 @@ uuid: 22222222-2222-2222-2222-222222222222
 
 The V2 API defines additional scopes that are not intended for regular users. These are the `Admin`, `Infra` and `Machine` API.
 
-On startup, the metal-apiserver creates a so-called _provider tenant_. This tenant is special because every member of this tenant is allowed to gain permissions for the admin API. The `metal-apiserver` (respectively its deployment) creates an admin API token for the provider tenant and writes its secret back into a Kubernetes secret in the control-plane namespace. This token has the highest privileges possible and should not be distributed across operators. It is rotated automatically every eight hours. Its purpose is to provide emergency access and allow deployment bootstrapping.
+On startup, the metal-apiserver creates a so-called _provider tenant_. This tenant is special because every member of this tenant is allowed to gain permissions for the admin API. The `metal-apiserver` (respectively its deployment) creates an admin API token for the provider tenant and writes its secret back into a Kubernetes secret in the control-plane namespace. This token has the highest privileges possible and should in general not be used by operators. Its purpose is to provide emergency access and allow deployment bootstrapping. It is rotated automatically every eight hours. Another reason why operators should not use this token is that it will not audit their actual username, which is usually undesirable.
 
 Platform operators can become tenant members of the provider tenant after their first login (creates the user) and then by adding the provider tenant membership `metalctlv2 admin tenant add-member` (e.g. by another provider tenant user or with the provider tenant secret through deployment). The role the user holds in the provider tenant is mapped to an admin role: an `OWNER` maps to the admin `EDITOR` role, and an `EDITOR` or `VIEWER` maps to the admin `VIEWER` role.
 
