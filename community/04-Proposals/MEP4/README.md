@@ -6,7 +6,7 @@ sidebar_position: 4
 
 # Multi-Tenancy for the metal-api
 
-In the past we decided to treat the metal-api as a "low-level API", i.e. the API does not specifically deal with projects and tenants. A user with editor access can for example assign machines to every project he desires, he can see all the machines available and can control them. We tried to keep the metal-api code base as small as possible and we added resource scoping to "higher-level" APIs. From there, a user would be able to only see his own machines, clusters and IP addresses.
+In the past we decided to treat the metal-api as a "low-level API", i.e. the API does not specifically deal with projects and tenants. A user with editor access can for example assign machines to every project they desire, they can see all the machines available and can control them. We tried to keep the metal-api code base as small as possible and we added resource scoping to "higher-level" APIs. From there, a user would be able to only see their own machines, clusters and IP addresses.
 
 Over time, metal-stack has become an open-source project that people are willing to adopt. Adopters who want to put their own technologies on top of the metal-stack infrastructure don't have those "higher-level" APIs that we implemented closed-source for our user base. So, external adopters most likely need to implement resource scoping on their own.
 

@@ -32,7 +32,7 @@ Note that the resulting token contains only very minimal information (not the pe
 
 For regular users, the V2 API defines the following three scopes: `Tenant`, `Project` and `Self`.
 
-**Tenants** are the top-level scoping entity and represent a user or an organization on the platform (or maybe we can just call it a "namespace" for resources). A *default tenant* is created automatically for every user after the first successful login: the OIDC callback creates a tenant with the user's login as its ID and adds the user as an owner. Because every user owns their default tenant, every user is able to create user-scoped resources such as projects immediately after login, without any operator intervention. A user cannot leave or delete his own default tenant. Tenant-scoped service methods require the `login` field in their request payload.
+**Tenants** are the top-level scoping entity and represent a user or an organization on the platform (or maybe we can just call it a "namespace" for resources). A *default tenant* is created automatically for every user after the first successful login: the OIDC callback creates a tenant with the user's login as its ID and adds the user as an owner. Because every user owns their default tenant, every user is able to create user-scoped resources such as projects immediately after login, without any operator intervention. A user cannot leave or delete their own default tenant. Tenant-scoped service methods require the `login` field in their request payload.
 
 **Projects** group the resources belonging to a tenant. A tenant can own many projects. Projects are the primary scope for resources such as machines, IPs and child networks, which is why project-scoped service methods require the `project` field in their request payload. Before acting on a project, select it as the default project for the CLI with `metalctlv2 context set-project <project-id>` (this value can be overwritten if the `--project` flag is explicitly provided).
 
@@ -65,7 +65,7 @@ $ metalctlv2 project join <invite-secret>
 ✔ successfully joined project "example-project"
 ```
 
-Memberships can also be removed again, however, a default tenant user cannot leave his own tenant namespace and a tenant must always have at least one owner (to prevent orphanage).
+Memberships can also be removed again, however, a default tenant user cannot leave their own tenant namespace and a tenant must always have at least one owner (to prevent orphanage).
 
 ### Tokens Types and Validation
 
@@ -169,7 +169,7 @@ The example shows a token created by the deployment for `metal-core` using minim
 :::info
 For deployments inside the partition it might not be desired that the partition runner has access to the control plane Kubernetes cluster. In this case, we recommend issuing a long-lived provider tenant admin token (maximum is 365 days) and provide this in the partition deployment (e.g. through the `defaults_partition_metal_apiserver_admin_token` variable or the `METAL_APIV2_TOKEN` env variable). This way it is not necessary to read the secret from the Kubernetes cluster for deploying partition components. Currently, this token needs to be renewed manually.
 
-As every token is associated with the user who issued the token, the audit log will contain this user name, too. Hence, if you create a dedicated deployment token for a partition, you might consider issuing the token usiung provider tenant secret and not from your own user login. This avoids embedding your own user identity, which would then associate the deployment actions with your user and show up in the audit logs with your user name. This is one of the few use-cases where you would need the provider tenant secret because in general you always want an audit log to show a real user account.
+As every token is associated with the user who issued the token, the audit log will contain this user name, too. Hence, if you create a dedicated deployment token for a partition, you might consider issuing the token using provider tenant secret and not from your own user login. This avoids embedding your own user identity, which would then associate the deployment actions with your user and show up in the audit logs with your user name. This is one of the few use-cases where you would need the provider tenant secret because in general you always want an audit log to show a real user account.
 :::
 
 Every service that talks to the API calls the `/metalstack.infra.v2.ComponentService/Ping` method periodically at a configurable interval. Each ping is stored and registers the component with its type, identifier, version, start time and the token it uses. This gives operators a global overview over which services are currently connected to the infrastructure API and which token each of them uses, which is available through the admin component endpoints.
