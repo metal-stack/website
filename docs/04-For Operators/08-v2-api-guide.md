@@ -138,7 +138,33 @@ $ metalctlv2 login --admin-role ADMIN_ROLE_EDITOR
 
 As metal-stack consists of microservices, these individual services require API tokens. The components of the infrastructure do not use user credentials but their own dedicated tenant tokens, which are bootstrapped with a deployment token.
 
-The deployment (Ansible) might use the provider tenant token from the Kubernetes secret, for example through the `metal-deployment-token` role. Note that the deployment admin token is only used to bootstrap the environment and is capable of creating tokens **for other tenants**. The deployment creates dedicated tenants per service for which it issues individual API tokens. Each of these sub-tokens only has those roles and permissions that the component actually needs, for example `metal-core`, `pixiecore`, `metal-bmc`, or the `metal-hammer`. The sub-token is written to the target host's filesystem with restrictive permissions and used by the component from there, following the principle of least privilege.
+The deployment (Ansible) uses the provider tenant token from the Kubernetes secret (for example through the `metal-deployment-token` role in metal-roles). Note that the deployment admin token is only used to bootstrap the environment and is capable of creating tokens **for other tenants**. The deployment creates dedicated tenants per service for which it issues individual API tokens. Each of these sub-tokens only has those roles and permissions that the component actually needs, for example `metal-core`, `pixiecore`, `metal-bmc`, or the `metal-hammer`. The sub-token is written to the target host's filesystem with restrictive permissions and used by the component from there, following the principle of least privilege.
+
+```bash
+$ metalctlv2 admin token describe 33333333-3333-3333-3333-333333333333
+uuid: 33333333-3333-3333-3333-333333333333
+user: metal-core-user
+meta:
+    labels:
+        labels:
+            ci.metal-stack.io/id: metal-core-a-r01leaf01
+            ci.metal-stack.io/manager: ansible
+description: metal-core token r01leaf01 in partition a
+permissions:
+    - methods:
+        - /metalstack.api.v2.TokenService/Refresh
+    - methods:
+        - /metalstack.infra.v2.ComponentService/Ping
+        - /metalstack.infra.v2.EventService/Send
+        - /metalstack.infra.v2.SwitchService/Get
+        - /metalstack.infra.v2.SwitchService/Heartbeat
+        - /metalstack.infra.v2.SwitchService/Register
+expires: "2026-09-28T19:08:15.175078586Z"
+issuedAt: "2026-09-28T11:08:15.175078586Z"
+tokenType: TOKEN_TYPE_API
+```
+
+The example shows a token created by the deployment for `metal-core` using minimal permissions. The `user` points to a tenant specifically created for the `metal-core` service. It has the `/metalstack.api.v2.TokenService/Refresh` method permission allowing the service to rotate the token automatically.
 
 :::info
 For deployments inside the partition it might not be desired that the partition runner has access to the control plane Kubernetes cluster. In this case, we recommend issuing a long-lived provider tenant admin token (maximum is 365 days) and provide this in the partition deployment (e.g. through the `defaults_partition_metal_apiserver_admin_token` variable or the `METAL_APIV2_TOKEN` env variable). This way it is not necessary to read the secret from the Kubernetes cluster for deploying partition components. Currently, this token needs to be renewed manually.
