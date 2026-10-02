@@ -12,6 +12,10 @@ This guide is meant for operators to become familiar with the concepts of the ne
 
 With the V2 API, the `metal-apiserver` derives the effective permissions of a request from the presented token and the memberships stored in the database. The following sections explain the resulting permission model, how operators get admin access, and how the components in the infrastructure are bootstrapped with infra tokens. All examples use [metalctlv2](https://github.com/metal-stack/cli), the CLI for the V2 API.
 
+:::info
+This document primarily describes how to work with the V2 API and not how to deploy it. An example for a working V2 deployment can be found in the [mini-lab](https://github.com/metal-stack/mini-lab).
+:::
+
 ## Basic Permission Principles
 
 The V2 API defines an own permission model that can be used to create fine-grained API tokens that allow only minimal privileges to server methods for consumers. In this section we will go through the basic idea behind the permission model and explain the relevant terms.
@@ -111,7 +115,24 @@ uuid: 22222222-2222-2222-2222-222222222222
 
 The V2 API defines additional scopes that are not intended for regular users. These are the `Admin`, `Infra` and `Machine` API.
 
-On startup, the metal-apiserver creates a so-called _provider tenant_. This tenant is special because every member of this tenant is allowed to gain permissions for the admin API. The `metal-apiserver` (respectively its deployment) creates an admin API token for the provider tenant and writes its secret back into a Kubernetes secret in the control-plane namespace. This token has the highest privileges possible and should in general not be used by operators. Its purpose is to provide emergency access and allow deployment bootstrapping. It is rotated automatically every eight hours. Another reason why operators should not use this token is that it will not audit their actual username, which is usually undesirable.
+On startup, the metal-apiserver creates a so-called _provider tenant_. This tenant is special because every member of this tenant is allowed to gain permissions for the admin API. The `metal-apiserver` (respectively its deployment) creates an admin API token for the provider tenant and writes its secret back into a Kubernetes secret in the control-plane namespace.
+
+```bash
+$ kubectl get secret -n metal-control-plane metal-apiserver-admin-token -o yaml
+apiVersion: v1
+data:
+  admin_editor_token: <redacted>
+  admin_viewer_token: <redacted>
+kind: Secret
+metadata:
+  labels:
+    app: metal-apiserver
+  name: metal-apiserver-admin-token
+  namespace: metal-control-plane
+type: Opaque
+```
+
+This token has the highest privileges possible and should in general not be used by operators. Its purpose is to provide emergency access and allow deployment bootstrapping. It is rotated automatically every eight hours. Another reason why operators should not use this token is that it will not audit their actual username, which is usually undesirable.
 
 Platform operators can become tenant members of the provider tenant after their first login (creates the user) and then by adding the provider tenant membership `metalctlv2 admin tenant add-member` (e.g. by another provider tenant user or with the provider tenant secret through deployment). The role the user holds in the provider tenant is mapped to an admin role: an `OWNER` maps to the admin `EDITOR` role, and an `EDITOR` or `VIEWER` maps to the admin `VIEWER` role.
 
