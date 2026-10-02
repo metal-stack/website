@@ -42,7 +42,7 @@ The **Self** scope provides users access to server methods that every valid toke
 
 Project and tenant memberships are how users gain permissions on project and tenant scopes. They can be established by using **invites**. Invites are used to onboard a user to a tenant or project. A member with sufficient permissions creates an invite that contains a secret and the role the user will hold after accepting it. The invited user accepts the invite to gain the membership. Pending invites can be listed and deleted, and every invite expires after a defined time.
 
-As an alternative to invites, it is also possible to declare memberships statically such that they can be applied through automation. This is possible by using the `AddMember` methods for tenants and projects. For this, it is necessary that the users were created already through login and that the login handle is known by the owner of the tenant / project.
+As an alternative to invites, it is also possible to declare memberships statically such that they can be applied through automation. This functionality is provided by the `AddMember` methods for tenants and projects. For this, it is necessary that the users were created already (either through deployment automation or through login).
 
 Each membership associates a user with a role, either on a tenant (`OWNER`, `EDITOR`, `VIEWER`, `GUEST`) or on a project (`OWNER`, `EDITOR`, `VIEWER`).
 
