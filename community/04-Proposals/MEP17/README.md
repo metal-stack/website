@@ -18,17 +18,17 @@ During runtime, the metal-core polls the switch resource at the API and writes t
 
 With the current state we see the following room for improvements:
 
-- It would make a lot of sense if not only the leaf switches would be "reconciled" by the metal-core but also the other kinds of switches in the switch plane (e.g. spines, exits)
-  - The admin would define the desired state through API during control plane deployment. The metal-core, as soon as it connects, steadily reconciles the desired state on a switch.
+- `Switch` resources should be applied declaratively at the API through deployment by the Admin API. Instead of registering a switch, the switch queries the API on a specific switch entity provided as a startup configuration. This kind of "reverses" the registration procedure. The metal-core establishes a stream connection to the API for a given switch ID and then reconciles the given switch desired state definition. This approach has the following advantages:
+  - A switch can be notified immediately when a configuration change takes place.
   - This approach eliminates manual operation on all the switches from operators and simplifies the Ansible deployment on the switch side.
   - We can implement API validations preventing misconfiguration.
-  - It also enhances the visibility of the switch states and allows to draw a switch plane topology. This is great for troubleshooting connectivity issues but also for documentation purposes.
-- As we see the need for more versatile port configurations (which can already be seen in [metal-core PR #212](https://github.com/metal-stack/metal-core/pull/212)), we would like to extend the `Switch` entity to contain static port configurations.
-  - Specifically, we would like admins to be able to set the desired port status (up / down) and how metal-core manages the port (statically from deployment or dynamically from machine allocations).
-- `Switch` resources should be applied declaratively at the API through deployment by the admin API. Instead of registering a switch, the switch queries the API on a specific switch entity provided as a startup configuration. This kind of "reverses" the registration procedure. The metal-core establishes a stream connection to the API for a given switch ID and then reconciles the given switch desired state definition. This approach has the following advantages:
-  - A switch can be notified immediately when a configuration change takes place.
   - The replacement / migration logic can be largely simplified (e.g. for migration, instead of registering a new switch, metal-core can just reconcile the existing switch entity).
   - We might even be able to get rid off the brittle `MachineConnection` struct and just calculate it dynamically from the current machine states.
+- It would make a lot of sense if not only the leaf switches would be "reconciled" by the metal-core but also the other kinds of switches in the switch plane (e.g. spines, exits)
+  - This enhances the visibility of the switch states and allows to draw a switch plane topology. This is great for troubleshooting connectivity issues but also for documentation purposes.
+  - We could make IP announcements visible in the API such that it would be possible to detect allocated, but unused IPs.
+- As we see the need for more versatile port configurations (which can already be seen in [metal-core PR #212](https://github.com/metal-stack/metal-core/pull/212)), we would like to extend the `Switch` entity to contain static port configurations.
+  - Specifically, we would like admins to be able to set the desired port status (up / down) and how metal-core manages the port (statically from deployment or dynamically from machine allocations).
 
 ## API
 
