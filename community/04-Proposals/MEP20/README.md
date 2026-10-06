@@ -14,7 +14,7 @@ When we started with metal-stack, we decided to go full layer-3 for the dataplan
 
 This works well, does not require manual configuration steps on any of the components in the datacenter. New servers just need to be turned on and get the metal-hammer booted via DHCP/TFTP/PXE and get registered and are ready to use.
 
-But there are downsides with this approach. Most notable:
+But there are downsides with this approach. Most notably:
 
 - 2 different network topologies (L2 and L3) in the dataplane
 - The switch port of a machine must be reconfigured between these two modes, once a machine changes from registered to installed and back.
