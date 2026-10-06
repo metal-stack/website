@@ -7,25 +7,38 @@ sidebar_position: 17
 # Declarative Switch API for Every Switch in a Partition
 
 :::important
-This MEP assumes the implementation of the metal-apiserver as described by [MEP-4](../MEP4/README.md). MEP-4 is already in a state where this MEP could be started in parallel.
+This MEP assumes the implementation of the metal-apiserver as described by [MEP-4](../MEP4/README.md).
+MEP-4 is already in a state where this MEP could be started in parallel.
 :::
 
-Currently, the metal-stack API doesn't know of any other switches than the leaf switches, which are essential for machine provisioning in metal-stack as they dynamically reconfigure the port configuration when a machine gets provisioned. Switches register by calling `/metalstack.infra.v2.SwitchService/Register` when the [metal-core](https://github.com/metal-stack/metal-core) component starts up on the switch. They registration payload contains an ID (which is usually the hostname of the switch), a rack and a room identifier, which are provided through an Ansible deployment using [metal-roles](https://github.com/metal-stack/metal-roles/tree/master/partition/roles/metal-core). Along with this static startup configuration of the metal-core, the metal-core also reports dynamically discovered information like the LLDP neighbors, the actual port status and BGP session state information.
+Currently, the metal-stack API doesn't know of any other switches than the leaf switches, which are essential for machine provisioning in metal-stack as they dynamically reconfigure the port configuration when a machine gets provisioned.
+Switches register by calling `/metalstack.infra.v2.SwitchService/Register` when the [metal-core](https://github.com/metal-stack/metal-core) component starts up on the switch.
+They registration payload contains an ID (which is usually the hostname of the switch), a rack and a room identifier, which are provided through an Ansible deployment using [metal-roles](https://github.com/metal-stack/metal-roles/tree/master/partition/roles/metal-core).
+Along with this static startup configuration of the metal-core, the metal-core also reports dynamically discovered information like the LLDP neighbors, the actual port status and BGP session state information.
 
-After the switch registration, machines can register through `/metalstack.infra.v2.BootService/Register` as well. Similarly, this request contains the LLDP neighbors from which the metal-apiserver can figure out the switches connected to the machine. In addition to that, `MachineConnection` is saved in the metal-db, which contains the information about to which switches the machine was connected.
+After the switch registration, machines can register through `/metalstack.infra.v2.BootService/Register` as well.
+Similarly, this request contains the LLDP neighbors from which the metal-apiserver can figure out the switches connected to the machine.
+In addition to that, `MachineConnection` is saved in the metal-db, which contains the information about to which switches the machine was connected.
 
-During runtime, the metal-core polls the switch resource at the API and writes the necessary port configuration and FRR configuration according to the allocation of the machine or some static port configuration coming from the Ansible deployment. This happens in a defined interval (usually ~15s).
+During runtime, the metal-core polls the switch resource at the API and writes the necessary port configuration and FRR configuration according to the allocation of the machine or some static port configuration coming from the Ansible deployment.
+This happens in a defined interval (usually ~15s).
 
 With the current state we see the following room for improvements:
 
-- `Switch` resources should be applied declaratively at the API through deployment by the Admin API. Instead of registering a switch, the switch queries the API on a specific switch entity provided as a startup configuration. This kind of "reverses" the registration procedure. The metal-core establishes a stream connection to the API for a given switch ID and then reconciles the given switch desired state definition. This approach has the following advantages:
+- `Switch` resources should be applied declaratively at the API through deployment by the Admin API.
+Instead of registering a switch, the switch queries the API on a specific switch entity provided as a startup configuration.
+This kind of "reverses" the registration procedure.
+  The metal-core establishes a stream connection to the API for a given switch ID and then reconciles the given switch desired state definition.
+This approach has the following advantages:
   - A switch can be notified immediately when a configuration change takes place.
   - This approach eliminates manual operation on all the switches from operators and simplifies the Ansible deployment on the switch side.
   - We can implement API validations preventing misconfiguration.
   - The replacement / migration logic can be largely simplified (e.g. for migration, instead of registering a new switch, metal-core can just reconcile the existing switch entity).
   - We might even be able to get rid off the brittle `MachineConnection` struct and just calculate it dynamically from the current machine states.
-- It would make a lot of sense if not only the leaf switches would be "reconciled" by the metal-core but also the other kinds of switches in the switch plane (e.g. spines, exits)
-  - This enhances the visibility of the switch states and allows to draw a switch plane topology. This is great for troubleshooting connectivity issues but also for documentation purposes.
+- It would make a lot of sense if not only the leaf switches would be "reconciled" by the metal-core but also the other kinds of switches in the switch plane (e.g.
+spines, exits)
+  - This enhances the visibility of the switch states and allows to draw a switch plane topology.
+This is great for troubleshooting connectivity issues but also for documentation purposes.
   - We could make IP announcements visible in the API such that it would be possible to detect allocated, but unused IPs.
 - As we see the need for more versatile port configurations (which can already be seen in [metal-core PR #212](https://github.com/metal-stack/metal-core/pull/212)), we would like to extend the `Switch` entity to contain static port configurations.
   - Specifically, we would like admins to be able to set the desired port status (up / down) and how metal-core manages the port (statically from deployment or dynamically from machine allocations).
