@@ -36,7 +36,7 @@ This approach has the following advantages:
   - We can implement API validations preventing misconfiguration.
   - The replacement / migration logic can be largely simplified (e.g. for migration, instead of registering a new switch, metal-core can just reconcile the existing switch entity).
   - We might even be able to get rid off the brittle `MachineConnection` struct and just calculate it dynamically from the current machine states.
-- It would make a lot of sense if not only the leaf switches would be "reconciled" by the metal-core but also the other kinds of switches in the switch plane (e.g. spines, exits)
+- It would make a lot of sense if not only the leaf switches would be "reconciled" by the metal-core but also the other kinds of switches in the switch plane (e.g. spines, exits, mgmtleaf)
   - Adding all switch types to the API enhances the visibility of the switch states and allows to draw a switch plane topology.
 This is great for troubleshooting connectivity issues but also for documentation purposes.
   - We could make IP announcements visible in the API such that it would be possible to detect allocated, but unused IPs.
@@ -60,8 +60,7 @@ The following changes in the API would be necessary:
 ## Switch Types
 
 To allow deploying the metal-core on other switches than leaves we need a way of telling it what type of switch it is running on so it can act accordingly.
-On any non-leaf switches it will only register the switch and report statistic but not change any configuration.
-Supported switch types are
+Supported switch types are:
 
 - `leaf`
 - `spine`
