@@ -38,10 +38,10 @@ The following requirements must be fulfilled with a L3 replacement solution:
 - `metal-boot` is stateless and can be deployed multiple times and listens to the same anycast IPv6 address for redundancy.
 - TODO more
 
-## Out of scope
+## Non-Goals
 
 - Per machine generation of boot isos
-- No migration path back to PXE Boot
+- Migration path back to PXE Boot
 
 ## High level Architecture
 
