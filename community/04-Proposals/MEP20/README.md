@@ -1,10 +1,10 @@
 ---
-slug: /MEP-20-full-layer-3-dataplane
+slug: /MEP-20-machine-provisioning-v2
 title: MEP-20
 sidebar_position: 20
 ---
 
-# Full Layer 3
+# Machine Provisioning V2
 
 :::info
 This document is work in progress.
@@ -16,8 +16,7 @@ This works well, does not require manual configuration steps on any of the compo
 
 But there are downsides with this approach. Most notable:
 
-- 2 different network topologies (L2 and L3) in the dataplane
-- The switch port of a machine must be reconfigured between these two modes, once a machine changes from registered to installed and back.
+- 2 different network topologies (L2 and L3) in the dataplane, often causes issues on the switches changing between these two configurations, especially on SONiC and the swss daemon. The switch port of a machine must be reconfigured between these two modes, once a machine changes from registered to installed and back.
 - dhcp and tftp server is deployed in the management network of a partition. Connecting these services to a L2 segment on the leaf switches somehow mix control-plane (management) and dataplane traffic, which is not ideal from a security perspective.
 
 We were searching for a proper solution which can achieve the same convenient and fast solution but within layer-3.
@@ -26,17 +25,13 @@ We were searching for a proper solution which can achieve the same convenient an
 
 The following requirements must be fulfilled with a L3 replacement solution:
 
-- Clear separation of control-plane (management) and dataplane traffic
+- Clear separation of management and production infrastructure
 - Same "no-touch" experience for new servers
 - Configurability of metal-hammer version per partition in real time
 - token based authentication against metal-apiserver of the metal-hammer
 - Cache of metal-images accessible from metal-hammer inside a partition
 - Preserve all existing metal-hammer discovery, hardware detection, and provisioning logic
-- Secure network when machine reclaim goes wrong with ACLs on the switch which allows communication only to the control-plane and the `metal-boot`
-- Optional: make `metal-boot` a proxy to metal-apiserver to support IPv4 only control-plane deployments.
-- Optional: make `metal-boot` itself act as NTP and DNS server for the metal-hammer. Together with the proxy to the control-plane this would allow to restrict external access to the `metal-boot` source IP (even IPv4 and IPv6).
-- `metal-boot` is stateless and can be deployed multiple times and listens to the same anycast IPv6 address for redundancy.
-- TODO more
+- Secure network when machine reclaim goes wrong with ACLs on the switch which allows communication only to the control-plane and the `metal-boot`. `metal-boot` will be a new component and explained in detail in this document.
 
 ## Out of scope
 
@@ -168,3 +163,13 @@ Sample redfish code to upload a boot media can be found at the gofish documentat
 ## go-hal
 
 go-hal currently does not support the insertion and removal of virtual media.
+
+## metal-boot
+
+New component, must be deployed in the same network as the SLAAC configuration of the machines. The machines boot into a CDROM which has iPXE as payload which is statically configured to pull a initial chainload configuration file from the metal-boot. metal-boot returns a dynamically created answer which contains the metal-kernel and metal-hammer version configured in the same partition. Also the url where to fetch the token for this machine.
+
+It could also be possible to configure the firmware with boot from http and pull the ipxe from metal-boot as well.
+
+- Optional: make `metal-boot` a proxy to metal-apiserver to support IPv4 only control-plane deployments.
+- Optional: make `metal-boot` itself act as NTP and DNS server for the metal-hammer. Together with the proxy to the control-plane this would allow to restrict external access to the `metal-boot` source IP (even IPv4 and IPv6).
+- `metal-boot` is stateless and can be deployed multiple times and listens to the same anycast IPv6 address for redundancy.
