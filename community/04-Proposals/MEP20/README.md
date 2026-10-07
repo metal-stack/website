@@ -81,22 +81,20 @@ The service responsible for creating the secondary boot.ipxe will be called `met
 
 ![Sequence Diagram](./layer-3-sequence.drawio.svg)
 
-From this point onwards machine provisioning sequence will remain as is.
+From this point onwards, machine provisioning sequence will remain as is.
 
 ## Implementation
 
-Before we start with the implementation or decision if this is the right approach and way to go we should ensure that the current draft is at least working as expected.
+### Prerequisites
 
-This must be done in several steps:
-
-- [x] ensure ipxe can be packed as ISO image stored in the firmware, booted with DHCP disabled and get a IP with routes from a SLAAC enable switch.
-- [x] The initial boot.ipxe contains instruction to pull a secondary boot.ipxe which contains kernel, image and cmdline and ipxe chain boots this.
-- [x] can ipxe resolve hostnames to ipv6 addresses ?
-- [ ] Specify how the boot vrf must be configured on the SONiC Side
-- [ ] Specify how metal-hammer kernel must be configured to accept router advertisements
-- [ ] how do we configure the boot vrf on the switch, e.g. which address space will be set per port, is it stored in the metal-apiserver and configured by metal-core.
-
-After all these tasks are done, we can proceed and write a more detailed implementation roadmap and requirements with changes in the api and apiserver or other microservices.
+- [x] Ensure iPXE can be packed as ISO image stored in the firmware, booted with DHCP disabled and get a IP with routes from a SLAAC enable switch
+- [x] The initial boot.ipxe contains instruction to pull a secondary boot.ipxe which contains kernel, image and cmdline and ipxe chain boots this
+- [x] Can iPXE resolve hostnames to IPv6 addresses?
+- [ ] How do we configure the boot VRF on the switch
+  - [ ] address space per port
+  - [ ] ACLs
+  - [ ] special VRF type on the metal-core
+- [ ] Specify how metal-hammer kernel must be configured to accept IPv6 router advertisements
 
 ### Reconfiguration of BMC boot option
 
