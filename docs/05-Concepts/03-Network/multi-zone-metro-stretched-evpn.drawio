@@ -1,0 +1,190 @@
+<mxfile host="app.diagrams.net">
+    <diagram id="metro-stretched-evpn" name="Metro Setup">
+        <mxGraphModel dx="1320" dy="1312" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1320" pageHeight="1312" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="partition" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=0;fillColor=#f5f5f5;opacity=50;strokeColor=#666666;dashed=1;" vertex="1" parent="1">
+                    <mxGeometry x="10" y="220" width="1300" height="998" as="geometry"/>
+                </mxCell>
+                <mxCell id="cloud" value="External routing&#10;domain (Layer 3)" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="560" y="20" width="200" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="dc1" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=0;fillColor=#f5f5f5;opacity=50;strokeColor=#666666;" vertex="1" parent="1">
+                    <mxGeometry x="50" y="260" width="380" height="386" as="geometry"/>
+                </mxCell>
+                <mxCell id="s1a" value="Spine 1" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="90" y="300" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="s1b" value="Spine 2" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="280" y="300" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="l1a" value="Leaf 1" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="90" y="400" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="l1b" value="Leaf 2" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="280" y="400" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="m1" value="Machine" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="170" y="490" width="140" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="c11" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="s1a" target="l1a">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="c12" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="s1a" target="l1b">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="c13" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="s1b" target="l1a">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="c14" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="s1b" target="l1b">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="c15" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="l1a" target="m1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="c16" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="l1b" target="m1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="dc1label" value="&lt;b&gt;Zone A - Data Center 1&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+                    <mxGeometry x="70" y="570" width="340" height="36" as="geometry"/>
+                </mxCell>
+                <mxCell id="dc2" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=0;fillColor=#f5f5f5;opacity=50;strokeColor=#666666;" vertex="1" parent="1">
+                    <mxGeometry x="890" y="260" width="380" height="386" as="geometry"/>
+                </mxCell>
+                <mxCell id="s2a" value="Spine 1" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="930" y="300" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="s2b" value="Spine 2" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="1120" y="300" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="l2a" value="Leaf 1" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="930" y="400" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="l2b" value="Leaf 2" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="1120" y="400" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="m2" value="Machine" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="1010" y="490" width="140" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="c21" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="s2a" target="l2a">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="c22" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="s2a" target="l2b">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="c23" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="s2b" target="l2a">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="c24" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="s2b" target="l2b">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="c25" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="l2a" target="m2">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="c26" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="l2b" target="m2">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="dc2label" value="&lt;b&gt;Zone B - Data Center 2&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+                    <mxGeometry x="910" y="570" width="340" height="36" as="geometry"/>
+                </mxCell>
+                <mxCell id="dc3" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=0;fillColor=#f5f5f5;opacity=50;strokeColor=#666666;" vertex="1" parent="1">
+                    <mxGeometry x="470" y="726" width="380" height="386" as="geometry"/>
+                </mxCell>
+                <mxCell id="s3a" value="Spine 1" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="510" y="766" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="s3b" value="Spine 2" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="700" y="766" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="l3a" value="Leaf 1" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="510" y="866" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="l3b" value="Leaf 2" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="700" y="866" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="m3" value="Machine" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="590" y="956" width="140" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="c31" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="s3a" target="l3a">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="c32" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="s3a" target="l3b">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="c33" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="s3b" target="l3a">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="c34" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="s3b" target="l3b">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="c35" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="l3a" target="m3">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="c36" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="l3b" target="m3">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="dc3label" value="&lt;b&gt;Zone C - Data Center 3&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+                    <mxGeometry x="490" y="1036" width="340" height="36" as="geometry"/>
+                </mxCell>
+                <mxCell id="exitGroup" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=0;fillColor=#f5f5f5;opacity=50;strokeColor=#666666;" vertex="1" parent="1">
+                    <mxGeometry x="470" y="355" width="380" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="exit1" value="Exit 1" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="510" y="395" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="exit2" value="Exit 2" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="700" y="395" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="exitGroupLabel" value="&lt;b&gt;Exit switches&lt;/b&gt; - one set for the whole metro" style="text;html=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+                    <mxGeometry x="510" y="295" width="300" height="36" as="geometry"/>
+                </mxCell>
+                <mxCell id="xc1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=none;endFill=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="exit1" target="cloud">
+                    <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="450" y="375"/><mxPoint x="450" y="70"/></Array></mxGeometry>
+                </mxCell>
+                <mxCell id="xc2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=none;endFill=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="exit2" target="cloud">
+                    <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="870" y="375"/><mxPoint x="870" y="70"/></Array></mxGeometry>
+                </mxCell>
+                <mxCell id="exdc1" value="" style="shape=link;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.4016;entryDx=0;entryDy=0;" edge="1" parent="1" source="exitGroup" target="dc1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="exdc2" value="" style="shape=link;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.4016;entryDx=0;entryDy=0;" edge="1" parent="1" source="exitGroup" target="dc2">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="exdc3" value="" style="shape=link;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="exitGroup" target="dc3">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ring12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=none;endFill=0;strokeWidth=2;strokeColor=#6C8EBF;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="s1b" target="s2a">
+                    <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="335" y="240"/><mxPoint x="985" y="240"/></Array></mxGeometry>
+                </mxCell>
+                <mxCell id="ring13" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=none;endFill=0;strokeWidth=2;strokeColor=#6C8EBF;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="s1a" target="s3a">
+                    <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="30" y="320"/><mxPoint x="30" y="786"/></Array></mxGeometry>
+                </mxCell>
+                <mxCell id="ring23" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=none;endFill=0;strokeWidth=2;strokeColor=#6C8EBF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="s2b" target="s3b">
+                    <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1290" y="320"/><mxPoint x="1290" y="786"/></Array></mxGeometry>
+                </mxCell>
+                <mxCell id="partitionLabel" value="&lt;b&gt;Partition A&lt;/b&gt; - one VRF and VNI space, one control plane, one failure domain" style="text;html=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+                    <mxGeometry x="30" y="1142" width="1260" height="36" as="geometry"/>
+                </mxCell>
+                <mxCell id="overlayNote" value="&lt;b&gt;One stretched VXLAN overlay&lt;/b&gt;&lt;br&gt;across all three zones,&lt;br&gt;one VNI and VRF space" style="text;html=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+                    <mxGeometry x="50" y="880" width="300" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="ringNote" value="Interconnect forms a ring, which for&#10;three data centers is equivalent to a&#10;full mesh" style="text;html=1;align=center;verticalAlign=middle;fontStyle=2;" vertex="1" parent="1">
+                    <mxGeometry x="970" y="880" width="300" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="constraints" value="Validated for three data centers. Maximum distance 20 km, latency &amp;lt; 1 ms, jumbo frames (MTU 9216) on all transport links." style="text;html=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+                    <mxGeometry x="30" y="1248" width="1260" height="24" as="geometry"/>
+                </mxCell>
+                <mxCell id="dci12" value="DCI" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#6C8EBF;strokeWidth=2;" vertex="1" parent="1">
+                    <mxGeometry x="625" y="222" width="70" height="36" as="geometry"/>
+                </mxCell>
+                <mxCell id="dci13" value="DCI" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#6C8EBF;strokeWidth=2;" vertex="1" parent="1">
+                    <mxGeometry x="150" y="768" width="70" height="36" as="geometry"/>
+                </mxCell>
+                <mxCell id="dci23" value="DCI" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#6C8EBF;strokeWidth=2;" vertex="1" parent="1">
+                    <mxGeometry x="1100" y="768" width="70" height="36" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

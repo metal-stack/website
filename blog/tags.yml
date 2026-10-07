@@ -67,3 +67,8 @@ vpn:
   label: VPN
   permalink: /vpn
   description: Create connections between clusters and clients via VPN
+
+gpu:
+  label: GPU
+  permalink: /gpu
+  description: Running GPU-accelerated and AI workloads on metal-stack

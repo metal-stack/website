@@ -1,7 +1,7 @@
 ---
 slug: /references/metal-console
 title: metal-console
-sidebar_position: 5
+sidebar_position: 7
 ---
 
 # metal-console
@@ -21,6 +21,26 @@ The metal-console will then lookup the given username as machine uuid on metal-a
 If the machine uuid is a valid machine, it will then use the provided private key to authenticate against the ssh public key stored in the metal-api for this machine. If access is granted, the user will have access to the console.
 
 `metal-console` figures out in which partition the machine is located and then opens a tls socket connection to `metal-bmc` running on the management server in this partition. `metal-bmc` checks if the tls client certificate matches. If this is the case, it looks up the machine ipmi details from `metal-api` and starts a ipmi sol session to the machine.
+
+For a high-level architecture overview of this component please refer to [ARCHITECTURE.md](./ARCHITECTURE.md).
+
+## Configuration
+
+The `metal-console` can be configured through environment variables.
+Every configuration needs to be prefixed with `METAL_CONSOLE_`.
+
+All configuration options can be found in the implementation [internal/console/spec.go](https://github.com/metal-stack/metal-console/blob/main/./internal/console/spec.go).
+
+## Possible access patterns
+
+| machine state      | who wants access | allowed | how is access granted                                                                                                       |
+|--------------------|------------------|---------|-----------------------------------------------------------------------------------------------------------------------------|
+| waiting machine    | end user         | no      | only admins can connect to waiting machines                                                                                 |
+| waiting machine    | admin editor     | yes     | provided token is checked if it contains admin editor rights                                                                |
+| allocated machine  | end user         | yes     | allowed if token rights allow fetching this machine and provided ssh keys match publickeys stored in the machine allocation |
+| allocated machine  | admin editor     | yes     | provided token is checked if it contains admin editor rights                                                                |
+| allocated firewall | end user         | no      | denied because only admins are allowed to connect to firewall                                                               |
+| allocated firewall | admin editor     | yes     | provided token is checked if it contains admin editor rights                                                                |
 
 ## TODO
 

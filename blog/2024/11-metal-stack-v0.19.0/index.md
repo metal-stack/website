@@ -10,6 +10,7 @@ tags:
   - release
   - kubernetes
   - network
+  - gpu
 ---
 
 It's been a while since the last minor release of metal-stack. However, under the hood there has been more activity on our repository landscape than ever before. We had many new first-time contributors and we are really happy to see so much participation in our open source project. metal-stack `v0.19.0` contains a huge amount of updates, features and fixes, which you will learn about in this blog article.
