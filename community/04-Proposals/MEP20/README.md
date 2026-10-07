@@ -14,7 +14,7 @@ When we started with metal-stack, we decided to go full layer-3 for the dataplan
 
 This works well, does not require manual configuration steps on any of the components in the datacenter. New servers just need to be turned on and get the metal-hammer booted via DHCP/TFTP/PXE and get registered and are ready to use.
 
-But there are downsides with this approach. Most notable:
+But there are downsides with this approach. Most notably:
 
 - 2 different network topologies (L2 and L3) in the dataplane, often causes issues on the switches changing between these two configurations, especially on SONiC and the swss daemon. The switch port of a machine must be reconfigured between these two modes, once a machine changes from registered to installed and back.
 - dhcp and tftp server is deployed in the management network of a partition. Connecting these services to a L2 segment on the leaf switches somehow mix control-plane (management) and dataplane traffic, which is not ideal from a security perspective.
@@ -33,10 +33,10 @@ The following requirements must be fulfilled with a L3 replacement solution:
 - Preserve all existing metal-hammer discovery, hardware detection, and provisioning logic
 - Secure network when machine reclaim goes wrong with ACLs on the switch which allows communication only to the control-plane and the `metal-boot`. `metal-boot` will be a new component and explained in detail in this document.
 
-## Out of scope
+## Non-Goals
 
 - Per machine generation of boot isos
-- No migration path back to PXE Boot
+- Migration path back to PXE Boot
 
 ## High level Architecture
 
