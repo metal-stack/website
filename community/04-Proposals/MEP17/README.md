@@ -98,10 +98,13 @@ Whenever new routes are reported they get merged into the existing ones by the s
 
 By querying the BGP announcements we can find out whether an allocated IP is still in use.
 
-## TODO
+## Open Topics
+
+The following list mentions topics which require more elaboration and must probably be addressed during the implementation of this MEP.
+If someone wants to figure this out already, please extend this MEP.
 
 - Figure out how replacement / migration would exactly work with this model (e.g. what happens when two metal-cores report state for the same switch entity?)
 - Figure out what has to go into the port configuration in order to achieve FRR configuration scenarios we have on spines and exit switches
 - Check what special scenarios we have for static port configuration (support tenant VRF statically on a specific port, maybe black hole configuration instead of default PXE VRF?)
 - Check if we can really drop machine connections: Do we really want to always evaluate the neighbors all the time?
-- Elaborate how the port reconfiguration on machine allocation can be orchestrated: The metal-hammer currently sends the `InstallationSucceeded` message to the server, but when the switch gets notified immediately through stream, it breaks the network connection prematurely such that the metal-hammer does not retrieve the response in time causing a crash.
+- Elaborate how the port reconfiguration on machine allocation can be orchestrated: The metal-hammer currently sends the `InstallationSucceeded` message to the server, but when the switch gets notified immediately through stream, it might break the network connection prematurely such that the metal-hammer does not receive the response in time causing a crash (machine does not get ready).
