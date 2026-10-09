@@ -39,6 +39,7 @@ The following requirements must be fulfilled by the proposed solution:
 - Secure network when machine reclaim goes wrong with ACLs on the switch to deny a machine access to anything else than the control plane API.
 - Per-partition configuration which provisioning mechanism should be used.
   We cannot expect all adopters to have IPv6 support in place which is a hard requirement for the proposed solution.
+- metal-image-cache-sync address is also reachable from within the boot vrf and works as before.
 
 ### Non-Goals
 
@@ -98,53 +99,34 @@ From this point onwards, machine provisioning sequence will remain as is.
 
 ### Reconfiguration of BMC boot option
 
-metal-bmc interval scan
-mep-15
-initial server configuration by hand
+As a prerequisite server-bmc interfaces have to be accessible. After initial server deployment BMC passwords were preconfigured at the factory and unknown to metal-stack. For the initial metal-hammer boot, metal-bmc may be extended with a helper command which accepts a list of MAC addresses, usernames and passwords to set a unified password on all BMCs.
 
-- If the boot ISO is set to iPXE, the boot source override must be set to CDROM instead of PXE from network and a reboot must be triggered (migration to this approach, not when a machine is allocated).
+Then during its periodical scan of dhcp leases, metal-bmc may check the configured boot option for each machine. If the boot option is set to PXE, then the boot option must be reconfigured to the desired boot option (CDROM/HTTP boot). Boot from disk must result in a noop.
+
+MEP-15 discusses a more advanced method for bootstrapping new servers, however the work involved exceeds the scope of MEP-20.
 
 ### metal-boot Component
 
-- With this ipxe will boot into metal-hammer and will contact first the boot-helper on the given url and will get a token to access the metal-apiserver
-- metal-image-cache-sync address is also reachable in the boot vrf and works as before.
+metal-boot is a new component for metal-stack. metal-boot acts as a first point of contact for a booting machine. It serves the metal-kernel, the metal-hammer and the cmdline, to allow each partition to independently and quickly change release versions without rebuilding boot ISOs. It also serves a token for the machine to access the metal-apiserver.
 
-  New component, must be deployed in the same network as the SLAAC configuration of the machines. The machines boot into a CDROM which has iPXE as payload which is statically configured to pull a initial chainload configuration file from the metal-boot. metal-boot returns a dynamically created answer which contains the metal-kernel and metal-hammer version configured in the same partition. Also the url where to fetch the token for this machine.
-
-It could also be possible to configure the firmware with boot from http and pull the ipxe from metal-boot as well.
-
-- Optional: make `metal-boot` a proxy to metal-apiserver to support IPv4 only control-plane deployments.
-- Optional: make `metal-boot` itself act as NTP and DNS server for the metal-hammer. Together with the proxy to the control-plane this would allow to restrict external access to the `metal-boot` source IP (even IPv4 and IPv6).
-- `metal-boot` is stateless and can be deployed multiple times and listens to the same anycast IPv6 address for redundancy.
+`metal-boot` is stateless and can be deployed multiple times and listens to the same anycast IPv6 address for redundancy.
 
 ### Scope and Placement of the metal-boot service
 
-There are several ways to place the `metal-boot` service in a partition. The right choice depends heavily on how much traffic is expected to pass through it.
+It is theoretically possible to run metal-boot as a service on the management servers, it is a stated requirement of MEP-20 that a booting machine must not access a partition's management infrastructure. 
 
-A full boot sequence consists of multiple small control steps and a few larger transfers. The small steps include obtaining a token, fetching `boot.ipxe`, and optionally resolving names. The bulk transfers are the kernel, initrd and operating system image and are orders of magnitude larger. In the current design the larger files are served by `metal-image-cache-sync` on the management-server.
+Likewise, the metal-image-cache-sync is currently placed on the management-servers. Since placing or proxying the image cache on the switches is not viable, the image cache has to move to a different location. The image cache may either be hosted on a metal-stack provisioned machine, or on a server outside of metal-stack's scope.
 
-Any packet addressed to an IP that is local to the switch is punted to the switch CPU and is rate limited by SONiC's Control Plane Policing (CoPP). By default the relevant trap permits 6000 incoming packets per second. This is fine for control traffic, but it is a limiting factor for file transfers.
-
-Alternatively metal-boot could be deployed as a service in the control plane. In this case metal-boot would have to identify the would have to identify the partition a request is coming from. 
-
-The metal-image-cache-sync is currently placed on the management-servers. One of the stated goals is to remove the need for connections between the production infrastructure and the management infrastrutcure. Since placing or proxying the image cache on the switches is not viable, the image cache has to move to a different location. The image cache can either be hosted on a metal-stack provisioned machine, or on a server outside of metal-stack's scope.
+metal-boot could be deployed as a service in the control plane. In this case metal-boot would have to identify the partition a request is coming from. For example we could store the global IPv6 prefix range configured for each partition. 
 
 ### Services that must support ipv6
 
-| service                | ipv6 | mandatory support | explanation                                                                                                                                               |
-| ---------------------- | ---- | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| metal-boot             | yes  | yes               | `metal-boot` process must directly communicate with the ipv6 metal-hammer, so it must support ipv6                                                        |
-| metal-hammer           | yes  | yes               | `metal-hammer` must configure the it's own interface to use SLAAC                                                                                         |
-| metal-image-cache-sync | yes  | yes               | Because the images cannot be through the switch, the cache has to be made available to a booting machine with only an ipv6 address                        |
-| metal-apiserver        | yes  | no                | There is negligible traffic between the metal-apiserver and a switch. The connection to the api could be proxied and thus could continue to run over ipv4 |
-| metal-bmc              | no   | no                | metal-bmc will continue to exist fully within the management network                                                                                      |
-| DNS Resolver           | yes  | yes               | The DNS resolver must be reachable by the booting machine for hostname resolution, requiring native IPv6 connectivity.                                    |
-
-### Service that are replaced
-
-| service   | explanation                                                      |
-| --------- | ---------------------------------------------------------------- |
-| pixiecore | PXE is no longer required and will be removed in a later release |
+| service                |  explanation                                                                                                                                               |
+| ---------------------- |  --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| metal-boot             |  `metal-boot` must directly communicate with the ipv6 metal-hammer, so it must support ipv6                                                                |
+| metal-hammer           |  `metal-hammer` must configure the it's own interface to use SLAAC                                                                                         |
+| metal-image-cache-sync |  Because the images cannot be through the switch, the cache has to be made available to a booting machine with only an ipv6 address                        |
+| metal-apiserver        |  metal-hammer no longer configures an IPv4 adress, therefore communication with the apiserver must use IPv6                                                |
 
 ## Necessary Changes on Existing Components
 
@@ -152,7 +134,7 @@ This section will summarize what changes are necessary to implement MEP-20 in me
 
 ### metal-hammer
 
-metal-hammer will need to bring up the physical Interface of the server it is running on. When using the boot option ip=dhcp the linux kernel fully configures the interface before loading the initrd. metal-hammer should execute the following steps.
+metal-hammer will need to bring up the physical Interface of the machine it is running on. When using the boot option ip=dhcp the linux kernel fully configures the interface before loading the initrd. metal-hammer should execute the following steps.
 
 - bring up the physical machine interface
 - perform SLAAC
@@ -166,7 +148,7 @@ The metal-apiserver will need the following changes.
 
 - metal-apiserver currently models the booting state as PXEBooting. This should be updated and an additional boot event added for ISO Boot.
 - metal-apiserver will need to store and assign the boot address space. There should be a boot supernet per partition from which per port /64 networks are assigned.
-- metal-apiserver will need to assign the new boot vrf instead of the PXE VLAN
+- metal-apiserver will need to assign the new boot network
 - _Important_: New servers will no longer be able to boot via PXE and let the metal-hammer set a `metal` and `root` password and store that in the metal-db, instead we must probably pick some of the ideas of the unfinished MEP-15 and allow to store BMC Passwords manually per machine.
 
 ### sonic-configdb-utils
@@ -176,10 +158,6 @@ sonic-configdb-utils will need to support additional ACL configuration options f
 ### metal-core
 
 metal-core will need to support additional configuration templates for the boot vrf.
-
-```raw
-suggested configuration TBD
-```
 
 metal-core will also need to dynamically bind the boot ACLs to each port.
 
@@ -192,3 +170,7 @@ Sample redfish code to upload a boot media can be found at the gofish documentat
 ### go-hal
 
 go-hal currently does not support the insertion and removal of virtual media.
+
+### pixiecore
+
+pixiecore is superceeded by metal-boot, however pixiecore will still be maintained for legacy deployments. 
