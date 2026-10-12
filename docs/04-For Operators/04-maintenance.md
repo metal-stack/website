@@ -17,7 +17,8 @@ Skipping minor versions may cause severe installation issues and should only be 
 :::
 
 :::info
-Prior to metal-stack v1.0, some patch releases also contained breaking changes. This practice has been discontinued and every metal-stack installation is now treated equally, regardless of the Kubernetes integration used.
+Prior to metal-stack `v1.0.0`, some patch releases also contained breaking changes.
+This practice has been discontinued and every metal-stack installation is now treated equally, regardless of the Kubernetes integration used.
 :::
 
 ## Releases
