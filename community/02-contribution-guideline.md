@@ -10,7 +10,7 @@ This document describes the way we want to contribute code to the projects of me
 
 The document is meant to be understood as a general guideline for contributions, but not as a burden to be placed on a developer. Use your best judgment when contributing code. Try to be as clean and precise as possible when writing code and try to make your code as maintainable and understandable as possible for other people.
 
-Even if it should go without saying, we live in an open culture of discussion, in which everybody is welcome to participate. We treat every contribution with respect and objectiveness with the general aim of writing software of quality.
+Even if it should go without saying, we live in an open culture of discussion, in which everybody is welcome to participate. We treat every contribution with respect and objectiveness with the general aim of writing software of quality. The general code of conduct of the metal-stack community can be found [here](./03-code-of-conduct.md).
 
 If you want, feel free to propose changes to this document in a [pull request](https://github.com/metal-stack/website/pulls).
 
