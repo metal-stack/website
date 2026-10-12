@@ -1,0 +1,89 @@
+---
+title: "metal-stack v1.0.0"
+shortDescription:
+description: "With the core now running on the V2 API, we proudly announce v1.0.0 of metal-stack."
+watermark: "Blog"
+date: 2026-10-15T10:00:00+02:00
+authors: [gerrit91]
+type: "blog"
+tags:
+  - release
+  - news
+  - kubernetes
+---
+
+metal-stack v1.0.0 is here! 🎉
+
+In 2018, we started our project with the simple question if we can we run a scalable, bare-metal Kubernetes-as-a-Service platform in a regulated datacenter?
+Over the course of the years, this idea has grown into a production-grade, open-source platform that today provisions thousands of machines for demanding, security-sensitive workloads.
+Along the way we learned a lot, broke things and progressed further.
+
+With this release the last pieces of our core have moved to the V2 API first specified in [MEP-4](https://metal-stack.io/community/MEP-4-multi-tenancy-for-the-metal-api), and that is the moment we feel confident to finally call metal-stack `1.0`.
+
+<!-- truncate -->
+
+- [The V2 API](#the-v2-api)
+  - [Provisioning on V2](#provisioning-on-v2)
+- [Highlights of Our Journey](#highlights-of-our-journey)
+- [Thank You](#thank-you)
+- [More Information](#more-information)
+
+Check out the direct link to the release [here](https://github.com/metal-stack/releases/releases/tag/v1.0.0).
+
+## The V2 API
+
+MEP-4 is the longest-running enhancement proposal we have ever worked on.
+It contains an entire update of the metal-stack API: The old Swagger-based REST API is deprecated and replaced by a modern interface built on [protobuf](https://protobuf.dev/) and [ConnectRPC](https://connectrpc.com/).
+The service and message definitions live in a dedicated [metal-stack/api](https://github.com/metal-stack/api) repository, separate from the server implementation, which lives in [metal-apiserver](https://github.com/metal-stack/metal-apiserver).
+Client libraries for Go, Python and TypeScript are generated automatically and evolve independently.
+
+The new API is divided into dedicated top-level scopes:
+
+- `metalstack.api.v2` for end-user facing services
+- `metalstack.admin.v2` for operators that need access to unscoped entities
+- `metalstack.infra.v2` for controllers such as metal-hammer or metal-core
+
+Every method in the API maps to a permission, resources are scoped to tenants and projects.
+It lets provides fine-grained, self-service API tokens to technical components.
+This way, every consumer gets exactly the access it needs and nothing more.
+Tokens can be revoked by admins and by users themselves, which makes day-to-day operations much safer.
+
+Together with the new API definitions, we added long-awaited improvements such as namespaced networks with own address spaces for node networks, scoped and unscoped super networks, and much more.
+
+### Provisioning on V2
+
+From the moment a machine boots up in the data center and until it phones home, every core component now talks to the V2 API instead of the deprecated V1 API. The complete provisioning path has been migrated:
+
+- [metal-hammer](https://github.com/metal-stack/metal-hammer) registers machines and their hardware inventory using a project-scoped token and an `infra` permission that is limited to act on a single machine.
+- [pixiecore](https://github.com/metal-stack/pixiecore) and [metal-core](https://github.com/metal-stack/metal-core) integrate the boot and switch side with the V2 `infra` contracts, so network configuration is derived from the new API as well.
+- [metal-image-cache-sync](https://github.com/metal-stack/metal-image-cache-sync) fetches OS images through V2.
+- [metal-core](https://github.com/metal-stack/metal-core) reconciling the network configuration on a switch.
+
+As we are continuing to migrate remaining clients to the new API, the V1 API remains deployed side by side for a transition period, so existing consumers can migrate at their own pace.
+
+## Highlights of Our Journey
+
+Looking back, there are a few stations on our journey that we are especially proud of:
+
+- **2018**: The first machine got provisioned
+- **2019**: The project is being announced open source, the first Kubernetes Cluster on Gardener
+- **2023**: Our public cloud offering based on metal-stack called metalstack.cloud comes alive
+- **2024**: metalstack.cloud together with our friends from [Lightbits Labs](https://www.lightbitslabs.com/) participating at the KubeCon
+- **2025**: First-time participation at the FOSDEM and our first community summit
+- **2026**: A C5 attestation achieved by FI-TS for cloud services built on metal-stack
+
+## Thank You
+
+None of this would exist without the people and organizations who believed in the idea of an open, sovereign infrastructure platform long before it was obvious that it would work. We are deeply grateful to:
+
+- [FI-TS](https://f-i-ts.de/) who had the courage to start this journey and to run the very first production platforms on metal-stack. Building a Kubernetes-as-a-Service offering for financial institutions on a project that was still a proof of concept required faith, and the feedback shaped the product from day one.
+- [University of Innsbruck (UIBK)](https://www.uibk.ac.at/) who believed in the project early on and trusted it as a foundation for their infrastructure.
+- [Gardener Community](https://gardener.cloud/): They provided us with serious support in integrating our solution into their ecosystem, creating a positive atmosphere that we hope will continue for years to come.
+- [x-cellent technologies](https://www.x-cellent.com/) and everyone who contributed code, reviews, documentation and ideas.
+- The whole metal-stack community, the operators, adopters and users who report bugs, ask hard questions and share their experiences. You are the reason this platform is what it is today.
+
+This milestone would not have been possible without you. ❤️
+
+## More Information
+
+As always, feel free to visit our [Slack](https://join.slack.com/t/metal-stack/shared_invite/zt-3eqheaymr-obQueWBLOMkhbEWTZZyDRg) channel and ask if there are any questions. 😄
