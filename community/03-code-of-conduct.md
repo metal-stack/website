@@ -49,7 +49,7 @@ Project maintainers have the right and responsibility to remove, edit, or reject
 
 ## Reporting
 
-For incidents occurring in the metal-stack community, contact the metal-stack owners team via conduct@kubernetes.io. Alternatively, you can contact any of the individual members of the metal-stack owners or maintainers to submit your report.
+For incidents occurring in the metal-stack community, contact the metal-stack owners team via conduct@metal-stack.io. Alternatively, you can contact any of the individual members of the metal-stack owners or maintainers to submit your report.
 
 ## Enforcement
 
