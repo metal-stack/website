@@ -94,10 +94,3 @@ As we are dealing with bare metal servers, some aspects are beyond the scope of 
 
 Firmware updates are intentionally not part of the automated machine lifecycle, since firmware handling is too vendor-specific for stable automation.
 Updating server firmware is an administrative task that must be performed manually by operators.
-
-## Repurposing Hardware
-
-metal-stack assumes a fully automated server landscape.
-Using servers managed by metal-stack for other purposes is not supported.
-To repurpose hardware, the machines have to be decommissioned, removed from the metal database and physically relocated out of the partition before they can be reused outside of metal-stack.
-When machines are decommissioned, metal-hammer wipes their disks to prevent data leakage.
