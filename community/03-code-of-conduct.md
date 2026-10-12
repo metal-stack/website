@@ -12,7 +12,7 @@ We are committed to making participation in the metal-stack community a harassme
 
 ## Scope
 
-This code of conduct applies within [metal-stack GitHub organization](https://github.com/metal-stack/) and community spaces, e.g. Slack, planning meetings and any other affiliated spaces.
+This code of conduct applies within the [metal-stack GitHub organization](https://github.com/metal-stack/) and community spaces, e.g. Slack, planning meetings and any other affiliated spaces.
 
 ## Our Standards
 
@@ -49,7 +49,8 @@ Project maintainers have the right and responsibility to remove, edit, or reject
 
 ## Reporting
 
-For incidents occurring in the metal-stack community, contact the metal-stack owners team via conduct@metal-stack.io. Alternatively, you can contact any of the individual members of the metal-stack owners or maintainers to submit your report.
+For incidents occurring in the metal-stack community, contact the [metal-stack owners]((https://github.com/orgs/metal-stack/people?query=role%3Aowner)) via conduct@metal-stack.io.
+Alternatively, you can contact any of the individual owner members of the metal-stack organization through community spaces.
 
 ## Enforcement
 
@@ -61,4 +62,4 @@ Any substantive changes to this Code of Conduct must be approved by the metal-st
 
 ## Acknowledgements
 
-This Code of Conduct is adapted from the Contributor Covenant (http://contributor-covenant.org), version 2.0 available at http://contributor-covenant.org/version/2/0/code_of_conduct/.
+This Code of Conduct is adapted from the [Contributor Covenant](http://contributor-covenant.org), version 2.0 available at http://contributor-covenant.org/version/2/0/code_of_conduct/.
