@@ -24,6 +24,7 @@ With this release the last pieces of our core have moved to the V2 API first spe
 
 - [The V2 API](#the-v2-api)
   - [Provisioning on V2](#provisioning-on-v2)
+- [Updated Release Policy and Code of Conduct](#updated-release-policy-and-code-of-conduct)
 - [Highlights of Our Journey](#highlights-of-our-journey)
 - [Thank You](#thank-you)
 - [More Information](#more-information)
@@ -60,6 +61,15 @@ From the moment a machine boots up in the data center and until it phones home, 
 - [metal-core](https://github.com/metal-stack/metal-core) reconciling the network configuration on a switch.
 
 As we are continuing to migrate remaining clients to the new API, the V1 API remains deployed side by side for a transition period, so existing consumers can migrate at their own pace.
+
+## Updated Release Policy and Code of Conduct
+
+Please note that we updated our [release policy](../../../docs/04-For%20Operators/04-maintenance.md) and added a new [code of conduct](../../../community/03-code-of-conduct.md).
+
+We had some breaking changes in patch releases of metal-stack because our update policy was too complex.
+The reason for this is that we made a distinction between adopters who use metal-stack in combination with Gardener.
+With the v1.0 release we feel like that it is a good moment to affirm that this will not happen anymore.
+We will only create patch releases for bug fixes now and they will not contain breaking changes or required actions.
 
 ## Highlights of Our Journey
 
