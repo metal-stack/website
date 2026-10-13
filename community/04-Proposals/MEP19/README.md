@@ -8,246 +8,164 @@ sidebar_position: 19
 
 ## Current Situation
 
-In metal-stack, the concepts of regions and zones are currently represented implicitly through partition names rather than as dedicated API entities. This design uses naming conventions to encode both region and zone information within a partition identifier. For example, the partition name `fra_eqx_01` translates to Frankfurt (region), Equinix (zone).
+Regions and zones are not API entities in metal-stack; they are encoded in partition names, e.g. `fra_eqx_01` for Frankfurt (region), Equinix (zone).
 
-From a networking perspective, traffic between private node networks is not routed between partitions. To prevent misconfiguration, private networks are derived from partition-scoped `supernetworks`, preventing private node networks to be used across different partitions. Only external networks such as the Internet or Datacenter Interconnect (DCI) connections can be used to route traffic between partitions.
+Every partition is a self-contained EVPN fabric. Private node networks are derived from partition-scoped super networks and are not routed between partitions; only external networks such as the internet or a Datacenter Interconnect (DCI) connect partitions. VNIs come from one installation-wide pool in the `metal-api`, so a VNI identifies exactly one network in exactly one partition. Prefixes are disjunct today; with [MEP-4](../MEP4/README.md) they may overlap across projects but stay disjunct within one (network namespaces in go-ipam ≥ `v1.12.0`).
 
-Additionally, all networks have disjunct IP prefixes. With the introduction of [MEP-4](../MEP4/README.md), this behavior will change: Network prefixes may overlap across partitions but must remain disjunct within a single project. This is possible since go-ipam release `v1.12.0`, which introduced the concept of network namespaces.
-
-Every partition is a self-contained EVPN fabric. VNIs are drawn from a single, installation-wide integer pool in the `metal-api`, so a VNI identifies exactly one network in exactly one partition. Storage systems are deployed per partition and are reached by a machine through its firewall.
+Storage systems are deployed per partition, attached to the exit switches, and reached by a machine through its firewall.
 
 ## Motivation
 
-Already, with current metal-stack installations, it is possible to spread a single partition across data centers. This can be achieved through the rack spreading feature (introduced by [MEP-12](../MEP12/README.md)).
-
-Limitations of this feature are: It can not be explicitly decided, in which racks machines are placed. Moreover, this is performed with a best-effort strategy. If no machine is available in one rack, it might get placed in the one where already a machine is present.
-
-Another issue with this approach is that the single partition is still one failure domain, e.g. a single BGP failure could bring down the whole partition. As known from major cloud providers, zonal distribution of workload enhances availability and fault tolerance.
+A partition can already be spread across data centers with rack spreading ([MEP-12](../MEP12/README.md)), but placement is best-effort and not explicit, and the partition stays one failure domain: a single BGP or EVPN failure can take it down entirely. Like the zones of major cloud providers, zonal distribution across independent partitions improves availability and fault tolerance.
 
 ## Goals
 
-This proposal explores how node networks can be connected across multiple partitions while every partition remains an independent failure domain. Three goals hold for all approaches:
-
-1. **Partitions stay separate EVPN failure domains.** There is no stretched EVPN control plane, no shared route reflectors and no VXLAN data plane spanning partitions. So EVPN has to be terminated at the partition border.
-2. **Storage is independent in every partition.** A machine only ever accesses the storage system of its own partition. Storage traffic never crosses a partition boundary, which means the API has to expose in which partition a network and its storage live, so that zone affinity can be enforced by whoever consumes the metal layer.
-3. **Private node networks may communicate directly.** Machines of the same project in different partitions can be allowed to reach each other over their private networks, without NAT and — depending on the approach — without traversing a firewall.
+1. **Partitions stay separate EVPN failure domains.** No stretched EVPN control plane, no shared route reflectors, no VXLAN data plane spanning partitions: EVPN is terminated at the partition border.
+2. **Explicit placement.** Machines of one project can be placed explicitly in several partitions of a region, with a different node CIDR per partition, so the `metal-api` has to model one project's private networks in more than one partition.
+3. **Private networks may communicate directly.** Machines of one project in different partitions can be allowed to reach each other over their private networks, without NAT.
+4. **Storage is independent in every partition.** Storage traffic never crosses a partition boundary, and the API exposes in which partition a network and its storage live, so that consumers can enforce zone affinity.
 
 ## Non-goals
 
-1. Stretching a single partition across data centers. That is what rack spreading ([MEP-12](../MEP12/README.md)) does and metro setups do and it explicitly does not give separate failure domains.
-2. Cross-region connectivity. All approaches here target partitions within the same region with low latencies btw. the data centers.
-3. A full storage design. This proposal only derives the requirements a zone-aware setup places on storage, see [Storage in a Zone-Aware Setup](#storage-in-a-zone-aware-setup).
+1. Stretching a partition across data centers (rack spreading, metro setups).
+2. Cross-region connectivity: all partitions of a region are assumed to have low latency to each other.
+3. A storage design; this proposal only states the [requirements on storage](#storage-in-a-zone-aware-setup).
 
 ## Terminology
 
 | Term | Meaning |
 | :--- | :------ |
-| Region | A geographic location, e.g. Frankfurt. Contains one or more zones. |
-| Partition | The existing metal-stack unit: one EVPN fabric with its own leaves, spines, exit switches and control plane. |
-| EVPN failure domain | The blast radius of the EVPN control plane: everything sharing BGP EVPN sessions. |
-| DCI | Data Center Interconnect: the transport between border leaves of partitions. |
-| Border leaf / exit switch | The switch terminating a partition's EVPN domain towards the outside. Called `exit` in [MEP-17](../MEP17/README.md). |
-| VPC | A proposed new metal-stack entity grouping the private networks of one project across partitions, see [B3](#b3-transit-vpc-dci). |
+| Region | A geographic location, e.g. Frankfurt, with one or more zones. |
+| Partition / zone | One EVPN fabric with its own leaves, spines, exit switches and control plane; the failure domain. |
+| Exit switch | The switch terminating a partition's EVPN domain towards the outside; storage is attached here. Called `exit` in [MEP-17](../MEP17/README.md). |
+| DCI | Data Center Interconnect: the transport between the exits of partitions. |
+| VPC / network stitch | A proposed `metal-api` entity grouping one project's private networks across partitions ([B1](#b1-srv6-l3vpn-stitching-on-dedicated-gateways), [B3](#b3-transit-vpc-dci)). |
 
-## Requirements
-
-To support explicit region and zone concepts in metal-stack, several functional and architectural requirements must be met. They all concern the metal layer itself - machines, networks and switches:
-
-- Machines of one project must be placeable in several partitions of the same region, explicitly and not on a best-effort basis.
-- Machines that belong to the same project must have the configurable capability to communicate directly with each other, even if they are located in different partitions.
-- A project's private networks must be able to use a different node CIDR per partition, which requires the `metal-api` to model that one project has private networks in more than one partition.
-- A zone aware setup consists of multiple partitions with separate failure domains (e.g. a failure in the EVPN control-plane of one partition must not affect the other to avoid EVPN fate-sharing).
-
-## Evaluation Criteria
-
-The approaches below are compared along these criteria:
-
-- **Hops**: number of hops for machine-to-machine traffic across partitions, machine-to-storage and machine-to-internet.
-- **Blast radius**: what stops working when one partition fails completely.
-- **East-west enforcement point**: which component filters traffic between private networks of different partitions.
-- **API constraints**: what has to change in the `metal-api`.
-- **Platform dependency**: whether the approach works with plain FRR or requires a specific switch OS or ASIC feature.
-- **Cost**: number of firewall machines and additional VRFs per private network.
-- **Visibility to consumers**: what the approach makes visible to whoever consumes the metal layer — egress identity, affinity of storage and announcement of external IPs.
-
-Part A describes *where the firewall sits* and which traffic it sees. Part B describes *how the private networks are technically connected* across partitions. The two are largely independent, see [Combining A and B](#combining-a-and-b).
+Part A describes *where the firewall sits* and which traffic it sees; Part B *how private networks are connected* across partitions. Both are largely independent, see [Combining A and B](#combining-a-and-b).
 
 ## Part A — Firewall and Traffic Architecture
 
-Each approach is described along the same structure: firewall, storage, internet access and reachability, failure behavior, required changes and trade-offs.
+### A0 Today: One Firewall, No Cross-Partition Private Routing
 
-### A0. Todays situation: One Firewall, No Cross-Partition Private Routing
+![today: storage access via the firewall](storage-current.svg)
 
-A project's private network lives in exactly one partition and has exactly one firewall, which is attached to that private network and to the external networks (internet, DCI, storage).
+A private network lives in one partition and has one firewall (or an active/standby pair), attached to the private network and to the external networks. All traffic leaving the private network — internet, DCI and storage — passes the firewall, so its rule set is fully enforced. Storage is a separate VRF; the firewall routes between the tenant VRF and the storage VRF. Egress is SNAT'ed to one public IP; ingress uses external IPs announced via BGP. Simple, fully enforced, cheap — and no zone availability at all.
 
-**Firewall.** A single firewall (or an active/standby pair) per private network. It sees all north-south traffic and all traffic leaving the private network. Its rule set is rendered into nftables rules by the firewall-controller and is fully enforced, because there is no path out of the private network that avoids the firewall.
-
-**Storage.** The machine reaches the storage system through the firewall: the storage network is a separate VRF and route exchange between the tenant VRF and the storage VRF happens on the firewall.
-
-![current storage situation](storage-current.svg)
-
-**Internet access and reachability.** Egress may be SNAT'ed by the firewall, so the private network has one stable public egress IP. Ingress works via external IPs announced by BGP from inside the private network into the VRF of the external network. Both directions have exactly one well-defined path.
-
-**Failure behavior.** The partition is a single failure domain. A partition outage takes down every machine of the private network, which is precisely the motivation for this MEP.
-
-**Trade-offs.** Simple, fully enforced, cheap — and gives no zone availability at all. Every approach below trades some of this simplicity for failure domain independence.
-
-### A1. Separate Firewall per Partition
-
-Every partition in which the project has machines gets its own firewall. Cross-partition traffic between private networks does not pass a firewall at all; it is routed in the fabric using one of the mechanisms from [Part B](#part-b--connecting-private-networks-across-partitions).
+### A1 Separate Firewall per Partition
 
 ![firewall per partition](firewall-per-partition.svg)
 
-**Firewall.** One firewall per partition, each attached to the partition-local private network and to the partition-local internet network. All firewalls of one project carry the same rule set. This requires the firewall-controller-manager to become zone-aware: it has to ensure that there exist for each partition for each zonal deployment a firewall.
+Every partition in which the project has machines gets its own firewall with the same rule set. Cross-partition traffic between private networks is routed in the fabric ([Part B](#part-b--connecting-private-networks-across-partitions)) and passes **no firewall**; east-west filtering is left to the machines themselves and to the scoping of the routes in the fabric. Storage stays partition-local and is reached through the local firewall as in A0.
 
-Note that the firewalls only see traffic that leaves their own partition northbound. East-west traffic between two private networks is routed directly and is *not* filtered by any firewall — this is a direct consequence of premise 3. If east-west filtering is required, the only remaining enforcement points are filtering on the machines themselves and route-leak scoping in the fabric (see Part B).
-
-**Storage.** Every partition has its own storage system and its own storage VRF. A machine reaches the storage of its own partition either through the local firewall (as in A0, shown above) or, if the additional hop and the firewall bandwidth are a concern, through a route-map on the leaf that leaks routes between the tenant VRF and the storage VRF for that project — the direct path described in [A2](#a2-firewall-for-north-south-traffic-only).
-
-Because storage is partition-local, no storage traffic ever touches the DCI. This has to be visible in the API: a storage volume is always bound to a partition, and whatever consumes it has to stay in the same partition.
-
-**Internet access and reachability.** Each partition has its own internet uplink and its own firewall doing SNAT, so multiple public egress IPs are used instead of one.
-
-Ingress is the harder part. An external IP is announced by BGP into the external VRF of the partition in which the announcing machine runs. With machines spread across partitions, a single external IP would have to be announced from both partitions simultaneously, which requires it to come from an external network that is shared across partitions and reachable from both (anycast setup).
-
-**Failure behavior.** The best of all approaches: a total partition outage affects the availability of all that partition's machines, its firewall, its storage and its internet services, and nothing else. The remaining partitions keep full north-south connectivity because they never depended on the failed partition's firewall.
-
-**Required changes.** The firewall-controller-manager must be able to create and reconcile more than one firewall for a project's private networks, distributed over partitions. The firewall-controller must handle a node network consisting of several prefixes. `metal-api` needs to allow a project's private networks to exist in several partitions at once.
-
-**Trade-offs.** Highest availability, but also *n* firewall machines per project and *n* egress identities. East-west traffic is unfiltered.
+- **Internet.** Each partition has its own uplink and SNAT, so the project has *n* egress IPs. An external IP reachable in several partitions must come from an external network shared across partitions (anycast).
+- **Failure behavior.** A partition outage only affects that partition's machines, firewall, storage and uplink; the others keep full north-south connectivity.
+- **Required changes.** `metal-api` allows a project's private networks in several partitions; the firewall-controller-manager creates and reconciles one firewall per partition; the firewall-controller handles a node network made of several prefixes.
 
 ### A2 Firewall for North-South Traffic Only
 
-The firewall is deliberately restricted to the north-south path. Everything east-west — machine to machine across zones and machine to storage — is routed in the fabric and never passes a firewall.
-
 ![firewall for north-south traffic only](firewall-north-south.svg)
 
-Strictly speaking A2 answers a different question than A1: A1 is about *how many* firewalls a private network has, A2 is about *which traffic* they see. The two are therefore not mutually exclusive. In fact, a north-south-only firewall that exists just once for all partitions re-introduces exactly the single point of failure this MEP wants to remove — if the partition hosting it fails, all remaining zones lose internet connectivity. A2 is therefore only sensible in combination with a per-partition firewall for the north-south path, which makes A1 and A2 a combination rather than an alternative: A1 defines the placement, A2 additionally removes the firewall from the storage path.
+A2 adds to A1 by also taking storage off the firewall: a route-map on the leaf leaks routes between the tenant VRF and the storage VRF per project, and the storage VRF carries the traffic to the storage attached to the exit. The firewall only handles internet traffic, which makes its sizing predictable and decouples storage throughput from it. A single north-south firewall for all partitions is not an option: it would make its partition a shared failure domain again.
 
-**Firewall.** One north-south firewall per partition. It handles SNAT for egress and enforces the firewall rules for traffic to and from the internet. It has no route to the private networks of other partitions and no route into the storage VRF, so it cannot filter that traffic even in principle.
-
-The consequence for the security model must be stated plainly: firewall rules are no longer enforceable between partitions towards storage. East-west isolation has to come from two other places — filtering on the machines themselves, and the scoping of the route leaks in the fabric, which must only ever leak the networks of the project itself. Isolation towards the storage system additionally relies on the storage system's own authentication and ACLs.
-
-**Storage.** The direct path is the point of this approach. On the leaf, a route-map leaks routes between the tenant VRF and the storage VRF on a per-project basis, so a machine reaches its partition-local storage in the minimum number of hops and without the firewall as a bandwidth bottleneck. Because storage remains partition-local, the leak is a purely local operation and the leaked prefixes must not be redistributed towards the DCI.
-
-![storage access via a route-map on the leaf](storage-proposal.svg)
-
-**Internet access and reachability.** Unchanged from A1: per-partition uplink, per-partition SNAT, *n* egress IPs. The important difference to A0 is that internet traffic is now the *only* traffic on the firewall, which makes its sizing predictable and decouples storage throughput from firewall throughput.
-
-**Failure behavior.** A partition outage removes that zone only, provided the north-south firewall is per partition. With a single north-south firewall for all partitions, its partition becomes a shared failure domain for internet connectivity — which is why that variant is not recommended.
-
-**Required changes.** Everything from A1, plus route-leak management for tenant-to-storage on the leaves. `metal-core` has to program and reconcile these route-maps per project, which means it needs to know which projects have storage access in its partition.
-
-**Trade-offs.** Fewest hops for both east-west and storage traffic, and the firewall no longer sits in the data path of the most bandwidth-hungry workload. Paid for with the loss of a central east-west enforcement point.
+- **Security.** No firewall rule applies to cross-partition or storage traffic. Isolation rests on on-machine filtering, the scoping of the route leaks (only the project's own networks) and the storage system's own authentication.
+- **Required changes.** Everything from A1, plus `metal-core` programming the tenant ↔ storage route-maps on the leaves for projects with storage access. Leaked storage prefixes must never be redistributed towards the DCI.
 
 ### Comparison
 
-| | A0 Baseline | A1 Firewall per Partition | A2 North-South Only |
+| | A0 Today | A1 Firewall per Partition | A2 North-South Only |
 | :--- | :--- | :--- | :--- |
-| Firewalls per private network | 1 | *n* (one per partition) | *n* (one per partition) |
+| Firewalls per private network | 1 | *n* | *n* |
 | Machine ↔ machine cross-zone | not possible | fabric, no firewall | fabric, no firewall |
-| Machine → storage | via firewall | via firewall or route-leak | route-leak, direct |
-| Machine → internet | via firewall | via local firewall | via local firewall |
+| Machine → storage | via firewall | via firewall | route-map on the leaf |
 | Public egress IPs | 1 | *n* | *n* |
-| East-west enforcement | firewall (n/a) | on-machine filtering + route-leak scope | on-machine filtering + route-leak scope |
-| Blast radius of partition loss | whole private network | one zone | one zone |
-| Additional cost | — | *n* firewall machines | *n* firewall machines + leaf route-maps |
-
----
+| East-west enforcement | firewall | on-machine + route scope | on-machine + route scope |
+| Blast radius of a partition loss | whole private network | one zone | one zone |
 
 ## Part B — Connecting Private Networks Across Partitions
 
-All options in Part B solve the same problem: a project's private networks live in separate EVPN domains and have to be connected without merging those domains. They differ in what carries the traffic between the partition borders and in what they demand from the `metal-api`.
+All options connect a project's private networks in separate EVPN domains without merging those domains. They differ in what carries the traffic between the partitions and in what they demand from the `metal-api`.
 
-### B1 VNI Stitching to SRv6
+### B1 SRv6 L3VPN Stitching on Dedicated Gateways
 
-The EVPN service is terminated on the border leaf and stitched into an SRv6 transport across the DCI. The L3VNI of the tenant VRF is mapped to an SRv6 SID that identifies the VPN; the remote border leaf performs the inverse mapping back into its own local VNI. Both partitions keep their own EVPN control plane and their own, independent VNI numbering.
+![SRv6 L3VPN stitching](dci-srv6.svg)
 
-**VNI and IPAM constraints.** None on VNIs — this is the main attraction of this option. VNIs stay partition-local and the existing installation-wide integer pool in the `metal-api` can remain as it is. IPAM must guarantee that the connected prefixes are disjunct within a project, which [MEP-4](../MEP4/README.md) provides through network namespaces.
+Each partition gets a pair of **DCI gateways**: dedicated, provider-owned Linux servers attached to both exits. A gateway joins the fabric as an ordinary EVPN VTEP and holds one VRF per stitched network with that network's partition-local VNI. It re-originates the network's EVPN type-5 routes as VPNv4/v6 routes with an SRv6 SID (End.DT46, one per VRF for IPv4 and IPv6); remote gateways import them by route target and announce them as type-5 into their fabric with their own VNI. Between partitions, only plain IPv6 is needed, with one locator prefix per partition and no tenant state. Only layer 3 is stitched.
 
-**Platform dependency.** The critical one. SRv6 L3VPN support has to exist both in the switch OS and in the forwarding ASIC of the border leaves. FRR's SRv6 support is maturing but the availability in Enterprise SONiC builds and the ASIC capabilities of the boxes typically used as exit switches have to be verified before this option can be considered viable. SRv6 also adds encapsulation overhead, so the MTU budget across the DCI has to be checked.
+**Prototype.** The [open-dci](https://github.com/mwindower/open-dci) demonstrator implements this with stock FRR and the Linux kernel and is tested end to end in a containerlab lab in CI: three partitions, two tenants with different VNIs per partition, IPv4 and IPv6, redundant gateway pairs, failure scenarios. It is alpha.
 
-**Required changes.** A controller — most likely `metal-core` on the exit switches — has to maintain the VNI-to-SID mapping for every project network that participates in cross-partition connectivity, and keep it consistent with the remote side.
+**Why dedicated gateways.** On the exit switches, VXLAN decapsulation plus SRv6 encapsulation needs ASIC support few switch chips and SONiC platforms offer, every stitched VRF consumes fixed switch tables, and per-tenant state would couple to the fabric. On the tenant firewall — prototyped and dropped — the trust boundary of the SRv6 domain would be under tenant control.
 
-**Implications.** For the firewall, nothing changes: this is a pure transport question below the firewall. Storage is untouched, since storage traffic never crosses the DCI. Internet reachability is unaffected, as the DCI carries private traffic only.
+**Constraints.** No VNI change: VNIs, route targets and ASNs stay partition-local and the `metal-api` VNI pool stays as it is. The prefixes of one stitched network must be disjunct ([MEP-4](../MEP4/README.md)). IPAM additionally assigns a locator per partition and a loopback per gateway. On the platform side the gateways need Linux ≥ 5.14 and a pinned FRR version: FRR 10.5–10.7 keep leaked routes after their withdrawal, which black-holes removed prefixes in every other partition (10.4 is fine). SRv6 adds 48 B per packet, plus 50 B if the transport runs in a dedicated DCI VRF over VXLAN; metal-networker's current 9000 B on bridge and VXLAN devices silently drops full-size packets on that path.
 
-**Trade-offs.** No API changes and no vendor feature, but the least mature option operationally, with a hard dependency on hardware capabilities and an additional mapping state to keep consistent between partitions.
+**Failure behavior.** Both gateways of a pair share the locator and SIDs (anycast), so remote partitions do not react to a gateway failure, and no TCP connection breaks. With BFD on every session of gateways and exits, the demonstrator [measured](https://github.com/mwindower/open-dci/blob/main/docs/performance.md) ≤ 0.3 s loss when a gateway loses its links, ~1 s when a gateway or exit hangs (~7 s without BFD), and none for a drained gateway.
+
+**Security.** A SID decapsulates anything addressed to it, so the exits and gateways filter the edge of the SRv6 domain. Tenants are kept apart by route-target filters, per-network prefix allowlists and prefix limits; DCI route targets are stripped before routes enter a fabric.
+
+**Required changes.** A **network stitch** entity in the `metal-api` (project-scoped, route target derived from its ID); a `dci-controller` rendering the gateway configurations from it; a firewall-like gateway machine role whose base configuration metal-networker renders; a static exit role in metal-roles that only changes when a partition joins. `metal-core` is unchanged ([proposal](https://github.com/mwindower/open-dci/blob/main/docs/metal-stack.md)).
+
+**Trade-offs.** No VNI change, no vendor or ASIC dependency, nothing tenant-specific on exits and core, and a working prototype with measured failover. In exchange, two gateway servers per partition sit in the path of all cross-zone traffic with software forwarding whose throughput is not yet measured, and a new entity, controller and machine role have to be built.
 
 ### B2 Broadcom Enterprise SONiC Multi-Site DCI
 
 ![multi-site DCI](dci-multisite.svg)
 
-The border leaves act as multi-site border gateways. They re-originate EVPN routes between sites with themselves as next-hop, so the control planes of the two partitions stay separate while the same VNI identifies the same tenant network end-to-end. This is the well-understood, standard EVPN multi-site design.
+The exits act as multi-site border gateways and re-originate EVPN routes between partitions with themselves as next hop. The control planes stay separate while the same VNI identifies a tenant network end to end — the standard EVPN multi-site design, with split-horizon built in.
 
-**VNI and IPAM constraints.** This option requires the strongest change in the `metal-api`. Today the VRF/VNI is drawn from a single installation-wide integer pool and a network exists in exactly one partition, so a VNI unambiguously identifies one network in one partition. For multi-site, the same tenant network must carry the same VNI in every partition it spans. The constraint therefore has to be relaxed from *"a VNI is globally unique"* to *"a VNI is allocated once per network and reused in every partition in which that network is instantiated"*. Note this is a weaker requirement than making VNIs freely reusable across partitions: uniqueness per network is preserved, what disappears is the assumption that a network lives in a single partition.
+**Constraints.** The most invasive API change: a network has to carry the same VNI in every partition it spans, so the `metal-api` must allocate a VNI once per network and reuse it per partition, instead of assuming one network lives in one partition.
 
-**Platform dependency.** Requires the Multi-Site DCI feature of Enterprise SONiC on the border leaves, including the corresponding licensing. This ties a core metal-stack capability to a vendor feature, which is a departure from the current approach of building on features available in the SONiC community distribution and FRR.
+**Platform dependency.** The Multi-Site DCI feature of Enterprise SONiC, including licensing — a departure from building on SONiC community and FRR features.
 
-**Required changes.** VNI allocation in the `metal-api` as described above; `metal-core` has to configure the border gateway role and the site identifiers on the exit switches.
-
-**Implications.** From a metal-stack perspective each partition still defines its own node networks, but the same VRFs exist in every partition, which makes the firewall's view of the project uniform across zones — a practical benefit for A1, where all firewalls then carry structurally identical configuration. Storage stays partition-local and outside the multi-site domain. Internet reachability is unaffected.
-
-**Trade-offs.** The most standard and best-understood data plane, with split-horizon built into the feature, at the price of a vendor dependency and the most invasive API change.
+**Required changes.** VNI allocation as above; `metal-core` configures the border gateway role and site IDs on the exits. A side benefit for A1: identical VRFs in every partition make the firewalls' configuration uniform.
 
 ### B3 Transit VPC DCI
 
 ![transit VPC DCI](dci-transit-vpc.svg)
 
-Each partition keeps a distinct set of VNIs. Connectivity is built from two ingredients: route leaking on the leaves, and plain BGP between the border leaves.
+Each partition keeps its own VNIs. `metal-core` leaks routes between the tenant VRF and a **DCI VRF** on the leaves; the exits exchange the DCI VRF's prefixes over **plain BGP**, without EVPN or VXLAN between them. A **VPC** entity in the `metal-api` groups the private networks to be connected — the same concept as B1's network stitch — and is what the route-leak automation reconciles against.
 
-`metal-core`, running on the leaf switches, builds and manages route leaks: from a tenant VRF into a DCI VRF, which is propagated zone-wide.
+**Prototype.** Validated in a virtual lab (`dci-lab`): three exits in a ring with a `VrfDCI`, leaks via FRR `import vrf` with a route-map on `source-vrf`, prefix-lists separating the directions (aggregate in, node prefixes out) and `no-export` on leaked routes.
 
-The DCI itself is made of interconnected exit switches speaking **plain BGP** — no EVPN routes, no VXLAN — that exchanges the private prefixes of the participating zones. The exit switches act as VTEP for the DCI VRF locally, but the interconnect between them carries ordinary IP routing and therefore does not depend on any Multi-Site DCI feature.
+**Constraints.** No VNI change; prefixes within a VPC must be disjunct. No vendor or ASIC dependency and no additional machines.
 
-To make this a first-class concept rather than a switch configuration detail, this option introduces a **VPC** to the `metal-api`: an entity that groups the private networks of one project across partitions and defines which of them are stitched together. The VPC is what the route-leak automation reconciles against.
+**Required changes.** The VPC entity and route-leak reconciliation in `metal-core` on leaves and exits. The VRFs on the exits grow with the number of VPCs, and a DCI VRF shared between projects needs watertight route filtering.
 
-**VNI and IPAM constraints.** VNIs stay disjunct and partition-local; the installation-wide integer pool is unchanged. What matters instead is IPAM: the prefixes joined by a VPC must be disjunct within the VPC.
-
-**Platform dependency.** None beyond FRR. This is the only option that requires neither a vendor feature nor a specific ASIC capability.
-
-**Prototype.** The mechanism has been validated in a virtual lab environment: three exit switches form a ring with a `VrfDCI`, each holding a tenant VRF, and route leaking between them is expressed with FRR's `import vrf` plus a route-map matching on `source-vrf`. Prefix-lists separate the two directions — the tenant VRF imports the aggregate from the DCI VRF while the DCI VRF only accepts the longer, node-specific prefixes from the tenant VRF — and leaked routes are tagged with the `no-export` community so they cannot escape the interconnect.
-
-**Required changes.** A new VPC entity in the `metal-api` and the corresponding route-leak reconciliation in `metal-core` on both leaves and exit switches. The number of VRFs on the exit switches grows with the number of VPCs, which is the main scaling consideration. If the DCI VRF is shared between projects, route-target filtering has to be watertight to prevent leaks between projects.
-
-**Implications.** Because the firewall is not in the path, cross-zone traffic is transported very efficiently. The same mechanism also provides the direct machine-to-storage path used by [A2](#a2-firewall-for-north-south-traffic-only), which makes B3 and A2 a natural pair. Internet reachability is unaffected: the DCI carries private prefixes only, tagged `no-export`.
-
-**Trade-offs.** No vendor dependency, an existing prototype and a single mechanism serving both cross-partition and storage traffic. In exchange it puts the most logic into metal-stack itself — the route-leak automation and the VPC concept both have to be built and maintained.
+**Trade-offs.** One mechanism serves cross-zone and storage traffic (A2), and nothing beyond the switches is needed, but the most logic lives in metal-stack itself and per-tenant state lands on the switches.
 
 ### Comparison
 
 | | B1 SRv6 Stitching | B2 Multi-Site DCI | B3 Transit VPC DCI |
 | :--- | :--- | :--- | :--- |
-| DCI data plane | SRv6 | EVPN re-origination | plain BGP / IP |
+| DCI data plane | SRv6 over plain IPv6 | EVPN re-origination | plain BGP / IP |
+| Stitching happens on | gateway servers | exits | leaves and exits |
 | VNI constraint change | none | VNI per network, reused per partition | none |
-| New API entity | none | none | VPC |
-| Platform dependency | SRv6 in switch OS **and** ASIC | Enterprise SONiC feature + license | none (FRR) |
-| Control plane state | VNI ↔ SID mapping per network | border gateway config | route-leaks + DCI VRF |
-| Maturity in metal-stack | unverified | unverified | prototype in `dci-lab` |
-| Scaling limit | SID/mapping table | EVPN routes across sites | VRFs per exit switch |
+| New API entity | network stitch | none | VPC |
+| Platform dependency | Linux + FRR on gateways | Enterprise SONiC + license | FRR |
+| Additional hardware | 2 gateways per partition | none | none |
+| Maturity | prototype ([open-dci](https://github.com/mwindower/open-dci)), failover measured | unverified | prototype (`dci-lab`) |
+| Scaling limit | gateway throughput (not yet measured) | EVPN routes across sites | VRFs per exit |
 
 ### Combining A and B
 
-Part A and Part B are largely independent, but not every combination is equally sensible:
-
 | | B1 SRv6 | B2 Multi-Site | B3 Transit VPC |
 | :--- | :--- | :--- | :--- |
-| **A1** Firewall per partition | works; DCI transport is invisible to the firewall | works; uniform VRF layout across partitions simplifies firewall config | works; DCI carries east-west only |
-| **A2** North-south only | works, but the storage path still needs the leaf route-leak from B3 | works, same caveat | natural pair — one route-leak mechanism serves both cross-zone and storage traffic |
+| **A1** Firewall per partition | works; transport invisible to the firewall | works; uniform VRFs simplify firewall config | works |
+| **A2** North-south only | works, but needs the leaf route-leak for storage | works, same caveat | natural pair: one route-leak mechanism for cross-zone and storage |
 
-The relevant observation is that A2's direct storage path is built from exactly the leaf route-leaking that B3 introduces anyway. Choosing A2 together with B1 or B2 means building that mechanism regardless, only for storage instead of for the DCI.
+A2's direct storage path is built from the same leaf route-leaking that B3 introduces; with B1 or B2 it has to be built for storage alone.
 
 ## Storage in a Zone-Aware Setup
 
-A dedicated storage MEP is expected to cover the storage design itself. This proposal only records the requirements that zone awareness places on it:
+A dedicated storage MEP is expected to cover the design itself. Zone awareness requires:
 
-- **Storage is partition-local.** Every partition runs its own storage system in its own storage VRF. Storage traffic must not cross the DCI — neither in the normal case nor during failover.
-- **Two access paths must be supported.** Through the firewall, as today (A0, and optionally A1), and directly via a leaf route-map between the tenant VRF and the storage VRF on a per-project basis (A2). The direct path removes a hop and takes storage throughput off the firewall.
-- **Leaked storage routes must stay local.** The prefixes leaked between tenant VRF and storage VRF must never be redistributed towards the DCI VRF, or a machine would be able to reach a remote partition's storage.
-- **Partition affinity must be expressible through the API.** Resources must either be strictly located in a single partition or replicated across all partitions, and the API has to state which of the two applies. Whatever consumes a volume has to stay in the partition that volume lives in.
-- **Isolation without a firewall must be defined.** Once the firewall leaves the storage path, isolation rests on the scoping of the route-leak and on the storage system's own authentication. Both have to be explicit requirements on the storage design rather than assumptions.
+- **Partition-local storage.** Every partition runs its own storage system in its own storage VRF, attached to the exits. Storage traffic never crosses the DCI, not even during failover.
+- **Two access paths.** Through the firewall (A0, A1) or via a per-project route-map between tenant and storage VRF on the leaf (A2). Leaked storage routes must never reach the DCI.
+- **Affinity in the API.** Resources are either bound to one partition or replicated across all, and the API states which; consumers of a volume stay in its partition.
+- **Isolation without a firewall.** On the direct path, isolation rests on the route-leak scope and the storage system's own authentication — both explicit requirements for the storage design.
 
 ## Open Questions
 
-- **Egress identity.** A project with *n* firewalls has *n* public egress IPs and the one in use depends on the partition a machine runs in. Is that acceptable, or is a stable egress identity per private network required?
-- **East-west filtering.** Is filtering on the machines themselves plus route-leak scoping sufficient, or does an enforcement point for cross-zone traffic have to exist?
-- **Maximum distance between partitions of a zone.** A recommendation for the maximum practical distance between partitions of one region is needed, particularly with regard to latency-sensitive distributed systems. This belongs into the operator documentation.
+- **Egress identity.** *n* firewalls mean *n* egress IPs, depending on the partition. Is that acceptable, or is a stable egress identity per private network required? Sharing one partition's default route over the DCI would re-couple the partitions' internet connectivity.
+- **East-west filtering.** Are on-machine filtering and route scoping sufficient, or is an enforcement point for cross-zone traffic required?
+- **Gateway capacity (B1).** Throughput and the number of stitched networks per gateway pair are not measured yet.
+- **Stitch lifecycle (B1, B3).** Behavior when a member network is deleted, quotas, permissions, and unique route targets across several `metal-api` instances sharing a DCI.
+- **Maximum distance between partitions** of a region, particularly for latency-sensitive distributed systems; belongs into the operator documentation.
