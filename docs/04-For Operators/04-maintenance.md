@@ -50,8 +50,7 @@ Because all outbound traffic passes through a firewall machine, updating a firew
 In a Gardener setup, image updates can be triggered by referencing the new image in the shoot spec.
 
 :::info
-In offline or air-gapped setups, these OS images must either be synced into the partition-local [image-cache](https://github.com/metal-stack/metal-image-cache-sync) after they were added to the metal-apiserver or be manually downloaded in advance and uploaded to your local S3-compatible storage.
-OCI images need to be
+In offline or air-gapped setups, OS images must either be synced into the partition-local [image-cache](https://github.com/metal-stack/metal-image-cache-sync) after they were added to the metal-apiserver or be manually downloaded in advance and uploaded to your local S3-compatible storage.
 Ensure that the image paths and metadata are correctly maintained so the system can retrieve them during provisioning.
 :::
 
