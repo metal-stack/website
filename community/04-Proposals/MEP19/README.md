@@ -123,13 +123,15 @@ The exits act as multi-site border gateways and re-originate EVPN routes between
 
 Each partition keeps its own VNIs. `metal-core` leaks routes between the tenant VRF and a **DCI VRF** on the leaves; the exits exchange the DCI VRF's prefixes over **plain BGP**, without EVPN or VXLAN between them. A **VPC** entity in the `metal-api` groups the private networks to be connected — the same concept as B1's network stitch — and is what the route-leak automation reconciles against.
 
-**Prototype.** Validated in a virtual lab (`dci-lab`): three exits in a ring with a `VrfDCI`, leaks via FRR `import vrf` with a route-map on `source-vrf`, prefix-lists separating the directions (aggregate in, node prefixes out) and `no-export` on leaked routes.
+**Prototype.** A containerlab lab (`dci-lab`) runs three community SONiC exits (SONiC-VS) in a full mesh, each with a tenant VRF and a `VrfDCI` with its own VNIs (10001/10002, 10003/10004, 10005/10006). The exits peer eBGP unnumbered inside `VrfDCI` over plain routed links. Routes are leaked with FRR `import vrf` and a route-map on `source-vrf`: the tenant VRF only imports the aggregate (`10.0.0.0/16 le 24`), the DCI VRF only the machines' node prefixes (`ge 25`), tagged `no-export`. Machines in different partitions reach each other, including a BGP session across the DCI. The lab covers one tenant, IPv4 only, no leaves (machines sit directly on the exits, so the leak runs there), no redundancy or failover, and has no automated tests.
 
 **Constraints.** No VNI change; prefixes within a VPC must be disjunct. No vendor or ASIC dependency and no additional machines.
 
-**Required changes.** The VPC entity and route-leak reconciliation in `metal-core` on leaves and exits. The VRFs on the exits grow with the number of VPCs, and a DCI VRF shared between projects needs watertight route filtering.
+**Isolation and scale.** A single `VrfDCI` shared by all projects puts every leaked tenant prefix into one routing table: isolation then rests entirely on route filters, and prefixes overlapping across projects ([MEP-4](../MEP4/README.md)) cannot coexist. Keeping projects apart by construction requires one DCI VRF per VPC on every exit, plus one link or sub-interface and BGP session per VPC and exit pair (VRF-lite) — state that grows with VPCs × partitions on the switches.
 
-**Trade-offs.** One mechanism serves cross-zone and storage traffic (A2), and nothing beyond the switches is needed, but the most logic lives in metal-stack itself and per-tenant state lands on the switches.
+**Required changes.** The VPC entity and route-leak reconciliation in `metal-core` on leaves and exits, including the per-VPC DCI VRFs and inter-exit sessions.
+
+**Trade-offs.** One mechanism serves cross-zone and storage traffic (A2), and nothing beyond the switches is needed, but the most logic lives in metal-stack itself, per-tenant state lands on every exit, and the prototype is the least tested.
 
 ### Comparison
 
@@ -141,8 +143,8 @@ Each partition keeps its own VNIs. `metal-core` leaks routes between the tenant 
 | New API entity | network stitch | none | VPC |
 | Platform dependency | Linux + FRR on gateways | Enterprise SONiC + license | FRR |
 | Additional hardware | 2 gateways per partition | none | none |
-| Maturity | prototype ([open-dci](https://github.com/mwindower/open-dci)), failover measured | unverified | prototype (`dci-lab`) |
-| Scaling limit | gateway throughput (not yet measured) | EVPN routes across sites | VRFs per exit |
+| Maturity | prototype ([open-dci](https://github.com/mwindower/open-dci)): multi-tenant, IPv4/IPv6, failover measured | unverified | lab on SONiC-VS: single tenant, IPv4 |
+| Scaling limit | gateway throughput (not yet measured) | EVPN routes across sites | VRFs and sessions per VPC on every exit |
 
 ### Combining A and B
 
@@ -152,6 +154,14 @@ Each partition keeps its own VNIs. `metal-core` leaks routes between the tenant 
 | **A2** North-south only | works, but needs the leaf route-leak for storage | works, same caveat | natural pair: one route-leak mechanism for cross-zone and storage |
 
 A2's direct storage path is built from the same leaf route-leaking that B3 introduces; with B1 or B2 it has to be built for storage alone.
+
+## Preference
+
+**A1 + B1** is the preferred target.
+
+- **B1** is the only option tested with several tenants, IPv4 and IPv6, redundant gateways and measured failover. It needs no VNI change and no vendor or ASIC feature, and it keeps every per-tenant state off the exits and the core, so fabrics and partitions stay decoupled (Goal 1). It can be rolled out incrementally: static gateway configurations first, the network stitch entity later. The accepted cost is two gateway servers per partition; their throughput has to be measured before production use.
+- **B2** is not preferred because of the vendor and licence dependency and the most invasive VNI change. **B3** puts per-VPC VRFs and sessions on every exit and relies on route filtering for isolation; it remains a fallback if gateway servers are not acceptable and the number of VPCs stays small.
+- **A1** before A2: storage keeps today's enforced path through the firewall, and no leaf route-leak automation is needed. A2 follows only if storage throughput through the firewall becomes the bottleneck.
 
 ## Storage in a Zone-Aware Setup
 
@@ -166,6 +176,6 @@ A dedicated storage MEP is expected to cover the design itself. Zone awareness r
 
 - **Egress identity.** *n* firewalls mean *n* egress IPs, depending on the partition. Is that acceptable, or is a stable egress identity per private network required? Sharing one partition's default route over the DCI would re-couple the partitions' internet connectivity.
 - **East-west filtering.** Are on-machine filtering and route scoping sufficient, or is an enforcement point for cross-zone traffic required?
-- **Gateway capacity (B1).** Throughput and the number of stitched networks per gateway pair are not measured yet.
+- **Gateway capacity (B1).** Throughput and the number of stitched networks per gateway pair are not measured yet. A scale test is the precondition for the [preference](#preference).
 - **Stitch lifecycle (B1, B3).** Behavior when a member network is deleted, quotas, permissions, and unique route targets across several `metal-api` instances sharing a DCI.
 - **Maximum distance between partitions** of a region, particularly for latency-sensitive distributed systems; belongs into the operator documentation.
