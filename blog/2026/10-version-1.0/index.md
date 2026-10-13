@@ -44,8 +44,8 @@ The new API is divided into dedicated top-level scopes:
 - `metalstack.admin.v2` for operators that need access to unscoped entities
 - `metalstack.infra.v2` for controllers such as metal-hammer or metal-core
 
-Every method in the API maps to a permission, resources are scoped to tenants and projects.
-It lets provides fine-grained, self-service API tokens to technical components.
+Every method in the API maps to a permission, resources are scoped to tenants and projects, or machines.
+It provides fine-grained, self-service API tokens to technical components.
 This way, every consumer gets exactly the access it needs and nothing more.
 Tokens can be revoked by admins and by users themselves, which makes day-to-day operations much safer.
 
@@ -55,7 +55,7 @@ Together with the new API definitions, we added long-awaited improvements such a
 
 From the moment a machine boots up in the data center and until it phones home, every core component now talks to the V2 API instead of the deprecated V1 API. The complete provisioning path has been migrated:
 
-- [metal-hammer](https://github.com/metal-stack/metal-hammer) registers machines and their hardware inventory using a project-scoped token and an `infra` permission that is limited to act on a single machine.
+- [metal-hammer](https://github.com/metal-stack/metal-hammer) registers machines and their hardware inventory using a token with `infra` permissions that are limited to act on a single machine.
 - [pixiecore](https://github.com/metal-stack/pixiecore) and [metal-core](https://github.com/metal-stack/metal-core) integrate the boot and switch side with the V2 `infra` contracts, so network configuration is derived from the new API as well.
 - [metal-image-cache-sync](https://github.com/metal-stack/metal-image-cache-sync) fetches OS images through V2.
 - [metal-core](https://github.com/metal-stack/metal-core) reconciling the network configuration on a switch.
