@@ -86,11 +86,7 @@ Machine/Disk failure will lead to data loss.
 To mitigate this a clustered storage system can be used to replicate data across multiple machines in multiple failure domains (e.g. machines, racks, partitions).
 In addition, we recommend automated and monitored backups and regular restore drills.
 
-## Out of Scope
-
-As we are dealing with bare metal servers, some aspects are beyond the scope of the release.
-
-### Firmware Updates
+## Firmware Updates
 
 Firmware updates are intentionally not part of the automated machine lifecycle, since firmware handling is too vendor-specific for stable automation.
 Updating server firmware is an administrative task that must be performed manually by operators.
