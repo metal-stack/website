@@ -7,6 +7,8 @@ sidebar_position: 4
 ## Update Policy
 
 For features and breaking changes we create a new minor release of metal-stack.
+Patch releases are almost only created in case of urgent security fixes or important backports.
+Less critical bug fixes will ship with the next release.
 The corresponding release notes are published along with the new version of metal-stack in the [releases repository](https://github.com/metal-stack/releases) according to the [release flow](../../community/05-release-flow.md).
 
 For operators, it is important that every minor release is carried out **sequentially, without skipping versions**.
