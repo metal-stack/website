@@ -1,0 +1,77 @@
+---
+slug: /operating-systems
+title: Operating Systems
+sidebar_position: 2
+---
+
+# Operating Systems
+
+Our operating system images are built on regular basis from the [metal-images](https://github.com/metal-stack/metal-images) repository.
+
+All images are hosted on GKE at [images.metal-stack.io](https://images.metal-stack.io). Feel free to use this as a mirror for your metal-stack partitions if you want. The metal-stack developers continuously have an eye on the supported images. They are updated regularly and scanned for vulnerabilities.
+
+## Supported OS Images
+
+The operating system images that we build are trimmed down to their bare essentials for serving as Kubernetes worker nodes. Small image sizes make machine provisioning blazingly fast.
+
+The supported images for worker nodes currently are:
+
+| Platform | Distribution | Version |
+| :------- | :----------- | :------ |
+| Linux    | Debian       | 12      |
+| Linux    | Debian       | 13      |
+| Linux    | Ubuntu       | 24.04   |
+
+The supported images for firewalls are:
+
+| Platform | Distribution | Version | Based On |
+| :------- | :----------- | :------ | -------- |
+| Linux    | Ubuntu       | 3       | 24.04    |
+
+## Image Lifecycle
+
+The metal-stack project provides images are derived from the official Docker images of the respective distribution. We install components required by the metal-stack infrastructure, e.g. FRR for routing-to-the-host and automation tools like [cloud-init](https://docs.cloud-init.io/en/latest/index.html) and [ignition](https://github.com/coreos/ignition) to run user provided post-install tasks.
+
+Every image registered with the metal-api carries one of the following lifecycle classifications:
+
+| Classification | Meaning                                                                                  |
+| :------------- | :--------------------------------------------------------------------------------------- |
+| preview        | Recently introduced image, not yet recommended for production use                         |
+| supported      | Regularly updated and scanned image, recommended for production use                       |
+| deprecated     | Image will expire and be removed soon, users should switch to a newer image               |
+
+These classifications prevent breaking changes in new images from affecting production workloads.
+
+:::info
+Operating system images are provided by the operators of a metal-stack installation, not by its end-users. End-users can only choose from the images that have been registered with the metal-api. If you require an additional image in an installation, get in touch with your operators.
+:::
+
+:::info
+Official metal-stack images are validated for use as K8s Node OS. Results for the validation pipelines will be published later in 2026.
+:::
+
+## Building Your Own Images
+
+It is fully possible to build your own operating system images and provision them through the metal-stack without any in-tree implementations.
+
+There are some conventions though that you need to follow in order to make your image installable. You should understand the [machine provisioning sequence](../05-Concepts/01-architecture.mdx#machine-provisioning-sequence), the purpose of the [metal-hammer](https://github.com/metal-stack/metal-hammer) and the [os-installer](https://github.com/metal-stack/os-installer) before starting to write your own images.
+
+You can build own images as described in the following points:
+
+1. Images need to be compressed to a tarball using the [lz4](https://de.wikipedia.org/wiki/LZ4) compression algorithm. These are unpacked by the metal-hammer after machine allocation onto the root drive of the machine.
+1. An `md5` checksum file with the same name as the image archive needs to be provided in the download path along with the actual os image. This is used by the metal-hammer to check the integrity of the downloaded file.
+1. A `packages.txt` containing the packages contained in the OS image should be provided in the download path (not strictly required).
+1. Consider semantic image versioning, which we use in our algorithms to select latest images (e.g. `os-major.minor.patch` ➡️ `ubuntu-24.04.20191018`)
+1. We strongly suggest installing some essential packages used by the metal-stack infrastructure:
+   - [FRR](https://frrouting.org/) to enable routing-to-the-host in our network topology
+   - [go-lldpd](https://github.com/metal-stack/go-lldpd) to enable checking if the machine is still alive after user allocation
+   - [ignition](https://github.com/coreos/ignition) for enabling users to run user-specific initialization instructions before bootup. It's pretty small in size, which is why we use it. However, you are free to use other cloud instance initialization tools if you want to.
+1. The [os-installer](https://github.com/metal-stack/os-installer) repository will be invoked by the metal-hammer in the os image's chroot during machine provisioning. You can check if you can use the existing provisioning tasks of this component for your OS image.
+   - If the os-installer does not do what you need, it is possible to specify parameters for it in `/etc/metal/os-installer.yaml`. In there, it is possible to either use only specific functionality of the os-installer or even invoke custom provisioning scripts (total freedom).
+1. For the time being, your image must be able to support [kexec](https://en.wikipedia.org/wiki/Kexec) into the new operating system kernel, the `kexec` command is issued by the metal-hammer after running the os-installer. We do this because `kexec` is _much_ faster than rebooting a machine.
+
+We recommend building images from Dockerfiles as it is done in [metal-images](https://github.com/metal-stack/metal-images) repository.
+
+:::info
+Building own operating system images is an advanced topic. When you have just started with metal-stack, we recommend using the public operating system images first.
+:::
