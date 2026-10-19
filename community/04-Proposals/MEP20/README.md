@@ -121,12 +121,12 @@ metal-boot could be deployed as a service in the control plane. In this case met
 
 ### Services that must support ipv6
 
-| service                |  explanation                                                                                                                                               |
-| ---------------------- |  --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| metal-boot             |  `metal-boot` must directly communicate with the ipv6 metal-hammer, so it must support ipv6                                                                |
-| metal-hammer           |  `metal-hammer` must configure the it's own interface to use SLAAC                                                                                         |
-| metal-image-cache-sync |  Because the images cannot be through the switch, the cache has to be made available to a booting machine with only an ipv6 address                        |
-| metal-apiserver        |  metal-hammer no longer configures an IPv4 adress, therefore communication with the apiserver must use IPv6                                                |
+| service                | explanation                                                                                                                        |
+|------------------------|------------------------------------------------------------------------------------------------------------------------------------|
+| metal-boot             | `metal-boot` must directly communicate with the ipv6 metal-hammer, so it must support ipv6                                         |
+| metal-hammer           | `metal-hammer` must configure the it's own interface to use SLAAC                                                                  |
+| metal-image-cache-sync | Because the images cannot be through the switch, the cache has to be made available to a booting machine with only an ipv6 address |
+| metal-apiserver        | metal-hammer no longer configures an IPv4 address, therefore communication with the apiserver must use IPv6                        |
 
 ## Necessary Changes on Existing Components
 
@@ -173,4 +173,4 @@ go-hal currently does not support the insertion and removal of virtual media.
 
 ### pixiecore
 
-pixiecore is superceeded by metal-boot, however pixiecore will still be maintained for legacy deployments. 
+pixiecore is superseded by metal-boot, however pixiecore will still be maintained for legacy deployments. 
