@@ -94,3 +94,10 @@ This setup dedicated to testing environments, getting to know the metal-stack so
 This setup will yield in 8 usable machines, one of them can be configured to provide persistent CSI storage.
 
 ![Portable metal-stack Setup](starter.jpg)
+
+## Repurposing Hardware
+
+Once a server is managed by metal-stack, it cannot be used for other purposes in the same physical location.
+In order to repurpose the hardware, the machines need to be decommissioned by metal-stack and removed from the metal database.
+Once decommissioned, the machines' disks were wiped to prevent data leakage.
+The machines can then be physically relocated and reused again outside of metal-stack.

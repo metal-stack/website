@@ -1,28 +1,66 @@
 ---
-slug: /MEP-17-global-network-view
+slug: /MEP-17-declarative-switch-api
 title: MEP-17
 sidebar_position: 17
 ---
 
-# Global Network View
+# Declarative Switch API for Every Switch in a Partition
 
-> [!IMPORTANT]
-> This MEP assumes the implementation of the metal-apiserver as described by [MEP-4](../MEP4/README.md) which is currently work in progress.
+:::important
+This MEP assumes the implementation of the metal-apiserver as described by [MEP-4](../MEP4/README.md).
+MEP-4 is already in a state where this MEP could be started in parallel.
+:::
 
-Having a complete view of the network topology is useful when working with deployments or troubleshooting connectivity issues.
-Currently, the API doesn't know of any other switches than the leaf switches.
-Information about all other switches and their connections must be gathered from Ansible inventories or by accessing the switches via SSH.
-Documentation of each partition's network must be kept in-sync with all changes made to the deployment or cabling.
-We would like to expand the API's knowledge of the network to the entire underlay including inter-switch connections as well as BGP statistics and health status.
+Currently, the metal-stack API doesn't know of any other switches than the leaf switches, which are essential for machine provisioning in metal-stack as they dynamically reconfigure the port configuration when a machine gets provisioned.
+Switches register by calling `/metalstack.infra.v2.SwitchService/Register` when the [metal-core](https://github.com/metal-stack/metal-core) component starts up on the switch.
+Their registration payload contains an ID (which is usually the hostname of the switch), a rack and a room identifier, which are provided through an Ansible deployment using [metal-roles](https://github.com/metal-stack/metal-roles/tree/master/partition/roles/metal-core).
+Along with this static startup configuration of the metal-core, the metal-core also reports dynamically discovered information like the LLDP neighbors, the actual port status and BGP session state information.
+
+After the switch registration, machines can register through `/metalstack.infra.v2.BootService/Register` as well.
+Similarly, this request contains the LLDP neighbors from which the metal-apiserver can figure out the switches connected to the machine.
+In addition to that, a `MachineConnection` is saved in the metal-db, which contains information about which switches the machine is connected to.
+
+During runtime, the metal-core polls the switch resource at the API and writes the necessary port configuration and FRR configuration according to the allocation of the machine or some static port configuration coming from the Ansible deployment.
+This happens in a defined interval (usually ~15s).
+
+With the current state we see the following room for improvements:
+
+- `Switch` resources should be applied declaratively at the API through deployment by the Admin API.
+So, instead of the metal-core creating a switch entity at the API, it queries the already existing API entity.
+The query should be in form of a stream connection to the API for a given switch ID, which is provided as a startup configuration.
+metal-core then tries to reconcile the desired state.
+The reconciliation status is reported back into a dedicated status table.
+This approach has the following advantages:
+  - A switch can be notified immediately when a configuration change takes place.
+  - This approach eliminates manual operation on all the switches from operators and simplifies the Ansible deployment on the switch side.
+  - We can implement API validations preventing misconfiguration.
+  - The replacement / migration logic can be largely simplified (e.g. for migration, instead of registering a new switch, metal-core can just reconcile the existing switch entity).
+  - We might even be able to get rid off the brittle `MachineConnection` struct and just calculate it dynamically from the current machine states.
+- It would make a lot of sense if not only the leaf switches would be "reconciled" by the metal-core but also the other kinds of switches in the switch plane (e.g. spines, exits, mgmtleaf)
+  - Adding all switch types to the API enhances the visibility of the switch states and allows to draw a switch plane topology.
+This is great for troubleshooting connectivity issues but also for documentation purposes.
+  - We could make IP announcements visible in the API such that it would be possible to detect allocated, but unused IPs.
+- As we see the need for more versatile port configurations (which can already be seen in [metal-core PR #212](https://github.com/metal-stack/metal-core/pull/212)), we would like to extend the `Switch` entity to contain static port configurations.
+  - Specifically, we would like admins to be able to set the desired port status (up / down) and how metal-core manages the port (statically from deployment or dynamically from machine allocations).
+
+## API
+
+The following changes in the API would be necessary:
+
+- Admin API Switch CRUD
+    - `SwitchServiceCreateRequest`: Allows the admin to declaratively specify a switch entity
+        - Contains: switch type, ID, rack specifier, port configuration (desired state, up down, network VRF membership, ...)
+    - `SwitchServiceGetRequest`, `SwitchServiceListRequest`, `SwitchServiceUpdateRequest`, `SwitchServiceDeleteRequest`: Completes the CRUD
+    - Carry over existing switch connected machines
+- Infra API
+    - `SwitchReconcile`: metal-core method to open a stream connection to listen for configuration updates.
+        - Returns entity on stream open, then pushes further reconfiguration messages on changes.
+        - Utilizes the same `ReconnectingStreamRead` logic that metal-bmc and metal-hammer already use.
 
 ## Switch Types
 
-Registering a switch at the API is done by the metal-core.
-Apart from that, it also reconciles port and FRR configuration to adapt to the machine provisioning cycle.
-This reconfiguration is only necessary on the leaf switches.
 To allow deploying the metal-core on other switches than leaves we need a way of telling it what type of switch it is running on so it can act accordingly.
-On any non-leaf switches it will only register the switch and report statistic but not change any configuration.
-Supported switch types are
+Supported switch types are:
 
 - `leaf`
 - `spine`
@@ -59,3 +97,14 @@ Whenever new routes are reported they get merged into the existing ones by the s
 - when existing, update `last_announced` timestamp
 
 By querying the BGP announcements we can find out whether an allocated IP is still in use.
+
+## Open Topics
+
+The following list mentions topics which require more elaboration and must probably be addressed during the implementation of this MEP.
+If someone wants to figure this out already, please extend this MEP.
+
+- Figure out how replacement / migration would exactly work with this model (e.g. what happens when two metal-cores report state for the same switch entity?)
+- Figure out what has to go into the port configuration in order to achieve FRR configuration scenarios we have on spines and exit switches
+- Check what special scenarios we have for static port configuration (support tenant VRF statically on a specific port, maybe black hole configuration instead of default PXE VRF?)
+- Check if we can really drop machine connections: Do we really want to always evaluate the neighbors all the time?
+- Elaborate how the port reconfiguration on machine allocation can be orchestrated: The metal-hammer currently sends the `InstallationSucceeded` message to the server, but when the switch gets notified immediately through stream, it might break the network connection prematurely such that the metal-hammer does not receive the response in time causing a crash (machine does not get ready).
