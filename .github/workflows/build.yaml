@@ -28,3 +28,9 @@ jobs:
 
       - name: Build Website
         run: bun run build
+
+  draft:
+    uses: metal-stack/actions-common/.github/workflows/release-drafter.yaml@v1
+
+  spelling:
+    uses: metal-stack/actions-common/.github/workflows/spell-check.yaml@v1
