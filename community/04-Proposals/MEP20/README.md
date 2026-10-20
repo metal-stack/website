@@ -125,7 +125,7 @@ metal-boot could be deployed as a service in the control plane. In this case met
 |------------------------|------------------------------------------------------------------------------------------------------------------------------------|
 | metal-boot             | `metal-boot` must directly communicate with the ipv6 metal-hammer, so it must support ipv6                                         |
 | metal-hammer           | `metal-hammer` must configure it's own interface to use SLAAC                                                                  |
-| metal-image-cache-sync | Because the images cannot be through the switch, the cache has to be made available to a booting machine with only an ipv6 address |
+| metal-image-cache-sync | As serving the images directly through the switch would be a poor decision in terms of performance, the cache has to be made available to a booting machine with an IPv6 address. |
 | metal-apiserver        | metal-hammer no longer configures an IPv4 address, therefore communication with the apiserver must use IPv6                        |
 
 ## Necessary Changes on Existing Components
