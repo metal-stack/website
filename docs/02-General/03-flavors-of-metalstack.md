@@ -1,7 +1,7 @@
 ---
 slug: /flavors-of-metal-stack
 title: Flavors of metal-stack
-sidebar_position: 4
+sidebar_position: 3
 ---
 
 # Flavors of metal-stack

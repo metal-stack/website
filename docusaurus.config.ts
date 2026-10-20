@@ -206,6 +206,10 @@ For this, there are dedicated files following the llmstxt.org standard:
               to: "/blog",
             },
             {
+              label: "Planner",
+              to: "https://planner.metal-stack.io",
+            },
+            {
               label: "Imprint",
               to: "/imprint",
             },

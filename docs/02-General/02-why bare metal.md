@@ -1,7 +1,7 @@
 ---
 slug: /why-bare-metal
 title: Why Bare Metal?
-sidebar_position: 1
+sidebar_position: 2
 ---
 
 # Why Bare Metal?

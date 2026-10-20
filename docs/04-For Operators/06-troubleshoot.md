@@ -5,7 +5,7 @@ sidebar_position: 6
 ---
 # Troubleshooting
 
-This document summarizes help when something goes wrong and provides advice on debugging the metal-stack in certain situations.
+This document summarizes help when something goes wrong and provides advice on debugging metal-stack in certain situations.
 
 Of course, it is also advisable to check out the issues on the Github projects for help.
 
