@@ -39,7 +39,7 @@ A partition can already be spread across data centers with rack spreading ([MEP-
 | Partition / zone | One EVPN fabric with its own leaves, spines, exit switches and control plane; the failure domain. |
 | Exit switch | The switch terminating a partition's EVPN domain towards the outside; storage is attached here. Called `exit` in [MEP-17](../MEP17/README.md). |
 | DCI | Data Center Interconnect: the transport between the exits of partitions. |
-| VPC / network stitch | A proposed `metal-api` entity grouping one project's private networks across partitions ([B1](#b1-srv6-l3vpn-stitching-on-dedicated-gateways), [B3](#b3-transit-vpc-dci)). |
+| Stitched network | One project's private networks in several partitions that are connected to one routed network. In [B1](#b1-srv6-l3vpn-stitching-on-dedicated-gateways) a label on the private networks, in [B3](#b3-transit-vpc-dci) a proposed `metal-api` entity (VPC). |
 
 Part A describes *where the firewall sits* and which traffic it sees; Part B *how private networks are connected* across partitions. Both are largely independent, see [Combining A and B](#combining-a-and-b).
 
@@ -93,17 +93,19 @@ Each partition gets a pair of **DCI gateways**: dedicated, provider-owned Linux 
 
 **Prototype.** The [open-dci](https://github.com/mwindower/open-dci) demonstrator implements this with stock FRR and the Linux kernel and is tested end to end in a containerlab lab in CI: three partitions, two tenants with different VNIs per partition, IPv4 and IPv6, redundant gateway pairs, failure scenarios. It is alpha.
 
+**Stitching from labels.** Tenants opt in by putting the same label value on their private networks in the partitions that should form one network, e.g. `open-dci.io/stitch: prod`. A [`dci-controller`](https://github.com/mwindower/open-dci/blob/main/docs/metal-stack-controller.md) reads the labelled networks from metal-apiserver and configures the gateways accordingly; route targets are derived from project and label value, so no registry is needed and nothing is stitched across projects.
+
 **Why dedicated gateways.** On the exit switches, VXLAN decapsulation plus SRv6 encapsulation needs ASIC support few switch chips and SONiC platforms offer, every stitched VRF consumes fixed switch tables, and per-tenant state would couple to the fabric. On the tenant firewall — prototyped and dropped — the trust boundary of the SRv6 domain would be under tenant control.
 
-**Constraints.** No VNI change: VNIs, route targets and ASNs stay partition-local and the `metal-api` VNI pool stays as it is. The prefixes of one stitched network must be disjunct ([MEP-4](../MEP4/README.md)). IPAM additionally assigns a locator per partition and a loopback per gateway. On the platform side the gateways need Linux ≥ 5.14 and a pinned FRR version: FRR 10.5–10.7 keep leaked routes after their withdrawal, which black-holes removed prefixes in every other partition (10.4 is fine). SRv6 adds 48 B per packet, plus 50 B if the transport runs in a dedicated DCI VRF over VXLAN; metal-networker's current 9000 B on bridge and VXLAN devices silently drops full-size packets on that path.
+**Constraints.** No VNI change: VNIs, route targets and ASNs stay partition-local and the `metal-api` VNI pool stays as it is. The prefixes of one stitched network must be disjunct ([MEP-4](../MEP4/README.md)). The provider assigns a locator per partition and a loopback per gateway; this is static per partition and can stay outside the `metal-api`. On the platform side the gateways need Linux ≥ 5.14 and a pinned FRR version: FRR 10.5–10.7 keep leaked routes after their withdrawal, which black-holes removed prefixes in every other partition (10.4 is fine). SRv6 adds 48 B per packet, plus 50 B if the transport runs in a dedicated DCI VRF over VXLAN; metal-networker's current 9000 B on bridge and VXLAN devices silently drops full-size packets on that path.
 
 **Failure behavior.** Both gateways of a pair share the locator and SIDs (anycast), so remote partitions do not react to a gateway failure, and no TCP connection breaks. With BFD on every session of gateways and exits, the demonstrator [measured](https://github.com/mwindower/open-dci/blob/main/docs/performance.md) ≤ 0.3 s loss when a gateway loses its links, ~1 s when a gateway or exit hangs (~7 s without BFD), and none for a drained gateway.
 
 **Security.** A SID decapsulates anything addressed to it, so the exits and gateways filter the edge of the SRv6 domain. Tenants are kept apart by route-target filters, per-network prefix allowlists and prefix limits; DCI route targets are stripped before routes enter a fabric.
 
-**Required changes.** A **network stitch** entity in the `metal-api` (project-scoped, route target derived from its ID); a `dci-controller` rendering the gateway configurations from it; a firewall-like gateway machine role whose base configuration metal-networker renders; a static exit role in metal-roles that only changes when a partition joins. `metal-core` is unchanged ([proposal](https://github.com/mwindower/open-dci/blob/main/docs/metal-stack.md)).
+**Required changes.** None in the `metal-api` or `metal-core`: no new entity, no IPAM change, no VNI change. New are the gateways with open-dci, the `dci-controller` as a separate component, and a static exit configuration in metal-roles that only changes when a partition joins. Optional, for a more native integration ([proposal](https://github.com/mwindower/open-dci/blob/main/docs/metal-stack-proposal.md)): a firewall-like gateway machine role whose base configuration metal-networker renders, and a dedicated stitch entity if quotas or permissions for stitching become requirements.
 
-**Trade-offs.** No VNI change, no vendor or ASIC dependency, nothing tenant-specific on exits and core, and a working prototype with measured failover. In exchange, two gateway servers per partition sit in the path of all cross-zone traffic with software forwarding whose throughput is not yet measured, and a new entity, controller and machine role have to be built.
+**Trade-offs.** No VNI change, no vendor or ASIC dependency, nothing tenant-specific on exits and core, and a working prototype with measured failover. Stitching needs no `metal-api` change: a label on the private networks and the existing `dci-controller` are enough. In exchange, two gateway servers per partition sit in the path of all cross-zone traffic with software forwarding whose throughput is not yet measured, and the gateways and the controller are new components to operate.
 
 ### B2 Broadcom Enterprise SONiC Multi-Site DCI
 
@@ -121,7 +123,7 @@ The exits act as multi-site border gateways and re-originate EVPN routes between
 
 ![transit VPC DCI](dci-transit-vpc.svg)
 
-Each partition keeps its own VNIs. `metal-core` leaks routes between the tenant VRF and a **DCI VRF** on the leaves; the exits exchange the DCI VRF's prefixes over **plain BGP**, without EVPN or VXLAN between them. A **VPC** entity in the `metal-api` groups the private networks to be connected — the same concept as B1's network stitch — and is what the route-leak automation reconciles against.
+Each partition keeps its own VNIs. `metal-core` leaks routes between the tenant VRF and a **DCI VRF** on the leaves; the exits exchange the DCI VRF's prefixes over **plain BGP**, without EVPN or VXLAN between them. A **VPC** entity in the `metal-api` groups the private networks to be connected (B1's stitch label could serve the same purpose) and is what the route-leak automation reconciles against.
 
 **Prototype.** A containerlab lab (`dci-lab`) runs three community SONiC exits (SONiC-VS) in a full mesh, each with a tenant VRF and a `VrfDCI` with its own VNIs (10001/10002, 10003/10004, 10005/10006). The exits peer eBGP unnumbered inside `VrfDCI` over plain routed links. Routes are leaked with FRR `import vrf` and a route-map on `source-vrf`: the tenant VRF only imports the aggregate (`10.0.0.0/16 le 24`), the DCI VRF only the machines' node prefixes (`ge 25`), tagged `no-export`. Machines in different partitions reach each other, including a BGP session across the DCI. The lab covers one tenant, IPv4 only, no leaves (machines sit directly on the exits, so the leak runs there), no redundancy or failover, and has no automated tests.
 
@@ -140,10 +142,10 @@ Each partition keeps its own VNIs. `metal-core` leaks routes between the tenant 
 | DCI data plane | SRv6 over plain IPv6 | EVPN re-origination | plain BGP / IP |
 | Stitching happens on | gateway servers | exits | leaves and exits |
 | VNI constraint change | none | VNI per network, reused per partition | none |
-| New API entity | network stitch | none | VPC |
+| New API entity | none (label on private networks) | none | VPC |
 | Platform dependency | Linux + FRR on gateways | Enterprise SONiC + license | FRR |
 | Additional hardware | 2 gateways per partition | none | none |
-| Maturity | prototype ([open-dci](https://github.com/mwindower/open-dci)): multi-tenant, IPv4/IPv6, failover measured | unverified | lab on SONiC-VS: single tenant, IPv4 |
+| Maturity | prototype ([open-dci](https://github.com/mwindower/open-dci)): multi-tenant, IPv4/IPv6, failover measured, driven by metal-apiserver labels | unverified | lab on SONiC-VS: single tenant, IPv4 |
 | Scaling limit | gateway throughput (not yet measured) | EVPN routes across sites | VRFs and sessions per VPC on every exit |
 
 ### Combining A and B
@@ -159,7 +161,7 @@ A2's direct storage path is built from the same leaf route-leaking that B3 intro
 
 **A1 + B1** is the preferred target.
 
-- **B1** is the only option tested with several tenants, IPv4 and IPv6, redundant gateways and measured failover. It needs no VNI change and no vendor or ASIC feature, and it keeps every per-tenant state off the exits and the core, so fabrics and partitions stay decoupled (Goal 1). It can be rolled out incrementally: static gateway configurations first, the network stitch entity later. The accepted cost is two gateway servers per partition; their throughput has to be measured before production use.
+- **B1** is the only option tested with several tenants, IPv4 and IPv6, redundant gateways and measured failover. It needs no VNI change, no new `metal-api` entity and no vendor or ASIC feature, and it keeps every per-tenant state off the exits and the core, so fabrics and partitions stay decoupled (Goal 1). Tenants opt in with a label on their private networks, which the `dci-controller` already turns into gateway configuration; a dedicated entity can follow if quotas or permissions require it. The accepted cost is two gateway servers per partition; their throughput has to be measured before production use.
 - **B2** is not preferred because of the vendor and licence dependency and the most invasive VNI change. **B3** puts per-VPC VRFs and sessions on every exit and relies on route filtering for isolation; it remains a fallback if gateway servers are not acceptable and the number of VPCs stays small.
 - **A1** before A2: storage keeps today's enforced path through the firewall, and no leaf route-leak automation is needed. A2 follows only if storage throughput through the firewall becomes the bottleneck.
 
@@ -177,5 +179,5 @@ A dedicated storage MEP is expected to cover the design itself. Zone awareness r
 - **Egress identity.** *n* firewalls mean *n* egress IPs, depending on the partition. Is that acceptable, or is a stable egress identity per private network required? Sharing one partition's default route over the DCI would re-couple the partitions' internet connectivity.
 - **East-west filtering.** Are on-machine filtering and route scoping sufficient, or is an enforcement point for cross-zone traffic required?
 - **Gateway capacity (B1).** Throughput and the number of stitched networks per gateway pair are not measured yet. A scale test is the precondition for the [preference](#preference).
-- **Stitch lifecycle (B1, B3).** Behavior when a member network is deleted, quotas, permissions, and unique route targets across several `metal-api` instances sharing a DCI.
+- **Stitch lifecycle (B1, B3).** Quotas and permissions for stitching (labels have none), rejecting conflicting stitches at creation time, and unique route targets across several `metal-api` instances sharing a DCI. For B3 additionally the lifecycle of the VPC entity.
 - **Maximum distance between partitions** of a region, particularly for latency-sensitive distributed systems; belongs into the operator documentation.
