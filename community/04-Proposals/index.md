@@ -44,7 +44,7 @@ Once a proposal was accepted, an issue should be raised and the implementation s
 | [MEP-17](MEP17/README.md)                                      | Declarative Switch API for Every Switch in a Partition | `In Discussion` |                                                                    |
 | [MEP-18](MEP18/README.md)                                      | Autonomous Control Plane                               | `In Discussion` |                                                                    |
 | [MEP-19](https://github.com/metal-stack/website/pull/147)      | Zone Awareness                                         | `In Discussion` |                                                                    |
-| [MEP-20](https://github.com/metal-stack/website/pull/282)      | Full Layer 3 Dataplane                                 | `In Discussion` |                                                                    |
+| [MEP-20](MEP20/README.md)                                      | Machine Provisioning V2                                |   `Accepted`    |                                                                    |
 | [MEP-21](https://github.com/metal-stack/website/pull/242)      | Network Peering                                        | `In Discussion` |                                                                    |
 
 ## Proposal Process
