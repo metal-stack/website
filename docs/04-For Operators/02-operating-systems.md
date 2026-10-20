@@ -52,7 +52,7 @@ Official metal-stack images are validated for use as K8s Node OS. Results for th
 
 ## Building Your Own Images
 
-It is fully possible to build your own operating system images and provision them through the metal-stack without any in-tree implementations.
+It is fully possible to build your own operating system images and provision them through metal-stack without any in-tree implementations.
 
 There are some conventions though that you need to follow in order to make your image installable. You should understand the [machine provisioning sequence](../05-Concepts/01-architecture.mdx#machine-provisioning-sequence), the purpose of the [metal-hammer](https://github.com/metal-stack/metal-hammer) and the [os-installer](https://github.com/metal-stack/os-installer) before starting to write your own images.
 

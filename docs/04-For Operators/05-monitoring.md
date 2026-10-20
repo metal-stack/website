@@ -4,7 +4,7 @@ title: Monitoring
 sidebar_position: 5
 ---
 
-# Monitoring the metal-stack
+# Monitoring metal-stack
 
 ## Overview
 
@@ -40,7 +40,7 @@ All control-plane log entries carry a `cluster` label (configured via `logging_a
 
 #### Gardener
 
-Gardener ships with a built-in logging stack (Vali + fluent-bit per seed), that can be used as-is or replaced/complemented by the metal-stack's Alloy + Loki solution.
+Gardener ships with a built-in logging stack (Vali + fluent-bit per seed), that can be used as-is or replaced/complemented by metal-stack's Alloy + Loki solution.
 The metal-stack roles provide an own centralized logging stack based on Alloy and Loki — giving platform operators a single place to query infrastructure logs across all Gardener clusters.
 
 The [gardener-logging](https://github.com/metal-stack/blob/master/control-plane/roles/gardener-logging/README.md) role deploys an Alloy instance into each Gardener shooted seed and optionally into the garden cluster itself. These instances read pod logs from the node filesystem and collect Kubernetes events, forwarding everything to the same Loki instance in the metal-stack control plane. Logs carry a `cluster` label set to the cluster name (garden name or shooted seed name), enabling per-cluster filtering in Grafana.

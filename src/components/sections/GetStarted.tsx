@@ -1,9 +1,11 @@
-import { Catalog, LogoSlack } from "@carbon/icons-react";
+import { Catalog, LogoGithub, LogoSlack, AnalyticsCustom } from "@carbon/icons-react";
 import { Button } from "../../components/Button";
 import Container from "../../components/Container";
 import Row from "../../components/Row";
 import Section from "../../components/Section";
 import Link from "@docusaurus/Link";
+
+
 
 export default function GetStarted() {
   return (
@@ -31,6 +33,15 @@ export default function GetStarted() {
             <Button
               variant="black"
               className="group flex items-center gap-2"
+              href="https://github.com/metal-stack/mini-lab"
+              target="_blank"
+            >
+              <LogoGithub className="w-5 h-5 group-hover:translate-x-0.5 transition-all" />{" "}
+              mini-lab
+            </Button>
+            <Button
+              variant="black"
+              className="group flex items-center gap-2"
               href="https://join.slack.com/t/metal-stack/shared_invite/zt-3eqheaymr-obQueWBLOMkhbEWTZZyDRg"
               target="_blank"
             >
@@ -44,6 +55,14 @@ export default function GetStarted() {
             >
               <Catalog className="w-6 h-6" />
               See docs
+            </Button>
+            <Button
+              variant="black"
+              className="flex items-center gap-2"
+              href="https://planner.metal-stack.io"
+            >
+              <AnalyticsCustom className="w-6 h-6" />
+              Planner
             </Button>
           </div>
         </Container>

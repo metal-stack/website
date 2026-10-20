@@ -5,7 +5,7 @@ title: Communication Matrix
 
 # Communication Matrix
 
-This matrix describes the communication between components in the metal-stack and their respective security properties. Please note that depending on your setup and configuration, some components may not be present, may have different security properties and might communicate differently than described here. The communication processes described here correspond to the standard configuration and setup.
+This matrix describes the communication between components in metal-stack and their respective security properties. Please note that depending on your setup and configuration, some components may not be present, may have different security properties and might communicate differently than described here. The communication processes described here correspond to the standard configuration and setup.
 
 **Legend**:
 
