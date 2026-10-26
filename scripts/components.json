@@ -66,7 +66,7 @@
         "releasePath": "docker-images.metal-stack.control-plane.metal-apiserver.tag",
         "repo": "metal-stack/metal-apiserver",
         "branch": "main",
-        "tag": "v0.13.1",
+        "tag": "v0.13.2",
         "position": 6,
         "withDocs": false
       },
@@ -171,7 +171,7 @@
         "releasePath": "docker-images.metal-stack.control-plane.metal-metrics-exporter.tag",
         "repo": "metal-stack/metal-metrics-exporter",
         "branch": "main",
-        "tag": "v0.3.1",
+        "tag": "v0.4.0",
         "position": 1,
         "withDocs": false
       },
@@ -230,7 +230,7 @@
         "releasePath": "docker-images.metal-stack.gardener.firewall-controller-manager.tag",
         "repo": "metal-stack/firewall-controller-manager",
         "branch": "main",
-        "tag": "v0.6.1",
+        "tag": "v0.6.2",
         "position": 4,
         "withDocs": false
       },
@@ -239,7 +239,7 @@
         "releasePath": "docker-images.metal-stack.kubernetes.metal-ccm.tag",
         "repo": "metal-stack/metal-ccm",
         "branch": "main",
-        "tag": "v0.9.10",
+        "tag": "v0.10.0",
         "position": 5,
         "withDocs": false
       },
@@ -248,7 +248,7 @@
         "releasePath": "docker-images.metal-stack.kubernetes.metal-token-refresher.tag",
         "repo": "metal-stack/metal-token-refresher",
         "branch": "better-readme",
-        "tag": "v0.1.0",
+        "tag": "v0.2.0",
         "position": 6,
         "withDocs": false
       }
@@ -280,7 +280,7 @@
         "releasePath": "docker-images.metal-stack.gardener.gardener-extension-ontap.tag",
         "repo": "metal-stack/gardener-extension-ontap",
         "branch": "main",
-        "tag": "v0.2.22",
+        "tag": "v0.2.24",
         "position": 3,
         "withDocs": false
       },
