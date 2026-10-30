@@ -1,0 +1,151 @@
+<mxfile host="app.diagrams.net">
+    <diagram id="independent-partitions" name="Independent Partitions">
+        <mxGraphModel dx="940" dy="786" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="940" pageHeight="786" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="cloud" value="External routing&#10;domain (Layer 3)" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="370" y="30" width="200" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="peernote" value="exit switches peer via eBGP&#10;with external routers" style="text;html=1;align=center;verticalAlign=middle;fontStyle=2;align=left;" vertex="1" parent="1">
+                    <mxGeometry x="600" y="55" width="220" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="contA" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=0;fillColor=#f5f5f5;opacity=50;strokeColor=#666666;dashed=1;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="180" width="380" height="486" as="geometry"/>
+                </mxCell>
+                <mxCell id="exitA1" value="Exit 1" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="80" y="220" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="exitA2" value="Exit 2" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="270" y="220" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="spineA1" value="Spine 1" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="80" y="320" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="spineA2" value="Spine 2" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="270" y="320" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="leafA1" value="Leaf 1" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="80" y="420" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="leafA2" value="Leaf 2" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="270" y="420" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="machineA" value="Machine" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="160" y="510" width="140" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="mA1" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="exitA1" target="spineA1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="mA2" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="exitA1" target="spineA2">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="mA3" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="exitA2" target="spineA1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="mA4" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="exitA2" target="spineA2">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="mA5" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="spineA1" target="leafA1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="mA6" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="spineA1" target="leafA2">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="mA7" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="spineA2" target="leafA1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="mA8" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="spineA2" target="leafA2">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="mA9" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="leafA1" target="machineA">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="mA10" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="leafA2" target="machineA">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="lblA" value="&lt;b&gt;Zone A - Partition A&lt;/b&gt;&lt;br&gt;own VNI space, own BGP underlay" style="text;html=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+                    <mxGeometry x="60" y="590" width="340" height="36" as="geometry"/>
+                </mxCell>
+                <mxCell id="contB" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=0;fillColor=#f5f5f5;opacity=50;strokeColor=#666666;dashed=1;" vertex="1" parent="1">
+                    <mxGeometry x="520" y="180" width="380" height="486" as="geometry"/>
+                </mxCell>
+                <mxCell id="exitB1" value="Exit 1" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="560" y="220" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="exitB2" value="Exit 2" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="750" y="220" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="spineB1" value="Spine 1" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="560" y="320" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="spineB2" value="Spine 2" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="750" y="320" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="leafB1" value="Leaf 1" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="560" y="420" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="leafB2" value="Leaf 2" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="750" y="420" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="machineB" value="Machine" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="640" y="510" width="140" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="mB1" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="exitB1" target="spineB1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="mB2" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="exitB1" target="spineB2">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="mB3" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="exitB2" target="spineB1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="mB4" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="exitB2" target="spineB2">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="mB5" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="spineB1" target="leafB1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="mB6" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="spineB1" target="leafB2">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="mB7" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="spineB2" target="leafB1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="mB8" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="spineB2" target="leafB2">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="mB9" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="leafB1" target="machineB">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="mB10" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="leafB2" target="machineB">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="lblB" value="&lt;b&gt;Zone B - Partition B&lt;/b&gt;&lt;br&gt;own VNI space, own BGP underlay" style="text;html=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+                    <mxGeometry x="540" y="590" width="340" height="36" as="geometry"/>
+                </mxCell>
+                <mxCell id="x0" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="exitA1" target="cloud">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="x1" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="exitA2" target="cloud">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="x2" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="exitB1" target="cloud">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="x3" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;rounded=0;" edge="1" parent="1" source="exitB2" target="cloud">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="barrier" value="" style="line;strokeWidth=2;html=1;direction=north;dashed=1;" vertex="1" parent="1">
+                    <mxGeometry x="460" y="220" width="20" height="446" as="geometry"/>
+                </mxCell>
+                <mxCell id="note1" value="No EVPN or VXLAN overlay is stretched between zones. Every partition is a self-contained CLOS fabric." style="text;html=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="696" width="860" height="24" as="geometry"/>
+                </mxCell>
+                <mxCell id="note2" value="Cross-zone traffic is routed at Layer 3 through the exit switches. Inter-zone latency budget &amp;lt; 20 ms." style="text;html=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="722" width="860" height="24" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

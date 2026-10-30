@@ -39,7 +39,7 @@
         "releasePath": "docker-images.metal-stack.control-plane.masterdata-api.tag",
         "repo": "metal-stack/masterdata-api",
         "branch": "main",
-        "tag": "v0.13.0",
+        "tag": "v0.14.0",
         "position": 3,
         "withDocs": false
       },
@@ -48,7 +48,7 @@
         "releasePath": "docker-images.metal-stack.control-plane.tenant-apiserver.tag",
         "repo": "metal-stack/tenant-apiserver",
         "branch": "main",
-        "tag": "v0.2.1",
+        "tag": "v0.3.0",
         "position": 4,
         "withDocs": false
       },
@@ -66,7 +66,7 @@
         "releasePath": "docker-images.metal-stack.control-plane.metal-apiserver.tag",
         "repo": "metal-stack/metal-apiserver",
         "branch": "main",
-        "tag": "v0.13.2",
+        "tag": "v0.13.4",
         "position": 6,
         "withDocs": false
       },
@@ -98,7 +98,7 @@
         "releasePath": "docker-images.metal-stack.partition.metal-bmc.tag",
         "repo": "metal-stack/metal-bmc",
         "branch": "main",
-        "tag": "v0.8.0",
+        "tag": "v0.8.1",
         "position": 2,
         "withDocs": false
       },
@@ -171,7 +171,7 @@
         "releasePath": "docker-images.metal-stack.control-plane.metal-metrics-exporter.tag",
         "repo": "metal-stack/metal-metrics-exporter",
         "branch": "main",
-        "tag": "v0.4.0",
+        "tag": "v0.4.1",
         "position": 1,
         "withDocs": false
       },
@@ -262,7 +262,7 @@
         "releasePath": "docker-images.metal-stack.gardener.gardener-extension-audit.tag",
         "repo": "metal-stack/gardener-extension-audit",
         "branch": "main",
-        "tag": "v0.6.2",
+        "tag": "v0.7.0",
         "position": 1,
         "withDocs": false
       },
@@ -280,7 +280,7 @@
         "releasePath": "docker-images.metal-stack.gardener.gardener-extension-ontap.tag",
         "repo": "metal-stack/gardener-extension-ontap",
         "branch": "main",
-        "tag": "v0.2.24",
+        "tag": "v0.2.25",
         "position": 3,
         "withDocs": false
       },
