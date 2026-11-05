@@ -19,7 +19,7 @@
     "create-release-notes": "bun ./scripts/create-release-notes.js"
   },
   "dependencies": {
-    "@carbon/icons-react": "^11.89.0",
+    "@carbon/icons-react": "^11.91.0",
     "@docusaurus/core": "^3.10.2",
     "@docusaurus/plugin-content-blog": "^3.10.2",
     "@docusaurus/plugin-content-docs": "^3.10.2",
@@ -29,11 +29,11 @@
     "@scalar/api-reference-react": "^0.9.74",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/semver": "^7.8.0",
-    "axios": "^1.20.0",
+    "axios": "^1.21.0",
     "clsx": "^2.1.1",
     "@easyops-cn/docusaurus-search-local": "^0.55.3",
     "docusaurus-plugin-llms": "^0.6.0",
-    "postcss": "^8.5.28",
+    "postcss": "^8.5.32",
     "prism-react-renderer": "^2.4.1",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
