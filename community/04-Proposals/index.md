@@ -46,7 +46,7 @@ Once a proposal was accepted, an issue should be raised and the implementation s
 | [MEP-19](https://github.com/metal-stack/website/pull/147)      | Zone Awareness                                         | `In Discussion` |                                                                    |
 | [MEP-20](MEP20/README.md)                                      | Machine Provisioning V2                                |   `Accepted`    |                                                                    |
 | [MEP-21](https://github.com/metal-stack/website/pull/242)      | Network Peering                                        | `In Discussion` |                                                                    |
-| [MEP-22](https://github.com/metal-stack/website/pull/380)      | Disk Selection in Filesystem Layouts                   | `In Discussion` |                                                                    |
+| [MEP-22](MEP22/README.md)                                      | Disk Selection in Filesystem Layouts                   | `In Discussion` |                                                                    |
 | [MEP-23](https://github.com/metal-stack/website/pull/382)      | Stateful Machine Reinstall                             | `In Discussion` |                                                                    |
 
 ## Proposal Process
